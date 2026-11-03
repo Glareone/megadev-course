@@ -2,6 +2,42 @@
 
 From the written lesson: the tools around the model and how to steer them.
 
+## What is a harness?
+- Tools like Cursor, Claude Code, Pi or T3 Code all share the same foundation: **a language model**. The difference is the "package" around it: how it uses the model's strengths, covers its weaknesses, and how that affects UX and efficiency. That package is the **harness**.
+- The model only predicts the next token. Everything else is done by the harness (Theo's video: the code that runs the loop, runs the tools, and builds the prompt).
+
+### What a harness consists of (as mentioned in the lecture)
+
+| Part | What it does | Where it appears |
+|---|---|---|
+| **Agent loop** | Calls the model again and again until it answers with text instead of a tool call (step limit, e.g. 40) | Video, agent loop |
+| **Request building** | Sends context + settings (model, reasoning level, tools) in the provider's API format | Lesson, Responses API |
+| **System prompt** | Instructions from the tool's developers. Also tells the model which tools exist and how to call them | Video, system prompt |
+| **Tool definitions** | Native tools (e.g. bash) plus CLI and MCP tools, used via function calling or code mode | Video, lesson |
+| **Tool execution** | Runs the tool on the local machine (or a sandbox) and appends the result to the history | Video, tool calls |
+| **Context management** | Auto-compaction: summarizing and trimming the thread to fit the context window | Lesson, auto compaction |
+| **Instruction files** | CLAUDE.md-style files (who you are, rules) added to the prompt | Video, "say hi" demo |
+| **Environment info** | Things like git status, added before the request via `<system-reminder>` blocks | Video and lesson, environment |
+| **Skills** | Instruction files loaded into context, picked by name and description | Lesson, skills |
+| **Plan mode, attachments** | Workflow features and file handling built on top | Lesson |
+| **UI / UX** | What you see: the thread, attachments, files | Lesson, "thread you see" |
+
+```mermaid
+flowchart TD
+    U["You (message, attachments)"] --> H
+    subgraph H["Harness"]
+        SP["System prompt + instruction files + environment info"]
+        CM["Context management (compaction)"]
+        TL["Tools: native, CLI, MCP, skills"]
+        LP["Agent loop"]
+    end
+    H -- "request: context + settings" --> M["Language model (predicts next token)"]
+    M -- "text or tool call" --> H
+    TL --> ENV["Your computer / sandbox"]
+```
+
+Why it matters: your message is not the only thing the model gets. The harness adds a lot, and its choices affect the results you get.
+
 ## Platforms and harnesses
 Harnesses hide mechanics for convenience, which requires generalization.
 

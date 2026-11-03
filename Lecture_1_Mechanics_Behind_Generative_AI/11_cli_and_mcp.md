@@ -55,10 +55,51 @@ From the lesson example (`mcp-tool-bridge`):
 - The CLI version uses one `run_command` tool, and the harness runs only the allowed command.
 - Both versions answer the same question over the same data.
 
+## Confusing point: CLI is not code mode
+In our run, the CLI version called `--help` and then `lookup atlas`. That looks like `find` then `execute`, but it is **not code mode**:
+- The model had one ordinary function tool, `run_command`, with a string of arguments.
+- The harness ran only the bundled `team-directory` command. The model wrote no code, and nothing ran in a sandbox.
+- `--help` first is a CLI convention (and the instructions told the model to do it). It isn't `find`.
+
+Two separate questions: **where tools come from** (native, CLI, MCP) and **how the model uses them** (function calling or code mode). The CLI run used function calling. Details and a comparison table: [10](10_code_mode.md).
+
 ## Takeaways
 - MCP and CLI change **what** tools exist, not **how** the model uses them.
 - This is why the mechanics in [04](04_lesson_model_mechanics_and_tools.md) (function calling) and [10](10_code_mode.md) (code mode) matter: they stay the same whatever the tool source.
 - Many MCP tools means many schemas in the context. This is the same cost problem that code mode addresses.
+
+## Our run (`npx mex run mcp-tool-bridge`, project `atlas`)
+Question: "Who owns project atlas, and what is its route?" Right answer: owner Mira, route west. Model `openai/gpt-6-luna`, reasoning effort low.
+
+| | MCP server | Local CLI |
+|---|---|---|
+| Correct | yes | yes |
+| Steps | 2 | 3 |
+| Tool | `team_lookup` | `run_command` |
+| Tool calls | 1: `team_lookup {"project":"atlas"}` | 2: `--help`, then `lookup atlas` |
+| Tool schema size (estimate) | ~73 tokens per request | ~88 tokens per request |
+| Tokens | 217 in, 35 out | 458 in, 55 out |
+| Cost | $0.000039 | $0.000073 |
+
+### Second run: project `cedar`
+Right answer: owner Jules, route north. Same model and settings.
+
+| | MCP server | Local CLI |
+|---|---|---|
+| Correct | yes | yes |
+| Steps | 2 | 3 |
+| Tool calls | 1: `team_lookup {"project":"cedar"}` | 2: `--help`, then `lookup cedar` |
+| Tokens | 219 in, 36 out | 459 in, 55 out |
+| Cost | $0.000040 | $0.000073 |
+
+The two runs are almost identical (atlas: 217/458 in, cedar: 219/459 in). The pattern repeats: MCP takes one call, the CLI takes `--help` first, and input tokens double. Only the project name changes.
+
+What it shows:
+- **MCP was direct.** The schema already says what the tool needs (`project`: atlas, cedar or ember), so the model called it once.
+- **CLI needed discovery.** The model first called `--help` to learn the usage, then ran `lookup atlas`. The extra step added another request and carried the history again, so input tokens roughly doubled (458 vs 217) and cost was about 1.9x.
+- **Both are plain function tools.** The two requests differ only in the tool definition. The model can't see which one is MCP, and the harness does the routing (`tools/call` vs running the command).
+- **The model was steered.** The CLI instructions said to use `--help` first ("Use run_command --help to learn the directory command..."). Without that, the model might have guessed a command.
+- **Small scale.** Both cost a fraction of a cent. Schema sizes are an estimate from characters (4 characters per token), not a tokenizer count. This is one run, with a tiny tool, so don't generalize the numbers. The pattern is what matters.
 
 ## Try it
 ```powershell

@@ -98,5 +98,23 @@ Real options named in the lesson: Cloudflare (isolates) and Daytona (containers)
 ### Possible exercise
 Build the smallest safe version: run the generated code in a container with no network, CPU and time limits, and a read-only `api` bridge that exposes only allowed functions.
 
+## Is a CLI tool "code mode"? (a confusing point)
+Short answer: **no**. We saw this in the `mcp-tool-bridge` run ([11](11_cli_and_mcp.md)). The model called `--help` and then `lookup atlas` through one `run_command` tool. That can look like `find` then `execute`, but it used plain **function calling**.
+
+| | Code mode | CLI run (`run_command`) |
+|---|---|---|
+| Tools | `find` + `execute` | `run_command` only |
+| What the model writes | JavaScript code | A short string of command arguments |
+| Where it runs | A sandbox | The harness runs one fixed, bundled command |
+| Chaining | Many API calls inside one `execute` | One call per step, each a model round trip |
+| Docs | `find` returns TypeScript signatures | `--help` returns usage text |
+
+- `--help` first is a CLI habit. In that example the instructions told the model to do it.
+- Two separate questions:
+  - **Where do the tools come from?** Native, CLI or MCP.
+  - **How does the model use them?** Function calling or code mode.
+- Any source can go through either mechanism. The CLI run used function calling.
+- A coding agent with a general `bash` tool (like Theo's demo) is closer to code mode in spirit: the model writes a small program, such as a pipe of commands. It still sends it by function calling, and needs the same safety limits.
+
 ## Related
-Related: function calling in [04](04_lesson_model_mechanics_and_tools.md); CLI/MCP tools can be used through either mechanism.
+Related: function calling in [04](04_lesson_model_mechanics_and_tools.md); CLI/MCP tools can be used through either mechanism ([11](11_cli_and_mcp.md)).

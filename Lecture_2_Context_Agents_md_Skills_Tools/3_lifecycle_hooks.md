@@ -7,32 +7,17 @@
 
 ![Self-configurable harness](img/lifecycle-hooks.png)
 
-> **Automatic image analysis** (what I see, not text from the lecture)
->
-> **Boxes.** A group labeled *Self-configurable* holds four boxes: Global context, Memory, Hooks, Tools. Outside it: Thread (context window), Model, Agentic loop and Filesystem.
->
-> **Arrows, one by one:**
-> | Arrow | Label | Reading |
-> |---|---|---|
-> | Global context -> Thread | *at start* | loaded once, before the first message |
-> | Memory -> Thread | *recalled* | pulled in later, on demand, not at start |
-> | Thread -> Model | (none) | the whole context window is what the model reads |
-> | Model -> Agentic loop | *tool call* | the model only *asks*; it does not act |
-> | Agentic loop -> Thread | *appends* | results go back into context |
-> | Agentic loop -> Hooks | *fires* | the loop, not the model, triggers hooks |
-> | Agentic loop -> Tools | *runs* | the loop executes tools |
-> | Tools -> Filesystem | *edits* (red) | tools write to the files that define the harness |
->
-> **How it acts, in a few sentences.** The model never touches anything directly. It emits a tool call, and the agentic loop decides what happens: it fires hooks and runs the tool, then appends the result to the thread, and the model reads the longer thread on the next round. Because hooks are fired by the loop, they run whether or not the model "remembers" a rule. That is why hooks can enforce what AGENTS.md can only request.
->
-> The red *edits* arrow is the key one. Tools write to the filesystem, and the filesystem holds the global context, memory, hooks and tool settings, which are the boxes inside *Self-configurable*. So one tool call can rewrite the harness's own setup, and the next session or the next hook run sees the change. This is also the risk: an agent that can edit its own hooks can edit away its own guardrails, so review those diffs.
->
-> **What the diagram does not show.** There is no arrow from Hooks back to the Thread. In Claude Code a hook can return output (stdout, `additionalContext`) that is added to context, or block the action (exit 2), so the real flow is richer than the one-way *fires* arrow. The diagram also doesn't mark where permissions or the user approve a step.
+**The story behind the picture.** The model never acts on its own. It only asks for a tool call. The agentic loop is the one that acts: it fires hooks, runs the tool, and appends the result to the thread, which the model reads on the next round. Global context is loaded at the start and memory is recalled later, both into the same thread. Hooks, tools, memory and global context are files, and tools can edit files (the red *edits* arrow). So the agent can reconfigure its own harness.
 
-- The **agentic loop** takes the model's tool calls, **runs** tools, **fires** hooks, and **appends** results to the thread (context window).
-- Global context loads at start. Memory is recalled into the thread.
-- Hooks, tools, memory and global context are all files on the **filesystem**. The agent edits them with its own tools, so it can configure almost every part of its own harness, including its hooks.
-- Not every harness can do this. Prefer one that can (Claude Code, Pi, OpenCode).
+**Important:**
+- **Hooks are fired by the loop, not by the model.** They run whether or not the model "remembers" a rule, so hooks can enforce what AGENTS.md can only request.
+- **The red *edits* arrow is double-edged.** It is why the harness is self-configurable, and also why an agent that can edit its own hooks can edit away its own guardrails. Review those diffs.
+
+**Not important:**
+- The exact arrow labels and layout.
+- The missing arrow from Hooks back to the Thread. In Claude Code a hook can still add context (`additionalContext`) or block an action (exit 2), so the real flow is richer than the one-way *fires*.
+
+Not every harness can do this. Prefer one that can (Claude Code, Pi, OpenCode).
 
 ## Lifecycle events (Claude Code)
 
@@ -110,26 +95,16 @@ The script reads JSON on stdin and either exits `0` or exits `2` with a reason o
 
 ![Self-improving loop](img/self-improving-loop.png)
 
-> **Automatic image analysis** (what I see, not text from the lecture)
->
-> **Boxes.** Left, outside the frame: *History (conversations)* and *Memories and context*. Middle, inside the frame *Agentic harness*: *Periodic scan (on a schedule)* and *Self-awareness (capabilities)*. Right, outside: *Suggestions (improvements)*.
->
-> **Arrows, one by one:**
-> | Arrow | Style | Reading |
-> |---|---|---|
-> | History -> Periodic scan | solid | raw material: what we actually did |
-> | Memories and context -> Periodic scan | solid, elbow | what the agent already knows about us and the product |
-> | Self-awareness -> Periodic scan | solid, up | the scan is told what the harness can do |
-> | Periodic scan -> Suggestions | solid | the output is proposals |
-> | Suggestions -> Self-awareness | **red, dashed**, labeled *improves itself* | accepted proposals change the capabilities |
->
-> **How it acts, in a few sentences.** Three things flow into the scan: past conversations, stored memory, and a list of the agent's own capabilities. It compares what we keep doing by hand with what the harness could already do for us, and emits suggestions such as "add a hook", "write a skill" or "record this rule". Those suggestions loop back, not to the scan itself but to the capabilities box, so the next scan starts from a more capable harness and finds different gaps. Repeated on a schedule, the system improves itself in small steps.
->
-> **Details worth noticing.**
-> - The red arrow is **dashed**, unlike every other arrow. My reading: that step is conditional or indirect, because suggestions only take effect when applied. It is the point where a human gate belongs. The diagram itself does not say this.
-> - History and Memories sit **outside** the harness frame, so they are inputs the harness reads, not part of the scan.
-> - The loop closes on *Self-awareness*, not on History or Memory. The system learns about **its own capabilities**, not just about us.
-> - No arrow shows who triggers the scan or who reviews suggestions. In practice that is a schedule (`/loop`, cron) and us.
+**The story behind the picture.** The harness doesn't have to wait for us to notice what is wrong. It reads two inputs, our past conversations and its stored memory, on a schedule. Because it also knows its own capabilities (hooks, skills, tools, settings), it can compare "what we keep doing by hand" with "what it could already do for us" and propose a fix. Accepted fixes change those capabilities, so the next scan starts from a better harness. Repeated, this is a self-improving system.
+
+**Important:**
+- The loop closes on the **capabilities**, not on history. The system learns about itself, not only about us.
+- The red dashed arrow (*improves itself*) is the step where proposals become changes. That is where a human review belongs, and nothing in the picture runs it for us.
+- History and memory are **inputs**, outside the harness. The scan reads them, it does not own them.
+
+**Not important:**
+- The exact boxes and layout.
+- Who triggers the scan. The picture doesn't say. In practice it is a schedule (`/loop`, cron) and us as reviewer.
 
 We can use what we learned earlier and **talk with the agent about how to improve our workflow**. To make it personal, ask it to review our recent conversation history and see how we actually work. Then automate it: have the agent **scan history periodically** and **suggest what we could do better with the features it already has**.
 

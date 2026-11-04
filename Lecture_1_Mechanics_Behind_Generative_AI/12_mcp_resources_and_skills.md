@@ -74,6 +74,9 @@ Trade-offs to keep in mind:
 - **Skill text is untrusted input.** It steers the model, so a remote server can steer your agent. The spec requires: approval before loading, size and SHA-256 digest checks, the server's identity attached to the content, and explicit per-skill approval for anything that runs code or grants permissions like `allowed-tools`.
 - Same-name skills from different servers must not silently replace each other.
 
+## See also
+- [Lecture 2, 5 Skills: "Docs by pointer"](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md): why a skill should point to docs instead of embedding them, and how skills over MCP fit as one variant. Includes an experiment to measure the token saving.
+
 ## Open questions (to come back to)
 - Which of the hosts I use support the Skills extension today? (See the client matrix.)
 - Which of my current local skills describe how to use one particular MCP server's tools? Those are candidates to move to that server.

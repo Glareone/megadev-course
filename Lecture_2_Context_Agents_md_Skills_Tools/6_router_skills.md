@@ -145,6 +145,10 @@ npx mex run skill-selection --repeats 3
 - Add the router's routes to the capability map the agent uses for self-review ([3 Lifecycle hooks](3_lifecycle_hooks.md)), so the map and the skills can't drift apart.
 - Prefer a user-invoked router for risky flows, so a person picks the path.
 
+## Summary
+
+Ask the harness how skills work here, define skills globally or per project and tailor them, and keep it simple, with agents helping to shape them. Full text: [5 Skills, Summary](5_skills.md#summary-skills-and-agents-reusable). For routers specifically: keep the map short and hand-maintained, and test the routes.
+
 ## Open questions for discussion
 
 - Which of our skills form flows that a router could order?

@@ -105,6 +105,21 @@ Agents increasingly **write code** to act: either against the available capabili
 - Is our harness already deferring tools, and which settings control it?
 - Do we have a sandbox that would allow code mode, and who owns its security?
 
+## Notes on sources and corrections
+
+> Corrections made on 2026-11-04 using information from Anthropic's own pages and other sources, not from the lecture. Re-check before presenting.
+
+| Point | What we found and changed |
+|---|---|
+| **"85% reduction"** | Anthropic's post states an **85%** reduction, but its own figures (about **77K to 8.7K** tokens) work out to about **89%** (1 - 8.7/77). The post also gives other figures that it doesn't reconcile. We kept the raw token numbers and flagged the percentage as unreliable |
+| **"98.7%" (150,000 to 2,000 tokens)** | This comes from **one example workflow** in Anthropic's code-execution post, and we only saw it through **search summaries**. Treat it as an upper-end illustration, not a typical result |
+| **Vendor figures in general** | All token and accuracy numbers (55K, 8.7K, 37%, 49% to 74%) come from **vendor posts and docs**, not independent tests. They show the order of magnitude. They are not measurements of our agents |
+| **Prompt caching** | Added after checking Anthropic's tool search docs: deferred tools are excluded from the cached prompt prefix and added inline, so tool search does not break caching. This is why the dollar saving can be smaller than the token saving |
+| **When to use / skip** | Taken from Anthropic's docs (10+ tools, over 10K tokens, accuracy dropping vs fewer than 10 tools, all used every time, under about 100 tokens in total) |
+| **Our reasoning** | The break-even model, the order of optimization rounds and the decision guide are **ours**. Nothing here has been **measured on our own agents** yet |
+| **Missing picture** | The lecture's comparison picture of the two approaches has not been provided. The table is based on its text description |
+| **Hints** | The fourth lecture point (hints in tool responses) is not covered here. It is the next topic in this block |
+
 ## Sources
 
 - [Introducing advanced tool use (Anthropic Engineering)](https://www.anthropic.com/engineering/advanced-tool-use)

@@ -62,6 +62,61 @@ Takeaways:
 
 Both count toward context and neither is enforced.
 
+## Memory vs. Knowledge Base
+
+Both are plain files the agent reads, but they answer different questions.
+
+| | **Memory** | **Knowledge base** |
+|---|---|---|
+| What it holds | what the agent learned about *us and this work*: preferences, corrections, ongoing decisions, pointers to external systems | what is true about *the product and its processes*: architecture, domain, runbooks, standards |
+| Who writes it | mostly the agent, automatically or on request ("remember that...") | people (and agents under review) |
+| Tied to the harness? | yes (loaded by the harness, e.g. MEMORY.md) | no, independent folder of docs |
+| Loaded | an index at every session start | on demand, via pointers from AGENTS.md or a skill |
+| Scope | one user, one repo (Claude Code: local, not in git) | whole team, versioned in git |
+| Audience | the agent | agents, users and teammates; can be published as a site (Astro, Next) |
+| Typical failure | stale or wrong note silently steers the agent | docs drift from the code |
+
+Rule of thumb:
+- **"How does *this person* like to work?"** goes in memory.
+- **"How does *the product* work?"** goes in the knowledge base.
+- **"What must the agent always do here?"** goes in AGENTS.md / CLAUDE.md, with links into the knowledge base.
+- If a memory note turns out to be a team fact, promote it into the knowledge base and delete the note.
+- The knowledge base costs no tokens until read, which is why AGENTS.md should point to it instead of copying from it.
+
+## Configuration: how to review and add settings
+
+The lecture's point: the harness is self-configurable, so we can **ask the agent about its own settings and let it propose changes**. In Claude Code (verified in the [settings docs](https://code.claude.com/docs/en/settings)):
+
+**Where settings live (highest precedence first)**
+
+| Scope | File | Use for |
+|---|---|---|
+| Managed | `managed-settings.json` / admin console | org policy, cannot be overridden |
+| Command line | `--settings '{...}'` | one session only |
+| Project local | `.claude/settings.local.json` | personal overrides in one project (kept out of git) |
+| Shared project | `.claude/settings.json` | team permissions, hooks, plugins (commit it) |
+| User | `~/.claude/settings.json` | personal defaults for all projects |
+
+List keys such as `permissions.allow` merge across files instead of overriding.
+
+**Review**
+1. `/status` shows which settings sources loaded, including any managed one.
+2. `claude doctor` lists entries Claude Code rejected. `/doctor prompt-audit` audits CLAUDE.md, AGENTS.md, rules, skills, subagents and output styles.
+3. Ask the agent: "Show me which settings affect permissions, hooks, MCP and memory, and where each is set."
+4. Check the shared `.claude/settings.json` in git. It is the team's harness config, so review changes to it like code.
+
+**Add or change**
+1. `/config` for personal options (theme, editor mode). Edit `settings.json` for anything else; strict JSON, no comments.
+2. Ask the agent to make the edit, then **read the diff before accepting**.
+3. Put team rules (permissions, hooks, plugins) in `.claude/settings.json` and commit. Put personal ones in `.claude/settings.local.json`.
+4. Add `"$schema": "https://json.schemastore.org/claude-code-settings.json"` for editor validation.
+5. Most edits apply to a running session without restart. Confirm with `/status`.
+
+**Cautions**
+- Some keys never apply from a repo file (e.g. `bypassPermissions`), and committed `allow` rules wait until each teammate trusts the folder.
+- Managed settings win. If a setting is ignored, `/status` shows whether policy overrides it.
+- A hook or permission rule suggested by the agent runs with our privileges. Read it before adopting.
+
 ## Recommendations for us
 
 1. **Check memory first.** Auto memory is on by default, so we may already have it. Run `/memory` to see and toggle it. Read what the agent has saved before relying on it.

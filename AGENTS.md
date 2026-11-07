@@ -40,5 +40,9 @@ The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a
 
 ## Rules
 - Never read or print `.env`, `github.pat`, `configuration.txt` (secrets).
+- **Content scope:** notes hold how we think, analyze and struggle. Never put Aras business secrets, customer data, PII, credentials or other Restricted Data in any file. If an example needs business detail, abstract it. If something slips in, stop and tell me.
 - Don't commit unless asked. Branch per lecture: `feature/lesson-N`.
 - Diagrams from images: describe the story, what's important, what's not.
+- **Diagrams are Mermaid only** (` ```mermaid `). No ASCII art, box-drawing characters or arrow sketches in code blocks, and no folder-tree drawings. Pick the fitting type: `flowchart`, `sequenceDiagram`, `stateDiagram-v2`, etc.
+- A code block that quotes a **literal format** (what the model really sees, a prompt to paste, a config file) is not a diagram. Keep it as code and give it a language tag (`text`, `json`, ...).
+- When touching an old note, convert any ASCII diagram you find to Mermaid.

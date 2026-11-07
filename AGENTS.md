@@ -21,6 +21,15 @@ Not a codebase. Output is Markdown (+ diagrams) that I re-read and present.
 - Mark anything not verified from a primary source: "verify before presenting" + link the source.
 - Keep it simple: plain words, short sentences, tables/mermaid when they beat prose.
 
+## Fact-check the lecturer (mandatory)
+The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a note unchecked.
+- **Web-search every key claim** against primary sources (vendor docs, papers, specs, official repos) before writing it down.
+- Use WebSearch (and Context7 for library/tool docs). Prefer primary over blog/social posts.
+- For each claim record a verdict: **agrees** / **differs** / **outdated** / **wrong** / **lecture-specific (opinion)** / **unverified**, plus the source link and the date checked.
+- Models, tools and harnesses change fast: note the date, and flag anything that may age.
+- If sources contradict the lecturer, say so plainly in the note. Don't soften it.
+- Anything we could not verify stays marked "verify before presenting".
+
 ## Way of thinking (follow in order, don't skip)
 1. **Problem** – state what question the topic answers.
 2. **Words refinement** – pin down terms; split terms that are being conflated (e.g. subagent vs worker vs A2A).

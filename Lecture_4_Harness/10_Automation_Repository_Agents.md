@@ -41,6 +41,8 @@ The agent always runs inside **permissions** — it can read code, history, and 
 
 ## 3. What repository agents can do
 
+The lecturer's own list of uses is kept in the root [README](../README.md#the-lecturers-reference-setup). The table below adds a trigger and the agent's action for each.
+
 | Task | Trigger | What the agent does |
 |---|---|---|
 | **PR review** | New PR | Reads the diff, applies [review rules](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/pr-review-rules), leaves comments |

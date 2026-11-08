@@ -21,6 +21,7 @@ Not a codebase. Output is Markdown (+ diagrams) that I re-read and present.
 - Mark anything not verified from a primary source: "verify before presenting" + link the source.
 - Keep it simple: plain words, short sentences, tables/mermaid when they beat prose.
 - **Voice: first person singular.** Write as me: "I", "my", "me". Never "we", "our" or "us" in the notes. Keep "we" only inside quotes from the lecture or a source. After renaming a heading, fix the anchors that link to it.
+- **The lecturer's reference setup** (the tools and automated workflows he names) is kept in README.md under "The lecturer's reference setup". When a lecture names a new tool or workflow, add it to the matching category there and name the lecture it came from.
 
 ## Fact-check the lecturer (mandatory)
 The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a note unchecked.

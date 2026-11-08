@@ -20,6 +20,8 @@ Started: 2026-11-08. Branch: `lesson-3` (will move to `feature/lesson-4`).
 - **Root README updated** — added Lecture 4 section with all four files.
 - **Lecture 4 README created** — index of all files.
 
+- **18 Sharing approved skills — AI marketplace** — the lecture's skill-sharing figure (`img/sharing-skills-git-npx-skills-over-mcp.png`), the three routes checked against `npx skills` docs and the Skills over MCP charter and SEP-2640, an approval step as a marketplace, Claude Code's own marketplace, cautions. Note 09 now points to it instead of holding an unverified pros and cons table. `npx skills` and Skills over MCP were read through a reader agent, and the Agent Skills spec and Claude Code marketplace facts are search summaries.
+- **Root README: the lecturer's reference setup** — the tool stack and the eight automated workflow uses from S01E04, with the lecturer's links. Notes 09 and 10 and AGENTS.md point to it, and AGENTS.md says to add tools there as lectures name them.
 - **Clean-up of work-in-progress traces** — removed `Corrected …` markers, "draft", "first pass", "provisional", "first notes" and similar traces from the Lecture 2, 3 and 4 notes and from both READMEs. Each fact is stated as it stands now. The stub sentence in note 08 became a finished paragraph, and the prompt-caching row in note 02 and its body text now agree. AGENTS.md has a new section, "Documents stay clean and finished", and no longer asks for correction markers.
 - **11 Cloud coding agents** — comparison of cloud coding agents (Cursor Cloud Agents, Claude Code in the cloud) vs agent hosting platforms (AgentCore, Foundry). Written from a web search, not from the transcript detail. Vendor facts checked via search summaries of vendor docs (pages not read in full). Ends with six open questions.
 
@@ -58,6 +60,7 @@ Written 2026-11-08 straight from the transcript outline. Not yet merged with my 
 - **From the 11-point fleet checklist (note 14), no dedicated note yet:** own accounts and agent identity (8), monitoring and evaluation (11), human-involvement and approval policy (5), sandboxes and guardrails (6). Point 7 (own VPS or device) and point 10 (per-person agents in a team) are only partly covered. The lecturer says later lessons cover these, so I map them into note 14 when they arrive.
 - **From note 17 (cost per task):** slopalytics.com is unread. It needs a browser, and the lecture's claim that it provides a Cost Per Task metric is unverified.
 - **From note 15 (limen behind the scenes), not read:** `coordinator-wake.ts`, `wrapper.ts`, `hook/hosted.ts`, `git.ts`, `finish-webhook.ts`, the templates and docs, the tail of `hook/wake.ts`, and the middle of Pi's extensions page (it came as a summary). Open: is there a final-report tool, is `.limen/` git-ignored, can the coordinator get the job-end message twice.
+- **Reference setup (root README):** it lists only what S01E04 names. Tools, harnesses and workflows from the next lectures are added as they come up. The harness, terminal and provider names from the start of S01E04 are not in it.
 
 ## Lecture 3 — Simplify the Codebase and the Knowledge Base (complete, has unverified claims)
 

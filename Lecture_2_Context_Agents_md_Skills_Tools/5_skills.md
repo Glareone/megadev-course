@@ -29,7 +29,7 @@ Claude Code adds more fields: `disable-model-invocation`, `user-invocable`, `pat
 
 ### Fleet metadata — portability and origin tracking
 
-The spec's `metadata` field is free-form. When managing skills across multiple projects, harnesses, or machines, I extend it with **fleet metadata** that tells me (and the agent) exactly where a skill works, where it came from, and what I changed. See [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) for the full pattern.
+The spec's `metadata` field is free-form. When managing skills across multiple projects, harnesses, or machines, I extend it with **fleet metadata** that tells me (and the agent) exactly where a skill works, where it came from, and what I changed. See [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) for the full pattern. Sharing approved skills across teams is in [Lecture 4: 18 Sharing approved skills](../Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md).
 
 | Field | Purpose | Example |
 |---|---|---|

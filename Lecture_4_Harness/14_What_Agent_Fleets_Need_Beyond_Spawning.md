@@ -67,7 +67,7 @@ flowchart TB
 | 8 | Own accounts and what the app needs | Nothing | **Gap** |
 | 9 | Hooks at various stages | [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md). Hooks are not portable, see [01](01_Harness_Lock-in_Keep_Doors_Open.md) | Covered |
 | 10 | Useful in a team, each member with agents | Shared skills and knowledge base in [09](09_Teamwork_Knowledge_Base_Tool_Stack.md) and [03](03_Skill_And_Folder_Orchestration.md) | **Partly.** Per-person agents inside one team not analyzed |
-| 11 | Monitored and evaluated, so it can improve | Nothing beyond a passing mention of cost per task in [08](08_Settings_Model_Routing_Cost.md) | **Gap** |
+| 11 | Monitored and evaluated, so it can improve | How to measure cost per task is in [17](17_Cost_Per_Task.md). Monitoring and evaluating a running fleet is not covered | **Gap** |
 
 ## 4. Industry pointers for the weak spots
 

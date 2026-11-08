@@ -2,7 +2,7 @@
 
 > Don't measure models by token price. Measure by **cost per task**. Use SOTA models with lower reasoning effort for easy work, and a clear **deterministic boundary** when privacy requires a local model.
 
-Related: [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md) · [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [Lecture 2: 1 Harness](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md)
+Related: [17 Cost per task](17_Cost_Per_Task.md) · [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md) · [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [Lecture 2: 1 Harness](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md)
 
 Source: S01E04 transcript (settings section), see [Fact-check](#fact-check).
 
@@ -33,15 +33,7 @@ No clear rule for which reasoning level to use — it depends on model, task, an
 
 ## 4. Cost per task, not cost per token
 
-Token price alone is misleading:
-
-| Metric | Model A | Model B |
-|---|---|---|
-| Price per million tokens | $0.50 | $2.00 |
-| Tokens used per task | 220k | 40k |
-| **Cost per task** | **$0.11** | **$0.08** |
-
-Model B costs 4x more per token but is cheaper per task because it uses fewer tokens. [Slopalytics](https://slopalytics.com) provides cost-per-task metrics.
+Token price alone is misleading, because models differ a lot in how many tokens they spend on one task. The worked example from the lecture, the arithmetic, cost per solved task, and where cost-per-task numbers are published are in [17 Cost per task](17_Cost_Per_Task.md).
 
 The lecturer notes that many workflows (multi-agent collaboration) became much more efficient since roughly Opus 4.8 — older or open-source models may not handle these workflows well.
 
@@ -80,7 +72,7 @@ The privacy boundary point is critical for enterprise work. "The model decides w
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
-| 1 | Cost per task is more accurate than token price | **Agrees** | [Slopalytics](https://slopalytics.com) exists and provides this metric. Concept is well-established in practitioner community. | 2026-11-08 |
+| 1 | Cost per task is more accurate than token price | **Agrees** as a concept. Corrected 2026-11-08 | Artificial Analysis publishes cost per task from actual token use (search summary of its methodology). I could not read slopalytics.com, so I cannot confirm what it provides. See [17](17_Cost_Per_Task.md). | 2026-11-08 |
 | 2 | No LLM can reliably enforce privacy boundaries | **Agrees** | [privacy-boundary example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/privacy-boundary); also consistent with known prompt injection / jailbreak research | 2026-11-08 |
 | 3 | Multi-agent workflows became more efficient since Opus 4.8 | **Lecture-specific (opinion)** | Lecturer's characterization. No independent benchmark comparing multi-agent efficiency across Opus versions found. | 2026-11-08 |
 | 4 | Effort routing should be tested per task type | **Agrees** as a principle. Corrected 2026-11-08 | The [effort-routing example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/effort-routing), read by a reader agent, is a small harness: ten arithmetic tasks, low vs high effort, no measured results in its README, and test numbers from a mock model. See [16](16_SOTA_And_Reasoning_Effort.md). | 2026-11-08 |

@@ -2,7 +2,7 @@
 
 > SOTA says **which model** I use: the capability ceiling of its weights. Reasoning effort says **how much that model thinks** on this one call. They are independent, so a top model at low effort is a real option. The lecture's 2×2 grid says: start with a SOTA model, then lower the effort or switch to a smaller model for easier tasks.
 
-Related: [08 Settings: routing, cost and privacy](08_Settings_Model_Routing_Cost.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [14 What an agent fleet needs](14_What_Agent_Fleets_Need_Beyond_Spawning.md) · [Lecture 1: 06 Reasoning, visible and silent](../Lecture_1_Mechanics_Behind_Generative_AI/06_reasoning_visible_and_silent.md) · [Lecture 1: 05 Harnesses, providers, steering](../Lecture_1_Mechanics_Behind_Generative_AI/05_lesson_harnesses_providers_steering.md)
+Related: [17 Cost per task](17_Cost_Per_Task.md) · [08 Settings: routing, cost and privacy](08_Settings_Model_Routing_Cost.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [14 What an agent fleet needs](14_What_Agent_Fleets_Need_Beyond_Spawning.md) · [Lecture 1: 06 Reasoning, visible and silent](../Lecture_1_Mechanics_Behind_Generative_AI/06_reasoning_visible_and_silent.md) · [Lecture 1: 05 Harnesses, providers, steering](../Lecture_1_Mechanics_Behind_Generative_AI/05_lesson_harnesses_providers_steering.md)
 
 Source: S01E04 transcript (Settings section) and the lecture's grid figure (`img/sota-model-vs-reasoning-effort-grid.png`). Vendor facts come from search results that summarize Anthropic and OpenAI docs, and I did not open each page in full. The course's effort-routing example was read through a reader agent. See [Fact-check](#fact-check).
 
@@ -18,7 +18,7 @@ I had treated "SOTA" and "high reasoning effort" as the same thing: the best mod
 | **Smaller model** | A cheaper, less capable model, from the same vendor or another |
 | **Reasoning effort** | A setting that tells the model how much to think before it answers. It changes how many thinking tokens it spends on this call |
 | **Thinking tokens** | Tokens the model generates before the answer. They cost output tokens and time. [Lecture 1: 06](../Lecture_1_Mechanics_Behind_Generative_AI/06_reasoning_visible_and_silent.md) separates them from silent reasoning inside one forward pass |
-| **Cost per task** | Total spend to finish one task, not the price per token. See [08](08_Settings_Model_Routing_Cost.md) |
+| **Cost per task** | Total spend to finish one task, not the price per token. See [17](17_Cost_Per_Task.md) |
 
 ## 3. The figure
 
@@ -99,12 +99,49 @@ The course's [effort-routing example](https://github.com/MEGA-DOT-DEV/examples/t
 
 The example's tests assert "high 10/10, low 5/10, routed 10/10", but those come from a mock model the authors programmed. They are not measurements. The example is a **harness for running my own comparison**, not evidence.
 
-## 8. What this means for a portable runner
+## 8. My practice: check the dropdown, then step down
+
+The course example is a way to experiment, and none of this is new to me. It is how I already work:
+
+- Before a task I check the reasoning setting (the dropdown) instead of leaving whatever it was last time.
+- The model does its **initial reasoning at a high setting**: understanding the task and planning.
+- After that I **step the effort down** for the rest of the work. Thinking tokens are billed as output and take time (see [17](17_Cost_Per_Task.md)), so fewer of them cut price and raise speed.
+
+In the grid from section 3 this is a path on one model: start top-right (SOTA, high effort), then move left to top-left (SOTA, low effort). It uses the cell I had missed, as a step instead of a fixed choice.
+
+```mermaid
+flowchart LR
+    A["Plan and understand\nSOTA, high effort"] -->|"plan is concrete"| B["Carry it out\nSOTA, low effort"]
+    B -->|"a step turns out hard"| A
+```
+
+The step back up is my suggestion, not part of the practice as I described it.
+
+**The course example tests something different:**
+
+| | The course example | My step-down |
+|---|---|---|
+| When effort is chosen | Once per task, before the work, by a coordinator | Mid-task, after the initial reasoning |
+| Unit | A whole task | A phase of one task |
+| Rule | "Route by the work, not by the length of the question" | Spend thinking where the plan is made, not where it is carried out |
+
+So the example measures per-task routing, not step-down. To test step-down I would add a third mode to it, "high, then low", and compare it with fixed high and fixed low on the same tasks.
+
+**Two costs to know before stepping down:**
+
+1. **Changing effort can break the cache.** Anthropic's docs say the effort value is part of what the cache sees, so changing it between requests invalidates the message-level cache breakpoints. The next request then pays full input price for the whole history instead of the cache-read price. A per-message effort setting (beta, on supported models) keeps the cache, and setting effort explicitly to the model's default does not break it. These are search summaries, and the details vary by model. My reasoning: the one-time cost grows with the size of the history, and the saving grows with the number of turns left. So I step down early, while the history is short, or use per-message effort where it exists.
+2. **Low effort can under-think.** The Opus 4.8 guide warns about it on moderately complex tasks. A step-down is safest when the plan is concrete and the remaining steps are mechanical.
+
+**How the harnesses expose it:**
+- **Claude Code:** `/effort` opens a slider, and `/effort <level>` sets a level. The new level applies to the next message at the latest. It applies to the session only or is saved as the default, depending on how I confirm. A `maxEffortLevel` setting caps it. Subagents follow the session level only on the same model, and otherwise take an `effort` field from their own definition, which is how a coordinator can give each worker its own level.
+- **Pi:** the extensions docs list a `thinking_level_select` event (observe only). I did not check how the level is set.
+
+## 9. What this means for a portable runner
 
 My interpretation, from the vendor differences above:
 
 - **Use a neutral effort scale in the runner and map it per provider in the adapter.** The vendors' levels and defaults differ, so hard-coding `"low"` in the orchestrator leaks one vendor's meaning into the rest of the system. This is the adapter rule from [02](02_Agent_Runner_Portability.md).
-- **Set effort per task type in configuration.** A coordinator can then follow the example's rule and route by the work.
+- **Set effort per task type, and per phase, in configuration.** A coordinator can then follow the example's rule and route by the work, and the runner can step the effort down after the planning phase, with the cache cost in mind.
 - **Record effort, tokens and cost for each task.** Without that, I cannot compare cost per solved task, and monitoring is the gap listed as point 11 in [14](14_What_Agent_Fleets_Need_Beyond_Spawning.md).
 
 ## Open questions
@@ -112,6 +149,7 @@ My interpretation, from the vendor differences above:
 1. For my own task types, which cell of the grid is the cheapest one that still passes?
 2. Does a top model at low effort beat a smaller model at high effort on my tasks, or only on the vendors' benchmarks?
 3. What is the smallest neutral effort scale that maps cleanly onto both vendors' levels?
+4. Does "high, then low" beat fixed high and fixed low on my tasks once the cache cost of the change is counted?
 
 ## Fact-check
 
@@ -135,3 +173,9 @@ Checked 2026-11-08. "Search summary" means I saw the vendor page named in a sear
 | 14 | A top model at low effort can beat a smaller model at high effort | **Unverified** | Not shown by any source I read. Only the Opus 4.5 vendor claim points that way, against a smaller model at its best score. | 2026-11-08 |
 | 15 | More effort cannot add knowledge the weights lack | **My interpretation** | My reasoning. Not stated by the vendors or the lecture. | 2026-11-08 |
 | 16 | A runner should use a neutral effort scale mapped per provider in the adapter | **My interpretation** | Follows from the differing level names and defaults in rows 3 and 10. | 2026-11-08 |
+| 17 | Claude Code `/effort` changes the level mid-session, applies it to the next message at the latest, saves it per session or as a default, supports a `maxEffortLevel` cap, and subagents follow the session level only on the same model | **Agrees** (search summary of Claude Code docs) | [Model configuration](https://code.claude.com/docs/en/model-config) | 2026-11-08 |
+| 18 | Changing effort between requests invalidates message-level cache breakpoints, per-message effort (beta) keeps the cache on supported models, and setting the model's default explicitly does not break it | **Agrees** (search summary of Anthropic docs). **Verify before presenting**: older and newer pages differ on whether the tool and system caches also miss, and support varies by model | [Steering thinking](https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost), [Effort](https://platform.claude.com/docs/en/build-with-claude/effort) | 2026-11-08 |
+| 19 | Pi has a `thinking_level_select` event | **Agrees** (reader agent on the Pi extensions page). It is observe-only, and how the level is set was not checked | [Pi extensions](https://pi.dev/docs/latest/extensions) | 2026-11-08 |
+| 20 | Stepping effort down after the initial reasoning saves price and time | **My practice, not measured here** | Follows from reasoning tokens being billed as output ([17](17_Cost_Per_Task.md)). No measurement in this repo. | 2026-11-08 |
+| 21 | The cache cost of a step-down grows with history size, and the saving grows with the turns left | **My interpretation** | My reasoning from the billing and caching docs. | 2026-11-08 |
+| 22 | The course example routes effort once per task, before the work, and does not test step-down | **Agrees** (reader agent read the code) | [effort-routing](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/effort-routing) | 2026-11-08 |

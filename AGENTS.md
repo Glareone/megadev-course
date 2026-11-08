@@ -42,6 +42,10 @@ The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a
 5. **Listen** – stop and wait for my recommendations and insights. Don't write the final file before this.
 6. **Refined insight** – merge my input, then write/update the file and its cross-references.
 
+## Progress tracking
+- **[CHANGELOG.md](CHANGELOG.md) is the single source of truth** for what's done, what's in progress, and what gaps remain. Don't track progress anywhere else. Update it when files are added, updated, or when gaps are identified.
+- Before starting a new topic, check the changelog for what's already covered and what's still missing.
+
 ## Rules
 - Never read or print `.env`, `github.pat`, `configuration.txt` (secrets).
 - **Content scope:** notes hold how we think, analyze and struggle. Never put Aras business secrets, customer data, PII, credentials or other Restricted Data in any file. If an example needs business detail, abstract it. If something slips in, stop and tell me.

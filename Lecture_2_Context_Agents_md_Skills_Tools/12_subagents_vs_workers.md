@@ -2,11 +2,11 @@
 
 > We often keep interactions **short and focused on one task**, even though context windows keep growing ([4 Context window](4_context_window.md)). Two main ways to do that: **subagents** and **workers**. They are related but **not the same thing**, and neither is the same as **A2A**.
 
-Related: [1 Harness](1_Harness.md), [5 Skills](5_skills.md), [9 Prompt injection](9_tools_prompt_injection.md), [10 Tool results](10_tool_results_context_to_file_and_back.md).
+Related: [1 Harness](1_Harness.md), [5 Skills](5_skills.md), [9 Prompt injection](9_tools_prompt_injection.md), [10 Tool results](10_tool_results_context_to_file_and_back.md), [Lecture 4: 08 Settings](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md), [Lecture 4: 16 SOTA and reasoning effort](../Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md).
 
-## The clarification we needed
+## Three different things
 
-We had been using "subagent" and "worker" interchangeably, as "an agent called by another agent via A2A". These are **three different things**:
+"Subagent", "worker" and "A2A agent" are often used interchangeably, as "an agent called by another agent via A2A". They are **three different things**:
 
 | Term | What it is | Where it runs | Who manages it |
 |---|---|---|---|
@@ -17,6 +17,8 @@ We had been using "subagent" and "worker" interchangeably, as "an agent called b
 So: **worker is a kind of subagent** (by the lecture's definition), and **A2A is a different layer** (a protocol between independent agent systems, not how a harness starts its own helpers).
 
 About A2A, from search summaries only (verify before presenting): it was introduced by Google in April 2025 and later donated to the Linux Foundation. It standardizes how one agent hands work to **another agent it does not control**, while **MCP** standardizes how an agent calls **tools and data**. Sources describe them as complementary: MCP is vertical (agent to tools), A2A is horizontal (agent to agent). Sources: [MCP vs A2A (toolradar)](https://toolradar.com/blog/mcp-vs-a2a), [A2A vs MCP (beam.ai)](https://beam.ai/agentic-insights/agent2agent-vs-mcp-2026-ai-agent-stack).
+
+Checked against the official A2A docs on 2026-11-08 (search summaries of [the specification](https://github.com/a2aproject/A2A/blob/main/docs/specification.md) and [a2a-protocol.org](https://a2a-protocol.org/latest/), not full reads): A2A is built for **opaque** agentic applications, so agents collaborate without exposing internal state, memory or tools. The **Agent Card** is the public description of an agent: identity, endpoint, version, capabilities, skills, input and output modes and authentication. A2A does not define how an agent handles its own sub-agents or tools, which is left to its framework or to MCP. The repository now lives under `a2aproject/A2A`.
 
 ## Subagents (lecture)
 
@@ -129,6 +131,51 @@ What we see in this very session (from the tool list the model works with):
 - `isolation: "worktree"` gives a subagent its own git worktree, so edits don't collide.
 - The official docs add: Claude Code **scans subagent reports for instruction-like text** and marks it. That doesn't remove content or grant anything, and tool calls still pass normal permission checks.
 
+## Which model and effort for each helper
+
+An agent that manages other agents also decides which model and which reasoning effort each of them gets. The lecture's picture:
+
+![A flow diagram. On the left are a general recommendation and the ongoing context. Both lead to the parent agent in the middle, which is marked red and labeled as picking model and reasoning. From the parent agent, lines go to three managed agents inside one frame: a SOTA model with high reasoning, a SOTA model with low reasoning, and a smaller, cheaper model. The caption says the parent agent picks the model and the reasoning for each agent it manages, following a general recommendation and adapting it to the ongoing context.](../Lecture_4_Harness/img/parent-agent-picks-model-and-reasoning-for-managed-agents.png)
+
+**The story:** the parent agent reads a general recommendation (a short written policy) and the ongoing context, then picks a model and a reasoning level for each managed agent. The three tiers in the figure are examples, not a fixed set.
+
+**Important:**
+- The parent holds the decision. I set a few recommendations once, and the parent applies them helper by helper.
+- It is adaptive. The recommendation is a default, and the ongoing context can override it.
+- It works for helpers the parent **starts**. A2A peers are different, see below.
+
+**Not important:** the three example tiers and the box layout.
+
+**Who can pick a helper's model and effort:**
+
+| Helper | Who sets it | How |
+|---|---|---|
+| **Subagent** | The parent, or the agent file | Claude Code: `model` (`sonnet`, `opus`, `haiku`, `fable`, a full model ID, or `inherit`) and `effort` in the agent file, or a `model` parameter on the Agent call, which takes precedence over the file. Codex custom agents carry model options in their TOML file |
+| **Worker** | Whoever spawns it | The spawn command or its settings. In limen, the spawn command passes `--provider`, `--model` and `--thinking` to the worker's Pi |
+| **A2A peer** | The peer itself | The parent can only choose which peer to call |
+
+**Why an A2A peer is different.** The A2A docs describe the protocol as being for opaque agentic applications. Agents exchange information without exposing their internal state, memory or tools, and A2A does not define how an agent handles its own sub-agents or tools. The Agent Card lists identity, endpoint, version, capabilities, skills, input and output modes and authentication. In the docs I saw, it has no model or effort field. So **model routing stops at the A2A boundary**. Across it I route between peers, not between models, and I judge a peer by its results and what it costs.
+
+```mermaid
+flowchart TB
+    P["Parent agent"]
+    P -->|"picks model and effort"| S["Subagent"]
+    P -->|"picks model and effort at spawn"| W["Worker"]
+    P -.->|"picks only which peer to call"| A["A2A peer, opaque"]
+```
+
+**How common is this?** The usual pattern is the one in the picture: the lower tier goes to sub-tasks and subagents, by role. Mixing models inside one task also exists in tools. Claude Code's `opusplan` alias plans with Opus and executes with Sonnet. Aider's architect mode has one model plan and a second model make the edits, which takes two requests and can be slower and cost more. The effort step-down in [Lecture 4: 16](../Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md#8-my-practice-check-the-dropdown-then-step-down) is the same idea on one model.
+
+A general recommendation can be as short as this (my example):
+
+```text
+Default: SOTA model, medium effort.
+Planning, review, unclear tasks: SOTA, high effort.
+Search, formatting, mechanical edits: SOTA at low effort, or the smaller model.
+```
+
+The privacy boundary does not belong in this text. A rule that must always hold goes in configuration, not in the parent's prompt ([Lecture 4: 08 Settings](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md)). Each helper has its own token bill, so the choice shows up in cost per task ([Lecture 4: 17](../Lecture_4_Harness/17_Cost_Per_Task.md)).
+
 ## When to use what
 
 | Situation | Use |
@@ -197,10 +244,10 @@ Also see the reusable [skills and agents summary](5_skills.md#summary-skills-and
 - **Verified from official docs:** Claude Code subagents and agent teams ([sub-agents](https://code.claude.com/docs/en/sub-agents), [agent-teams](https://code.claude.com/docs/en/agent-teams)); Codex subagents (OpenAI docs, via redirect to learn.chatgpt.com).
 - **Community source:** DeepSeek TUI is an open-source project. We read its `docs/SUBAGENTS.md` through GitHub. It is **not** official DeepSeek documentation, and it may have changed.
 - **From search summaries only:** A2A background and the A2A vs MCP comparison.
+- **Checked 2026-11-08, from search summaries of official docs (pages not read in full):** A2A opacity and the Agent Card fields ([A2A spec](https://github.com/a2aproject/A2A/blob/main/docs/specification.md)), the Claude Code subagent `model` and `effort` fields and the `opusplan` alias ([sub-agents](https://code.claude.com/docs/en/sub-agents), [model configuration](https://code.claude.com/docs/en/model-config)), and Aider's architect mode ([aider.chat](https://aider.chat/docs/usage/modes.html)). That the Agent Card has no model field is from the field list in the docs I saw, so verify it against the spec. limen passing `--provider`, `--model` and `--thinking` to a worker's Pi is from a reader agent's read of its spawn code. The Claude Code, Codex and DeepSeek TUI details elsewhere in this note are time-sensitive, so re-check them before presenting.
 - **Not verified:** Pi's support for subagents and workers.
 - **Not provided:** the lecture's picture of the main thread with three subagent calls. It is described from the lecture text. The worker, `scout` agent-file and skill-vs-subagent pictures are included above.
 - **Our reasoning:** the three-way terminology table, the "when to use what" table and the client-agent guidance.
-- We correct an earlier assumption: "worker" and "subagent" were being used as synonyms, and "via A2A" was not the right description.
 
 ## Open questions for discussion
 

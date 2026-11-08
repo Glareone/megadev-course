@@ -4,7 +4,7 @@
 >
 > **WARNING: check skills before you install them.** A skill is instructions the agent obeys, and sometimes code it runs. Some malicious skills hide their instructions from reviewers (see [Security](#security-skills-can-be-dangerous)).
 
-Builds on lecture 1: [13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) (catalog vs body, selection, unloading) and [12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) (skills served by an MCP server, "skill text is untrusted input").
+Builds on lecture 1: [13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) (catalog vs body, selection, unloading) and [12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) (skills served by an MCP server, "skill text is untrusted input"). See also: [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) (fleet metadata, organizing skills by harness/scope/origin).
 
 ## What a skill is
 
@@ -26,6 +26,25 @@ Frontmatter per the [Agent Skills specification](https://agentskills.io/specific
 | `allowed-tools` | no | pre-approved tools (experimental, support varies) |
 
 Claude Code adds more fields: `disable-model-invocation`, `user-invocable`, `paths`, `context: fork`, `hooks`, `model`, `effort`, `arguments`, `when_to_use`.
+
+### Fleet metadata — portability and origin tracking
+
+The spec's `metadata` field is free-form. When managing skills across multiple projects, harnesses, or machines, I extend it with **fleet metadata** that tells me (and the agent) exactly where a skill works, where it came from, and what I changed. See [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) for the full pattern. Sharing approved skills across teams is in [Lecture 4: 18 Sharing approved skills](../Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md).
+
+| Field | Purpose | Example |
+|---|---|---|
+| `harness` | Which harness(es) can run this skill | `[claude]`, `[claude, pi]`, `[any]` |
+| `platform` | OS constraints | `[darwin, linux]`, `[any]` |
+| `scope` | Where it applies | `fleet` (all projects), `project-x` |
+| `origin` | Who wrote it | `external` (forked), `internal` (mine) |
+| `source` | Exact commit URL of the upstream version | GitHub tree URL with commit hash |
+| `upstream` | Short ref + fetch date | `anthropics/skills @ 5304866, fetched 2026-10-...` |
+| `local_changes` | What I changed from upstream and why | Free text — the skill's changelog |
+| `model` | Model family or tier the skill is designed for | `[opus, sonnet]`, `[any]` |
+
+**Why `harness` and `model` matter:** a skill that uses Claude Code's `disable-model-invocation` or references its runtime check will break in Pi. A skill with heavy guidance tuned for Opus may degrade on smaller models. Marking this in metadata makes it visible before the skill fails silently.
+
+A skill with `harness: [any]` and `model: [any]` is **universal** — it works on any harness with any model. Anything else is a constraint I need to know about.
 
 ## How a skill reaches the model
 

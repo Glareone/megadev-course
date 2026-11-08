@@ -12,7 +12,7 @@ I have multiple agents working on the same project. They need to coordinate with
 
 ## 2. The architecture
 
-The lecturer describes the [limen](https://github.com/overment/limen/tree/01fc400e916e05f4f92ff881b48cd1b40eee99e6) project — a working implementation:
+The lecturer describes the [limen](https://github.com/overment/limen/tree/01fc400e916e05f4f92ff881b48cd1b40eee99e6) project, a working implementation that he asks to study, play with and extract ideas from. The steps and the ideas I take from it are in [15](15_Pi_Limen_Behind_The_Scenes.md#9-ideas-worth-taking-from-limen).
 
 ![Swimlane diagram with five stages from left to right: Ask, Hand off, Work, Finish, Land, and four lanes from top to bottom: You, Coordinator, Workers, Supervisor. You ask for an outcome and the Coordinator writes the ticket. At hand-off the Coordinator starts a Worker, the Worker gets its own space, and the Supervisor starts with the Worker. During work the Coordinator stays with you, the Worker does the task, and the Supervisor watches. At finish the Coordinator gets a job-ended notice, the Worker commits and reports, and the Supervisor records the outcome. At land, you decide what lands and the Coordinator merges and closes. The Workers are drawn as a small stack because several run side by side.](img/pi-lifecycle-hooks-job-states-swimlane.png)
 

@@ -150,7 +150,33 @@ This is a composite from the files I read. The hosted-mode supervisor steps come
 | The coordinator and workers are Pi instances | The README says the default engine is OMP. Pi is selected with `--engine pi` |
 | Agent recovery works only on macOS | The README says macOS or Linux. Recovery has no macOS gate. One Darwin-specific helper reads process identity on non-Linux systems |
 
-## 8. Cautions
+## 8. Using limen: the lecturer's steps
+
+The lecturer asks to study the repository, play with it, chat about it with an agent, and extract ideas or modify it. His steps to apply it to a project, with what limen creates:
+
+1. `limen init` creates `spec/vision.md`, `spec/build.md`, `spec/features/{planned,active,done,dropped}/`, `.agents/limen/styleguide.md`, and extension stubs under `.pi/extensions/` and `.omp/extensions/`.
+2. Shape the vision and the styleguide together with an agent. The vision holds the product description and direction, and may point to separate files for the main modules. The styleguide holds the coding rules the agent follows. It is injected into prompts more often than AGENTS.md, so both files stay short.
+3. Install Pi and Herdr.
+4. Open Pi and ask it to implement something.
+
+The README says limen runs on macOS and Linux, and that Windows is unsupported.
+
+## 9. Ideas worth taking from limen
+
+| Idea | Where it is in limen | What I can take |
+|---|---|---|
+| State is a folder, not a field | A ticket's state is its folder: `planned`, `active`, `done`, `dropped`. Git history is the audit trail | Task states that a person and any agent can read, with no service to run |
+| Publish atomically | The job directory is built as `.publishing-<id>` and renamed into place. The `state` file is written last | A reader never sees a half-written job |
+| Detect a dead worker without a heartbeat | A pid plus a process start identity, and in hosted mode a poll of Herdr | Avoids mistaking a reused pid for the worker (my inference) |
+| Keep the supervisor outside the agent | A detached process finalizes the record, and recovery relaunches a supervisor after a crash | Crash handling that does not depend on the crashed agent |
+| More than one wake-up path | A file watcher in the coordinator's Pi, `herdr agent prompt` from the supervisor, and an optional webhook | A missed message does not hide a finished job (my inference) |
+| Steer a running worker through files | Numbered files in `steer/inbox/` with claim and delivered records, delivered as a steering message | Steering that works for any agent that can watch a folder, with a record of what arrived |
+| Give each worker only the hooks it needs | The worker's Pi starts with `--no-extensions` and one `--extension` per hook. Jobs get a lighter project context than the coordinator | A smaller attack surface and a smaller context per worker |
+| Guard the merge | `limen land` needs state `done`, a clean target equal to the current branch, at least one commit, and a confirmation | A human-confirmed merge whose preconditions the CLI checks |
+| Reviews as jobs | A reviewer job reports a verdict and does not rewrite the candidate | Review without the risk that the reviewer changes the work |
+| Swap the engine, keep the record | The same job record for the `pi` and `omp` engines | A job record that stays the same when the harness changes, as in [02](02_Agent_Runner_Portability.md) |
+
+## 10. Cautions
 
 - **Extensions run with full permissions.** Pi's docs say extensions run in the Pi process with the same operating-system permissions and can inspect prompts, tool calls, files, credentials and session history. I would review any extension I did not write.
 - **Messages become input.** A steering file or a worker's result ends up as a message in an agent's context. In the course examples nothing authenticates the sender, and one example notes that the worker's report goes straight into the coordinator's input. I did not check whether limen filters either. This is the injection surface in [Lecture 2: 9](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md).
@@ -190,3 +216,9 @@ Checked 2026-11-08. "Reader agent" means a subagent that fetched the pages and r
 | 17 | Files not read: `coordinator-wake.ts`, `wrapper.ts`, `hook/hosted.ts`, `git.ts`, `finish-webhook.ts`, the templates and docs | **Unverified** | Not fetched | 2026-11-08 |
 | 18 | The sequence diagram in section 6 | **My interpretation** | A composite of the files read, with the unread paths left out | 2026-11-08 |
 | 19 | Which condition produces the `stopped` state, and what "hosted agent ended" becomes | **My interpretation** | Not shown in the files read | 2026-11-08 |
+| 20 | `limen init` creates `spec/vision.md`, `spec/build.md`, `spec/features/{planned,active,done,dropped}/`, `.agents/limen/styleguide.md` and the extension stubs, and limen runs on macOS and Linux with Windows unsupported | **Agrees** (README at the pinned commit, reader agent) | [limen](https://github.com/overment/limen/tree/01fc400e916e05f4f92ff881b48cd1b40eee99e6) | 2026-11-08 |
+| 21 | `spawn` builds the job directory as `.publishing-<id>` and renames it into place, and the worker's Pi starts with `--no-extensions` and one `--extension` per limen hook | **Agrees** (`src/commands/spawn.ts`, reader agent) | limen source | 2026-11-08 |
+| 22 | The steering and notification folders carry claim, delivered and ready records | **Agrees** (job record layout, reader agent) | limen source | 2026-11-08 |
+| 23 | A reviewer job reports a verdict and does not rewrite the candidate | **Agrees** (README and source, reader agent) | limen README | 2026-11-08 |
+| 24 | The lecturer's four steps and his advice to play with the repository and extract ideas | **Agrees** (the lecture's text) | The S01E04 transcript | 2026-11-08 |
+| 25 | The "What I can take" column in section 9 | **My interpretation** | My reading of what each design choice offers. Not stated by the repository or the lecture | 2026-11-08 |

@@ -150,7 +150,7 @@ Folder: [Lecture_4_Harness](Lecture_4_Harness/)
 | [12](Lecture_4_Harness/12_Context_Language_Models.md) | Context language models: the model edits its own context file. What the paper shows, wins and non-wins, what it does not test, how it differs from Mixture-of-Experts and other model types, weights, license and serving (checked against the PDF) |
 | [13](Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md) | Herdr vs Orca: terminal multiplexer vs worktree orchestrator, real Herdr commands checked, comparison table, where each fits |
 | [14](Lecture_4_Harness/14_What_Agent_Fleets_Need_Beyond_Spawning.md) | What an agent fleet needs beyond spawning workers: the lecture's 11 requirements as a checklist, coverage in my notes, gaps, test questions for my platform |
-| [15](Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) | Behind the scenes of the limen setup: what Pi's hooks do, what limen's files, supervisor and Herdr do, the real job-record layout, a sequence diagram, and where the code differs from the lecture |
+| [15](Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) | Behind the scenes of the limen setup: what Pi's hooks do, what limen's files, supervisor and Herdr do, the real job-record layout, a sequence diagram, where the code differs from the lecture, how to try limen, and ideas worth taking from it |
 | [16](Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md) | SOTA and reasoning effort as two separate dials: the 2×2 grid, what each dial changes, what Anthropic and OpenAI docs say about effort, the course effort-routing example, effort in a portable runner |
 | [17](Lecture_4_Harness/17_Cost_Per_Task.md) | Cost per task instead of token price: the lecture's worked example, tasks per dollar, cost per solved task, why tokens per task differ, who publishes it, what to measure in my own runner |
 | [18](Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md) | Sharing approved skills across teams: Git, `npx skills` and Skills over MCP checked against their docs, and an AI marketplace as an approval step on top of them |
@@ -196,6 +196,17 @@ Agents that integrate with GitHub: [Claude Code](https://code.claude.com/docs/en
 8. Handle routine tasks such as cleaning up dead code
 
 My notes on these uses, with triggers and the human review step, are in [Lecture 4: 10 Automation](Lecture_4_Harness/10_Automation_Repository_Agents.md).
+
+### Repository the lecturer asks to study (S01E04)
+
+[overment/limen](https://github.com/overment/limen) is a working coordinator, workers and supervisor setup built from plain text files, git worktrees, Pi extensions and Herdr, with a small CLI. The lecturer says that if one thing is taken from S01E04, it should be this: play with the repository, chat about it with an AI agent, and extract ideas or modify it to fit your needs. His steps to apply it:
+
+1. Run `limen init`
+2. Shape `vision.md` and `styleguide.md` together with an agent
+3. Install Pi and Herdr
+4. Open Pi and ask it to implement something
+
+limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 07 Multi-agent coordination](Lecture_4_Harness/07_Multi_Agent_Coordination.md) describes the design, and [15 Pi and limen behind the scenes](Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) covers how to try it and the ideas I take from it.
 
 ## Repository rules
 

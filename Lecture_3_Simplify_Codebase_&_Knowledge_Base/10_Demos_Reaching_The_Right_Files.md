@@ -4,7 +4,7 @@
 
 Related: [8 Decision models](08_Decision_Models_Search_And_Memory.md) · [9 Jevgrep](09_Jevgrep.md) · [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
-Source: two course examples, [unreached-notes](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/unreached-notes) and [file-picker](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/file-picker) (READMEs read, code not read), and our own runs from our fork [Glareone/mega-dev-examples](https://github.com/Glareone/mega-dev-examples) (the file lists match upstream). Checked on 2026-11-08, see [Fact-check](#fact-check).
+Source: two course examples, [unreached-notes](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/unreached-notes) and [file-picker](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/file-picker) (READMEs read, code not read), and my own runs from my fork [Glareone/mega-dev-examples](https://github.com/Glareone/mega-dev-examples) (the file lists match upstream). Checked on 2026-11-08, see [Fact-check](#fact-check).
 
 ## 1. The problem
 
@@ -50,7 +50,7 @@ flowchart TD
 
 | Question | Search only | With a map | With links | Map and links |
 |---|---|---|---|---|
-| How do we deploy? | 9 of 30 | **26 of 30** | 13 of 30 | **28 of 30** |
+| How do I deploy? | 9 of 30 | **26 of 30** | 13 of 30 | **28 of 30** |
 | Can I push a hotfix tonight? | 12 of 15 | 11 of 15 | 8 of 15 | 12 of 15 |
 
 - On the deploy question, search only **never read** the architecture note or the rollback policy, even when a search showed the policy by name.
@@ -59,7 +59,7 @@ flowchart TD
 - **The map has a cost.** It names three notes, so the agent sometimes reads only those and **skips notes the map does not name**. With map and links, the agent opened the release process in only 1 of 5 runs.
 - **Agents vary.** An earlier batch scored 8 of 15 for search only on the hotfix question, not 12.
 
-### Our partial run (hotfix question, 5 runs, `openai/gpt-6-luna` through OpenRouter)
+### My partial run (hotfix question, 5 runs, `openai/gpt-6-luna` through OpenRouter)
 
 The run hit a provider limit ("…to 20 requests per minute for this model. Please retry shortly." The start of the message is cut off). Only the **search only** column finished. The other three show 0 of 0.
 
@@ -107,7 +107,7 @@ The run hit a provider limit ("…to 20 requests per minute for this model. Plea
 - An **earlier version** of the example (about 940 files, questions whose words appear in the file) showed the picker costing **more**: $0.0098 against $0.0076.
 - The rule the authors state: **a picker pays off when exploring costs more than the picker.**
 
-### Our run (one question: `card-retries`)
+### My run (one question: `card-retries`)
 
 Command: `npx mex run file-picker --task card-retries`. The picker was `openai/gpt-5-nano` at effort minimal (1.5 s). The right answer is 3, in `services/payments/src/dunning/policy.ts`.
 
@@ -126,12 +126,12 @@ Command: `npx mex run file-picker --task card-retries`. The picker was `openai/g
 - **The direction matches the README:** the picker moved the first read of the right file one step earlier (step 2 to step 1), and the picker's own request ate the saving ($0.00018 of $0.00032).
 - **This was an easy question.** The agent alone found the file in 3 requests. The README says the agent alone needs 4.7 to 9 requests per question on average, and that a picker pays off when exploring is expensive. Here exploring was cheap, so there was little to save.
 - **The picker is noisy.** It listed five paths, and the first was labelled "Not related; skip". Only the second was the right file. The agent still got it, but the list carries noise.
-- **Cached tokens were 0.** The README says the tree is the same for every question so the provider can cache it. With one question there may be nothing to reuse yet. This is our guess and is unchecked.
+- **Cached tokens were 0.** The README says the tree is the same for every question so the provider can cache it. With one question there may be nothing to reuse yet. This is my guess and is unchecked.
 - **Try next:** run all four questions with `--runs 3`, as the authors did, and try the README's "Try this" ideas (the picker using the agent's own model, a small agent, and a question in the code's own words).
 
-## 5. Side by side: our view
+## 5. Side by side: my view
 
-This is our own reasoning, built on the two demos.
+This is my own reasoning, built on the two demos.
 
 **Both demos show a silent miss.** In A the answer lacked the freeze window. In B the agent alone may take many steps, or settle on a nearby file (the small agent gave the wrong number in 5 of 12 runs). Neither looks wrong from outside. In both, **code checks the answer**, not a judge model. That is the executable-guardrail idea from [note 1](01_Simplify_First_Knowledge_Guardrails.md).
 
@@ -149,32 +149,32 @@ This is our own reasoning, built on the two demos.
 
 **Keep a map short, reviewable and checked by code.** A map is a "non-discoverable fact" in the types table of note 1, and rots like any other. A small lint can check that every named note exists and every context note is listed. Say what to read **for which kind of question**, not only "read these three", to reduce tunnel vision.
 
-**Not tested here:** hybrid search (similarity could catch "release train" for "deploy"), vector search, or a map plus a picker. We do not know how they compare.
+**Not tested here:** hybrid search (similarity could catch "release train" for "deploy"), vector search, or a map plus a picker. I do not know how they compare.
 
-**Our own repo.** `AGENTS.md` has a tiny map ("How it's organized") but no list of which notes to read for which question. Each note's `Related:` line is close to "links in metadata", which Demo A found were seen more than opened. A sentence in the text the agent reads is a stronger link (an untested suggestion from the README).
+**My own repo.** `AGENTS.md` has a tiny map ("How it's organized") but no list of which notes to read for which question. Each note's `Related:` line is close to "links in metadata", which Demo A found were seen more than opened. A sentence in the text the agent reads is a stronger link (an untested suggestion from the README).
 
 ## Fact-check
 
-Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **lecture-specific** (opinion) / **unverified**. The authors' numbers come from their READMEs and were not re-run by us.
+Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **lecture-specific** (opinion) / **unverified**. The authors' numbers come from their READMEs and were not re-run by me.
 
-| # | Claim | Verdict | What we found |
+| # | Claim | Verdict | What I found |
 |---|---|---|---|
-| 1 | Search misses notes whose words differ from the question | **Agrees** | Authors: no run read the architecture or rollback notes on the deploy question. Our partial run: the decisions note was read in 0 of 5 runs |
+| 1 | Search misses notes whose words differ from the question | **Agrees** | Authors: no run read the architecture or rollback notes on the deploy question. My partial run: the decisions note was read in 0 of 5 runs |
 | 2 | A map in the instructions helps | **Agrees, on one question** | Deploy: 9 to 26 of 30. Hotfix: 12 to 11 of 15, no gain |
 | 3 | Links in metadata help little | **Agrees** | Deploy 13 of 30, hotfix 8 of 15 |
 | 4 | The map causes tunnel vision | **Agrees** | Authors saw skipped notes on both questions |
 | 5 | A link inside the note's text beats one in metadata | **Unverified** | The README only suggests it under "Try this" |
 | 6 | A picker pays off when exploring costs more than the picker | **Agrees** | Authors: a third cheaper for the default agent, more expensive for the small agent, and more expensive in the earlier version |
-| 7 | The picker helps accuracy of a small agent | **Agrees, README only** | 7 of 12 to 11 of 12. Not re-run by us |
-| 8 | Our single file-picker run | **No conclusion** | One question, one run. Same cost, first read one step earlier |
-| 9 | Our unreached-notes run | **Incomplete, not a result** | A rate limit stopped three of four modes |
-| 10 | The tree is cached so the picker is cheap | **Unverified in our run** | Cached tokens were 0 with one question. We do not know why |
+| 7 | The picker helps accuracy of a small agent | **Agrees, README only** | 7 of 12 to 11 of 12. Not re-run by me |
+| 8 | My single file-picker run | **No conclusion** | One question, one run. Same cost, first read one step earlier |
+| 9 | My unreached-notes run | **Incomplete, not a result** | A rate limit stopped three of four modes |
+| 10 | The tree is cached so the picker is cheap | **Unverified in my run** | Cached tokens were 0 with one question. I do not know why |
 | 11 | Results hold in general | **Unverified** | Made-up data, small samples, one model family. The README says agents vary |
 | 12 | Map or picker beats hybrid or vector search | **Unverified** | Neither demo tests them |
 
 ## Cautions
 
-- **Our two runs prove nothing about the ideas.** One is incomplete, the other has n=1. Finish them before drawing conclusions.
+- **My two runs prove nothing about the ideas.** One is incomplete, the other has n=1. Finish them before drawing conclusions.
 - **Made-up data only.** Both examples use a fictional wiki and codebase. Do not point them at Aras material. Check the [AI Solutions Catalog](http://aitools.aras.com/) first. Never paste API keys into notes or chats.
 - **A picker sends file names (and in real tools, previews) to a provider.** See [9 Jevgrep](09_Jevgrep.md) for the real tool's data rules.
 - **A map can hide notes, and goes stale.** Give it an owner and a check.
@@ -182,18 +182,18 @@ Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **lecture-specif
 
 ## Summary
 
-Search reaches notes that share words with the question, and the bigger picture often does not. For a wiki, a short, checked map helped most. Links in metadata barely helped. For a large codebase, a cheap picker helps when exploring is costly, and does little when the question is easy, as our single run showed. Both demos fail silently, so both need code that checks the answer.
+Search reaches notes that share words with the question, and the bigger picture often does not. For a wiki, a short, checked map helped most. Links in metadata barely helped. For a large codebase, a cheap picker helps when exploring is costly, and does little when the question is easy, as my single run showed. Both demos fail silently, so both need code that checks the answer.
 
 ## Open questions for discussion
 
-- Which of our knowledge bases has context notes that a question's words would miss?
+- Which of my knowledge bases has context notes that a question's words would miss?
 - Who owns the map, and what lint keeps it true?
-- Should we finish the runs for all modes and all four questions, and add the numbers here?
+- Should I finish the runs for all modes and all four questions, and add the numbers here?
 - How would hybrid search do on the same wiki and the same codebase?
 
 ## Sources
 
-- [unreached-notes](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/unreached-notes) and [file-picker](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/file-picker) (READMEs only), and our fork [Glareone/mega-dev-examples](https://github.com/Glareone/mega-dev-examples)
-- Our run outputs: unreached-notes (hotfix question, 5 runs, search only column) and file-picker (`card-retries`, one run)
+- [unreached-notes](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/unreached-notes) and [file-picker](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/file-picker) (READMEs only), and my fork [Glareone/mega-dev-examples](https://github.com/Glareone/mega-dev-examples)
+- My run outputs: unreached-notes (hotfix question, 5 runs, search only column) and file-picker (`card-retries`, one run)
 - Lecture picture of the picker (copied to `img/`)
-- Section 5 (static or dynamic, the narrowing of note 1, the lint idea, our repo) is our own reasoning
+- Section 5 (static or dynamic, the narrowing of note 1, the lint idea, my repo) is my own reasoning

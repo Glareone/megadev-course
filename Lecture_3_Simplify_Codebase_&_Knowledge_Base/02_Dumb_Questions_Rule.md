@@ -38,9 +38,9 @@ A dumb question is a **free confusion detector**. If a smart new person is confu
 
 The answer should end with a **code change** first. A long wiki page is the last choice (see [fix order](01_Simplify_First_Knowledge_Guardrails.md#3-fix-order)).
 
-## 5. Our adaptation (own proposal)
+## 5. My adaptation (own proposal)
 
-1. Keep a simple **dumb question log**: question, answer, what we changed.
+1. Keep a simple **dumb question log**: question, answer, what I changed.
 2. Each entry must name a **fix** (rename, script, lint rule, or a short note). "Explained it in chat" is not a fix.
 3. Review the log monthly. Repeated questions are the best candidates for simplification.
 
@@ -48,17 +48,17 @@ The answer should end with a **code change** first. A long wiki page is the last
 
 Checked on **2026-11-07**.
 
-| Claim | Verdict | What we found |
+| Claim | Verdict | What I found |
 |---|---|---|
-| "A forced daily dumb question helps onboarding" | **Lecture-specific** | A personal management trick. We found no study of this exact rule |
-| Asking questions and learning depend on whether people feel safe | **Plausibly supported, indirect** | Edmondson (1999, *Administrative Science Quarterly*, 51 teams): team psychological safety is associated with learning behavior, and learning behavior mediates team performance. A secondary source links this to help-seeking and error reporting. We did not read that detail in the paper itself. [Paper (MIT copy)](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Group_Performance/Edmondson%20Psychological%20safety.pdf), [DOI](https://journals.sagepub.com/doi/10.2307/2666999) |
+| "A forced daily dumb question helps onboarding" | **Lecture-specific** | A personal management trick. I found no study of this exact rule |
+| Asking questions and learning depend on whether people feel safe | **Plausibly supported, indirect** | Edmondson (1999, *Administrative Science Quarterly*, 51 teams): team psychological safety is associated with learning behavior, and learning behavior mediates team performance. A secondary source links this to help-seeking and error reporting. I did not read that detail in the paper itself. [Paper (MIT copy)](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Group_Performance/Edmondson%20Psychological%20safety.pdf), [DOI](https://journals.sagepub.com/doi/10.2307/2666999) |
 | A *quota* of dumb questions is better than the slogan | **Unverified** | The paper supports safety, not this tactic. Treat the quota as one tactic that worked for one lecturer |
 
 ## Cautions
 
 - A quota can become theatre: invented questions nobody needs. Judge by the changes it produces.
 - It works only if the lead answers kindly. Otherwise it makes people less safe, not more.
-- Our team is remote and mixed. Decide where the questions go (channel or one to one) so they are seen but not punishing.
+- My team is remote and mixed. Decide where the questions go (channel or one to one) so they are seen but not punishing.
 
 ## Summary
 
@@ -66,12 +66,12 @@ Make confusion visible on purpose. Every dumb question is a signal to simplify t
 
 ## Open questions for discussion
 
-- Who is the "lead" who receives the questions on our team?
-- Do we want a daily rule, or a lighter version for our first weeks on a repo?
-- Where do we keep the log?
+- Who is the "lead" who receives the questions on my team?
+- Do I want a daily rule, or a lighter version for my first weeks on a repo?
+- Where do I keep the log?
 
 ## Sources
 
 - Lecture s01e03 transcript
 - Edmondson, A. (1999). Psychological Safety and Learning Behavior in Work Teams. *Administrative Science Quarterly* 44(2), 350 to 383. [MIT copy](https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Group_Performance/Edmondson%20Psychological%20safety.pdf)
-- Section 5 (the log) and the cautions are our own reasoning
+- Section 5 (the log) and the cautions are my own reasoning

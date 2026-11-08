@@ -8,19 +8,19 @@ Source: lecture text "Beyond Markdown" and two lecture images. Key claims checke
 
 ## 1. The problem
 
-Markdown is easy to read and easy for agents to write, but it is flat. For a complex idea we want a broad view first, with detail on demand, without a wall of text. Can we get that and still keep simple files?
+Markdown is easy to read and easy for agents to write, but it is flat. For a complex idea I want a broad view first, with detail on demand, without a wall of text. Can I get that and still keep simple files?
 
 ## 2. Words refinement
 
 | Term | Meaning here |
 |---|---|
-| **Markdown (md)** | Plain text with light formatting. The core of our notes |
+| **Markdown (md)** | Plain text with light formatting. The core of my notes |
 | **HTML** | Markup a browser renders. Can hold anything, but is harder to read raw |
 | **MDX** | Markdown plus JSX components, compiled to JavaScript. [mdxjs.com](https://mdxjs.com/docs/what-is-mdx/) |
 | **svx / mdsvex** | The same idea for Svelte, "MDX for Svelte". Files end in `.svx`. [mdsvex docs](https://mdsvex.pngwn.io/docs) |
 | **Component** | A reusable piece of interface, such as a checklist, placed in a file with one tag |
 | **State** | What a component remembers, such as which boxes are ticked |
-| **Artifact** | A rendered page we generate from source. Not the source itself |
+| **Artifact** | A rendered page I generate from source. Not the source itself |
 
 ## 3. The pictures
 
@@ -47,12 +47,12 @@ Markdown is easy to read and easy for agents to write, but it is flat. For a com
 **Important:**
 - It reads in **three levels**: the journey, then a table, then a field. Each click answers the question the level above raises.
 - Open decisions are **marked**, and each comes with its trade-off.
-- `updated_by` is the same idea as our rule in [note 5](05_Knowledge_As_Files_For_Agents.md): keep who wrote what visible.
+- `updated_by` is the same idea as my rule in [note 5](05_Knowledge_As_Files_For_Agents.md): keep who wrote what visible.
 
 **Not important:**
 - Field names, uuids and URLs. The lecture says they are illustrative.
 
-**Where the picture comes from.** The lecture calls it an interactive schema explainer and points to a skill in a repository for examples. We did **not** find `decide` tags or an `updated_by` example in the explainer skill we copied. So we do not know what tool made this picture. See [note 7](07_Explainer_Skill.md).
+**Where the picture comes from.** The lecture calls it an interactive schema explainer and points to a skill in a repository for examples. I did **not** find `decide` tags or an `updated_by` example in the explainer skill I copied. So I do not know what tool made this picture. See [note 7](07_Explainer_Skill.md).
 
 ## 4. The formats side by side
 
@@ -64,11 +64,11 @@ Markdown is easy to read and easy for agents to write, but it is flat. For a com
 | Agent writes it easily | Yes | Yes | Yes | Yes |
 | Where state lives | n/a | In the page | In the component | In the component |
 
-The first rows and the build cost are our own reading of how these formats work. Treat them as our reasoning, not as verified facts.
+The first rows and the build cost are my own reading of how these formats work. Treat them as my reasoning, not as verified facts.
 
-## 5. Our rule: components only where interaction pays (proposed wording)
+## 5. My rule: components only where interaction pays (proposed wording)
 
-This is our own reasoning, not from the lecture. Please edit it.
+This is my own reasoning, not from the lecture. Please edit it.
 
 Use a component only if **all** of these hold:
 
@@ -80,9 +80,9 @@ Use a component only if **all** of these hold:
 
 If any answer is no, stay with plain Markdown.
 
-## 6. Fit with our rules
+## 6. Fit with my rules
 
-- **Diagrams in notes stay Mermaid.** mdx, svx and explainer pages are separate, generated artifacts. No conflict with our diagram rule.
+- **Diagrams in notes stay Mermaid.** mdx, svx and explainer pages are separate, generated artifacts. No conflict with my diagram rule.
 - **Types and review** ([note 1](01_Simplify_First_Knowledge_Guardrails.md#4-knowledge-guardrails-and-principles-by-type-and-reviewability)): a component is **code**. It is reviewed like code, and state is not reviewable at all.
 - **Source versus artifact** ([note 5](05_Knowledge_As_Files_For_Agents.md)): the source stays Markdown. The rich page is a one-way bridge for readers.
 
@@ -90,21 +90,21 @@ If any answer is no, stay with plain Markdown.
 
 Checked on **2026-11-07**. Verdicts: **agrees** / **differs** / **lecture-specific** (opinion) / **unverified**.
 
-| # | Claim | Verdict | What we found |
+| # | Claim | Verdict | What I found |
 |---|---|---|---|
-| 1 | mdx lets us use components within Markdown | **Agrees** | MDX is JSX in Markdown, compiled to JavaScript, for any framework that supports JSX. [What is MDX?](https://mdxjs.com/docs/what-is-mdx/) |
+| 1 | mdx lets me use components within Markdown | **Agrees** | MDX is JSX in Markdown, compiled to JavaScript, for any framework that supports JSX. [What is MDX?](https://mdxjs.com/docs/what-is-mdx/) |
 | 2 | svx does the same for Svelte | **Agrees** | mdsvex is a preprocessor that lets Svelte components and Markdown work together, often described as MDX for Svelte. Docs list `.svx` as the extension. Older docs mention `.svexy`, so check your version. [mdsvex](https://mdsvex.pngwn.io/docs), [Svelte CLI docs](https://svelte.dev/docs/cli/mdsvex) |
-| 3 | Components can be reused across many files | **Agrees** | Both tools work by importing components. Not tested by us |
+| 3 | Components can be reused across many files | **Agrees** | Both tools work by importing components. Not tested by me |
 | 4 | "Even state" | **Partly, and unclear where state lives** | A component can hold state. The lecture does not say whether the tick is saved, where, or for whom. **Unverified** |
 | 5 | The source stays simple | **Plausible, unverified** | True for the one-line example. Real components in real notes may need imports and code blocks |
-| 6 | Useful for complex ideas, broad view first, detail on demand | **Lecture-specific, plausible** | Matches progressive disclosure, which we already use ([7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)). No study found |
+| 6 | Useful for complex ideas, broad view first, detail on demand | **Lecture-specific, plausible** | Matches progressive disclosure, which I already use ([7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)). No study found |
 | 7 | Security of mdx | **Unverified here** | MDX compiles to JavaScript, so untrusted content is a risk. Check the security section of the MDX docs before relying on this |
 
 ## Cautions
 
 - **Code, not text.** An mdx or svx file can run code. Do not put untrusted text into it. Agents read raw sources that may contain injections ([9 Prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md)).
 - **State outside the file.** A tick in a rendered page is not versioned or reviewed.
-- **Tool lock-in.** mdx suits React-style stacks, svx suits Svelte. Pick one only if we have that stack.
+- **Tool lock-in.** mdx suits React-style stacks, svx suits Svelte. Pick one only if I have that stack.
 - **Raw view.** In a plain Markdown viewer, the tags may show as text.
 - **Restricted Data.** Same rule as before: no Aras business secrets, customer data or PII in any file or rendered page.
 
@@ -114,13 +114,13 @@ Keep plain Markdown as the source. Add a component only where interaction pays f
 
 ## Open questions for discussion
 
-- Is our wording of the rule right, and which test would you drop or add?
-- Where do we have a note that is really hard to read flat (a candidate for a first component)?
-- Do we have a Svelte or React stack that makes mdx or svx a natural fit?
+- Is my wording of the rule right, and which test would you drop or add?
+- Where do I have a note that is really hard to read flat (a candidate for a first component)?
+- Do I have a Svelte or React stack that makes mdx or svx a natural fit?
 
 ## Sources
 
 - Lecture text "Beyond Markdown" and the two lecture images (copied to `img/`)
 - [What is MDX?](https://mdxjs.com/docs/what-is-mdx/)
 - [mdsvex docs](https://mdsvex.pngwn.io/docs) and [Svelte CLI: mdsvex](https://svelte.dev/docs/cli/mdsvex) (seen as search summaries)
-- Sections 4 (rows and build cost), 5 (our rule) and 6 are our own reasoning
+- Sections 4 (rows and build cost), 5 (my rule) and 6 are my own reasoning

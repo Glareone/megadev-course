@@ -2,9 +2,9 @@
 
 > A knowledge base stays healthy only if something keeps updating it. Two kinds of trigger can do this without a person: **schedules** (cleanup routines) and **events** (merged PRs, new repositories, tickets, labeled mail). The design question is not "can we automate it" but "how do we stop it from damaging or losing information".
 
-Related: [11 Known techniques](11_Knowledge_Base_Problems_And_Known_Techniques.md) · [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [Lecture 1: 17 Ambient and durable agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
+Related: [11 Known techniques](11_Knowledge_Base_Problems_And_Known_Techniques.md) · [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [14 Task board](14_Broader_Context_Task_Board.md) · [Lecture 1: 17 Ambient and durable agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
 
-Source: lecture text on schedules and events. Course examples (READMEs read, not run): [cleanup-routine-drift](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/cleanup-routine-drift) and [knowledge-health-check](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/knowledge-health-check). The `knowledge` skill we copied ([`.claude/knowledge/`](../.claude/knowledge/SKILL.md)). Claude Code and GitHub documentation, seen as search summaries. Checked on 2026-11-08, see [Fact-check](#fact-check). **This is design thinking only. We do not set anything up.**
+Source: lecture text on schedules and events. Course examples (READMEs read, not run): [cleanup-routine-drift](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/cleanup-routine-drift) and [knowledge-health-check](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/knowledge-health-check). The `knowledge` skill I copied ([`.claude/knowledge/`](../.claude/knowledge/SKILL.md)). Claude Code and GitHub documentation, seen as search summaries. Checked on 2026-11-08, see [Fact-check](#fact-check). **This is design thinking only. I do not set anything up.**
 
 ## 1. The problem
 
@@ -17,7 +17,7 @@ A knowledge base rots: duplicates appear, structure drifts, notes go stale, new 
 | **Trigger** | What starts an agent: a schedule, an event or a signal ([note 17](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md)) |
 | **Schedule** | A clock: daily or weekly. Good for cleanup and synchronization |
 | **Event** | Something happened in a system: a PR merged, a repository created, a ticket opened |
-| **Webhook** | A service calls a URL of ours when an event happens |
+| **Webhook** | A service calls a URL of mine when an event happens |
 | **Background agent / routine** | An agent that runs without a person watching |
 | **Durable agent** | A background agent that survives crashes and waits (see note 17) |
 | **Guard** | Code that checks each change before it is saved |
@@ -25,7 +25,7 @@ A knowledge base rots: duplicates appear, structure drifts, notes go stale, new 
 
 ## 3. The picture (from the lecture text)
 
-The lecture describes a flow diagram. We redrew it:
+The lecture describes a flow diagram. I redrew it:
 
 ```mermaid
 flowchart LR
@@ -74,16 +74,16 @@ A script finds the **mechanical** problems, a model finds the problems of **mean
 
 - **Script:** found the 4 mechanical problems (broken link, missing owner, orphan, past review date) in every run, in milliseconds, for $0.
 - **Model:** at effort `none`, found 28 of 36 problems of meaning in 9 runs, with 5 false alarms. At effort `low`, 27 of 28 in 7 runs with 1 false alarm.
-- **Guard:** rejected 4 of 36 fixes at `none` and 1 of 28 at `low`. Every rejected fix we can read was a merge that deleted a note another note still linked to.
+- **Guard:** rejected 4 of 36 fixes at `none` and 1 of 28 at `low`. Every rejected fix I can read was a merge that deleted a note another note still linked to.
 - **The guard checks mechanics only.** It cannot tell whether the freeze really starts on Thursday or Friday. That stays a judgment.
 
 ### What both say
 
 **Split the work: scripts for mechanics, the model for meaning, a guard on every change.** This is the same rule the knowledge skill gives: "Scripts for mechanics, agents for meaning" and run routine bulk changes "under a rule the owner agreed to", with each note keeping its **source and batch** "so a bad batch can be reverted".
 
-## 5. Our design rules for a cleanup routine
+## 5. My design rules for a cleanup routine
 
-This is our own reasoning, built on the two examples and the knowledge skill.
+This is my own reasoning, built on the two examples and the knowledge skill.
 
 1. **Small edits, not rewrites.** Let the model return a list of edits, not whole notes.
 2. **Never delete. Archive or leave a stub.** The skill says "Archive instead of deleting". Content that must be gone (personal data, a secret) is the exception.
@@ -99,18 +99,18 @@ This is our own reasoning, built on the two examples and the knowledge skill.
 
 ![Six event sources feed one agent, which decides what to keep and updates the knowledge base](img/knowledge-events-to-agent.png)
 
-**The story.** A frame called **Events** holds six sources, each with a short label of what is taken: **PRs** (merged change), **Repositories** (new repository), **Support Tickets** (product state), **Issues** (distilled), **Labeled e-mails** (and messages), **Read Later** (new highlights). All six lines reach one **Agent** that "decides what to keep". A red arrow "updates" goes to the **Knowledge base**, "constantly enriched", in a red frame. The caption: events from services and devices reach an agent, and the agent decides what to keep, so the knowledge base stays up to date without us.
+**The story.** A frame called **Events** holds six sources, each with a short label of what is taken: **PRs** (merged change), **Repositories** (new repository), **Support Tickets** (product state), **Issues** (distilled), **Labeled e-mails** (and messages), **Read Later** (new highlights). All six lines reach one **Agent** that "decides what to keep". A red arrow "updates" goes to the **Knowledge base**, "constantly enriched", in a red frame. The caption: events from services and devices reach an agent, and the agent decides what to keep, so the knowledge base stays up to date without me.
 
 **Important:**
 - **The agent is the filter.** It does not mirror the sources. The small labels say what is taken: a merged change, a new repository, the product state, a distilled issue, only labeled mail, new highlights.
-- **Six sources, one agent, one write path.** Everything goes through the same place, so one guard and one log can cover all of it ([section 5](#5-our-design-rules-for-a-cleanup-routine)).
-- **The red box is the knowledge base.** "Constantly enriched" says only that things are added. Our rules from sections 4 and 5 add what the picture leaves out: checks, no deletion, and a way to undo.
-- **"Without us" is the risk.** The picture shows no human. We keep a gate for meaning changes, and under the Aras policy this needs approval first (see cautions).
+- **Six sources, one agent, one write path.** Everything goes through the same place, so one guard and one log can cover all of it ([section 5](#5-my-design-rules-for-a-cleanup-routine)).
+- **The red box is the knowledge base.** "Constantly enriched" says only that things are added. My rules from sections 4 and 5 add what the picture leaves out: checks, no deletion, and a way to undo.
+- **"Without us" is the risk.** The picture shows no human. I keep a gate for meaning changes, and under the Aras policy this needs approval first (see cautions).
 
 **Not important:**
 - The routing of the lines and the order of the boxes.
 
-The lecture lists six sources. We add what to keep, what **not** to copy, and the data class.
+The lecture lists six sources. I add what to keep, what **not** to copy, and the data class.
 
 | Event source | What to keep | Do not copy | Data class |
 |---|---|---|---|
@@ -126,9 +126,9 @@ The pattern in the lecture: **distill, don't mirror.** The knowledge base holds 
 ### How an agent can listen (checked, partly)
 
 - **GitHub merged PR.** The documented pattern is the `pull_request` event with the `closed` activity, then checking that the `merged` flag is true. In GitHub Actions the check is `github.event.pull_request.merged == true`. (Search summary of GitHub Docs.)
-- **New repository.** An **organization-level** webhook can see events across all repositories in an organization and org-level events. A repository-level webhook cannot. We could **not** confirm the exact `repository` event action for "created" from the docs we saw. **Verify** on the GitHub webhook events page, and test in a sandbox organization.
-- **Claude Code scheduled tasks** (formerly called routines): run in Anthropic's cloud and start on a **schedule**, an **API call** or a **GitHub event**. Minimum interval one hour. GitHub triggers need the Claude GitHub App on the repository, and each event starts a new session. Described as a **research preview** with per-task and per-account caps. The pages we saw were cached four to six months ago, so **confirm current limits** at code.claude.com.
-- **Local daemons and devices.** The lecture mentions them. We found no source and have not checked.
+- **New repository.** An **organization-level** webhook can see events across all repositories in an organization and org-level events. A repository-level webhook cannot. I could **not** confirm the exact `repository` event action for "created" from the docs I saw. **Verify** on the GitHub webhook events page, and test in a sandbox organization.
+- **Claude Code scheduled tasks** (formerly called routines): run in Anthropic's cloud and start on a **schedule**, an **API call** or a **GitHub event**. Minimum interval one hour. GitHub triggers need the Claude GitHub App on the repository, and each event starts a new session. Described as a **research preview** with per-task and per-account caps. The pages I saw were cached four to six months ago, so **confirm current limits** at code.claude.com.
+- **Local daemons and devices.** The lecture mentions them. I found no source and have not checked.
 
 ## 7. With or without durable agents
 
@@ -143,17 +143,17 @@ The knowledge skill gives the minimum version: run the full check "where nobody 
 
 **Webhooks deliver more than once.** The skill's term is **idempotent intake**: the same item always lands on the same note. Note 17's `resumable-run` example makes the same point: a saved intent with an idempotency key stopped an action from running twice after a crash.
 
-## 8. Our repo
+## 8. My repo
 
-Our repo is a small, human-read knowledge base. The smallest useful step is **no durable agent at all**:
+My repo is a small, human-read knowledge base. The smallest useful step is **no durable agent at all**:
 - A script, run before each commit, that checks relative links, `Related:` lines and note numbers, and that no Restricted Data slipped in (idea from [note 10](10_Demos_Reaching_The_Right_Files.md)).
 - A weekly manual run of an agent that **proposes** fixes for a person to review, in line with the "Archive, don't delete" and "show a plan and get a yes" rules.
 
 ## Fact-check
 
-Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **outdated** / **lecture-specific** (opinion) / **unverified**. The example numbers are from the course README and were not re-run by us.
+Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **outdated** / **lecture-specific** (opinion) / **unverified**. The example numbers are from the course README and were not re-run by me.
 
-| # | Claim | Verdict | What we found |
+| # | Claim | Verdict | What I found |
 |---|---|---|---|
 | 1 | Scheduled cleanup can improve a base's health | **Agrees, with a big caveat** | A rewrite routine lost facts in 4 of 6 runs. Checked edits lost none but cleaned less |
 | 2 | The challenge is routines that are autonomous but safe | **Agrees** | Both examples and the knowledge skill treat guards, provenance and reversibility as the core |
@@ -164,14 +164,14 @@ Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **outdated** / *
 | 7 | A new repository can trigger an update | **Unverified** | Org-level webhooks exist. The exact "created" action was not confirmed |
 | 8 | Claude Code can run tasks on a schedule or a GitHub event | **Agrees, with caveats** | Scheduled tasks (formerly routines): schedule, API or GitHub event. Research preview, caps, cached docs. Verify |
 | 9 | Local daemons can observe devices | **Unverified** | No source found |
-| 10 | Tickets, issues and mail belong in a knowledge base | **Lecture-specific** | The lecture says distill, don't copy. We add that tickets and mail may hold customer data |
+| 10 | Tickets, issues and mail belong in a knowledge base | **Lecture-specific** | The lecture says distill, don't copy. I add that tickets and mail may hold customer data |
 | 11 | Daily and weekly cadence | **Lecture-specific, examples only** | The lecture calls them examples |
-| 12 | Events are better than clocks | **Agrees, our own note 17** | A clock brief used yesterday's facts in 13 of 20 runs. An event-triggered one used today's in 20 of 20 |
+| 12 | Events are better than clocks | **Agrees, my own note 17** | A clock brief used yesterday's facts in 13 of 20 runs. An event-triggered one used today's in 20 of 20 |
 
 ## Cautions
 
-- **Aras policy: high-risk use.** Connecting an agent to Aras systems (repositories, tickets, mail) is an agentic action in company systems. Under the Aras AI policy this is a **High-Risk Use that needs AI Governance Committee approval first**. This note is design thinking. We set nothing up.
-- **Restricted Data.** Support tickets, issues and e-mails may contain customer data or PII. They must not flow into a knowledge base that is not approved for them. Check the [AI Solutions Catalog](http://aitools.aras.com/). Our own notes hold how we think, not business data.
+- **Aras policy: high-risk use.** Connecting an agent to Aras systems (repositories, tickets, mail) is an agentic action in company systems. Under the Aras AI policy this is a **High-Risk Use that needs AI Governance Committee approval first**. This note is design thinking. I set nothing up.
+- **Restricted Data.** Support tickets, issues and e-mails may contain customer data or PII. They must not flow into a knowledge base that is not approved for them. Check the [AI Solutions Catalog](http://aitools.aras.com/). My own notes hold how I think, not business data.
 - **Webhook content is untrusted.** A ticket, issue or e-mail can contain prompt injection ([Lecture 2: 9](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md)).
 - **Autonomous reshaping is gated.** The knowledge skill asks for a plan and a yes before restructuring an existing base.
 - **"Enrich" adds facts,** and can add wrong ones. Require a source on every added claim.
@@ -184,10 +184,10 @@ Updates can run on a schedule or on an event. The lesson from the course example
 
 ## Open questions for discussion
 
-- Which of the six event sources would be useful for us, and which hold data we must not touch?
-- Do we start with a pre-commit check on this repo and a weekly agent proposal?
+- Which of the six event sources would be useful for me, and which hold data I must not touch?
+- Do I start with a pre-commit check on this repo and a weekly agent proposal?
 - Who approves and reviews an autonomous routine under the Aras policy?
-- What is our "answer key" of tracked values for a real wiki?
+- What is my "answer key" of tracked values for a real wiki?
 
 ## Sources
 
@@ -197,4 +197,4 @@ Updates can run on a schedule or on an event. The lesson from the course example
 - The `knowledge` skill: [`.claude/knowledge/`](../.claude/knowledge/SKILL.md) (`SKILL.md`, `references/upkeep.md`, `references/scale.md`)
 - [GitHub webhook events and payloads](https://docs.github.com/en/webhooks/webhook-events-and-payloads) and [events that trigger workflows](https://docs.github.com/actions/learn-github-actions/events-that-trigger-workflows) (search summaries)
 - [Claude Code scheduled tasks](https://code.claude.com/docs/en/routines) (search summary, cached pages)
-- Sections 5 (design rules), 6 (the table of what to keep) and 8 (our repo) are our own reasoning
+- Sections 5 (design rules), 6 (the table of what to keep) and 8 (my repo) are my own reasoning

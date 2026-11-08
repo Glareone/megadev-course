@@ -20,6 +20,7 @@ Not a codebase. Output is Markdown (+ diagrams) that I re-read and present.
 - Take the lecture's recommendation → **refine** it → **check how it maps to industry standards** (vendor docs, papers, common practice). Say where it agrees, differs, or is lecture-specific.
 - Mark anything not verified from a primary source: "verify before presenting" + link the source.
 - Keep it simple: plain words, short sentences, tables/mermaid when they beat prose.
+- **Voice: first person singular.** Write as me: "I", "my", "me". Never "we", "our" or "us" in the notes. Keep "we" only inside quotes from the lecture or a source. After renaming a heading, fix the anchors that link to it.
 
 ## Fact-check the lecturer (mandatory)
 The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a note unchecked.

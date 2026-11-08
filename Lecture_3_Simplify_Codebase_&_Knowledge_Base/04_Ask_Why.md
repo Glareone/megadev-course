@@ -8,13 +8,13 @@ Source: lecture s01e03 transcript. Checked on the web on 2026-11-07, see [Fact-c
 
 ## 1. The problem
 
-The agent did something wrong or odd: wrong tool, wrong file, huge PR, ugly output. How do we find the cause fast?
+The agent did something wrong or odd: wrong tool, wrong file, huge PR, ugly output. How do I find the cause fast?
 
 ## 2. Words refinement
 
 | Term | Meaning |
 |---|---|
-| **Ask why** | We ask the agent to explain a past mistake and suggest a fix |
+| **Ask why** | I ask the agent to explain a past mistake and suggest a fix |
 | **Explore vs change** | To *explore* ("why did this happen?") ask a question. To *change* something, give an instruction |
 | **Customer rule** | The lecturer: trust customers with their **problems**, not their **solutions**. Here the agent is the customer |
 | **Faithful explanation** | An explanation that matches what really drove the behavior. Agents' explanations are not always faithful (see fact-check) |
@@ -27,7 +27,7 @@ The agent did something wrong or odd: wrong tool, wrong file, huge PR, ugly outp
 4. **Verify** the diagnosis (see section 5).
 5. **Fix properly yourself** at the lowest layer that works (see [fix order](01_Simplify_First_Knowledge_Guardrails.md#3-fix-order)).
 
-The agent can look through **other threads' history**, so we can describe what happened in another thread instead of pasting it.
+The agent can look through **other threads' history**, so I can describe what happened in another thread instead of pasting it.
 
 ## 4. The lecture's examples
 
@@ -63,7 +63,7 @@ This is the same idea as the with and without comparison in [7 Skill shaper](../
 
 Checked on **2026-11-07**.
 
-| Claim | Verdict | What we found |
+| Claim | Verdict | What I found |
 |---|---|---|
 | Agents can tell you why they did something | **Partly, risky** | Research shows model explanations can be plausible but unfaithful. Turpin et al. (NeurIPS 2023): biasing features strongly changed answers, but models rarely mentioned them in their explanations, with accuracy dropping up to 36% on some tasks (GPT-3.5, Claude 1.0). Anthropic (2025): Claude 3.7 Sonnet and DeepSeek R1 mentioned planted hints only about 25 to 39% of the time when they used them. Both are about **reasoning text** on **older models**, not exactly "why did you do that" after an agent run, so this is **not a direct test**. Still, verify. [Turpin et al.](https://arxiv.org/abs/2305.04388), [Anthropic](https://www.anthropic.com/research/reasoning-models-dont-say-think) |
 | The agent's diagnosis is good but its fix is poor | **Lecture-specific** | One author's observation at filming time. No study found. Models change fast, so re-test |
@@ -84,8 +84,8 @@ Ask why, treat the answer as a hypothesis, verify it, then fix the cause in the 
 
 ## Open questions for discussion
 
-- Which repeated mistake do we start with?
-- Do we keep a record of "why" answers and what we verified?
+- Which repeated mistake do I start with?
+- Do I keep a record of "why" answers and what I verified?
 - Who decides the layer for a fix: the author of the prompt, or a reviewer?
 
 ## Sources
@@ -93,4 +93,4 @@ Ask why, treat the answer as a hypothesis, verify it, then fix the cause in the 
 - Lecture s01e03 transcript
 - [Turpin et al., Language Models Don't Always Say What They Think (arXiv 2305.04388)](https://arxiv.org/abs/2305.04388)
 - [Anthropic, Reasoning models don't always say what they think](https://www.anthropic.com/research/reasoning-models-dont-say-think)
-- Section 5 (how to verify) is our own reasoning, not from the lecture
+- Section 5 (how to verify) is my own reasoning, not from the lecture

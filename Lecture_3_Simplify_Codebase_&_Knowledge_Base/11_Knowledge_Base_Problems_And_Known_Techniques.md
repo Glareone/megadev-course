@@ -1,14 +1,14 @@
 # 11. Knowledge base problems and known techniques
 
-> Models already know many named techniques for building a knowledge base. We don't invent rules. We **name the technique for each problem**, pick one per problem, and check the result with tests. About a third of the well-known list matters for agents today.
+> Models already know many named techniques for building a knowledge base. I don't invent rules. I **name the technique for each problem**, pick one per problem, and check the result with tests. About a third of the well-known list matters for agents today.
 
-Related: [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [7 The explainer skill](07_Explainer_Skill.md) · [12 Update triggers](12_Knowledge_Base_Update_Triggers.md) · [13 How a skill is built](13_How_A_Skill_Is_Built_Why_References.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
+Related: [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [7 The explainer skill](07_Explainer_Skill.md) · [12 Update triggers](12_Knowledge_Event_&_Triggers.md) · [13 Knowledge skill anatomy](13_Knowledge_Skill_Anatomy.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
 
-Source: lecture picture of 36 techniques, the lecture text and diagram on the `knowledge` skill, and the skill itself, copied to [`.claude/knowledge/`](../.claude/knowledge/SKILL.md) (see [`SOURCE.md`](../.claude/knowledge/SOURCE.md)). We read `SKILL.md` and five reference files, and ran a small recall test. We did **not** run the skill. Checked on 2026-11-08, see [Fact-check](#fact-check).
+Source: lecture picture of 36 techniques, the lecture text and diagram on the `knowledge` skill, and the skill itself, copied to [`.claude/knowledge/`](../.claude/knowledge/SKILL.md) (see [`SOURCE.md`](../.claude/knowledge/SOURCE.md)). I read `SKILL.md` and five reference files, and ran a small recall test. I did **not** run the skill. Checked on 2026-11-08, see [Fact-check](#fact-check).
 
 ## 1. The problem
 
-Building a knowledge base from nothing invites invented rules. Many problems already have a named technique: how to organize, how to write a page, how to keep notes true. Which techniques help **agents** today, and how do we use them without mixing them into a mess?
+Building a knowledge base from nothing invites invented rules. Many problems already have a named technique: how to organize, how to write a page, how to keep notes true. Which techniques help **agents** today, and how do I use them without mixing them into a mess?
 
 ## 2. Words refinement
 
@@ -26,10 +26,10 @@ Building a knowledge base from nothing invites invented rules. Many problems alr
 
 ![An AI answer listing 36 well-known knowledge base techniques](img/kb-techniques-ai-answer.png)
 
-**The story.** The user asks "What are the well-known, opinionated techniques for building and maintaining a knowledge base?" The AI returns **36** names in three columns of 12 (we counted). Models already know many approaches.
+**The story.** The user asks "What are the well-known, opinionated techniques for building and maintaining a knowledge base?" The AI returns **36** names in three columns of 12 (I counted). Models already know many approaches.
 
 **Important:**
-- We don't need to explain a technique in our instructions. We can name it.
+- I don't need to explain a technique in my instructions. I can name it.
 - The list is **the model's answer**, not an authority. It mixes personal note-taking with team documentation.
 
 **Not important:**
@@ -49,11 +49,11 @@ Building a knowledge base from nothing invites invented rules. Many problems alr
 **Not important:**
 - The exact box wording.
 
-## 4. The 36 techniques, by problem, and our filter for agents
+## 4. The 36 techniques, by problem, and my filter for agents
 
-The grouping and the verdicts are our own judgment. The skill's own list in `references/methods.md` groups names by problem in a similar way, without filtering them.
+The grouping and the verdicts are my own judgment. The skill's own list in `references/methods.md` groups names by problem in a similar way, without filtering them.
 
-**Our test for "relevant for agents":** the technique (a) shortens the path from a question to its answer, (b) keeps content true, (c) keeps reads bounded, or (d) can be checked by code or by a fresh agent.
+**My test for "relevant for agents":** the technique (a) shortens the path from a question to its answer, (b) keeps content true, (c) keeps reads bounded, or (d) can be checked by code or by a fresh agent.
 
 ### Keep (16 techniques, 12 groups)
 
@@ -70,7 +70,7 @@ The grouping and the verdicts are our own judgment. The skill's own list in `ref
 | Keeping it true | **Page owners with review dates** and **automated link and staleness checks** | Executable guardrails ([note 1](01_Simplify_First_Knowledge_Guardrails.md)) |
 | Keeping it true | **ROT audits** (redundant, outdated, trivial) and **archive, don't delete** | Stale pages pollute retrieval and give wrong answers. Archiving keeps old links working |
 | Team process | **Docs-as-code** and **ADRs** | Markdown in git, reviewed like code. Decisions get a record |
-| Compression | **Progressive summarization** | Layered compression. It matches our "verbose, then compress" rounds |
+| Compression | **Progressive summarization** | Layered compression. It matches my "verbose, then compress" rounds |
 
 ### Maybe (5)
 
@@ -78,7 +78,7 @@ Search analytics (log what agents search for and miss), inbox processing (an int
 
 ### Skip for agents (15)
 
-| Technique | Why we skip it |
+| Technique | Why I skip it |
 |---|---|
 | Zettelkasten, Folgezettel, Digital garden | Human thinking and publishing habits. Agents navigate by links and search, and the skill says identity should be stable, not encode position |
 | PARA, CODE | Human folder and attention schemes (by actionability). The agent has no "projects due this week" |
@@ -90,7 +90,7 @@ Search analytics (log what agents search for and miss), inbox processing (an int
 
 ## 5. How to use them: pick one per problem
 
-The knowledge skill states the rules, and we adopt them:
+The knowledge skill states the rules, and I adopt them:
 - **Don't let two methods decide the same thing.** "PARA and Johnny.Decimal both want the folders." Methods that decide different things combine freely.
 - **Tie each choice to a question** the base must answer, and drop any method that answers none.
 - **Name every change** to a method, with the reason: "PARA areas, but no Resources folder: sources are linked from the notes that use them."
@@ -119,9 +119,9 @@ flowchart TD
 - **How it asks and acts:** read the sources first, ask **at most three questions** in one message, each with a guess and a default. In a new base, create freely. **In an existing one, show a plan and get a yes before moving, renaming, merging or rewriting anything**, then work in small batches. Archive instead of deleting, except for content that must be gone.
 - **Not for:** a codebase's `AGENTS.md` or skills, retrieval or vector-search pipelines, writing a single note, or answering questions from an existing base.
 
-## 7. Our own practice: rounds of compression
+## 7. My own practice: rounds of compression
 
-You do not use the named techniques. You work in rounds: **verbose, then compression, then point to the implementation, then find the gap, then understand how to improve.** This is our reading of how it maps. It is your practice, not an established method:
+You do not use the named techniques. You work in rounds: **verbose, then compression, then point to the implementation, then find the gap, then understand how to improve.** This is my reading of how it maps. It is your practice, not an established method:
 
 | Your round | Closest known idea |
 |---|---|
@@ -133,13 +133,13 @@ You do not use the named techniques. You work in rounds: **verbose, then compres
 
 So you already run a version of the skill's loop, without the names. The value of the names is that an agent can follow the same loop without being taught each step.
 
-**An experiment for later.** Our repo is a knowledge base. We could run the skill's **finding test** on it: ask a fresh agent five questions ("What is our diagram rule?", "What did we conclude about jevgrep's cost?") and count the files it reads. Too many files means the structure needs work.
+**An experiment for later.** My repo is a knowledge base. I could run the skill's **finding test** on it: ask a fresh agent five questions ("What is our diagram rule?", "What did we conclude about jevgrep's cost?") and count the files it reads. Too many files means the structure needs work.
 
 ## 8. Recall test: do models know these techniques?
 
-We asked a fresh subagent, with no tools, to explain seven techniques from memory (one run, our grading against sources found by search).
+I asked a fresh subagent, with no tools, to explain seven techniques from memory (one run, my grading against sources found by search).
 
-| Technique | Core idea | Originator or date | Our grade |
+| Technique | Core idea | Originator or date | My grade |
 |---|---|---|---|
 | Folgezettel | Branching IDs such as 1, 1a, 1a1 that show lineage | Luhmann (date from memory, unverified) | **Correct core.** Sources disagree on branching limits, and the model claimed none |
 | Diátaxis | Four types by need | Procida, "Divio" origin from memory | **Correct.** Matches the official site |
@@ -149,7 +149,7 @@ We asked a fresh subagent, with no tools, to explain seven techniques from memor
 | Evergreen notes | Atomic, concept-oriented, densely linked | Matuschak, 2019 to 2020 (unverified) | **Correct core** |
 | llms.txt | A Markdown file with links for LLMs | Howard, September 2024 | **Correct, and flagged as a proposal, not a standard** |
 
-**Result:** the core ideas were right for all seven, and the model was honest about its doubt (low confidence on ROT, "verify adoption" on llms.txt). Originators and dates came from memory and were **not checked** by us. One name looks outdated.
+**Result:** the core ideas were right for all seven, and the model was honest about its doubt (low confidence on ROT, "verify adoption" on llms.txt). Originators and dates came from memory and were **not checked** by me. One name looks outdated.
 
 **Limits:** one run, one model family, seven **popular** techniques. It does not show the model knows obscure ones, or that it will **apply** them well. Test applying with the skill's cold-start test.
 
@@ -157,9 +157,9 @@ We asked a fresh subagent, with no tools, to explain seven techniques from memor
 
 Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **outdated** / **lecture-specific** (opinion) / **unverified**.
 
-| # | Claim | Verdict | What we found |
+| # | Claim | Verdict | What I found |
 |---|---|---|---|
-| 1 | Models already know many knowledge base techniques | **Agrees, narrowly** | Our recall test: core ideas correct for seven well-known techniques. One run, dates unchecked |
+| 1 | Models already know many knowledge base techniques | **Agrees, narrowly** | My recall test: core ideas correct for seven well-known techniques. One run, dates unchecked |
 | 2 | The list has 36 techniques | **Agrees** | Counted: 12 per column |
 | 3 | Diátaxis has four kinds of docs | **Agrees** | Official site: tutorials, how-to guides, reference, explanation. It says it is not four rigid buckets. [diataxis.fr](https://diataxis.fr/) |
 | 4 | Johnny.Decimal: at most 10 areas of 10 categories, IDs like 12.03 | **Agrees, secondary sources** | Blogs. Not the author's site. It suits stable reference, less so ideas in progress |
@@ -168,12 +168,12 @@ Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **outdated** / *
 | 7 | KCS has practices in two loops | **Agrees** | Consortium guide v6: eight practices, a Solve Loop and an Evolve Loop. The method is also called Knowledge-Centered **Success** now (search summary, verify). [Consortium](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) |
 | 8 | ROT means redundant, outdated, trivial | **Agrees** | Several content governance guides. Trivial is the most disputed. No single originator found |
 | 9 | llms.txt is an "AI readiness" technique | **Differs** | A proposal by Jeremy Howard (2024-09-03), not an IETF standard. Sources say major AI providers have not committed to reading it. Server-log claims are unverified secondary reporting |
-| 10 | Folgezettel branching limits | **Sources disagree** | Forum posts disagree on how many branches a note may have. We state none |
+| 10 | Folgezettel branching limits | **Sources disagree** | Forum posts disagree on how many branches a note may have. I state none |
 | 11 | The knowledge skill's six steps | **Agrees, simplified** | The real skill has nine reference nodes, ten rules and four tests. The diagram is a summary |
 | 12 | The process can run automatically as the base grows | **Differs, slightly** | The skill requires a plan and a yes before restructuring an **existing** base, and asks at most three questions. So the loop is gated by a human |
-| 13 | A base with thousands of notes is hard but AI can do more than we can alone | **Lecture-specific** | The skill gives scale thresholds (about 10,000, 100,000, 500,000) and a load test. The thresholds are the author's estimates, not measured by us |
-| 14 | Our rounds map to known ideas | **Our reading** | Your practice. No source names it |
-| 15 | The skill works | **Unverified** | We have not run it or its checker |
+| 13 | A base with thousands of notes is hard but AI can do more than I can alone | **Lecture-specific** | The skill gives scale thresholds (about 10,000, 100,000, 500,000) and a load test. The thresholds are the author's estimates, not measured by me |
+| 14 | My rounds map to known ideas | **My reading** | Your practice. No source names it |
+| 15 | The skill works | **Unverified** | I have not run it or its checker |
 
 ## Cautions
 
@@ -181,7 +181,7 @@ Checked on **2026-11-08**. Verdicts: **agrees** / **differs** / **outdated** / *
 - **Don't adopt whole systems.** Two techniques that decide the same thing will clash.
 - **The skill is one author's work** (v0.4.0), and its design changed between versions. Not enabled, not run, not code reviewed.
 - **Automatic reshaping needs a gate.** The skill asks for a plan and a yes on existing bases. Keep that.
-- **Data scope.** Our notes hold how we think, not Aras business data. Do not feed company knowledge into a base-building run without checking the [AI Solutions Catalog](http://aitools.aras.com/).
+- **Data scope.** My notes hold how I think, not Aras business data. Do not feed company knowledge into a base-building run without checking the [AI Solutions Catalog](http://aitools.aras.com/).
 - **Dates and names age.** KCS's name, llms.txt adoption and the skill itself may change.
 
 ## Summary
@@ -190,17 +190,17 @@ Name the technique, don't invent one, and choose one per problem. For agents, ab
 
 ## Open questions for discussion
 
-- Is our filter right? Which "skip" would you move to "keep", and which "keep" would you drop?
-- Do we run the skill's finding test on this repo as a first experiment?
-- Do we want a short knowledge skill of our own for these notes, modelled on this one?
-- Who reviews the map, the owners and the review dates in our notes?
+- Is my filter right? Which "skip" would you move to "keep", and which "keep" would you drop?
+- Do I run the skill's finding test on this repo as a first experiment?
+- Do I want a short knowledge skill of my own for these notes, modelled on this one?
+- Who reviews the map, the owners and the review dates in my notes?
 
 ## Sources
 
 - Lecture picture of 36 techniques, lecture text and diagram on the knowledge skill (copied to `img/`)
-- The skill: [overment/skills, knowledge](https://github.com/overment/skills/tree/main/skills/knowledge), copied at commit `ab5cc432e435ca51da4ec0b035a4de27ac15ac3d` (2026-10-02), MIT. Our copy: [`.claude/knowledge/SOURCE.md`](../.claude/knowledge/SOURCE.md)
+- The skill: [overment/skills, knowledge](https://github.com/overment/skills/tree/main/skills/knowledge), copied at commit `ab5cc432e435ca51da4ec0b035a4de27ac15ac3d` (2026-10-02), MIT. My copy: [`.claude/knowledge/SOURCE.md`](../.claude/knowledge/SOURCE.md)
 - [Diátaxis](https://diataxis.fr/), [Evergreen notes](https://notes.andymatuschak.org/z5E5QawiXCMbtNtupvxeoEX), [KCS v6 Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide), [ROT analysis guide](https://www.smashingmagazine.com/2015/06/dealing-with-redundant-out-of-date-trivial-rot-content/) (search summaries)
 - llms.txt: secondary sources only (for example [PPC Land](https://ppc.land/llms-txt-adoption-stalls-as-major-ai-platforms-ignore-proposed-standard/)); check the [llmstxt.org](https://llmstxt.org/) spec and provider documentation
 - Johnny.Decimal, PARA and Folgezettel: blogs and forum threads only, not the originators' own material
-- Our recall test (one subagent run, no tools)
-- Section 4 (grouping and the keep, maybe and skip filter), section 7 (our rounds) and the experiment idea are our own reasoning
+- My recall test (one subagent run, no tools)
+- Section 4 (grouping and the keep, maybe and skip filter), section 7 (my rounds) and the experiment idea are my own reasoning

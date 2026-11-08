@@ -149,6 +149,17 @@ The same pattern makes a **harness and ecosystem of our own**, not just a tuned 
 - **Suggestions are only as good as the history and the capability map.** Verify claims such as "you always do X" against the actual transcripts.
 - **Token and cost.** Scanning long history is expensive. Summarize per session first, then scan the summaries.
 
+## Hooks across several agents: a worked example
+
+Hooks are not only for one agent. The lecture's limen setup runs a coordinator, several workers and a supervisor, and what makes it work is a handful of hooks:
+
+- the global rules (`vision.md`, `styleguide.md`, the board) added to every prompt
+- the coordinator's corrections delivered to a worker between tool calls
+- a final report at the end of a worker's job (the lecture says a tool; in the limen code I read, the worker's last message is saved into the job record)
+- a notification to the coordinator when a job ends
+
+The supervisor that records how a worker ended is **not** a hook. A hook only fires while the agent loop is alive, so it cannot record a crash. The swimlane picture, the job lifecycle as a state machine, and the mapping to Claude Code events are in [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md#where-the-lifecycle-hooks-attach). The mechanism underneath (Pi's events, files, file watchers, Herdr and the supervisor) is in [Lecture 4: 15 Pi and limen behind the scenes](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md).
+
 ## When a hook is the wrong tool
 
 Start with the default setup. Escalate only when needed:

@@ -2,7 +2,7 @@
 
 > Agents don't talk to each other directly. Everything goes through **files** (everyone reads), and a **supervisor** watches each worker. The coordinator gets notified when jobs end. No database, no message queue — just text, git, and a small CLI tool.
 
-Related: [06 Self-management](06_Self_Management_Pi_Herdr.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [04 COMPUTERS.md](04_Computers_md_Fleet_Infrastructure.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 3: 14 Task board](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/14_Broader_Context_Task_Board.md)
+Related: [14 What an agent fleet needs beyond spawning workers](14_What_Agent_Fleets_Need_Beyond_Spawning.md) · [06 Self-management](06_Self_Management_Pi_Herdr.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [04 COMPUTERS.md](04_Computers_md_Fleet_Infrastructure.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 3: 14 Task board](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/14_Broader_Context_Task_Board.md)
 
 Source: S01E04 transcript (multi-agent setup, limen project), see [Fact-check](#fact-check).
 

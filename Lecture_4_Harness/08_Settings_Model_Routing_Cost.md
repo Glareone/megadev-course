@@ -2,7 +2,7 @@
 
 > Don't measure models by token price. Measure by **cost per task**. Use SOTA models with lower reasoning effort for easy work, and a clear **deterministic boundary** when privacy requires a local model.
 
-Related: [17 Cost per task](17_Cost_Per_Task.md) · [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md) · [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [Lecture 2: 1 Harness](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md)
+Related: [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md#which-model-and-effort-for-each-helper) · [17 Cost per task](17_Cost_Per_Task.md) · [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md) · [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [Lecture 2: 1 Harness](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md)
 
 Source: S01E04 transcript (settings section), see [Fact-check](#fact-check).
 
@@ -11,10 +11,13 @@ Source: S01E04 transcript (settings section), see [Fact-check](#fact-check).
 Which model do I use? How hard should it think? How much does it cost? And what happens when part of my project can't touch a cloud API?
 
 ## 2. Model choice and routing
-
-The lecturer recommends **SOTA models** (best available at any moment) as the default, with two levers to reduce cost: lower the reasoning effort, or switch to a smaller model. The 2×2 grid, what each dial changes, and the vendor details are in [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md).
+A little contradiction between what lecturer says and how it's working in PROD in reality.
 
 In a multi-agent setup, the parent agent manages this:
+
+![A flow diagram. A general recommendation and the ongoing context lead to the parent agent, marked red, which picks the model and the reasoning. From it, lines go to three managed agents: a SOTA model with high reasoning, a SOTA model with low reasoning, and a smaller, cheaper model. The caption says the parent agent picks the model and the reasoning for each agent it manages, following a general recommendation and adapting it to the ongoing context.](img/parent-agent-picks-model-and-reasoning-for-managed-agents.png)
+
+The lecturer recommends **SOTA models** (best available at any moment) as the default, with two levers to reduce cost: lower the reasoning effort, or switch to a smaller model. The 2×2 grid, what each dial changes, and the vendor details are in [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md).
 
 ```mermaid
 flowchart LR
@@ -25,7 +28,7 @@ flowchart LR
     P --> W3["Worker 3\nSmaller model"]
 ```
 
-The parent decides which model and effort level each worker gets, based on the task complexity.
+The parent follows a general recommendation and adapts it to the ongoing context. Corrected 2026-11-08: my first version of this note said "workers" and "based on the task complexity". The figure says managed agents, a general recommendation and the ongoing context. Who can actually set a helper's model (subagents and workers yes, an opaque A2A peer no), and the Claude Code fields for it, are in [Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md#which-model-and-effort-for-each-helper).
 
 ## 3. Reasoning effort
 

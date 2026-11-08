@@ -2,7 +2,7 @@
 
 > A well-made skill that turns Markdown with data blocks into a clear, interactive HTML explainer. We keep a copy as an **example of how to build a skill**, and we plan to learn from it for our own skills, starting with ADR writing.
 
-Related: [6 Beyond Markdown](06_Beyond_Markdown_mdx_svx.md) · [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
+Related: [6 Beyond Markdown](06_Beyond_Markdown_mdx_svx.md) · [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [13 How a skill is built](13_How_A_Skill_Is_Built_Why_References.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
 
 Source: the skill itself, copied to [`.claude/explainer/`](../.claude/explainer/SKILL.md) (see [`SOURCE.md`](../.claude/explainer/SOURCE.md)). We read `SKILL.md` and one template. We did **not** run it and did **not** review its scripts.
 

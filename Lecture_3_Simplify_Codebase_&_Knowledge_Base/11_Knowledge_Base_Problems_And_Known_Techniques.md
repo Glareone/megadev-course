@@ -2,7 +2,7 @@
 
 > Models already know many named techniques for building a knowledge base. We don't invent rules. We **name the technique for each problem**, pick one per problem, and check the result with tests. About a third of the well-known list matters for agents today.
 
-Related: [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [7 The explainer skill](07_Explainer_Skill.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
+Related: [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [7 The explainer skill](07_Explainer_Skill.md) · [12 Update triggers](12_Knowledge_Base_Update_Triggers.md) · [13 How a skill is built](13_How_A_Skill_Is_Built_Why_References.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
 
 Source: lecture picture of 36 techniques, the lecture text and diagram on the `knowledge` skill, and the skill itself, copied to [`.claude/knowledge/`](../.claude/knowledge/SKILL.md) (see [`SOURCE.md`](../.claude/knowledge/SOURCE.md)). We read `SKILL.md` and five reference files, and ran a small recall test. We did **not** run the skill. Checked on 2026-11-08, see [Fact-check](#fact-check).
 

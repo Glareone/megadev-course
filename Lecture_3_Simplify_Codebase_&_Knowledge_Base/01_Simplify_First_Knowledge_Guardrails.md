@@ -2,7 +2,7 @@
 
 > When an agent keeps making mistakes, **fix the codebase first**. Knowledge (AGENTS.md, skills, docs) is a last resort, and every piece must have a **type** and a **way to be reviewed**.
 
-Related: [2 Dumb questions rule](02_Dumb_Questions_Rule.md) · [3 Agent asks dumb questions](03_Agent_Asks_Dumb_Questions.md) · [4 Ask why](04_Ask_Why.md) · [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
+Related: [2 Dumb questions rule](02_Dumb_Questions_Rule.md) · [3 Agent asks dumb questions](03_Agent_Asks_Dumb_Questions.md) · [4 Ask why](04_Ask_Why.md) · [5 Knowledge as files for agents](05_Knowledge_As_Files_For_Agents.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [11 Known techniques](11_Knowledge_Base_Problems_And_Known_Techniques.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md)
 
 Source: lecture s01e03 transcript. Key claims were **checked on the web on 2026-11-07**. See [Fact-check](#fact-check-of-the-lecturer).
 

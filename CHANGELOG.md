@@ -14,6 +14,7 @@ Started: 2026-11-08. Branch: `lesson-3` (will move to `feature/lesson-4`).
 - **04 COMPUTERS.md — fleet infrastructure** — machine registry, provisioning runbook, infrastructure-as-data pattern, A2A service discovery angle. Fact-checked.
 - **Lecture 2 file 5 (Skills) updated** — added fleet metadata section (harness, platform, scope, origin, upstream, model fields). Cross-reference to Lecture 4 file 03.
 - **Lecture 3 file 13 (Knowledge skill anatomy) updated** — cross-reference to Lecture 4 file 03.
+- **05 Don't overspecify** — the four-layer stack (Code → LLMs → Harnesses → Assistants), why overspecifying lower layers is a trap, the platform-eats-the-layer-below pattern. Fact-checked.
 - **Root README updated** — added Lecture 4 section with all four files.
 - **Lecture 4 README created** — index of all files.
 
@@ -29,14 +30,54 @@ Started: 2026-11-08. Branch: `lesson-3` (will move to `feature/lesson-4`).
 - The limen project structure is referenced in file 03 but not explored in its own file.
 - Privacy boundary (deterministic model selection) — mentioned in file 02 fact-check, no dedicated note.
 
-## Lecture 3 — Simplify the Codebase and the Knowledge Base (complete)
+## Lecture 3 — Simplify the Codebase and the Knowledge Base (complete, has unverified claims)
 
-14 files covering: simplify first, dumb questions, agent asks dumb questions, ask why, knowledge as files, beyond Markdown, explainer skill, decision models, jevgrep, demos, KB techniques, triggers, knowledge skill anatomy, task board. All fact-checked (2026-11-07/08).
+14 files, all fact-checked (2026-11-07/08). No missing file numbers.
+
+### Unverified claims (need resolution)
+
+- **File 01** — #9: Cursor/SpaceX AI tweet could not be found. Still marked "verify before presenting."
+- **File 05** — #8: company-scale KB claim, #9: agent-written wiki accuracy, #10: human/LLM edit conflicts, #14b: opponent-role fix, #15: thinking rounds.
+- **File 06** — #4: MDX state persistence, #5: source simplicity at scale, #7: MDX security.
+- **File 07** — #3: explainer skill made the picture, #4: offline capability.
+- **Files 08, 09, 10** — decision model vs vector/hybrid search comparison — no primary source compares them (repeated across three files).
+- **File 09** — #4: jevgrep speed, #8: jevgrep skill safety not reviewed after install.
+- **File 11** — #15: knowledge skill works (not run), Folgezettel/Johnny.Decimal/Evergreen dates unverified, llms.txt status.
+- **File 12** — #7: repo-created webhook trigger, #9: local daemon observation.
+- **File 13** — #8: knowledge skill script safety — partial read only, "not a review."
+
+### Open questions
+
+Every file (01–14) has an "Open questions" section. None have been resolved in writing.
+
+### Cross-reference gaps
+
+- Files 02, 03, 04 have no forward links to Lecture 4 material.
+- File 08 (Decision models) could link to Lecture 4 file 02 (agent runner portability) re: routing decisions.
 
 ## Lecture 2 — Context, AGENTS.md, Skills and Tools (complete, pre-fact-check-rule)
 
-12 files. Sources and reasoning marked, but written before the systematic fact-check rule. Time-sensitive claims (models, tool behavior, limits) need a re-check pass.
+13 files (Insight_1 + files 1–12). Sources and reasoning marked, but **no fact-check tables** — written before the systematic fact-check rule.
+
+### Gaps and staleness risk
+
+- **File 1 (Harness)** — `.claude/rules/*.md` with `paths:` frontmatter mentioned as `(not covered)`. Never got its own treatment.
+- **File 4 (Context window)** — context limit "roughly 250k–1M tokens" — stale range, needs update for current models.
+- **File 5 (Skills)** — token cost of fetch-based vs embedded skills marked "to be checked" — never checked.
+- **File 7 (Skill shaper)** — "Checked in September 2026 and agents change quickly, so re-check details." Placement facts flagged as aging fast.
+- **File 11 (Tool upfront vs discovery)** — "Corrections made on 2026-11-04… Re-check before presenting." Tool hints flagged as "not covered here" and "next topic" — no later file covers it.
+- **File 12 (Subagents vs workers)** — A2A section from "search summaries only (verify before presenting)." Agent names (Claude Code agent teams, Codex multi-agent, DeepSeek TUI) flagged as changing fast.
+- **All files** — no dates on time-sensitive claims (models, context sizes, MCP behavior, hook APIs, tool schemas). **Highest staleness risk in the repo.**
+
+### Open questions
+
+Every file has an "Open questions" section. None have been resolved in writing.
+
+### Cross-reference gaps
+
+- Files 1 (Harness) and 12 (Subagents vs workers) should link to Lecture 4 harness and fleet material.
+- File naming: `5_skills.md` uses `N_` style vs Lecture 3's `05_` zero-padded style (cosmetic inconsistency, not a content gap).
 
 ## Lecture 1 — Mechanics Behind Generative AI (complete, pre-fact-check-rule)
 
-17 files. Same status as Lecture 2 — sources marked, systematic re-check pending.
+17 files. Same status as Lecture 2 — sources marked, no fact-check tables, systematic re-check pending. Not audited in detail yet.

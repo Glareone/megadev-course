@@ -1,6 +1,6 @@
 # 11. Cloud coding agents
 
-> "Cloud agent" names two different things. **Cloud coding agents** (Cursor Cloud Agents, Claude Code in the cloud) are ready-made developer agents that run in a remote VM and return a branch or PR. **Agent hosting platforms** (Bedrock AgentCore, Azure AI Foundry) host an agent I build myself. The lecture means the first one. I want to come back to this note.
+> "Cloud agent" names two different things. **Cloud coding agents** (Cursor Cloud Agents, Claude Code in the cloud) are ready-made developer agents that run in a remote VM and return a branch or PR. **Agent hosting platforms** (Bedrock AgentCore, Azure AI Foundry) host an agent I build myself. The lecture means the first one.
 
 Related: [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [06 Self-management](06_Self_Management_Pi_Herdr.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [10 Automation](10_Automation_Repository_Agents.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [04 COMPUTERS.md](04_Computers_md_Fleet_Infrastructure.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
@@ -99,7 +99,7 @@ I read this as complementary. Local for the work I need to steer. Cloud for tick
 
 ## 6. My take
 
-My first reaction was "this is just a cloud platform where I run an agent". For the hosting platforms that is right. For cloud coding agents it misses the point. Nothing here is technically hard. The value is that **the harness, the environment and the trigger come as one product**, so I get parallel delegation without building any of it.
+For the hosting platforms, "just a cloud platform where I run an agent" is accurate. For cloud coding agents it misses the point. Nothing here is technically hard. The value is that **the harness, the environment and the trigger come as one product**, so I get parallel delegation without building any of it.
 
 That is also the lock-in risk. In [01](01_Harness_Lock-in_Keep_Doors_Open.md) I mark "cloud agents / managed environments" as not portable. The environment definition (for example Cursor's `.cursor/environment.json`) is vendor-specific. If I use one, I keep the task description and rules in portable files and treat the environment config as the thin adapter.
 
@@ -112,7 +112,7 @@ For my platform work the self-hosted variants matter most. The agent loop stays 
 - **Vendor numbers:** a vendor-reported "30% of Cursor's own merged PRs come from these agents" is marketing until independently checked.
 - **Product names move:** Cursor renamed background agents to Cloud Agents. Re-check names and plans before presenting.
 
-## 8. Open questions (to return to)
+## 8. Open questions
 
 1. Which of these can I use under Aras rules, and in which configuration (vendor cloud, self-hosted machines, own runners)?
 2. Can a cloud coding agent run against my own fleet (see [04](04_Computers_md_Fleet_Infrastructure.md)) instead of the vendor's VMs?

@@ -30,7 +30,7 @@ The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a
 - Models, tools and harnesses change fast: note the date, and flag anything that may age.
 - If sources contradict the lecturer, say so plainly in the note. Don't soften it.
 - Anything we could not verify stays marked "verify before presenting".
-- **Fix outdated or wrong facts at once, in the note body.** A verdict in the fact-check table is not enough. Correct the sentence in the text, add a short marker `Corrected YYYY-MM-DD: was X, now Y`, and cite the primary source.
+- **Fix outdated or wrong facts at once, in the note body.** A verdict in the fact-check table is not enough. Rewrite the sentence so it is simply right and cite the primary source. Leave no correction marker. What changed goes in CHANGELOG.md.
 - **Fix it everywhere.** Grep the whole repo (all lectures) for the same claim and correct every note that repeats it. When we edit an old note, re-check its time-sensitive claims (models, tool behaviour, versions, prices, limits).
 - Prefer the primary source over a search summary. When a search summary supports a correction, confirm it against the vendor docs and say which one we read.
 
@@ -45,6 +45,15 @@ The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a
 ## Progress tracking
 - **[CHANGELOG.md](CHANGELOG.md) is the single source of truth** for what's done, what's in progress, and what gaps remain. Don't track progress anywhere else. Update it when files are added, updated, or when gaps are identified.
 - Before starting a new topic, check the changelog for what's already covered and what's still missing.
+
+## Documents stay clean and finished
+A note, a README or a table always reads as a finished document. It states what is true now.
+- **Leave no work-in-progress traces anywhere** (notes, READMEs, tables, image captions). Forbidden: `Corrected YYYY-MM-DD: was X, now Y`, "my first version said", "this is provisional", "first pass", "draft", "to be refined", "worth fixing", "probably", "found an issue", and any reasoning about how we got to the current text.
+- **When a fact is wrong, rewrite it.** The sentence becomes right and cites its source. The history lives in git and in CHANGELOG.md.
+- **If I have nothing to add to a section, leave the section out.** Never keep an empty or placeholder section.
+- **Do not leave notes to the reader or to me** inside a document ("tell me if…", "I want to come back to this"). Real open questions go in an "Open questions" section as questions.
+- **What stays:** a fact-check verdict (agrees, differs, outdated, wrong, lecture-specific, unverified) with its source and date, and "verify before presenting" on an unverified claim. They describe the claim, not the work.
+- **The state of the work** (done, in progress, gaps, what changed) is written only in CHANGELOG.md.
 
 ## Rules
 - Never read or print `.env`, `github.pat`, `configuration.txt` (secrets).

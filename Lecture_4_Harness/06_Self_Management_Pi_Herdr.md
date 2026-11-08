@@ -31,7 +31,7 @@ Pi's [extensions](https://pi.dev/docs/latest/extensions) let me modify behavior 
 
 ## 3. Herdr — the process manager
 
-[Herdr](https://herdr.dev/) solves the durability problem. Corrected 2026-11-08: was "wraps around Pi", now: Herdr is an agent multiplexer that keeps **any** terminal program alive and tracks the agent's state. Pi is one documented integration (`herdr integration install pi`). Two products share the name, the Herdr TUI and a newer desktop app, and they do not share agents. Details and sources in [13 Herdr vs Orca](13_Herdr_vs_Orca_Agent_Orchestration.md).
+[Herdr](https://herdr.dev/) solves the durability problem. Herdr is an agent multiplexer that keeps **any** terminal program alive and tracks the agent's state. Pi is one documented integration (`herdr integration install pi`). Two products share the name, the Herdr TUI and a newer desktop app, and they do not share agents. Details and sources in [13 Herdr vs Orca](13_Herdr_vs_Orca_Agent_Orchestration.md).
 
 ```mermaid
 flowchart TB
@@ -70,7 +70,7 @@ What an agent can manage through Herdr:
 
 ## 5. Spawning workers
 
-The coordinator agent can start a worker via Herdr. Corrected 2026-11-08: the four commands exist in the Herdr TUI CLI reference, but `herdr agent start` needs an existing shell pane id (returned by `herdr tab create`), so the real sequence has that extra step. See [13](13_Herdr_vs_Orca_Agent_Orchestration.md).
+The coordinator agent can start a worker via Herdr. The four commands exist in the Herdr TUI CLI reference, but `herdr agent start` needs an existing shell pane id (returned by `herdr tab create`), so the real sequence has that extra step. See [13](13_Herdr_vs_Orca_Agent_Orchestration.md).
 
 ```mermaid
 sequenceDiagram
@@ -109,6 +109,6 @@ Any harness that enables these four is a candidate. The principle from [05 Don't
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
 | 1 | Pi supports extensions for lifecycle, tools, commands, event handlers | **Verify before presenting** | Transcript references [Pi docs](https://pi.dev/docs/latest/extensions); not independently checked | 2026-11-08 |
-| 2 | Herdr keeps agents alive after terminal closes | **Agrees** (corrected 2026-11-08, was "verify before presenting") | [herdr.dev/core](https://herdr.dev/core/) via a reader agent: programs survive closing the window and app crashes, not a reboot or stopping the server. See [13](13_Herdr_vs_Orca_Agent_Orchestration.md). | 2026-11-08 |
+| 2 | Herdr keeps agents alive after terminal closes | **Agrees** | [herdr.dev/core](https://herdr.dev/core/) via a reader agent: programs survive closing the window and app crashes, not a reboot or stopping the server. See [13](13_Herdr_vs_Orca_Agent_Orchestration.md). | 2026-11-08 |
 | 3 | Self-configuration is demonstrated in the course examples | **Agrees** | [self-configuring-agent example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/self-configuring-agent) exists | 2026-11-08 |
 | 4 | Pi can be used as both CLI agent and core of a custom agent | **Verify before presenting** | Lecturer's claim; Pi docs not independently checked | 2026-11-08 |

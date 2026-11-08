@@ -4,9 +4,9 @@
 
 Related: [1 Harness](1_Harness.md), [5 Skills](5_skills.md), [9 Prompt injection](9_tools_prompt_injection.md), [10 Tool results](10_tool_results_context_to_file_and_back.md), [Lecture 4: 08 Settings](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md), [Lecture 4: 16 SOTA and reasoning effort](../Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md).
 
-## The clarification we needed
+## Three different things
 
-We had been using "subagent" and "worker" interchangeably, as "an agent called by another agent via A2A". These are **three different things**:
+"Subagent", "worker" and "A2A agent" are often used interchangeably, as "an agent called by another agent via A2A". They are **three different things**:
 
 | Term | What it is | Where it runs | Who manages it |
 |---|---|---|---|
@@ -244,11 +244,10 @@ Also see the reusable [skills and agents summary](5_skills.md#summary-skills-and
 - **Verified from official docs:** Claude Code subagents and agent teams ([sub-agents](https://code.claude.com/docs/en/sub-agents), [agent-teams](https://code.claude.com/docs/en/agent-teams)); Codex subagents (OpenAI docs, via redirect to learn.chatgpt.com).
 - **Community source:** DeepSeek TUI is an open-source project. We read its `docs/SUBAGENTS.md` through GitHub. It is **not** official DeepSeek documentation, and it may have changed.
 - **From search summaries only:** A2A background and the A2A vs MCP comparison.
-- **Added 2026-11-08, from search summaries of official docs (pages not read in full):** A2A opacity and the Agent Card fields ([A2A spec](https://github.com/a2aproject/A2A/blob/main/docs/specification.md)), the Claude Code subagent `model` and `effort` fields and the `opusplan` alias ([sub-agents](https://code.claude.com/docs/en/sub-agents), [model configuration](https://code.claude.com/docs/en/model-config)), and Aider's architect mode ([aider.chat](https://aider.chat/docs/usage/modes.html)). That the Agent Card has no model field is from the field list in the docs I saw, so verify it against the spec. limen passing `--provider`, `--model` and `--thinking` to a worker's Pi is from a reader agent's read of its spawn code. **The rest of this note was not re-checked in this edit**, and its Claude Code, Codex and DeepSeek TUI details are the time-sensitive part.
+- **Checked 2026-11-08, from search summaries of official docs (pages not read in full):** A2A opacity and the Agent Card fields ([A2A spec](https://github.com/a2aproject/A2A/blob/main/docs/specification.md)), the Claude Code subagent `model` and `effort` fields and the `opusplan` alias ([sub-agents](https://code.claude.com/docs/en/sub-agents), [model configuration](https://code.claude.com/docs/en/model-config)), and Aider's architect mode ([aider.chat](https://aider.chat/docs/usage/modes.html)). That the Agent Card has no model field is from the field list in the docs I saw, so verify it against the spec. limen passing `--provider`, `--model` and `--thinking` to a worker's Pi is from a reader agent's read of its spawn code. The Claude Code, Codex and DeepSeek TUI details elsewhere in this note are time-sensitive, so re-check them before presenting.
 - **Not verified:** Pi's support for subagents and workers.
 - **Not provided:** the lecture's picture of the main thread with three subagent calls. It is described from the lecture text. The worker, `scout` agent-file and skill-vs-subagent pictures are included above.
 - **Our reasoning:** the three-way terminology table, the "when to use what" table and the client-agent guidance.
-- We correct an earlier assumption: "worker" and "subagent" were being used as synonyms, and "via A2A" was not the right description.
 
 ## Open questions for discussion
 

@@ -77,7 +77,7 @@ Trade-offs to keep in mind:
 ## See also
 - [Lecture 2, 5 Skills: "Docs by pointer"](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md): why a skill should point to docs instead of embedding them, and how skills over MCP fit as one variant. Includes an experiment to measure the token saving.
 
-## Open questions (to come back to)
+## Open questions
 - Which of the hosts I use support the Skills extension today? (See the client matrix.)
 - Which of my current local skills describe how to use one particular MCP server's tools? Those are candidates to move to that server.
 - Which data I currently fetch with a tool could be a resource instead?

@@ -53,7 +53,7 @@ flowchart TB
 
 ### Coverage in my notes
 
-"Covered" means I wrote about it. Files 06–10 are first drafts, so even those rows are not final.
+"Covered" means I wrote about it.
 
 | # | Requirement (lecture wording, shortened) | Where my notes touch it | Status |
 |---|---|---|---|
@@ -136,5 +136,5 @@ Checked 2026-11-08. "Search summary" means I saw the vendor or project page name
 | 6 | OpenTelemetry GenAI uses `invoke_agent`, `chat` and `execute_tool` spans, with content capture off by default | **Agrees** (search summary of an OpenTelemetry blog post) | [GenAI observability](https://opentelemetry.io/blog/2026/genai-observability/) | 2026-11-08 |
 | 7 | OpenTelemetry's agent conventions are still in progress | **Agrees, verify before presenting** | Search summary of OpenTelemetry blog posts. The GenAI conventions moved to a separate repository and attribute names have changed, so check the current spec. | 2026-11-08 |
 | 8 | Anthropic's research system uses a lead agent that delegates to parallel subagents | **Agrees** (search summary of the post, not read in full) | [Anthropic engineering](https://www.anthropic.com/engineering/multi-agent-research-system) | 2026-11-08 |
-| 9 | My coverage column: which points my notes cover | **My interpretation** | My own assessment from reading my notes and a keyword search of the repo on 2026-11-08. Files 06–10 are first drafts. | 2026-11-08 |
+| 9 | My coverage column: which points my notes cover | **My interpretation** | My own assessment from reading my notes and a keyword search of the repo on 2026-11-08. | 2026-11-08 |
 | 10 | The grouping into four themes and the text-vs-infrastructure split | **My interpretation** | Mine. Not in the lecture or the sources. | 2026-11-08 |

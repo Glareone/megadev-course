@@ -121,7 +121,7 @@ Honesty check: no abstraction is perfect. These are the known leak points:
 |---|---|---|
 | Tool calling | Format differs (Anthropic `tool_use` blocks vs OpenAI function calling) | Adapter translates; test with each provider. |
 | System prompt | Anthropic separates system from messages; others concatenate | Adapter handles placement. |
-| Prompt caching | Anthropic-specific feature; no equivalent elsewhere | Treat as optimization, not dependency. Don't build logic that requires caching. |
+| Prompt caching | Mechanism and pricing differ by provider (Anthropic, OpenAI and Google each have their own) | Treat as optimization, not dependency. Don't build logic that requires caching. |
 | Structured output | JSON mode, tool-forced output, grammar-constrained — all different | Define in schema; adapter enforces per-provider mechanism. |
 | Context window | 200k vs 128k vs 32k — changes what fits | Capability declaration; orchestrator adjusts strategy per runner. |
 | Rate limits / pricing | Differ wildly | Adapter reports; orchestrator decides (retry, fallback, queue). |
@@ -146,5 +146,5 @@ The hardest part is resisting the convenience of tight coupling. Anthropic's SDK
 | 2 | OpenHands, Aider use LLM abstraction layers | **Agrees** | [2026 study of 11 coding-agent systems](https://arxiv.org/pdf/2609.00006), confirmed in source repos | 2026-11-08 |
 | 3 | Tool-calling format differs between providers | **Agrees** | Anthropic uses `tool_use` content blocks; OpenAI uses `function` in message; formats are not interchangeable | 2026-11-08 |
 | 4 | MCP is an open tool protocol usable by any runner | **Agrees** | [modelcontextprotocol.io](https://modelcontextprotocol.io/) — open spec, multiple harness implementations | 2026-11-08 |
-| 5 | Prompt caching is Anthropic-specific | **Outdated as absolute claim** | Google added context caching for Gemini; OpenAI has automatic prompt caching. But mechanisms differ, so "don't build logic that requires caching" remains good advice. Corrected 2026-11-08: was "Anthropic-only", now "differs by provider". | 2026-11-08 |
+| 5 | Prompt caching mechanisms and pricing differ by provider | **Agrees** | Google has context caching for Gemini and OpenAI has automatic prompt caching. The mechanisms differ, so "don't build logic that requires caching" remains good advice. [Anthropic prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) | 2026-11-08 |
 | 6 | No LLM can reliably select a model for privacy boundaries | **Agrees** | Lecturer's claim, supported by [privacy-boundary example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/privacy-boundary); deterministic separation is recommended in industry practice. | 2026-11-08 |

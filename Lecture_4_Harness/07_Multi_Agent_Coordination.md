@@ -49,8 +49,6 @@ How the coordinator learns the result, from the lecture's job-record figure:
 
 **What is important:** the spec and the branch are in Git, shared and versioned. The job record is on this machine, as runtime state. The mechanism behind each arrow, checked against Pi's docs and the limen code, is in [15 Pi and limen behind the scenes](15_Pi_Limen_Behind_The_Scenes.md).
 
-Corrected 2026-11-08: the first version of this note drew a direct "commit, report" arrow from the workers to the coordinator. The lecture's figure says no arrow joins them. The worker writes to the job record, and the coordinator is notified from that record.
-
 Key design decisions:
 - **No direct agent-to-agent communication.** Workers and coordinator never talk directly.
 - **Files are the message bus.** Everyone reads files; updates go through files.
@@ -90,7 +88,7 @@ flowchart TB
 | `spec/features/<state>/F001-slug/ticket.md` | Coordinator | Worker | The ticket. The folder is the state: `planned`, `active`, `done`, `dropped` |
 | `.limen/jobs/<id>/` | Worker, supervisor and the limen CLI | Coordinator | State, result, commits, steering inbox, notification records |
 
-Corrected 2026-11-08: these are the names in the limen repo at the pinned commit (README and source, read through a reader agent). My first version used generic names (`board/`, `features/<name>/spec.md`, `jobs/<id>/`) that I took from the figure text.
+These are the names in the limen repo at the pinned commit (README and source, read through a reader agent).
 
 ### Steering
 
@@ -161,12 +159,12 @@ For my purposes, the file-based approach aligns well with [03 Skill and folder o
 |---|---|---|---|---|
 | 1 | Limen project uses this architecture | **Agrees** | [Limen source](https://github.com/overment/limen/tree/01fc400e916e05f4f92ff881b48cd1b40eee99e6) — repo exists at pinned commit | 2026-11-08 |
 | 2 | Workers use git worktrees for isolation | **Agrees** | Transcript + limen repo structure | 2026-11-08 |
-| 3 | Worker steering is done via Pi extensions between tool calls | **Agrees**. Corrected 2026-11-08: the support is limen's code, not the example | limen's `hook/steering.ts` uses `pi.sendUserMessage` with `deliverAs: "steer"`, which Pi's docs say arrives after the current turn's tool calls. The course [worker-steering example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/worker-steering) exists but is a simulation on a custom harness, not a Pi extension. See [15](15_Pi_Limen_Behind_The_Scenes.md). | 2026-11-08 |
-| 4 | Job-end notifications via Pi extensions | **Agrees**. Corrected 2026-11-08: the support is limen's code, not the example | limen's `hook/wake.ts` watches `.limen/jobs` and messages the coordinator. The course [job-end-notifications example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/job-end-notifications) is a simulation. `wake.ts` was only partly read. | 2026-11-08 |
-| 5 | styleguide.md is injected more often than AGENTS.md | **Agrees** for limen. Corrected 2026-11-08: was "lecture-specific" | limen's `hook/communication.ts` appends the vision, styleguide and a board digest at `before_agent_start` (every run) and adds reminders after tool results. It is limen's design choice, not a universal practice. | 2026-11-08 |
+| 3 | Worker steering is done via Pi extensions between tool calls | **Agrees** | limen's `hook/steering.ts` uses `pi.sendUserMessage` with `deliverAs: "steer"`, which Pi's docs say arrives after the current turn's tool calls. The course [worker-steering example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/worker-steering) exists but is a simulation on a custom harness, not a Pi extension. See [15](15_Pi_Limen_Behind_The_Scenes.md). | 2026-11-08 |
+| 4 | Job-end notifications via Pi extensions | **Agrees** | limen's `hook/wake.ts` watches `.limen/jobs` and messages the coordinator. The course [job-end-notifications example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/job-end-notifications) is a simulation. `wake.ts` was only partly read. | 2026-11-08 |
+| 5 | styleguide.md is injected more often than AGENTS.md | **Agrees** for limen | limen's `hook/communication.ts` appends the vision, styleguide and a board digest at `before_agent_start` (every run) and adds reminders after tool results. It is limen's design choice, not a universal practice. | 2026-11-08 |
 | 6 | The flow has four roles (You, Coordinator, Workers, Supervisor) and five stages (Ask, Hand off, Work, Finish, Land) | **Agrees with the lecture** | The lecture's swimlane figure (`img/pi-lifecycle-hooks-job-states-swimlane.png`) and its description in the transcript | 2026-11-08 |
 | 7 | No arrow joins the workers or the supervisor to the coordinator. The coordinator is notified from the job record | **Agrees** | The lecture's job-record figure shows it, and limen's `wake.ts` watches the job folder. See [15](15_Pi_Limen_Behind_The_Scenes.md). | 2026-11-08 |
-| 8 | Pi extensions do the four jobs in the lifecycle table (global files, steering, final-report tool, job-end notification) | **Partly agrees**. Corrected 2026-11-08 | Three are in limen's code: global files, steering and the job-end wake. I found no final-report tool. The worker's last message is saved into the job's `result`. | 2026-11-08 |
+| 8 | Pi extensions do the four jobs in the lifecycle table (global files, steering, final-report tool, job-end notification) | **Partly agrees** | Three are in limen's code: global files, steering and the job-end wake. I found no final-report tool. The worker's last message is saved into the job's `result`. | 2026-11-08 |
 | 9 | The Claude Code events in the "nearest event" column exist and behave as described | **Agrees** for `UserPromptSubmit`, `SessionStart`, `Stop`, `SubagentStop`, `TaskCompleted` (checked in [Lecture 2: 3](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) against the hooks docs). **Unverified** for using `PostToolUse` to steer and `FileChanged` to watch jobs | [Hooks reference](https://code.claude.com/docs/en/hooks) | 2026-11-08 |
 | 10 | The supervisor cannot be a hook because hooks only run while the loop is alive | **My interpretation** | My reasoning from how hooks are fired by the loop. Not stated by the lecture. | 2026-11-08 |
 | 11 | "Rejected" is a possible end state | **My interpretation** | Implied by "decides what lands". The figure has no rejected state. | 2026-11-08 |

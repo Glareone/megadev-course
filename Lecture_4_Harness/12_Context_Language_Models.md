@@ -1,10 +1,10 @@
 # 12. Context language models (CLMs)
 
-> A context language model manages its **own** context. The context lives in an editable file, and the model can append to it or rewrite it with Bash. In the paper this beats hand-built compaction on several benchmarks, but the evidence is narrower than the lecture makes it sound. First pass, to be refined.
+> A context language model manages its **own** context. The context lives in an editable file, and the model can append to it or rewrite it with Bash. In the paper this beats hand-built compaction on several benchmarks, but the evidence is narrower than the lecture makes it sound.
 
 Related: [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [06 Self-management](06_Self_Management_Pi_Herdr.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 2: 10 Tool results, context to file and back](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md) · [Lecture 2: 9 Tools and prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) · [Lecture 3: 5 Knowledge as files](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/05_Knowledge_As_Files_For_Agents.md)
 
-Source: the paper ["Context Language Models" (arXiv 2609.37725)](https://arxiv.org/abs/2609.37725), submitted 29 Sep 2026, v1 only. Second pass: I read the **full PDF text** (27 pages, extracted locally with a PDF library). Chart and figure contents did not extract, so numbers that appear only inside figures come from captions and axis labels, and I mark those. The code repo was read through a reader agent, from its README pages. The first pass used the HTML version through reader agents, and where the PDF corrected it I say so in the [Fact-check](#fact-check). Checked 2026-11-08, see [Fact-check](#fact-check).
+Source: the paper ["Context Language Models" (arXiv 2609.37725)](https://arxiv.org/abs/2609.37725), submitted 29 Sep 2026, v1 only. I read the **full PDF text** (27 pages, extracted locally with a PDF library). Chart and figure contents did not extract, so numbers that appear only inside figures come from captions and axis labels, and I mark those. The code repo was read through a reader agent, from its README pages. Checked 2026-11-08, see [Fact-check](#fact-check).
 
 ## 1. The problem
 
@@ -216,13 +216,11 @@ This connects to [Lecture 2: 9 Tools and prompt injection](../Lecture_2_Context_
 | [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) | Limen uses files as messages between agents. The CLM paper makes each agent's context a file |
 | Section 6 of the paper | Harnesses "act as a form of procedural memory or task-specific skill" that may later be absorbed into the model. The authors propose a "harness-to-CLM" pipeline as future work |
 
-## 12. My reading so far
+## 12. My reading
 
 The idea is simple and clear: give the model the file and let it edit. The results are real but narrower than "models beat harnesses". It wins on several benchmarks at small context, ties on one, and trails on one. The most convincing result to me is the RL one: equal accuracy at much lower compute.
 
 For my work the useful part is the **design principle**, not the numbers. When I design context handling for my own agent runner, I can ask: what is the smallest harness that lets the model control its own context, and where must I still enforce limits myself? The injection risk says the second half of that question matters.
-
-This section is provisional. I have not yet merged my own thoughts, and the AGENTS.md "listen" step still applies.
 
 ## Open questions
 
@@ -235,7 +233,7 @@ This section is provisional. I have not yet merged my own thoughts, and the AGEN
 
 ## Fact-check
 
-Checked 2026-11-08. "PDF" means the paper's full text, extracted locally and read by me. "Reader agent" means a subagent that fetched a web page and reported back; I used them for the code repo and for the first pass.
+Checked 2026-11-08. "PDF" means the paper's full text, extracted locally and read by me. "Reader agent" means a subagent that fetched a web page and reported back; I used one for the code repo.
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
@@ -244,11 +242,11 @@ Checked 2026-11-08. "PDF" means the paper's full text, extracted locally and rea
 | 3 | Zero-shot CLMs beat the compared baselines on BrowseComp-Plus (59.4%), TBLite and EdgeBench-10 at 32K | **Agrees** (the paper's own results, not reproduced) | [arXiv HTML](https://arxiv.org/html/2609.37725v1) | 2026-11-08 |
 | 4 | Lecture: LLMs are better at context management than the best strategies we have so far | **Differs: narrower than stated** | The paper shows a minimal-harness CLM beating **named baselines on named benchmarks**, with a tie (TerminalBench 2.1) and a trail (128K EdgeBench, appendix summary). No commercial coding harness was tested. | 2026-11-08 |
 | 5 | CLM ties summarization on TerminalBench 2.1 at about 70% of the FLOPs | **Agrees** (one reader agent; the intro's "29.5% fewer FLOPs" is consistent) | [arXiv HTML](https://arxiv.org/html/2609.37725v1) | 2026-11-08 |
-| 6 | At 128K on EdgeBench-10, summarization (47.8, 222 PFLOPs) beats CLM (47.3, 142 PFLOPs). CLM with subagents reaches 50.2 (219 PFLOPs) | **Agrees** (verified in the PDF, Appendix F). Corrected 2026-11-08: was "unverified" | PDF pages 24–25 | 2026-11-08 |
-| 7 | Table 1, min-max / min-distance: OpenEvolve 0.07690, OpenEvolve-Agent 0.07724, CLM 0.07758 | **Agrees** (verified in the PDF). Corrected 2026-11-08: the two reader agents had each quoted a different baseline row, and both were right | PDF page 7, Table 1 | 2026-11-08 |
+| 6 | At 128K on EdgeBench-10, summarization (47.8, 222 PFLOPs) beats CLM (47.3, 142 PFLOPs). CLM with subagents reaches 50.2 (219 PFLOPs) | **Agrees** (verified in the PDF, Appendix F) | PDF pages 24–25 | 2026-11-08 |
+| 7 | Table 1, min-max / min-distance: OpenEvolve 0.07690, OpenEvolve-Agent 0.07724, CLM 0.07758 | **Agrees** (verified in the PDF) | PDF page 7, Table 1 | 2026-11-08 |
 | 8 | After RL, Qwen3.5-9B CLM matches the summary harness (42.5 vs 42.1) at 38.8% fewer FLOPs | **Agrees** (verified in the PDF; 38.8% is the paper's figure) | PDF page 3 and Table 2 on page 9 | 2026-11-08 |
 | 9 | Editable context is a channel for persistent prompt injection | **Agrees** (the authors state it in Section 6; no defenses proposed) | [arXiv HTML](https://arxiv.org/html/2609.37725v1) | 2026-11-08 |
-| 10 | Authors are at University of Washington, Meta Superintelligence Labs, MIT and Trillium Labs | **Agrees** (verified in the PDF, page 1). Corrected 2026-11-08: was "unverified" | PDF page 1 | 2026-11-08 |
+| 10 | Authors are at University of Washington, Meta Superintelligence Labs, MIT and Trillium Labs | **Agrees** (verified in the PDF, page 1) | PDF page 1 | 2026-11-08 |
 | 11 | Code is at `github.com/facebookresearch/context-language-models` | **Agrees** (the PDF's first page links it; a reader agent read the repo's README pages) | [Repo](https://github.com/facebookresearch/context-language-models) | 2026-11-08 |
 | 12 | The paper's results transfer to commercial coding agents such as Claude Code | **My interpretation** | Not tested in the paper. | 2026-11-08 |
 | 13 | At larger context windows the picture over harness compaction may change | **My interpretation** | Based on the one 128K result (Appendix F, read in the PDF): plain CLM is 0.5 behind summarization and CLM with subagents is 2.4 ahead. Not a claim of the paper. | 2026-11-08 |

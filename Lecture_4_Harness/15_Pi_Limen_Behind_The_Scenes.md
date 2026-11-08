@@ -74,7 +74,7 @@ All of this is from limen's README and source at the pinned commit.
 | Worker writes progress and report | Files in `.limen/jobs/<id>/`: `activity`, `tool-calls`, `last-tool`, `commits`, `tip`, and `result` (the last assistant text). The session log is in `session/` |
 | Worker commits | On its branch, in its worktree. `recordCommits` writes `commits` and `tip` |
 | Supervisor starts with the worker | `limen spawn` launches a detached supervisor process |
-| Supervisor watches | In hosted mode it runs `herdr agent get` about once a second. Three "missing" in a row ends the job as "hosted agent ended". Five "unknown" triggers a search for the agent |
+| Supervisor watches | In hosted mode it runs `herdr agent get` about once a second. Three "missing" in a row ends the job as "hosted agent ended". Five "unknown" triggers a search for the agent. Liveness is a pid plus a process start identity, and there is no heartbeat file |
 | Supervisor records the outcome | `finalizeJob` writes `finished-at` and a log line, and writes `state` **last** as the commit point. It also removes `pid` and `born` |
 | Job ended, red arrow | Two paths. In-process: `wake.ts` in the coordinator's Pi watches `.limen/jobs` and sends a message. Out-of-process: `finalizeJob` calls `promptCoordinator`, which the README says runs `herdr agent prompt` on the coordinator's pane |
 | Coordinator merges | `limen land <id>` requires state `done`, a clean target equal to the current branch, at least one commit, and a confirmation (or `--yes`) |
@@ -141,17 +141,14 @@ sequenceDiagram
 
 This is a composite from the files I read. The hosted-mode supervisor steps come from `supervisor.ts`. The wake and steering steps come from the hooks. The `herdr agent prompt` path to the coordinator is left out because I did not read that file.
 
-## 7. What the code says versus what I had written
+## 7. Where the code differs from the lecture
 
-| Earlier claim | What the sources show |
+| The lecture or course material says | What the sources show |
 |---|---|
-| A Pi extension gives the worker a tool for its final report (the lecture) | I found no such tool. The worker's last message is captured from the session log into `result`. A file I did not read may differ |
-| The job folder holds `progress`, `report`, `outcome` (my first notes) | Those names were my reading of the figure. The real files are `state`, `result`, `activity`, `commits`, `tip`, and more |
-| `board/`, `features/<name>/spec.md`, `jobs/<id>/` (my first notes) | Real paths: `spec/build.md`, `spec/features/<state>/F001-slug/ticket.md`, `.limen/jobs/<id>/` |
-| The worker-steering and job-end-notification examples are Pi extensions | They are simulations on a custom harness. The real implementation is limen's `steering.ts` and `wake.ts` |
-| The default worker is Pi | The README says the default engine is OMP. Pi is selected with `--engine pi` |
-| Agent recovery works only on macOS (the lecture) | The README says macOS or Linux. Recovery has no macOS gate. One Darwin-specific helper reads process identity on non-Linux systems |
-| Heartbeat file shows the worker is alive | No heartbeat file. Liveness is a pid plus a process start identity, and in hosted mode the Herdr poll |
+| A Pi extension gives the worker a tool for its final report | I found no such tool. The worker's last message is captured from the session log into `result`. A file I did not read may differ |
+| The course links its worker-steering and job-end examples where it describes the Pi extensions | They are simulations on a custom harness, not Pi extensions. The real implementation is limen's `steering.ts` and `wake.ts` |
+| The coordinator and workers are Pi instances | The README says the default engine is OMP. Pi is selected with `--engine pi` |
+| Agent recovery works only on macOS | The README says macOS or Linux. Recovery has no macOS gate. One Darwin-specific helper reads process identity on non-Linux systems |
 
 ## 8. Cautions
 

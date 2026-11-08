@@ -11,24 +11,16 @@ Source: S01E04 transcript (settings section), see [Fact-check](#fact-check).
 Which model do I use? How hard should it think? How much does it cost? And what happens when part of my project can't touch a cloud API?
 
 ## 2. Model choice and routing
-A little contradiction between what lecturer says and how it's working in PROD in reality.
+
+The lecturer recommends **SOTA models** (best available at any moment) as the default, with two levers to reduce cost: lower the reasoning effort, or switch to a smaller model. The 2×2 grid, what each dial changes, and the vendor details are in [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md).
 
 In a multi-agent setup, the parent agent manages this:
 
 ![A flow diagram. A general recommendation and the ongoing context lead to the parent agent, marked red, which picks the model and the reasoning. From it, lines go to three managed agents: a SOTA model with high reasoning, a SOTA model with low reasoning, and a smaller, cheaper model. The caption says the parent agent picks the model and the reasoning for each agent it manages, following a general recommendation and adapting it to the ongoing context.](img/parent-agent-picks-model-and-reasoning-for-managed-agents.png)
 
-The lecturer recommends **SOTA models** (best available at any moment) as the default, with two levers to reduce cost: lower the reasoning effort, or switch to a smaller model. The 2×2 grid, what each dial changes, and the vendor details are in [16 SOTA and reasoning effort](16_SOTA_And_Reasoning_Effort.md).
+The parent follows a general recommendation and adapts it to the ongoing context. It can set the model and effort of the subagents and workers it starts. It cannot set them for an opaque A2A peer. The Claude Code fields for this are in [Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md#which-model-and-effort-for-each-helper).
 
-```mermaid
-flowchart LR
-    REC["General recommendation"] --> P["Parent agent"]
-    CTX["Ongoing context"] --> P
-    P --> W1["Worker 1\nSOTA, high effort"]
-    P --> W2["Worker 2\nSOTA, low effort"]
-    P --> W3["Worker 3\nSmaller model"]
-```
-
-The parent follows a general recommendation and adapts it to the ongoing context. Corrected 2026-11-08: my first version of this note said "workers" and "based on the task complexity". The figure says managed agents, a general recommendation and the ongoing context. Who can actually set a helper's model (subagents and workers yes, an opaque A2A peer no), and the Claude Code fields for it, are in [Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md#which-model-and-effort-for-each-helper).
+In my production setup the lower tier goes to sub-tasks and subagents, by role. I have not come across different models mixed inside one task there, although tools such as Claude Code's `opusplan` and Aider's architect mode offer it. I do step the reasoning effort down within a task ([16](16_SOTA_And_Reasoning_Effort.md#8-my-practice-check-the-dropdown-then-step-down)).
 
 ## 3. Reasoning effort
 
@@ -75,7 +67,7 @@ The privacy boundary point is critical for enterprise work. "The model decides w
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
-| 1 | Cost per task is more accurate than token price | **Agrees** as a concept. Corrected 2026-11-08 | Artificial Analysis publishes cost per task from actual token use (search summary of its methodology). I could not read slopalytics.com, so I cannot confirm what it provides. See [17](17_Cost_Per_Task.md). | 2026-11-08 |
+| 1 | Cost per task is more accurate than token price | **Agrees** as a concept | Artificial Analysis publishes cost per task from actual token use (search summary of its methodology). I could not read slopalytics.com, so I cannot confirm what it provides. See [17](17_Cost_Per_Task.md). | 2026-11-08 |
 | 2 | No LLM can reliably enforce privacy boundaries | **Agrees** | [privacy-boundary example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/privacy-boundary); also consistent with known prompt injection / jailbreak research | 2026-11-08 |
 | 3 | Multi-agent workflows became more efficient since Opus 4.8 | **Lecture-specific (opinion)** | Lecturer's characterization. No independent benchmark comparing multi-agent efficiency across Opus versions found. | 2026-11-08 |
-| 4 | Effort routing should be tested per task type | **Agrees** as a principle. Corrected 2026-11-08 | The [effort-routing example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/effort-routing), read by a reader agent, is a small harness: ten arithmetic tasks, low vs high effort, no measured results in its README, and test numbers from a mock model. See [16](16_SOTA_And_Reasoning_Effort.md). | 2026-11-08 |
+| 4 | Effort routing should be tested per task type | **Agrees** as a principle | The [effort-routing example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/effort-routing), read by a reader agent, is a small harness: ten arithmetic tasks, low vs high effort, no measured results in its README, and test numbers from a mock model. See [16](16_SOTA_And_Reasoning_Effort.md). | 2026-11-08 |

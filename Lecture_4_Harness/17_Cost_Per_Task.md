@@ -82,7 +82,7 @@ Two pointers to the same idea:
 ## 6. Who publishes cost per task
 
 - **Artificial Analysis** computes cost per task from the tokens a model actually uses on its Intelligence Index, multiplied by input, cache and output prices, weighted by each benchmark's share. A model that writes longer answers or more reasoning tokens costs more per task even at the same token price (search summary of its methodology page).
-- **Slopalytics** is the site the lecture names for a Cost Per Task metric. The page returned only its title when fetched, because it appears to render in the browser, and no search result described it. **I cannot say what it measures or how.** I would open it in a browser before presenting this claim.
+- **Slopalytics** is the site the lecture names for a Cost Per Task metric. The page returned only its title when fetched, because it appears to render in the browser, and no search result described it. **I cannot say what it measures or how.** Verify before presenting.
 - **The numbers move.** A 2026 DoiT write-up that cites Artificial Analysis reports per-task costs from a few cents to under two dollars for different models, and says a ranking reversed within weeks as prices and runs were refreshed. It is a third-party source, so I treat the figures as an illustration of spread, not as data.
 - **A benchmark's "task" is not my task.** One comparison I saw makes this point directly. A published cost per task is a starting point, and my own tasks decide.
 

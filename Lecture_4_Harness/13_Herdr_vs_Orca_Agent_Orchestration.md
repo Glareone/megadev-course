@@ -27,7 +27,7 @@ The lecture picks Herdr to keep Pi instances alive and to let one agent spawn ot
 | **Herdr TUI** | The original: a terminal app in Rust with its own background server (repo `herdrdev/herdr`). The lecture's commands belong to this one |
 | **Herdr (desktop app)** | A newer, separate program built on `herdr-core`. The site says the two do not share agents |
 
-**Two projects are called Orca.** I assume the lecture-adjacent one is **`stablyai/orca`**: a desktop app whose GitHub description is "run a fleet of coding agents". A different project, `orca-cli/orca` (a Go binary with SQLite state and MCP), showed up in a search summary. I did not see it on any primary page. Tell me if you meant that one.
+**Two projects are called Orca.** I assume the lecture-adjacent one is **`stablyai/orca`**: a desktop app whose GitHub description is "run a fleet of coding agents". A different project, `orca-cli/orca` (a Go binary with SQLite state and MCP), showed up in a search summary. I did not see it on any primary page. This note covers `stablyai/orca`.
 
 ## 3. Herdr
 
@@ -193,15 +193,13 @@ I have not checked whether the two tools can work together. Orca lists Pi as a s
 - **Install scripts.** Herdr's installers are `curl | sh` and `irm | iex`. The repo recommends reading them first.
 - **Unstable facts.** Version numbers, star counts and "experimental" flags move within weeks.
 
-## 8. My reading so far
-
-This is provisional. I have not merged my own thoughts yet.
+## 8. My reading
 
 The comparison made one thing clear for the lecture. The lecture shows a Herdr-based stack and calls it the way to run durable agents. The research shows it is one **layer** (terminals and state), and that the orchestration above it is something I either build, as limen does, or adopt, as Orca offers. For my platform work, the question is which layer I want to own. The state vocabulary in both tools (`blocked`, `done`, `worker_done`, `question`) looks like a contract worth keeping tool-independent, in line with [02](02_Agent_Runner_Portability.md).
 
 ## Open questions
 
-1. Which Orca did I mean: `stablyai/orca` or another project?
+1. Does `orca-cli/orca` (a Go binary with SQLite state and MCP) fill the same role as `stablyai/orca`?
 2. Does Orca keep local agents running after I close the desktop app?
 3. Can Orca drive Pi, and can it run inside or alongside Herdr?
 4. Why do some search summaries say Herdr is AGPL-3.0 while the LICENSE file says Apache 2.0?

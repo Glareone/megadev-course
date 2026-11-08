@@ -30,7 +30,50 @@ The point: the **UI is not the harness.** The harness is the runtime that connec
 
 Vendors don't want me to separate these layers. Cursor bundles IDE + harness into one product. Claude Code ties cloud agents, artifacts, and the web UI into a single experience. That's not evil — it's a natural business incentive. But it means **I have to be deliberate** about where I put my work.
 
-## 3. Where lock-in actually sits
+## 3. Split the problem into layers
+
+"Harness-agnostic" is too vague to act on. The lecture's first figure splits the setup into **seven layers**, and each one has many options that change every couple of weeks:
+
+![Seven layers in one red frame titled "Something new every couple of weeks": Harness (Claude Code, Codex, Open Code, Pi, Cursor, Zed, Devin), Terminal (iTerm, Warp, cmux), Models and providers (OpenAI, Anthropic, xAI, Gemini), Skills (shared through git or npx skills), Integrations (CLI tools, MCP servers), Extensions (custom tools, commands, event handlers), Configuration (AGENTS.md, harness settings).](img/harness-stack-seven-layers.png)
+
+**The story:** nothing in the stack is stable. Every row churns. If I treat the stack as one block, any change feels like a rewrite. If I treat it as seven separate choices, I can swap one row and leave the other six alone.
+
+**What is important:** the rows are not equally portable. Two kinds of "agnostic" hide in this figure:
+
+| Kind | The question | Rows involved |
+|---|---|---|
+| **Harness-agnostic** | Can I swap the agent program and keep my setup? | Harness, Extensions, Configuration |
+| **Execution-agnostic** (my term) | Can the same agent run in any terminal, session manager, VPS or CI job? | Terminal, plus where the process lives |
+| **Provider-agnostic** | Can I swap the model vendor behind the agent? | Models and providers |
+| **Content-portable** | Does my knowledge survive any of the above? | Skills, Integrations, AGENTS.md |
+
+**What is not important:** the product names. They are examples for one moment in time. The layer boundaries last longer than any name inside them.
+
+```mermaid
+flowchart TB
+    subgraph PORTABLE["Portable: plain files and open protocols"]
+        SK["Skills\n(git, npx skills)"]
+        INT["Integrations\n(CLI tools, MCP servers)"]
+        CFG1["Configuration: AGENTS.md"]
+    end
+    subgraph SWAPPABLE["Swappable by config: pick one per layer"]
+        MOD["Models and providers"]
+        TERM["Terminal"]
+        HAR["Harness"]
+    end
+    subgraph COUPLED["Coupled to one harness"]
+        EXT["Extensions\n(custom tools, commands, event handlers)"]
+        CFG2["Configuration: harness settings"]
+    end
+    PORTABLE --> SWAPPABLE --> COUPLED
+```
+
+Two observations from the figure:
+
+- **The terminal is a separate layer from the harness.** Any CLI harness runs in any terminal. That is what makes execution-agnostic possible: the same agent can run in iTerm today, inside a session manager like Herdr tomorrow (see [06](06_Self_Management_Pi_Herdr.md)), and on a VPS or in CI later. UI harnesses (Cursor, Zed, Devin) bundle their own surface, so for them the terminal layer collapses into the product.
+- **Configuration is split in two.** `AGENTS.md` is portable text. Harness settings are not. Extensions are the most coupled row of all, which matches the lecturer's advice to keep them thin.
+
+## 4. Where lock-in actually sits
 
 Research on 11 coding-agent systems (["Harness Engineering", arxiv 2609.00006](https://arxiv.org/pdf/2609.00006)) and practitioner experience point to the same conclusion: **lock-in is in configuration, not in code.**
 
@@ -47,7 +90,7 @@ Research on 11 coding-agent systems (["Harness Engineering", arxiv 2609.00006](h
 
 **The rule:** the more a feature lives in my repo as plain text, the more portable it is. The more it lives in the vendor's infrastructure, the more locked I am.
 
-## 4. Practical strategies
+## 5. Practical strategies
 
 ### Keep substance in the repo
 
@@ -91,7 +134,7 @@ One practitioner recommendation I found valuable: **periodically run a real task
 
 If I use multiple harnesses (or want to), a single repo-level setup script that every harness's bootstrap calls means no vendor owns my install logic.
 
-## 5. My take
+## 6. My take
 
 The lecturer frames this as "harness-agnostic setup" and points to [Kody](https://github.com/kentcdodds/kody) as an example of config that moves between harnesses with almost no changes. That's the ideal.
 
@@ -109,4 +152,6 @@ MCP is the biggest unlock here. Before MCP, every tool integration was harness-s
 | 4 | Cloud agents are vendor-locked | **Agrees** | Each vendor's cloud agent runs in their infra with their auth; no portability standard exists | 2026-11-08 |
 | 5 | MCP is an open protocol any harness can implement | **Agrees** | [modelcontextprotocol.io](https://modelcontextprotocol.io/) — open spec, adopted by Claude Code, Cursor, Codex, Pi, and others | 2026-11-08 |
 | 6 | Kody project moves between harnesses with almost no config | **Lecture-specific (opinion)** | [Kody repo](https://github.com/kentcdodds/kody) exists; "almost no config" is the lecturer's characterization. Kody uses plain Markdown instructions, which supports the claim. | 2026-11-08 |
-| 7 | Vendors deliberately couple UI + harness | **My interpretation** | Not a factual claim — my reading of vendor incentives. Cursor and Claude Code do bundle UI + runtime tightly, but whether that's "deliberate lock-in" vs "product integration" is perspective. | 2026-11-08 |
+| 7 | The stack has seven independent layers (harness, terminal, models, skills, integrations, extensions, configuration) | **Lecture-specific (opinion)** | Lecture figure 1 ([S01E04](https://hq.mega.dev/figures/s01e04/artifacts/lesson/figure-1/frame.html)). It is the lecturer's taxonomy, not an industry standard. The layers are real; the exact split is a teaching choice. | 2026-11-08 |
+| 8 | "Execution-agnostic" as a separate kind of portability | **My interpretation** | My term for the terminal and process-location layer. Not used in the lecture or in the sources I checked. | 2026-11-08 |
+| 9 | Vendors deliberately couple UI + harness | **My interpretation** | Not a factual claim — my reading of vendor incentives. Cursor and Claude Code do bundle UI + runtime tightly, but whether that's "deliberate lock-in" vs "product integration" is perspective. | 2026-11-08 |

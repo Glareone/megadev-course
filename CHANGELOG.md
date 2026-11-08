@@ -14,21 +14,28 @@ Started: 2026-11-08. Branch: `lesson-3` (will move to `feature/lesson-4`).
 - **04 COMPUTERS.md — fleet infrastructure** — machine registry, provisioning runbook, infrastructure-as-data pattern, A2A service discovery angle. Fact-checked.
 - **Lecture 2 file 5 (Skills) updated** — added fleet metadata section (harness, platform, scope, origin, upstream, model fields). Cross-reference to Lecture 4 file 03.
 - **Lecture 3 file 13 (Knowledge skill anatomy) updated** — cross-reference to Lecture 4 file 03.
+- **01 updated** — added "Split the problem into layers": the lecture's seven-layer stack figure (`img/harness-stack-seven-layers.png`), harness-agnostic vs execution-agnostic vs provider-agnostic, portable / swappable / coupled diagram. Sections renumbered 4–6.
 - **05 Don't overspecify** — the four-layer stack (Code → LLMs → Harnesses → Assistants), why overspecifying lower layers is a trap, the platform-eats-the-layer-below pattern. Fact-checked.
 - **Root README updated** — added Lecture 4 section with all four files.
 - **Lecture 4 README created** — index of all files.
 
-### In progress
+### Drafts (first pass from transcript only, to be refined with my thoughts)
 
-- Transcript has more topics not yet covered: self-management (Pi + Herdr), multi-agent coordination (coordinator/worker/supervisor pattern), model routing and cost-per-task, teamwork (shared resources, internal knowledge base, AI-friendly tool stack), automated workflows (GitHub-triggered agents).
+Written 2026-11-08 straight from the transcript outline. Not yet merged with my own insights, so they skip the "listen" step in AGENTS.md. Each will be adjusted one by one as I read the lecture.
+
+- **06 Self-management (Pi, Herdr)** — Pi/Herdr claims are all "verify before presenting". Not checked against their docs.
+- **07 Multi-agent coordination** — limen architecture, files as messages, worktrees. Limen repo not read, only the transcript description.
+- **08 Settings (model routing, cost per task, privacy)** — "efficient since Opus 4.8" claim unverified. Slopalytics not checked.
+- **09 Teamwork (knowledge base, tool stack)** — tool stack list is the lecturer's, AI-friendliness not checked per tool.
+- **10 Automation (repository agents)** — GitHub integration table not re-checked against current vendor docs.
 
 ### Gaps
 
-- No coverage yet of Pi or Herdr specifics — the transcript discusses them in depth.
-- Model routing / reasoning effort / cost-per-task — not written.
-- Automated workflows (GitHub Actions agents, PR review, issue-to-PR) — not written.
-- The limen project structure is referenced in file 03 but not explored in its own file.
-- Privacy boundary (deterministic model selection) — mentioned in file 02 fact-check, no dedicated note.
+- **Fact-check depth:** files 06–10 rely on the transcript and linked example repos existing. No primary-source read of Pi, Herdr, limen, or the examples.
+- **CLI vs UI harness comparison, core vs critical features** (transcript section 1) — only touched in 01 and 05, no dedicated note.
+- **The limen project** is described in 03 and 07 but its repo is not explored in its own file.
+- **My own insights** are missing from 06–10 (architect view, Aras platform mapping, A2A).
+- **Cross-references:** older Lecture 2 and 3 notes do not yet link forward to 06–10.
 
 ## Lecture 3 — Simplify the Codebase and the Knowledge Base (complete, has unverified claims)
 

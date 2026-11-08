@@ -1,0 +1,97 @@
+# 8. Settings — model routing, reasoning effort, and cost per task
+
+> Don't measure models by token price. Measure by **cost per task**. Use SOTA models with lower reasoning effort for easy work, and a clear **deterministic boundary** when privacy requires a local model.
+
+Related: [05 Don't overspecify](05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [Lecture 2: 1 Harness](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md)
+
+Source: S01E04 transcript (settings section), see [Fact-check](#fact-check).
+
+## 1. The problem
+
+Which model do I use? How hard should it think? How much does it cost? And what happens when part of my project can't touch a cloud API?
+
+## 2. Model choice and routing
+
+The lecturer recommends **SOTA models** (best available at any moment) as the default, with two levers to reduce cost:
+
+```mermaid
+flowchart TB
+    subgraph GRID["Model × effort grid"]
+        SH["SOTA + high effort\n(best, most expensive)"]
+        SL["SOTA + low effort\n(easier tasks)"]
+        MH["Smaller model + high effort\n(cheaper)"]
+        ML["Smaller model + low effort\n(cheapest)"]
+    end
+    style SH fill:#d44,stroke:#d44,color:#fff
+```
+
+In a multi-agent setup, the parent agent manages this:
+
+```mermaid
+flowchart LR
+    REC["General recommendation"] --> P["Parent agent"]
+    CTX["Ongoing context"] --> P
+    P --> W1["Worker 1\nSOTA, high effort"]
+    P --> W2["Worker 2\nSOTA, low effort"]
+    P --> W3["Worker 3\nSmaller model"]
+```
+
+The parent decides which model and effort level each worker gets, based on the task complexity.
+
+## 3. Reasoning effort
+
+No clear rule for which reasoning level to use — it depends on model, task, and harness. Benchmarks set a baseline, but the lecturer recommends [testing which level works for my specific tasks](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/effort-routing).
+
+## 4. Cost per task, not cost per token
+
+Token price alone is misleading:
+
+| Metric | Model A | Model B |
+|---|---|---|
+| Price per million tokens | $0.50 | $2.00 |
+| Tokens used per task | 220k | 40k |
+| **Cost per task** | **$0.11** | **$0.08** |
+
+Model B costs 4x more per token but is cheaper per task because it uses fewer tokens. [Slopalytics](https://slopalytics.com) provides cost-per-task metrics.
+
+The lecturer notes that many workflows (multi-agent collaboration) became much more efficient since roughly Opus 4.8 — older or open-source models may not handle these workflows well.
+
+## 5. Privacy boundaries
+
+When privacy requires a local or open-source model, **no LLM can reliably select the model**. Current models are clever enough to find workarounds around even strong boundaries.
+
+The fix: **deterministic separation.**
+
+```mermaid
+flowchart LR
+    subgraph BAD["Unreliable: LLM selects model"]
+        P1["Private project"] --> LLM1["LLM router"]
+        LLM1 --> |"can find workaround"| CLOUD["Cloud model"]
+        LLM1 --> LOCAL1["Local model"]
+    end
+```
+
+```mermaid
+flowchart LR
+    subgraph GOOD["Reliable: deterministic separation"]
+        P2["Private project"] --> LOCAL2["Local model only"]
+        LOCAL2 -.- |"no path exists"| CLOUD2["Cloud model"]
+    end
+```
+
+The boundary must be in **infrastructure** (network rules, config), not in prompts or agent logic. This connects to [02 Agent runner portability](02_Agent_Runner_Portability.md) — my adapter layer needs to support hard routing rules, not just preferences.
+
+## 6. My take
+
+Cost per task is the right metric. I've seen teams pick a cheaper model and spend more because it takes three attempts to get a working result.
+
+The privacy boundary point is critical for enterprise work. "The model decides which model to use" is not a security architecture — it's a suggestion box.
+
+## Fact-check
+
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Cost per task is more accurate than token price | **Agrees** | [Slopalytics](https://slopalytics.com) exists and provides this metric. Concept is well-established in practitioner community. | 2026-11-08 |
+| 2 | No LLM can reliably enforce privacy boundaries | **Agrees** | [privacy-boundary example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/privacy-boundary); also consistent with known prompt injection / jailbreak research | 2026-11-08 |
+| 3 | Multi-agent workflows became more efficient since Opus 4.8 | **Lecture-specific (opinion)** | Lecturer's characterization. No independent benchmark comparing multi-agent efficiency across Opus versions found. | 2026-11-08 |
+| 4 | Effort routing should be tested per task type | **Agrees** | [effort-routing example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/effort-routing) exists. General best practice in AI engineering. | 2026-11-08 |

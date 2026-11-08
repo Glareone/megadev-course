@@ -22,6 +22,11 @@ Started: 2026-11-08. Branch: `lesson-3` (will move to `feature/lesson-4`).
 
 - **11 Cloud coding agents** — comparison of cloud coding agents (Cursor Cloud Agents, Claude Code in the cloud) vs agent hosting platforms (AgentCore, Foundry). Written from a web search, not from the transcript detail. Vendor facts checked via search summaries of vendor docs (pages not read in full). **Marked "to return to"**: six open questions at the end of the note.
 
+- **12 Context language models** — what the paper is, how a CLM works (context as an editable file), levers, results table, what it does not test, injection risk. **First pass**: I read the HTML version through two reader agents, not the PDF. Appendices C–G came only as summaries. The paper's code repo was not opened.
+- **13 Herdr vs Orca (agent orchestration)** — Herdr model figure (`img/herdr-server-workspace-tab-pane-agent.png`), two Herdr products, lecture commands checked against the CLI reference, Orca (`stablyai/orca`) worktrees and experimental orchestration, comparison table, layer mapping, cautions. **First pass.** I assumed the stablyai Orca; the note asks the user to confirm. Neither tool was installed or run. Also added the Herdr + Pi coordinator/worker sequence figure (`img/herdr-coordinator-worker-sequence.png`), the Hello World exercise, and a table of how the coordinator learns the result (pull vs push vs files). The exercise itself has not been run.
+- **06 corrected** — "Herdr wraps around Pi" replaced (Herdr keeps any terminal program alive, Pi is one integration), `agent start` needs a pane id, keep-alive claim verified. Markers added in the body and the fact-check row.
+- **05 corrected** — the paper claim was marked "Agrees" after I only confirmed the paper exists. Reading it showed the claim is narrower (wins over named baselines, one tie, one trail, no commercial harness tested). Fixed in the body and the fact-check row, with a `Corrected 2026-11-08` marker.
+
 ### Drafts (first pass from transcript only, to be refined with my thoughts)
 
 Written 2026-11-08 straight from the transcript outline. Not yet merged with my own insights, so they skip the "listen" step in AGENTS.md. Each will be adjusted one by one as I read the lecture.

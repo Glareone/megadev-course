@@ -2,7 +2,7 @@
 
 > The stack is Code → LLMs → Harnesses → Assistants. The higher I work, the more scalable my setup is. Overspecifying the harness is the same trap as tuning temperature was — investing effort in a layer the model will outgrow.
 
-Related: [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 1 Simplify first](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/01_Simplify_First_Knowledge_Guardrails.md)
+Related: [12 Context language models](12_Context_Language_Models.md) · [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 1 Simplify first](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/01_Simplify_First_Knowledge_Guardrails.md)
 
 Source: S01E04 lecture slide (the four-layer stack), transcript discussion on native capabilities and heavy guidance, see [Fact-check](#fact-check).
 
@@ -49,7 +49,7 @@ Everyone tuned temperature, top-p, frequency penalty. Built workflows around spe
 
 This is where I am now. I can spend days building elaborate hook chains, custom extensions, complex routing rules, harness-specific workflows. But:
 
-- **Models get smarter.** The transcript cites [Context Language Models (arxiv 2609.37725)](https://arxiv.org/abs/2609.37725) suggesting LLMs are better at context management than the best strategies I can build around them. My elaborate context management hooks may actively degrade performance.
+- **Models get smarter.** The transcript cites [Context Language Models (arxiv 2609.37725)](https://arxiv.org/abs/2609.37725). Corrected 2026-11-08: was "LLMs are better at context management than the best strategies I can build around them, and my hooks may degrade performance", now: in the paper, a model that edits its own context file with Bash beat the **named baselines** (such as Codex-style summarization) on several benchmarks, tied on one and trailed on one, mostly at 32K context. It did not test commercial harnesses, and it says nothing about my hooks. I read it through its HTML version, not the PDF. See [12 Context language models](12_Context_Language_Models.md).
 - **Harnesses converge.** The transcript and research ([arxiv 2609.00006](https://arxiv.org/pdf/2609.00006)) confirm that harnesses adopt each other's features quickly. My harness-specific optimizations become standard features.
 - **Heavy guidance degrades.** The transcript warns that if I build logic around an agent — even a skill with heavy guidance — I may end up with a setup that **degrades the model's performance** without a clear sign of who's to blame.
 
@@ -88,7 +88,7 @@ The practical test: if I removed all my harness config and hooks tomorrow and ke
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
-| 1 | Context Language Models paper suggests LLMs are better at context management than manual strategies | **Agrees** | [arxiv 2609.37725](https://arxiv.org/abs/2609.37725) — cited by the lecturer; paper exists | 2026-11-08 |
+| 1 | Context Language Models paper suggests LLMs are better at context management than manual strategies | **Differs: narrower than stated** (corrected 2026-11-08; the first version said "Agrees" after I had only confirmed the paper exists) | [arxiv 2609.37725](https://arxiv.org/abs/2609.37725). The paper shows wins over named baselines on several benchmarks, a tie and a trail, no commercial harness tested. Details in [12](12_Context_Language_Models.md). | 2026-11-08 |
 | 2 | Heavy guidance can degrade model performance | **Agrees** | Transcript: "we may end up with a setup that degrades the model's performance without a clear sign of who's to blame." Also consistent with Anthropic's [best practices](https://www.anthropic.com/research/claude-code-best-practices) recommending simpler prompts. | 2026-11-08 |
 | 3 | Harnesses converge on features quickly | **Agrees** | [arxiv 2609.00006](https://arxiv.org/pdf/2609.00006) — confirms feature convergence across coding-agent systems | 2026-11-08 |
 | 4 | Temperature tuning became mostly irrelevant with reasoning models | **Agrees** | Reasoning models (o1, o3, Claude with extended thinking) generally ignore or clamp temperature. OpenAI's o1 docs explicitly state temperature is not used. | 2026-11-08 |

@@ -8,12 +8,12 @@ Builds on lecture 1: [13 Skills and context](../Lecture_1_Mechanics_Behind_Gener
 
 ## What a skill is
 
-```
-skill-name/
-├── SKILL.md       required: YAML frontmatter + Markdown body
-├── scripts/       optional: executable code
-├── references/    optional: docs, read on demand
-└── assets/        optional: templates, data
+```mermaid
+flowchart TD
+    S["skill-name/"] --> M["SKILL.md<br/>required: YAML frontmatter + Markdown body"]
+    S --> SC["scripts/<br/>optional: executable code"]
+    S --> R["references/<br/>optional: docs, read on demand"]
+    S --> A["assets/<br/>optional: templates, data"]
 ```
 
 Frontmatter per the [Agent Skills specification](https://agentskills.io/specification):

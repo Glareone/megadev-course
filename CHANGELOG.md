@@ -15,9 +15,12 @@ Started: 2026-11-08. Branch: `lesson-3` (will move to `feature/lesson-4`).
 - **Lecture 2 file 5 (Skills) updated** — added fleet metadata section (harness, platform, scope, origin, upstream, model fields). Cross-reference to Lecture 4 file 03.
 - **Lecture 3 file 13 (Knowledge skill anatomy) updated** — cross-reference to Lecture 4 file 03.
 - **01 updated** — added "Split the problem into layers": the lecture's seven-layer stack figure (`img/harness-stack-seven-layers.png`), harness-agnostic vs execution-agnostic vs provider-agnostic, portable / swappable / coupled diagram. Sections renumbered 4–6.
+- **01 updated again** — added "Native harness vs multiprovider harness" (`img/native-vs-multiprovider-harness.png`): vendor-locked vs open, trade-offs, my default of flexibility first. Two claims marked unverified (native optimization advantage, product classification).
 - **05 Don't overspecify** — the four-layer stack (Code → LLMs → Harnesses → Assistants), why overspecifying lower layers is a trap, the platform-eats-the-layer-below pattern. Fact-checked.
 - **Root README updated** — added Lecture 4 section with all four files.
 - **Lecture 4 README created** — index of all files.
+
+- **11 Cloud coding agents** — comparison of cloud coding agents (Cursor Cloud Agents, Claude Code in the cloud) vs agent hosting platforms (AgentCore, Foundry). Written from a web search, not from the transcript detail. Vendor facts checked via search summaries of vendor docs (pages not read in full). **Marked "to return to"**: six open questions at the end of the note.
 
 ### Drafts (first pass from transcript only, to be refined with my thoughts)
 

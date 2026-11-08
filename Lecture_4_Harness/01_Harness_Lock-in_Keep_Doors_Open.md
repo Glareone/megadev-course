@@ -2,7 +2,7 @@
 
 > Treat the harness as a **replaceable middle layer** between the UI and my tools/APIs. Keep substance in the repo, not in vendor features. The moment I couple to the UI, I'm stuck.
 
-Related: [02 Agent runner portability](02_Agent_Runner_Portability.md) · [Lecture 3: 5 Knowledge as files](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/05_Knowledge_As_Files_For_Agents.md) · [Lecture 3: 13 Knowledge skill anatomy](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md) · [Lecture 2: 1 Harness](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md)
+Related: [02 Agent runner portability](02_Agent_Runner_Portability.md) · [11 Cloud coding agents](11_Cloud_Coding_Agents.md) · [Lecture 3: 5 Knowledge as files](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/05_Knowledge_As_Files_For_Agents.md) · [Lecture 3: 13 Knowledge skill anatomy](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md) · [Lecture 2: 1 Harness](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md)
 
 Source: S01E04 transcript (lecture diagram + discussion on harness-agnostic setup), web research checked 2026-11-08, see [Fact-check](#fact-check).
 
@@ -73,6 +73,27 @@ Two observations from the figure:
 - **The terminal is a separate layer from the harness.** Any CLI harness runs in any terminal. That is what makes execution-agnostic possible: the same agent can run in iTerm today, inside a session manager like Herdr tomorrow (see [06](06_Self_Management_Pi_Herdr.md)), and on a VPS or in CI later. UI harnesses (Cursor, Zed, Devin) bundle their own surface, so for them the terminal layer collapses into the product.
 - **Configuration is split in two.** `AGENTS.md` is portable text. Harness settings are not. Extensions are the most coupled row of all, which matches the lecturer's advice to keep them thin.
 
+### Native harness vs multiprovider harness
+
+The harness row has its own split. It is the first lock-in decision I make:
+
+![Two frames side by side. Left, "Native harness": the provider's harness connects only to the provider's models. It is better optimized for these models and works with one provider only. Right, in red, "Multiprovider harness": one harness connects to OpenAI, Anthropic, Gemini, xAI and DeepSeek. I can switch between the models or use a few models on the same task for different perspectives.](img/native-vs-multiprovider-harness.png)
+
+**The story:** a native harness is built by the model vendor for the vendor's own models. A multiprovider harness sits above the vendors and treats models as interchangeable parts.
+
+| | Native (vendor-locked) | Multiprovider (open) |
+|---|---|---|
+| Models | One provider only | Any supported provider |
+| Strength | Often better optimized for its own models | Switch models, or use several on one task for different perspectives |
+| Weakness | The harness and the vendor are one decision. If I leave one, I leave both | Not tuned for any single model, so I may lose some model-specific quality |
+| Typical examples | Claude Code, Codex | OpenCode, Pi |
+
+**What is important:** the red frame is the lecturer's pick. Models are, in his words, "like different people with unique perspectives", so being able to put two of them on the same task is a feature, not only an escape hatch.
+
+**What is not important:** which product sits in which column today. Native harnesses add provider support and multiprovider ones add native-grade tuning. I treat the column as a property to check per product, not a permanent label.
+
+**My rule:** the market moves too fast to bet on one vendor, so flexibility wins by default. I use a native harness when its optimization clearly pays for itself, and I do it with my substance kept in portable files (see [strategies](#5-practical-strategies)). That way the native harness stays a choice I can undo. For routing models inside one task, see [08 Settings](08_Settings_Model_Routing_Cost.md) and the adapter pattern in [02](02_Agent_Runner_Portability.md).
+
 ## 4. Where lock-in actually sits
 
 Research on 11 coding-agent systems (["Harness Engineering", arxiv 2609.00006](https://arxiv.org/pdf/2609.00006)) and practitioner experience point to the same conclusion: **lock-in is in configuration, not in code.**
@@ -85,7 +106,7 @@ Research on 11 coding-agent systems (["Harness Engineering", arxiv 2609.00006](h
 | CLI tools | **Yes** | Shell commands work everywhere. |
 | Model choice | **Low risk** | Models converge. Swapping provider = changing a config line. |
 | Hooks / extensions | **No** | Pi extensions ≠ Claude Code hooks ≠ Cursor rules. Vendor-specific packaging and lifecycle. |
-| Cloud agents / managed environments | **No** | Tied to vendor infrastructure. No portability. |
+| Cloud agents / managed environments | **No** | Tied to vendor infrastructure. No portability. See [11 Cloud coding agents](11_Cloud_Coding_Agents.md). |
 | Vendor-specific review bots | **No** | GitHub Actions wiring, vendor auth, policy — all coupled. |
 
 **The rule:** the more a feature lives in my repo as plain text, the more portable it is. The more it lives in the vendor's infrastructure, the more locked I am.
@@ -154,4 +175,6 @@ MCP is the biggest unlock here. Before MCP, every tool integration was harness-s
 | 6 | Kody project moves between harnesses with almost no config | **Lecture-specific (opinion)** | [Kody repo](https://github.com/kentcdodds/kody) exists; "almost no config" is the lecturer's characterization. Kody uses plain Markdown instructions, which supports the claim. | 2026-11-08 |
 | 7 | The stack has seven independent layers (harness, terminal, models, skills, integrations, extensions, configuration) | **Lecture-specific (opinion)** | Lecture figure 1 ([S01E04](https://hq.mega.dev/figures/s01e04/artifacts/lesson/figure-1/frame.html)). It is the lecturer's taxonomy, not an industry standard. The layers are real; the exact split is a teaching choice. | 2026-11-08 |
 | 8 | "Execution-agnostic" as a separate kind of portability | **My interpretation** | My term for the terminal and process-location layer. Not used in the lecture or in the sources I checked. | 2026-11-08 |
-| 9 | Vendors deliberately couple UI + harness | **My interpretation** | Not a factual claim — my reading of vendor incentives. Cursor and Claude Code do bundle UI + runtime tightly, but whether that's "deliberate lock-in" vs "product integration" is perspective. | 2026-11-08 |
+| 9 | A native harness is often better optimized for its provider's models | **Unverified — verify before presenting** | Lecture figure 2 ([S01E04](https://hq.mega.dev/figures/s01e04/artifacts/lesson/figure-2/frame.html)) says "often". I found no benchmark comparing a native harness against a multiprovider one on the same model. | 2026-11-08 |
+| 10 | Claude Code and Codex are native; OpenCode and Pi are multiprovider | **Unverified — verify before presenting** | Classification is mine, from the lecture's harness lists. Provider support changes quickly. Check each product's docs before presenting. | 2026-11-08 |
+| 11 | Vendors deliberately couple UI + harness | **My interpretation** | Not a factual claim — my reading of vendor incentives. Cursor and Claude Code do bundle UI + runtime tightly, but whether that's "deliberate lock-in" vs "product integration" is perspective. | 2026-11-08 |

@@ -16,3 +16,4 @@ Source: S01E04 transcript + lecture video + web research.
 | 08 | [Settings — Model Routing and Cost](08_Settings_Model_Routing_Cost.md) | SOTA × effort grid, cost per task instead of token price, deterministic privacy boundary. **Draft.** |
 | 09 | [Teamwork — Knowledge Base and Tool Stack](09_Teamwork_Knowledge_Base_Tool_Stack.md) | Internal knowledge base on a remote server, AI-friendly tool stack, three ways to share skills. **Draft.** |
 | 10 | [Automation — Repository Agents](10_Automation_Repository_Agents.md) | Trigger → agent → human loop. PR review, issue to PR, doc updates, small fixes. **Draft.** |
+| 11 | [Cloud Coding Agents](11_Cloud_Coding_Agents.md) | Two things share the name "cloud agent": ready-made coding agents in a remote VM (Cursor, Claude Code cloud) vs hosting platforms for my own agent (AgentCore, Foundry). Comparison table, vendor-doc facts, self-hosted variants, open questions to return to. |

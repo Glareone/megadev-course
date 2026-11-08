@@ -151,12 +151,18 @@ The same pattern makes a **harness and ecosystem of our own**, not just a tuned 
 
 ## Hooks across several agents: a worked example
 
-Hooks are not only for one agent. The lecture's limen setup runs a coordinator, several workers and a supervisor, and what makes it work is a handful of hooks:
+Hooks are not only for one agent. The lecture's limen setup runs a coordinator, several workers and a supervisor. The picture shows who does what, in five stages:
 
-- the global rules (`vision.md`, `styleguide.md`, the board) added to every prompt
-- the coordinator's corrections delivered to a worker between tool calls
-- a final report at the end of a worker's job (the lecture says a tool; in the limen code I read, the worker's last message is saved into the job record)
-- a notification to the coordinator when a job ends
+![Swimlane diagram with five stages from left to right: Ask, Hand off, Work, Finish, Land, and four lanes from top to bottom: You, Coordinator, Workers, Supervisor. You ask for an outcome and the Coordinator writes the ticket. At hand-off the Coordinator starts a Worker, the Worker gets its own space, and the Supervisor starts with the Worker. During work the Coordinator stays with you, the Worker does the task, and the Supervisor watches. At finish the Coordinator gets a job-ended notice, the Worker commits and reports, and the Supervisor records the outcome. At land, you decide what lands and the Coordinator merges and closes. The Workers are drawn as a small stack because several run side by side.](../Lecture_4_Harness/img/pi-lifecycle-hooks-job-states-swimlane.png)
+
+**How to read it for hooks:** each lane is one role. I am in the top lane only at the start (ask for an outcome) and at the end (decide what lands). The hooks below run inside the Coordinator and Worker lanes. The Supervisor lane is plain code outside the agents.
+
+What makes it work is a handful of hooks:
+
+- the global rules (`vision.md`, `styleguide.md`, the board) added to every prompt, in every agent (all stages)
+- the coordinator's corrections delivered to a worker between tool calls (Work stage)
+- a final report at the end of a worker's job (Finish stage, the Worker's "Commits and reports"). The lecture says a tool. In the limen code I read, the worker's last message is saved into the job record
+- a notification to the coordinator when a job ends (Finish stage, the Coordinator's "Gets 'job ended'")
 
 The supervisor that records how a worker ended is **not** a hook. A hook only fires while the agent loop is alive, so it cannot record a crash. The swimlane picture, the job lifecycle as a state machine, and the mapping to Claude Code events are in [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md#where-the-lifecycle-hooks-attach). The mechanism underneath (Pi's events, files, file watchers, Herdr and the supervisor) is in [Lecture 4: 15 Pi and limen behind the scenes](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md).
 

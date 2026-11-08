@@ -49,7 +49,7 @@ flowchart TD
 - Smaller models can fail a task only because the information is in a different **order** (*Premise Order Matters*).
 
 ## Try it (from the lesson)
-- *Reasoning effort* example: one checkable task at each effort level, compare reasoning tokens, time, cost and correctness. Compare with a smaller model to find the lowest level that still gets it right.
+- *Reasoning effort* example: one checkable task at each effort level, compare reasoning tokens, time, cost and correctness. Compare with a smaller model to find the lowest level that still gets it right. How model tier and effort combine, and what the vendors say about effort levels, is in [Lecture 4: 16 SOTA and reasoning effort](../Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md).
 
 ## Sources
 - Primary paper: [Verbalizable Representations Form a Global Workspace in Language Models](https://transformer-circuits.pub/2026/workspace/index.html)

@@ -2,7 +2,7 @@
 
 > Build the knowledge base **for the agent first**: plain Markdown, immutable raw sources, an agent-written wiki, a short schema file. The agent maintains it. Humans get a read-only **bridge**.
 
-Related: [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [6 Beyond Markdown (mdx, svx)](06_Beyond_Markdown_mdx_svx.md) · [7 The explainer skill](07_Explainer_Skill.md) · [Lecture 2: 1 Harness (memory vs knowledge base)](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md) · [10 Tool results, context to file](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md) · [9 Prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) · [Lecture 1: 17 Ambient agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md)
+Related: [1 Simplify first](01_Simplify_First_Knowledge_Guardrails.md) · [6 Beyond Markdown (mdx, svx)](06_Beyond_Markdown_mdx_svx.md) · [7 The explainer skill](07_Explainer_Skill.md) · [8 Decision models](08_Decision_Models_Search_And_Memory.md) · [10 Demos: reaching the right files](10_Demos_Reaching_The_Right_Files.md) · [Lecture 2: 1 Harness (memory vs knowledge base)](../Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md) · [10 Tool results, context to file](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md) · [9 Prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) · [Lecture 1: 17 Ambient agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md)
 
 Source: lecture text on knowledge bases, two lecture images, and Karpathy's [X post](https://x.com/karpathy/status/2039805659525644595) (text pasted by us, the page itself was not fetchable) and [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) (read in full). Checked on the web on 2026-11-07, see [Fact-check](#fact-check).
 
@@ -101,6 +101,20 @@ From [note 1, section 4](01_Simplify_First_Knowledge_Guardrails.md#4-knowledge-g
 - A wiki the agent writes and nobody can check is a rumor mill. Raw sources, source links, lint and git are what make it reviewable.
 - Simple still wins: files in a folder, one index, no extra infrastructure until it hurts (see [note 1, section 5](01_Simplify_First_Knowledge_Guardrails.md#5-simple-even-oversimplified-our-wording)).
 
+### Beyond search: more context, and metadata (short)
+
+The lecture adds three kinds of context that help an agent reach knowledge, besides search tools:
+
+| Kind | What it holds | Our note |
+|---|---|---|
+| **Global context** | Files beyond one project: the system, environment, installed tools, general principles | Like a user-level `CLAUDE.md`. Keep it short ([note 1](01_Simplify_First_Knowledge_Guardrails.md)) |
+| **Project context** | Vision, feature map, style guide, business aspects | Product-level facts the code cannot say. Not a map of the code, which note 1 says to leave out |
+| **Metadata** | Categories, tags, sources, and signals of trust | See below |
+
+**Open Knowledge Format (OKF).** Checked in the spec (v0.2, Google Cloud, repository under Apache-2.0): a directory of Markdown files with YAML frontmatter, with no required tooling. It answers five questions an agent has about a note: where it came from (**provenance**, a `sources` field), how far to trust it (**trust**, `generated` and `verified`, giving tiers *unverified*, *machine-confirmed* and *human-reviewed*), whether it is still true (**freshness**, `stale_after` as an exact date), whether it is current (**lifecycle**, `status`: draft, stable or deprecated), and whether a number was produced the way it must be (**attestation**). The spec calls trust tiers "advisory signals, not access control", and a note with no trust fields must still be accepted.
+
+**Why it matters for us.** It is the same idea as our rules, written as frontmatter: every note has a **type and a way to be reviewed** ([note 1](01_Simplify_First_Knowledge_Guardrails.md#4-knowledge-guardrails-and-principles-by-type-and-reviewability)), and **no claim without a source** (section 6 above). **Caution:** it is young (v0.2, July 2026) and led by one vendor. Read the spec before adopting it. [Spec](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)
+
 ## 7. Thinking rounds (our own practice)
 
 Karpathy uses the wiki to **learn from sources**. We also use it to **check our own thinking**. This comes from our own working practice, not from the lecture or from Karpathy.
@@ -189,6 +203,7 @@ Checked on **2026-11-07**. The X post text was pasted by us. The gist was fetche
 | 14 | An agent reviewing our own thinking can be trusted to push back | **Risk, supported** | Sharma et al. (Anthropic, ICLR 2024): five assistants (Claude 1.3 and 2.0, GPT-3.5 and GPT-4, Llama 2 70B) consistently showed sycophancy, meaning they favour answers that match the user's views. Human feedback is a likely cause. Models are newer now, so re-test. [arXiv 2310.13548](https://arxiv.org/abs/2310.13548) |
 | 14b | Assigning the agent an opponent's role fixes the agreeing problem | **Our practice, unverified** | It works for us in practice. We found no source that tests it. The opposite risk (an opponent that invents objections to fill its role) is our own reasoning, not measured. Hence the evidence and verdict columns above |
 | 15 | Using the wiki to review our own reasoning ("thinking rounds") | **Our own practice, unverified** | Karpathy's lint finds inconsistent data and connections for new articles. Reviewing the author's **reasoning** and **decisions** is our extension. Neither source covers it, and we found no study. Judge it by our results: did the rounds change a decision for the better? |
+| 16 | The Open Knowledge Format is Markdown with YAML frontmatter that tells agents the source, trust and freshness of a note | **Agrees** | Spec v0.2 (read on 2026-11-08): `sources`, `generated` and `verified`, `stale_after`, `status`, plus attestation. A Google Cloud announcement dates v0.2 to late July 2026 (search summary). [Spec](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) |
 
 ## Cautions
 
@@ -223,5 +238,6 @@ For domain knowledge, files beat documents: plain Markdown that an agent can rea
 - Karpathy, [llm-wiki.md](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), gist, April 4, 2026 (read in full)
 - Lecture text and two lecture images (copied to `img/`)
 - Third-party write-ups of the pattern were seen only as search snippets and are not relied on
+- [Open Knowledge Format spec v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) (read on 2026-11-08), Apache-2.0
 - Sharma et al., [Towards Understanding Sycophancy in Language Models (arXiv 2310.13548)](https://arxiv.org/abs/2310.13548), ICLR 2024 (seen as a search summary, read the paper before quoting details)
 - Section 6 (types-and-review table), section 7 (thinking rounds) and section 8 (our repo) are our own reasoning, not from the lecture or from Karpathy

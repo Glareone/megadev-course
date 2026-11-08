@@ -29,6 +29,9 @@ The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a
 - Models, tools and harnesses change fast: note the date, and flag anything that may age.
 - If sources contradict the lecturer, say so plainly in the note. Don't soften it.
 - Anything we could not verify stays marked "verify before presenting".
+- **Fix outdated or wrong facts at once, in the note body.** A verdict in the fact-check table is not enough. Correct the sentence in the text, add a short marker `Corrected YYYY-MM-DD: was X, now Y`, and cite the primary source.
+- **Fix it everywhere.** Grep the whole repo (all lectures) for the same claim and correct every note that repeats it. When we edit an old note, re-check its time-sensitive claims (models, tool behaviour, versions, prices, limits).
+- Prefer the primary source over a search summary. When a search summary supports a correction, confirm it against the vendor docs and say which one we read.
 
 ## Way of thinking (follow in order, don't skip)
 1. **Problem** – state what question the topic answers.

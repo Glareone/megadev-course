@@ -47,7 +47,7 @@ Every note has the same shape, so it is quick to scan:
 
 1. `# N. Title` and a one-line summary starting with `>`.
 2. A `Related:` line that links both ways. No broken relative links.
-3. The sections: the problem, the words I pin down, the picture (its story, what is important, what is not), my view, the fact-check, cautions, summary, open questions, sources.
+3. The sections (the exact order and minimums are in [.claude/rules/note-format.md](.claude/rules/note-format.md)): the problem, the words I pin down, the picture (its story, what is important, what is not), my view, the fact-check, cautions, summary, open questions, sources.
 4. Diagrams are **Mermaid only**. No ASCII art.
 
 ## What to read first
@@ -155,6 +155,22 @@ Folder: [Lecture_4_Harness](Lecture_4_Harness/)
 | [17](Lecture_4_Harness/17_Cost_Per_Task.md) | Cost per task instead of token price: the lecture's worked example, tasks per dollar, cost per solved task, why tokens per task differ, who publishes it, what to measure in my own runner |
 | [18](Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md) | Sharing approved skills across teams: Git, `npx skills` and Skills over MCP checked against their docs, and an AI marketplace as an approval step on top of them |
 
+### Lecture 5: Workflows, not tool sets
+
+| # | Topic |
+|---|---|
+| [01](Lecture_5_Workflows_not_tool_sets/01_Skill_Or_Agent_For_Explore_Loops.md) | Skill or agent for exploring: thread and settings are the real difference, a loop for `explore-*` agents, skill plus agent |
+| [02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md) | Before the merge: a read-only reviewer agent on a fast, cheap model next to tests, PR bots and a human, a three-round revision loop, what the evidence says |
+| [draft_01](Lecture_5_Workflows_not_tool_sets/draft_01_Workflows_Live_In_Prompts_And_Skills.md) | Where a workflow lives: prompts and skills, not code wrappers. When code still wins (exact checks, hard limits) |
+| [draft_02](Lecture_5_Workflows_not_tool_sets/draft_02_Markdown_Is_Executable.md) | Markdown as a program. The nightly PR triage with cheap and strong delegates, what I give up, how to cover it |
+| [draft_03](Lecture_5_Workflows_not_tool_sets/draft_03_Skill_Evolution_Sol_Loop.md) | A skill is never finished: the sol-loop through seven edits, a skill audit |
+| [draft_04](Lecture_5_Workflows_not_tool_sets/draft_04_The_Merge_Button_Before_And_After.md) | The merge button: confidence before, a way back after, why speed makes the way back matter, and when this does not fit |
+| [draft_05](Lecture_5_Workflows_not_tool_sets/draft_05_Seek_Tedium_Delegate_The_Boring.md) | Seek tedious work: hand it to agents in bulk and keep my attention for judgment |
+| [draft_06](Lecture_5_Workflows_not_tool_sets/draft_06_Teach_With_Bad_And_Good_Examples.md) | Steer style with a skill: the file-PR skill, bad and good example pairs, agent-invoked skills |
+| [draft_07](Lecture_5_Workflows_not_tool_sets/draft_07_Prompting_Wider.md) | Prompting wider: bring the agent in earlier and let it go further, proof instead of line-by-line review |
+| [draft_08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) | Building blocks, workflow skills and the prompt: Full Send and Full Stop |
+| [draft_09](Lecture_5_Workflows_not_tool_sets/draft_09_Where_Skills_Live_Global_Harness_Repo.md) | Global, harness or repo: the decision, the PR comment skill, keeping the skill set small |
+
 ### Example skills I keep (not enabled)
 
 These are pinned, verbatim copies of other people's skills, kept as examples of good structure. Claude Code loads project skills from `.claude/skills/`, so these folders are **not loaded**. Each has a `SOURCE.md` with the repository, commit, version and license. Read the code before you enable or run anything.
@@ -163,6 +179,12 @@ These are pinned, verbatim copies of other people's skills, kept as examples of 
 |---|---|
 | [.claude/explainer/](.claude/explainer/SOURCE.md) | The `explainer` skill: Markdown with data blocks to an interactive HTML page |
 | [.claude/knowledge/](.claude/knowledge/SOURCE.md) | The `knowledge` skill: designs a knowledge base and leaves it a skill of its own |
+
+### Example skills I wrote (not enabled)
+
+| Folder | What it is |
+|---|---|
+| [.claude/review-loop/](.claude/review-loop/README.md) | A `review-loop` skill and a read-only `review-second-eyes` agent (`model: claude-sonnet-5-5` in its header): independent review before the PR, then the PR until CI and bots are green, `MAX = 3` rounds per loop, no merge. Built from [Lecture 5: 02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md). Not run yet |
 
 ## The lecturer's reference setup
 
@@ -207,6 +229,20 @@ My notes on these uses, with triggers and the human review step, are in [Lecture
 4. Open Pi and ask it to implement something
 
 limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 07 Multi-agent coordination](Lecture_4_Harness/07_Multi_Agent_Coordination.md) describes the design, and [15 Pi and limen behind the scenes](Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) covers how to try it and the ideas I take from it.
+
+### Skills and workflows the lecturer names (S01E05)
+
+| Name | What it does | Notes |
+|---|---|---|
+| sol-loop | Asks a second model family to review a change, fixes, repeats up to three loops, then files a PR | [03](Lecture_5_Workflows_not_tool_sets/draft_03_Skill_Evolution_Sol_Loop.md) |
+| File PR | Files a concise PR with a good title and description, using bad and good examples | [06](Lecture_5_Workflows_not_tool_sets/draft_06_Teach_With_Bad_And_Good_Examples.md) |
+| Babysit PR, watch pull request | Keeps watching a PR until reviewers and CI are green | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
+| File upload | Shows a video in a PR without committing it to the repo | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
+| PR comment skill | Makes an agent say that it, and which model, wrote a comment | [09](Lecture_5_Workflows_not_tool_sets/draft_09_Where_Skills_Live_Global_Harness_Repo.md) |
+| Full Send, Full Stop | Workflow skills: to a merged PR, or to a PR ready for me | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
+| Nightly PR triage | A scheduled prompt: cheap delegates audit PRs, strong delegates verify, a list of eight or fewer | [02](Lecture_5_Workflows_not_tool_sets/draft_02_Markdown_Is_Executable.md) |
+| [T3 Code](https://github.com/pingdotgg/t3code) | The lecturer's GUI harness for Codex, Claude and others | [03](Lecture_5_Workflows_not_tool_sets/draft_03_Skill_Evolution_Sol_Loop.md) |
+| [Matt Pocock's skills](https://github.com/mattpocock/skills) | Includes the grilling skill used to settle a plan with the agent | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
 
 ## Repository rules
 

@@ -2,6 +2,42 @@
 
 What's done, what's in progress, and what gaps remain. This is the only place that tracks the state of the knowledge base. See [AGENTS.md](AGENTS.md).
 
+## Lecture 5 — Workflows, not tool sets (in progress)
+
+Started: 2026-11-09. Branch: `lecture-5-transcript`.
+
+### Done
+
+- **Note format rule** — `.claude/rules/note-format.md`: the skeleton every note follows, richness minimums (diagram, table, example, links), diagram colors, fact-check table columns, length guide, a six-question finish check. AGENTS.md and the root README point to it.
+- **Lecture 5 README, root README section, and the lecturer's reference setup for S01E05** (skills, workflows, T3 Code, Matt Pocock's skills).
+- **01 Skill or agent for exploring** (`01_Skill_Or_Agent_For_Explore_Loops.md`, the first finished-form note) — does the industry prefer a skill over an agent (no: skills for procedure, agents for isolation), a sol-loop-style loop for `explore-*` agents, three build options. Industry facts are search summaries. Lecture 2 file 12 and notes 03 and 08 link to it. Not yet tested on my own explore agents.
+- **02 Before the merge: a second pair of eyes** (`02_Merge_Review_Second_Pair_Of_Eyes.md`) — where a sol-loop-style reviewer sits next to tests, PR bots and a human, a read-only reviewer agent skeleton, a three-round revision loop, fast and cheap vs strong reviewer tiers. Evidence on second-model review is mixed (a single-team preprint, two papers with no or negative gain) and is a search summary. Cheap-model sufficiency is unverified and needs a test on my own past PRs.
+- **sol-loop naming fixed** — the lecturer's slide shows the skill is `sol-loop` and the reviewer is `gpt-5.6-sol` ("Sol"), so "Soul" was a speech-to-text error. Fixed in every note and both READMEs, `draft_03` renamed to `draft_03_Skill_Evolution_Sol_Loop.md`, and the slide of the first version added to it. `gpt-5.6-sol` is confirmed by search summaries. The slide's `codex -p` form is unverified.
+- **sol-loop second version** — the lecturer's later slide (`img/sol-loop-second-version-slide.png`) added to `draft_03`: loop limit, pull request step, babysit step. New section on context pollution and over-engineering with guards (fresh helper per round, triage, babysit round limit). Note 02 gained "After the PR: reconciling the reviewer with the bots". The slide caps only the agreement loop. The reading of "babysit" as fetching and fixing each bot's findings is mine.
+- **review-loop example** (`.claude/review-loop/`: `SKILL.md`, `agents/review-second-eyes.md`, `README.md`) — my own example skill and agent from notes 01 and 02: `MAX = 3` rounds in each of two loops, reviewer model `claude-sonnet-5-5` in the agent header, read-only git and `gh` commands for history, the PR and its comments, triage rules, no merge. Listed in the root README. Not enabled and not run. Unverified: skill and agent frontmatter details (search summaries), and that Bash limits are enforced by a permission allowlist and not by the `tools` list.
+- **Sol agent framing** — note 01 gained "The worked case: the lecturer's sol agent" (what an agent carries that a skill cannot, where the loop stays), `draft_03` edit 6 now says the lecturer moved the reviewer from text into an agent, and the `review-loop` README says the reviewer is the agent and the skill a thin driver. A subagent not starting subagents is unverified.
+- **Back-links** added in Lecture 2 file 5, Lecture 3 file 13, Lecture 4 files 03, 05 and 10.
+
+### Drafts (written from the transcript, to be redone one by one)
+
+Written 2026-11-09 from the S01E05 transcript. They skip the "listen" step in AGENTS.md. Their file names carry the `draft_` prefix. I redo each one with my insights, reframe it, and drop the prefix and renumber when it is final.
+
+- **draft_01 Workflows live in prompts and skills** — code vs Markdown, when code still wins, link to the four-layer stack.
+- **draft_02 Markdown is executable** — the nightly PR triage as a sequence diagram, script vs Markdown table.
+- **draft_03 Skill evolution, sol-loop** — seven edits, each tied to what the lecturer saw, a skill audit table.
+- **draft_04 The merge button** — before and after, the lecturer's sketch (`img/merge-step-before-and-after-sketch.png`), three abilities (understand, test, go back), why agent speed raises the price of no way back, DORA throughput and instability metrics, a table of ways back, domain fit table. The DORA claim that AI raises instability is unverified, and the ways-back table is common practice, not sourced.
+- **draft_05 Seek tedium** — old and new instinct, quadrant chart.
+- **draft_06 Teach with bad and good examples** — file-PR skill, real example pairs, a skill skeleton.
+- **draft_07 Prompting wider** — depth vs width, the widening history, a width check.
+- **draft_08 Compose skills** — three layers, Full Send vs Full Stop.
+- **draft_09 Where skills live** — decision flowchart, PR comment skill, pruning and measuring.
+
+### Gaps
+
+- **Fact-check depth:** the checks are search summaries of vendor docs. No page was read in full. Unverified: T3 Code's delegate and scheduling features, `gh` file upload history, "P-Stack", the lecturer's `codex -p` call form, the writing model "Fable Five" and the review-product names spoken in the transcript, and whether one skill can call another by a documented mechanism.
+- **My own insights** are missing: architect view, Aras platform mapping, which workflows I would build first.
+- **Lecture 1 notes** do not link forward to Lecture 5.
+
 ## Lecture 4 — Working with AI Harnesses (in progress)
 
 Started: 2026-11-08. Branch: `lesson-3` (will move to `feature/lesson-4`).

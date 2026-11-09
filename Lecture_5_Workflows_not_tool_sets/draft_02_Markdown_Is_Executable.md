@@ -2,7 +2,7 @@
 
 > A Markdown file piped into an agent runs almost like a program. It is not deterministic, but it lets me build flows that I used to write as code, such as a nightly PR triage, with no code at all.
 
-Related: [01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [03 Skill evolution](draft_03_Skill_Evolution_Sol_Loop.md) · [05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
+Related: [01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
 
 Source: S01E05 transcript, the nightly PR triage story. Claude Code scheduling docs checked on 2026-11-09 as a search summary, see [Fact-check](#fact-check).
 
@@ -92,7 +92,7 @@ This is the "Markdown as a program" idea at the center of the lecture, and it fi
 ## Cautions
 
 - Non-determinism is real. Do not use this where one wrong step cannot be undone.
-- A scheduled prompt can drift as the model changes. Re-read it ([03](draft_03_Skill_Evolution_Sol_Loop.md)).
+- A scheduled prompt can drift as the model changes. Re-read it ([01](01_Skill_Or_Agent_For_Explore_Loops.md#7-a-skill-audit-i-can-run)).
 - Data: a triage prompt reads repository content. For Aras work, check the [AI Solutions Catalog](http://aitools.aras.com/) first.
 
 ## Summary
@@ -111,7 +111,7 @@ A Markdown prompt can be the whole workflow: written once, tested once, schedule
 | 1 | A harness can rerun a saved prompt on a schedule | **Agrees** | [Claude Code scheduled tasks](https://code.claude.com/docs/en/scheduled-tasks): `/loop` (session only), desktop tasks, and cloud routines created with `/schedule`. Search summary, page not read in full | 2026-11-09 |
 | 2 | A harness can start delegates on chosen models | **Agrees** | [Claude Code subagents](https://code.claude.com/docs/en/subagents): `model` field takes `sonnet`, `opus`, `haiku` or `inherit`. Search summary. Sources disagree on precedence with the `CLAUDE_CODE_SUBAGENT_MODEL` variable, so check the page | 2026-11-09 |
 | 3 | The lecturer's harness (T3 Code) runs this flow | **Unverified** | The lecturer's setup. [T3 Code](https://github.com/pingdotgg/t3code) exists, MIT, supports Codex, Claude and OpenCode per its README summary. Whether it has scheduling is not checked | 2026-11-09 |
-| 4 | The delegate models "Haiku 5.5" and "Opus 5.5", and the second-family reviewer "6.1 Soul" | **Unverified** | Names as spoken in the transcript. The reviewer is most likely `gpt-5.6-sol` (see [draft_03](draft_03_Skill_Evolution_Sol_Loop.md)), but the "6.1" is not confirmed. Verify before presenting | 2026-11-09 |
+| 4 | The delegate models "Haiku 5.5" and "Opus 5.5", and the second-family reviewer "6.1 Soul" | **Unverified** | Names as spoken in the transcript. The reviewer is most likely `gpt-5.6-sol` (see [02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits)), but the "6.1" is not confirmed. Verify before presenting | 2026-11-09 |
 | 6 | "800 to 1,000 PRs a day" at his project | **Unverified** | Spoken once in the transcript. Verify before presenting | 2026-11-09 |
 | 5 | The result is not deterministic but useful | **Lecture-specific** | The lecturer's experience | 2026-11-09 |
 

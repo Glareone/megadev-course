@@ -2,7 +2,7 @@
 
 > The industry does not choose skill over agent. It splits the job: the procedure (the loop, the stop rule, the shape of the answer) goes in a skill, and the agent file keeps what a skill cannot enforce (separate context, tool limits, model). My explore agents stay, and the sol-loop idea makes them better.
 
-Related: [03 Skill evolution, the sol-loop](draft_03_Skill_Evolution_Sol_Loop.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [09 Where skills live](draft_09_Where_Skills_Live_Global_Harness_Repo.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Before the merge: a second pair of eyes](02_Merge_Review_Second_Pair_Of_Eyes.md)
+Related: [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [09 Where skills live](draft_09_Where_Skills_Live_Global_Harness_Repo.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Before the merge: a second pair of eyes](02_Merge_Review_Second_Pair_Of_Eyes.md)
 
 Source: S01E05 transcript (the sol-loop skill and the subagent bloat it hit), my existing note [Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md), Claude Code subagent and skill docs and Anthropic engineering posts, all read as search summaries on 2026-11-09. See [Fact-check](#fact-check).
 
@@ -50,7 +50,7 @@ flowchart TD
 | Model | The main one | Can be cheaper |
 | Portable across harnesses | Yes, same format | Harness-specific fields (`tools:` in Claude Code, TOML in Codex) |
 
-**Why exploring is the textbook case for isolation:** it reads a lot to produce a little. Run inline, every file it opens stays in my context. Run isolated, I get one page of findings. That is the reason a built-in read-only Explore agent exists in Claude Code, and the reason the lecturer was unhappy when a subagent read a whole CLI history and bloated his context ([03](draft_03_Skill_Evolution_Sol_Loop.md)).
+**Why exploring is the textbook case for isolation:** it reads a lot to produce a little. Run inline, every file it opens stays in my context. Run isolated, I get one page of findings. That is the reason a built-in read-only Explore agent exists in Claude Code, and the reason the lecturer was unhappy when a subagent read a whole CLI history and bloated his context ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits)).
 
 ## 4. What the vendors and the industry say
 
@@ -66,7 +66,7 @@ flowchart TD
 
 ### The worked case: the lecturer's sol agent
 
-The lecturer ran into this split himself ([draft_03](draft_03_Skill_Evolution_Sol_Loop.md), edit 6). The skill told Claude to use Sol, but Claude could start only the models on its internal list. In his words: "I ended up making a custom sub-agent that was hardcoded in Claude Code that allowed it", and then he "changed the rule here to say, 'You can call Sol using the custom Sol agent with your sub-agent tool.'"
+The lecturer ran into this split himself ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits), edit 6). The skill told Claude to use Sol, but Claude could start only the models on its internal list. In his words: "I ended up making a custom sub-agent that was hardcoded in Claude Code that allowed it", and then he "changed the rule here to say, 'You can call Sol using the custom Sol agent with your sub-agent tool.'"
 
 ```mermaid
 flowchart LR
@@ -93,7 +93,7 @@ flowchart LR
 
 ## 5. Would a loop improve exploring?
 
-Yes, if the loop has the three things the sol-loop learned the hard way ([03](draft_03_Skill_Evolution_Sol_Loop.md)): a finish line, a stop rule with a number, and a rule about what not to read.
+Yes, if the loop has the three things the sol-loop learned the hard way ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits)): a finish line, a stop rule with a number, and a rule about what not to read.
 
 ```mermaid
 flowchart TD
@@ -142,6 +142,21 @@ flowchart LR
 
 My choice is C for my own set. The skill holds the loop. Each `explore-*` agent stays short: tools, model, and a line that loads the skill (Claude Code agents can preload skills with a `skills:` field, search summary, verify).
 
+## 7. A skill audit I can run
+
+The sol-loop's edit history ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits)) turns into questions I can ask of any skill.
+
+| Question | If the answer is "no" |
+|---|---|
+| Did I edit this skill in the last two months? | Read it. The lecturer: "If you have a skill that you use regularly that you have not edited in months, I have concerns" |
+| Does it end at the finish line I want today? | Move the end condition |
+| Does it have a number or stop rule for loops? | Add one |
+| Does it name the tool or agent to call, not a general category? | Name it |
+| Does its output waste context or money? | Tell the agent what not to read |
+| Do I still use it? | Delete it ([draft_09](draft_09_Where_Skills_Live_Global_Harness_Repo.md)) |
+
+A skill with a change history can be reviewed like code: what failed, what line fixed it. I would keep that history next to the skill (the "structure log" idea from [Lecture 3: 13](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md)) and the fleet metadata from [Lecture 4: 03](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md).
+
 ## My take
 
 The decision is not "skill or agent". It is two questions in a row: **does the task need my conversation?** (yes: inline skill) and **does it read much to say little?** (yes: isolation, so an agent or a forked skill). The loop then belongs to the text, which can be a skill either way.
@@ -177,7 +192,7 @@ Keep the explore agents for isolation, read-only tools and a cheaper model. Move
 | 6 | Evaluator-optimizer loops need clear success criteria | **Agrees (secondary sources)** | Summaries of [Building effective agents](https://www.anthropic.com/research/building-effective-agents). The original post was not retrieved | 2026-11-09 |
 | 7 | Multiple agents cost several times more tokens than one | **Unverified** | A summary attributes "3 to 10 times" to Anthropic. Not confirmed against Anthropic's own text | 2026-11-09 |
 | 8 | Skill and agent files differ in thread and settings, not format | **Agrees** | My own note [Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md), built from the lecture | 2026-11-09 |
-| 9 | A cross-model reviewer finds more | **Lecture-specific** | The lecturer's observation, see [03](draft_03_Skill_Evolution_Sol_Loop.md) | 2026-11-09 |
+| 9 | A cross-model reviewer finds more | **Lecture-specific** | The lecturer's observation, see [02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits) | 2026-11-09 |
 | 10 | The lecturer built a custom subagent so Claude could call Sol, and the skill then called it | **Lecture-specific** | S01E05 transcript, the part after the subagent bloat story. Not checked against Claude Code docs beyond the `model` field in [subagents](https://code.claude.com/docs/en/subagents) | 2026-11-09 |
 | 11 | A subagent cannot start another subagent | **Unverified** | Third-party sources only. Verify before presenting | 2026-11-09 |
 

@@ -79,7 +79,7 @@ flowchart BT
 
 The test from note 05 carries over: if I deleted my wrappers and kept my skills, would the agent still deliver most of the work? A wrapper that blocks a mistake is also a bet that the model will keep making that mistake. A skill that shows the mistake and the fix ([06](draft_06_Teach_With_Bad_And_Good_Examples.md)) loses little when the model improves.
 
-The lecturer works where changes can be staged and reverted ([04](draft_04_The_Merge_Button_Before_And_After.md)). Where a wrong action cannot be undone, hard limits in code and permissions stay.
+The lecturer works where changes can be staged and reverted ([02, the way back](02_Merge_Review_Second_Pair_Of_Eyes.md#7-the-other-side-of-the-button-the-way-back)). Where a wrong action cannot be undone, hard limits in code and permissions stay.
 
 ## Summary
 

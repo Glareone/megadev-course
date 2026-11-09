@@ -29,7 +29,7 @@ Keep this order. Leave a section out when I have nothing real to put in it (neve
 | 12 | `## Fact-check` | Table: `# \| Claim \| Verdict \| Source \| Checked` | Yes |
 | 13 | `## Sources` | Links. Says which parts are my own reasoning | Yes |
 
-**File name while a note is being redone:** the file carries a `draft_` prefix (`draft_04_The_Merge_Button.md`). When the note is final, I drop the prefix and give it its number in the folder. The prefix is the only place the state shows. The note body and the READMEs do not say "draft".
+**File name while a note is being redone:** the file carries a `draft_` prefix (`draft_05_Seek_Tedium.md`). When the note is final, I drop the prefix and give it its number in the folder. The prefix is the only place the state shows. The note body and the READMEs do not say "draft".
 
 **Why one shape:** I come back to these notes weeks later to decide something. A fixed order means I know where the problem, the evidence and the verdicts are without reading the whole note.
 

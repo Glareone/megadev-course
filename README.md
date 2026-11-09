@@ -161,10 +161,9 @@ Folder: [Lecture_4_Harness](Lecture_4_Harness/)
 |---|---|
 | [01](Lecture_5_Workflows_not_tool_sets/01_Skill_Or_Agent_For_Explore_Loops.md) | Skill or agent for exploring: thread and settings are the real difference, a loop for `explore-*` agents, skill plus agent |
 | [02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md) | Before the merge: a read-only reviewer agent on a fast, cheap model next to tests, PR bots and a human, a three-round revision loop, what the evidence says |
+| [03](Lecture_5_Workflows_not_tool_sets/03_The_Gap_Build_Speed_Vs_Keeping_Up.md) | The gap: building speed outruns what I can keep up with. The lecture article's first figure, what does not speed up (review, testing, docs, people, agents that need me), three moves to shrink the gap |
 | [draft_01](Lecture_5_Workflows_not_tool_sets/draft_01_Workflows_Live_In_Prompts_And_Skills.md) | Where a workflow lives: prompts and skills, not code wrappers. When code still wins (exact checks, hard limits) |
 | [draft_02](Lecture_5_Workflows_not_tool_sets/draft_02_Markdown_Is_Executable.md) | Markdown as a program. The nightly PR triage with cheap and strong delegates, what I give up, how to cover it |
-| [draft_03](Lecture_5_Workflows_not_tool_sets/draft_03_Skill_Evolution_Sol_Loop.md) | A skill is never finished: the sol-loop through seven edits, a skill audit |
-| [draft_04](Lecture_5_Workflows_not_tool_sets/draft_04_The_Merge_Button_Before_And_After.md) | The merge button: confidence before, a way back after, why speed makes the way back matter, and when this does not fit |
 | [draft_05](Lecture_5_Workflows_not_tool_sets/draft_05_Seek_Tedium_Delegate_The_Boring.md) | Seek tedious work: hand it to agents in bulk and keep my attention for judgment |
 | [draft_06](Lecture_5_Workflows_not_tool_sets/draft_06_Teach_With_Bad_And_Good_Examples.md) | Steer style with a skill: the file-PR skill, bad and good example pairs, agent-invoked skills |
 | [draft_07](Lecture_5_Workflows_not_tool_sets/draft_07_Prompting_Wider.md) | Prompting wider: bring the agent in earlier and let it go further, proof instead of line-by-line review |
@@ -234,14 +233,14 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 
 | Name | What it does | Notes |
 |---|---|---|
-| sol-loop | Asks a second model family to review a change, fixes, repeats up to three loops, then files a PR | [03](Lecture_5_Workflows_not_tool_sets/draft_03_Skill_Evolution_Sol_Loop.md) |
+| sol-loop | Asks a second model family to review a change, fixes, repeats up to three loops, then files a PR | [02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits) |
 | File PR | Files a concise PR with a good title and description, using bad and good examples | [06](Lecture_5_Workflows_not_tool_sets/draft_06_Teach_With_Bad_And_Good_Examples.md) |
 | Babysit PR, watch pull request | Keeps watching a PR until reviewers and CI are green | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
 | File upload | Shows a video in a PR without committing it to the repo | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
 | PR comment skill | Makes an agent say that it, and which model, wrote a comment | [09](Lecture_5_Workflows_not_tool_sets/draft_09_Where_Skills_Live_Global_Harness_Repo.md) |
 | Full Send, Full Stop | Workflow skills: to a merged PR, or to a PR ready for me | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
 | Nightly PR triage | A scheduled prompt: cheap delegates audit PRs, strong delegates verify, a list of eight or fewer | [02](Lecture_5_Workflows_not_tool_sets/draft_02_Markdown_Is_Executable.md) |
-| [T3 Code](https://github.com/pingdotgg/t3code) | The lecturer's GUI harness for Codex, Claude and others | [03](Lecture_5_Workflows_not_tool_sets/draft_03_Skill_Evolution_Sol_Loop.md) |
+| [T3 Code](https://github.com/pingdotgg/t3code) | The lecturer's GUI harness for Codex, Claude and others | [02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits) |
 | [Matt Pocock's skills](https://github.com/mattpocock/skills) | Includes the grilling skill used to settle a plan with the agent | [08](Lecture_5_Workflows_not_tool_sets/draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) |
 
 ## Repository rules

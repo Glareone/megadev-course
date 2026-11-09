@@ -2,7 +2,7 @@
 
 > Great engineers hate tedium and either avoid it or automate it away. With agents, the tedious but important work is the best work to hand over, and I should do ten times more of it.
 
-Related: [02 Markdown is executable](draft_02_Markdown_Is_Executable.md) · [04 The merge button](draft_04_The_Merge_Button_Before_And_After.md) · [07 Prompting wider](draft_07_Prompting_Wider.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 3: 3 Agent asks dumb questions](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/03_Agent_Asks_Dumb_Questions.md)
+Related: [02 Markdown is executable](draft_02_Markdown_Is_Executable.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [07 Prompting wider](draft_07_Prompting_Wider.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 3: 3 Agent asks dumb questions](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/03_Agent_Asks_Dumb_Questions.md)
 
 Source: S01E05 transcript, the "seek tedious stuff" passage. No outside source read, see [Fact-check](#fact-check).
 
@@ -59,7 +59,7 @@ quadrantChart
 
 | Risk | Cover |
 |---|---|
-| Agents do tedious work wrongly and nobody notices | Output goes to a short list I read ([04](draft_04_The_Merge_Button_Before_And_After.md)) |
+| Agents do tedious work wrongly and nobody notices | Output goes to a short list I read ([02, the way back](02_Merge_Review_Second_Pair_Of_Eyes.md#7-the-other-side-of-the-button-the-way-back)) |
 | Token and rate-limit cost grows | Cheap model filters, strong model confirms ([Lecture 4: 17](../Lecture_4_Harness/17_Cost_Per_Task.md)). He says he hits GitHub rate limits more than agent limits |
 | I lose the feel for the system | Keep the interesting and risky work for myself |
 

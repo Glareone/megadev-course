@@ -2,7 +2,7 @@
 
 > A prompt can go deeper (harder problem) or wider (earlier start, later finish). Wider means I hand over the raw problem and the agent comes back with a verified, ready-to-merge result.
 
-Related: [04 The merge button](draft_04_The_Merge_Button_Before_And_After.md) · [05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md)
+Related: [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md)
 
 Source: S01E05 transcript, the "prompting wider" passage. No outside source read, see [Fact-check](#fact-check).
 
@@ -62,7 +62,7 @@ Each step widens the work in two ways: "you have to do less before you bring in 
 
 ## My take
 
-Width is about moving the human gate. The gate moves from "before the work" to "after the evidence". That only works when the *after* side is safe ([04](draft_04_The_Merge_Button_Before_And_After.md)) and when the agent has the tools to prove its work: browser, recording, tests. For my platform the design question is which proof each task type must attach before the agent may call a job done.
+Width is about moving the human gate. The gate moves from "before the work" to "after the evidence". That only works when the *after* side is safe ([02, the way back](02_Merge_Review_Second_Pair_Of_Eyes.md#7-the-other-side-of-the-button-the-way-back)) and when the agent has the tools to prove its work: browser, recording, tests. For my platform the design question is which proof each task type must attach before the agent may call a job done.
 
 ## Cautions
 

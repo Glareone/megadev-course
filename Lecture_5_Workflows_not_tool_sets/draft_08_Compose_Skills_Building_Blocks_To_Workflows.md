@@ -2,7 +2,7 @@
 
 > Small skills do one job each. Workflow skills such as Full Send and Full Stop call them like programs call libraries, and my prompt only picks the path.
 
-Related: [03 Skill evolution](draft_03_Skill_Evolution_Sol_Loop.md) · [04 The merge button](draft_04_The_Merge_Button_Before_And_After.md) · [06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [09 Where skills live](draft_09_Where_Skills_Live_Global_Harness_Repo.md) · [Lecture 2: 6 Router skills](../Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) · [Lecture 3: 13 Knowledge skill anatomy](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md) · [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) · [01 Skill or agent for exploring](01_Skill_Or_Agent_For_Explore_Loops.md)
+Related: [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [09 Where skills live](draft_09_Where_Skills_Live_Global_Harness_Repo.md) · [Lecture 2: 6 Router skills](../Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) · [Lecture 3: 13 Knowledge skill anatomy](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md) · [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) · [01 Skill or agent for exploring](01_Skill_Or_Agent_For_Explore_Loops.md)
 
 Source: S01E05 transcript, the Full Send, Full Stop and building-block passages. Matt Pocock's skills repository checked on 2026-11-09 as a search summary, see [Fact-check](#fact-check).
 
@@ -49,7 +49,7 @@ flowchart TD
 
 **Important:**
 - **"Markdown is kind of just a program at this point, you can have your program call another program the same way we would back in the Unix terminal days."** Skills form a graph and "agents are very good at calling things from other things".
-- **Blocks are small and stable.** Workflows change more often ([03](draft_03_Skill_Evolution_Sol_Loop.md)).
+- **Blocks are small and stable.** Workflows change more often ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits)).
 - **The block set grows from pain.** The file-upload skill exists because GitHub did not let the CLI upload files, and agents committed a giant video to the repo to show it in a PR. The lecturer built a tool and a skill so he sees the video in the PR but does not commit it.
 
 **Not important:**
@@ -91,11 +91,11 @@ For a design discussion he uses a different block: Matt Pocock's grilling skill,
 
 This is dependency design for text. The same rules apply as in code: small units, one job, a stable interface (the skill's description), and a clear owner. Two risks follow from the code analogy: a block change can break many workflows, and a call graph the agent chooses at run time is harder to trace than a pipeline. For my platform I would record, per job, which skills were loaded, so I can see the graph that actually ran.
 
-The two endings, Send and Stop, are the merge-button question from [04](draft_04_The_Merge_Button_Before_And_After.md) turned into a switch I set per task.
+The two endings, Send and Stop, are the merge-button question from [02, the way back](02_Merge_Review_Second_Pair_Of_Eyes.md#7-the-other-side-of-the-button-the-way-back) turned into a switch I set per task.
 
 ## Cautions
 
-- Full Send needs a revertable change and strong verification. It is not for every repository ([04](draft_04_The_Merge_Button_Before_And_After.md)).
+- Full Send needs a revertable change and strong verification. It is not for every repository ([02, the way back](02_Merge_Review_Second_Pair_Of_Eyes.md#7-the-other-side-of-the-button-the-way-back)).
 - Chained skills multiply context and cost. A skill that loads five others needs a budget.
 - The lecturer says he has "two times more skills than I probably should". Unused blocks add noise ([09](draft_09_Where_Skills_Live_Global_Harness_Repo.md)).
 

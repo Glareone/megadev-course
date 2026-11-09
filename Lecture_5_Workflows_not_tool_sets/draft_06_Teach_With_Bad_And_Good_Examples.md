@@ -2,7 +2,7 @@
 
 > When the agent does something I dislike, I write a short skill with the bad version it would have produced and the good version I want. The model copies the good one, and it works "unreasonably well".
 
-Related: [03 Skill evolution](draft_03_Skill_Evolution_Sol_Loop.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [09 Where skills live](draft_09_Where_Skills_Live_Global_Harness_Repo.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md) · [Lecture 3: 4 Ask why](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/04_Ask_Why.md)
+Related: [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [09 Where skills live](draft_09_Where_Skills_Live_Global_Harness_Repo.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 7 Skill shaper](../Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md) · [Lecture 3: 4 Ask why](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/04_Ask_Why.md)
 
 Source: S01E05 transcript, the file-PR skill passage. Claude Code skill invocation docs checked on 2026-11-09 as a search summary, see [Fact-check](#fact-check).
 

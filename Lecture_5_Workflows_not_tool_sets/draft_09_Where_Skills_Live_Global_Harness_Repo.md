@@ -2,7 +2,7 @@
 
 > A skill useful in more than one repo goes global. A skill that stops colleagues and their agents from making dumb mistakes goes in the repo. Any skill I do not use goes away.
 
-Related: [03 Skill evolution](draft_03_Skill_Evolution_Sol_Loop.md) · [06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) · [Lecture 4: 18 Sharing approved skills](../Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md)
+Related: [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [Lecture 4: 03 Skill and folder orchestration](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) · [Lecture 4: 18 Sharing approved skills](../Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md)
 
 Source: S01E05 transcript, the "global, harness or repo" and "PR comment skill" passages. Claude Code skill locations checked on 2026-11-09 as a search summary, see [Fact-check](#fact-check).
 
@@ -39,7 +39,7 @@ flowchart TD
 |---|---|---|
 | Global | "If the skill is useful in more than one repo, it should probably be in your globals" | File PR, babysit PR, sol-loop |
 | Repo | "If the point of the skill is to keep you and your coworkers from making dumb mistakes, then it goes in the repo" | PR comment skill |
-| Harness | Not stated as a rule. Harness limits come up as workarounds ([03](draft_03_Skill_Evolution_Sol_Loop.md)) | Custom subagent for one harness |
+| Harness | Not stated as a rule. Harness limits come up as workarounds ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits)) | Custom subagent for one harness |
 | Workflow skills | Keep them "slightly higher level to be useful outside of one specific repo". Useful in repos complex enough | Full Send, Full Stop |
 
 ## 4. Case: the PR comment skill
@@ -69,7 +69,7 @@ sequenceDiagram
 | Delete skills I do not use | "You should also not be that scared to delete skills when you're not using them that much or if they're doing things you don't want" |
 | Measure | Ask the agent which skills were invoked where, how often, and how often the change was merged afterwards. This shows which skills help |
 | Don't collect | He has "two times more skills than I probably should" from trying many shared sets |
-| Read and edit | See the audit in [03](draft_03_Skill_Evolution_Sol_Loop.md) |
+| Read and edit | See the audit in [01](01_Skill_Or_Agent_For_Explore_Loops.md#7-a-skill-audit-i-can-run) |
 
 ## 6. Portability, the closing point
 

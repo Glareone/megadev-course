@@ -1,6 +1,6 @@
 # review-loop (my own example, not enabled)
 
-An example skill and agent for an independent review before and after a pull request. It follows my notes [Lecture 5: 02 Before the merge](../../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md) and [01 Skill or agent for exploring](../../Lecture_5_Workflows_not_tool_sets/01_Skill_Or_Agent_For_Explore_Loops.md), and the lecturer's `sol-loop` ([draft_03](../../Lecture_5_Workflows_not_tool_sets/draft_03_Skill_Evolution_Sol_Loop.md)).
+An example skill and agent for an independent review before and after a pull request. It follows my notes [Lecture 5: 02 Before the merge](../../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md) and [01 Skill or agent for exploring](../../Lecture_5_Workflows_not_tool_sets/01_Skill_Or_Agent_For_Explore_Loops.md), and the lecturer's `sol-loop` ([02, the seven edits](../../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits)).
 
 | File | What it is |
 |---|---|

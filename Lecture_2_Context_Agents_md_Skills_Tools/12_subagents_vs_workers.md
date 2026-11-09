@@ -2,7 +2,7 @@
 
 > We often keep interactions **short and focused on one task**, even though context windows keep growing ([4 Context window](4_context_window.md)). Two main ways to do that: **subagents** and **workers**. They are related but **not the same thing**, and neither is the same as **A2A**.
 
-Related: [1 Harness](1_Harness.md), [5 Skills](5_skills.md), [9 Prompt injection](9_tools_prompt_injection.md), [10 Tool results](10_tool_results_context_to_file_and_back.md), [Lecture 4: 08 Settings](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md), [Lecture 4: 16 SOTA and reasoning effort](../Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md).
+Related: [1 Harness](1_Harness.md), [5 Skills](5_skills.md), [9 Prompt injection](9_tools_prompt_injection.md), [10 Tool results](10_tool_results_context_to_file_and_back.md), [Lecture 4: 08 Settings](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md), [Lecture 4: 16 SOTA and reasoning effort](../Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md). · [Lecture 5: 01 Skill or agent for exploring](../Lecture_5_Workflows_not_tool_sets/01_Skill_Or_Agent_For_Explore_Loops.md)
 
 ## Three different things
 

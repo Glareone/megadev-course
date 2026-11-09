@@ -2,7 +2,7 @@
 
 > Agents that run in GitHub comments, on PRs, on schedule — almost entirely in the background. They review code, enrich issues, fix small bugs, keep docs up to date. The human reviews and merges. That's the loop.
 
-Related: [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [06 Self-management](06_Self_Management_Pi_Herdr.md) · [04 COMPUTERS.md](04_Computers_md_Fleet_Infrastructure.md) · [Lecture 3: 12 Update triggers](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/12_Knowledge_Event_&_Triggers.md)
+Related: [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [06 Self-management](06_Self_Management_Pi_Herdr.md) · [04 COMPUTERS.md](04_Computers_md_Fleet_Infrastructure.md) · [Lecture 3: 12 Update triggers](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/12_Knowledge_Event_&_Triggers.md) · [04 Executable Markdown](../Lecture_5_Workflows_not_tool_sets/04_Executable_Markdown_Skills_As_Programs.md)
 
 Source: S01E04 transcript (automated workflows section), see [Fact-check](#fact-check).
 

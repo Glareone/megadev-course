@@ -2,7 +2,7 @@
 
 > Herdr keeps terminals and the agents inside them alive and shows their state. Orca gives every task its own git worktree and, in an experimental mode, runs coordinator and worker agents through tasks and messages. They sit at **different layers**, so I read them as complementary more than competing.
 
-Related: [06 Self-management (Pi, Herdr)](06_Self_Management_Pi_Herdr.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [04 COMPUTERS.md](04_Computers_md_Fleet_Infrastructure.md) · [11 Cloud coding agents](11_Cloud_Coding_Agents.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [06 Self-management (Pi, Herdr)](06_Self_Management_Pi_Herdr.md) · [Lecture 5: 06 Running the fleet on a remote seat](../Lecture_5_Workflows_not_tool_sets/06_Run_The_Fleet_On_A_Remote_Seat.md) · [Lecture 5: 07 Herdr or Orca for my fleet](../Lecture_5_Workflows_not_tool_sets/07_Herdr_Or_Orca_For_My_Fleet.md) · [07 Multi-agent coordination](07_Multi_Agent_Coordination.md) · [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [04 COMPUTERS.md](04_Computers_md_Fleet_Infrastructure.md) · [11 Cloud coding agents](11_Cloud_Coding_Agents.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S01E04 transcript (Herdr section, figures 6 and 7), the lecture's server figure (`img/herdr-server-workspace-tab-pane-agent.png`), and my own research on 2026-11-08. The vendor facts come from pages read by reader agents: herdr.dev and its TUI docs, the `herdrdev/herdr` repo, and the onorca.dev docs. I did not install or run either tool. See [Fact-check](#fact-check).
 
@@ -201,7 +201,7 @@ The comparison made one thing clear for the lecture. The lecture shows a Herdr-b
 
 1. Does `orca-cli/orca` (a Go binary with SQLite state and MCP) fill the same role as `stablyai/orca`?
 2. Does Orca keep local agents running after I close the desktop app?
-3. Can Orca drive Pi, and can it run inside or alongside Herdr?
+3. Can Orca run inside or alongside Herdr? (Its docs list Pi as a supported agent and name neither Herdr nor Limen.)
 4. Why do some search summaries say Herdr is AGPL-3.0 while the LICENSE file says Apache 2.0?
 5. Does the Herdr TUI have the same trust model as the desktop app (trusted mods, local control socket)?
 6. Could I express my own coordinator's task states and messages in a form that maps to both tools?

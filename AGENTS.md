@@ -14,7 +14,7 @@ Not a codebase. Output is Markdown (+ diagrams) that I re-read and present.
 ## Before writing anything
 1. **Check what already exists.** Grep the repo for the topic; extend or link an existing file instead of duplicating it.
 2. **Check cross-references.** Every file has a `Related:` line. When you add/rename/split a topic, update links in both directions and keep numbers/titles in sync. No broken relative links.
-3. Match the existing file shape (H1 `# N. Title`, `>` one-line summary, `Related:`, sections, Important / Not important for diagrams).
+3. Match the existing file shape (H1 `# N. Title`, `>` one-line summary, `Related:`, sections, Important / Not important for diagrams). The full form (order, minimums, colors, checklist) is in `.claude/rules/note-format.md`.
 
 ## How we work
 - Take the lecture's recommendation → **refine** it → **check how it maps to industry standards** (vendor docs, papers, common practice). Say where it agrees, differs, or is lecture-specific.

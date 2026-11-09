@@ -2,9 +2,9 @@
 
 > Building gets faster every month, but my ability to understand, review, test and decide does not. The gap between the two grows with time, and it is the reason shipping is still slow. The answer is not to build less. It is to move the keeping-up work from my attention to checks, workflows and ways back that run without me.
 
-Related: [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [draft_02 Markdown is executable](draft_02_Markdown_Is_Executable.md) · [draft_05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [draft_06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [draft_07 Prompting wider](draft_07_Prompting_Wider.md) · [01 Skill or agent](01_Skill_Or_Agent_For_Explore_Loops.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 4 Ask why](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/04_Ask_Why.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
+Related: [04 Executable Markdown](04_Executable_Markdown_Skills_As_Programs.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [draft_02 Markdown is executable](draft_02_Markdown_Is_Executable.md) · [draft_05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [draft_06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [draft_07 Prompting wider](draft_07_Prompting_Wider.md) · [01 Skill or agent](01_Skill_Or_Agent_For_Explore_Loops.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 4 Ask why](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/04_Ask_Why.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
 
-Source: S01E05 article, section "Speed of complexity growth" and its two figures; my own reading of the first figure (`img/build-vs-keep-up-gap.png`). Lehman's laws and the DORA 2025 report checked on 2026-11-09 as search summaries. See [Fact-check](#fact-check).
+Source: S01E05 article, section "Speed of complexity growth" and its two figures (`img/build-vs-keep-up-gap.png`, `img/agent-fleet-where-my-time-goes.png`); my own reading of both. Lehman's laws and the DORA 2025 report checked on 2026-11-09 as search summaries. See [Fact-check](#fact-check).
 
 ## 1. The problem
 
@@ -53,13 +53,50 @@ The loop at the right is the part that hurts: the gap does not sit still. Parts 
 | **Testing** | More components mean more cases. The article says testing alone can take longer than the agents' work | [02, the way back](02_Merge_Review_Second_Pair_Of_Eyes.md#7-the-other-side-of-the-button-the-way-back) |
 | **Documentation** | Every new component adds text that has to stay true | Docs sync in the article's workflow list |
 | **People and process** | Teams and businesses change at human speed. They cannot see what a release did to users before the next one lands | Rollout, support, training |
-| **Agents asking for me** | Agents get stuck, wait for approval or fail silently, and each case needs my attention | The article's second figure: most of my time goes to the system, little to my work |
+| **Agents asking for me** | Agents get stuck, wait for approval or fail silently, and each case needs my attention | Section 5: most of my time goes to the system, little to my work |
 
-## 5. The article's second figure
+## 5. What the gap does to one person: the agent fleet
 
-The article adds a picture of what the gap does to one person. I am on the left, with a small box "my work" and a large frame "my system" holding scripts, integrations and three agents. A thin arrow goes to my work ("less time") and a thick red one to the system ("most of your time"). One agent is stuck, one waits for me, and one has a dashed outline and "fails silently", with no arrow back at all.
+The gap is not only about code. Once I run a fleet of agents, my own time is where it shows.
 
-The silent one is the dangerous case. A stuck agent asks. A silent one hides inside the gap until someone notices the result is missing.
+![I sit on the left. A thin arrow, "less time", goes to "Your work". A thick red arrow, "most of your time", goes to "Your system", a frame with Scripts, Integrations, an Inbox agent, a Notes agent and a Sync agent. Arrows come back to me: the Inbox agent is "stuck", the Notes agent "waits for you". The Sync agent has a dashed outline and "fails silently", with no arrow.](img/agent-fleet-where-my-time-goes.png)
+
+**The story.** The system was built to give me time for my work. Instead most of my time goes into the system: unblocking it, answering it, checking it. Each agent adds a state I have to keep in my head, and the states are not equal.
+
+```mermaid
+flowchart LR
+    Y["Me"] -->|"less time"| W["My work"]
+    Y ==>|"most of my time"| S
+    subgraph S["My system"]
+        SC["Scripts"]
+        IN["Integrations"]
+        A1["Inbox agent"]
+        A2["Notes agent"]
+        A3["Sync agent"]
+    end
+    A1 -->|"stuck"| Y
+    A2 -->|"waits for you"| Y
+    A3 -.->|"fails silently: no signal"| X["Nobody notices"]
+    linkStyle 1 stroke:#d44,stroke-width:4px
+    style A3 fill:#d44,stroke:#d44,color:#fff
+    style X fill:#888,stroke:#888,color:#fff
+```
+
+| Agent in the figure | State | Who has to move next | What it costs my attention |
+|---|---|---|---|
+| Inbox agent | **Stuck** | Me, when I see the request | An interruption and a context switch |
+| Notes agent | **Waits for me** | Me, with a decision or approval | A queue that grows with the fleet |
+| Sync agent | **Fails silently** | Nobody. No signal reaches me | Nothing now, and a missing result later. The worst case |
+| Scripts, Integrations | No state drawn | Me, when they break | The article says things "break here and there" |
+
+**Important:**
+- **The thick red arrow is the point.** It carries most of my time, and the arrow to my own work is thin.
+- **Two of three agents hand work back to me.** That is the cost of a fleet: its failures and questions land on one person.
+- **The dashed agent has no arrow at all.** A stuck agent asks. A silent one hides inside the gap until someone notices the result is missing.
+
+**Not important:** which three agents, and the names of the scripts. They stand for any fleet.
+
+**What I take from it (my reasoning):** the limit is cognitive. A person can hold a few states at once, and a fleet of ten agents has ten. Three design rules follow for my platform: every agent has a visible state and a last-run time, so none can fail silently. Agents batch their questions instead of interrupting one by one. And a failure raises a signal to me, instead of leaving it for me to go and look.
 
 ## 6. Two practices that move work off my attention
 
@@ -125,11 +162,11 @@ Building speed grows faster than my capacity to follow, and the unchecked differ
 | 9 | Agents "can easily game" unit and e2e tests | **Lecture-specific (opinion)** | Article, section "Quality". No source given | 2026-11-09 |
 | 10 | A bug report can become a PR with before and after video evidence | **Lecture-specific** | The lecturer's demonstration ([draft_07](draft_07_Prompting_Wider.md)). No outside check | 2026-11-09 |
 | 11 | A bad and a good example in a skill steer the model well | **Lecture-specific** | The lecturer's experience ([draft_06](draft_06_Teach_With_Bad_And_Good_Examples.md)). Consistent with common few-shot practice, not verified here | 2026-11-09 |
-| 8 | Each unchecked agent adds attention cost (stuck, waiting, silent failure) | **Lecture-specific (opinion)** | Article's second figure. Matches my own experience, not measured | 2026-11-09 |
+| 8 | Each unchecked agent adds attention cost (stuck, waiting, silent failure) | **Lecture-specific (opinion)** | Article's second figure (`img/agent-fleet-where-my-time-goes.png`). Matches my own experience, not measured | 2026-11-09 |
 
 ## Sources
 
-- S01E05 article, "Speed of complexity growth" (figures 1 and 2, local copy `img/build-vs-keep-up-gap.png`)
+- S01E05 article, "Speed of complexity growth" (figures 1 and 2, local copies `img/build-vs-keep-up-gap.png` and `img/agent-fleet-where-my-time-goes.png`)
 - [Lehman 1996, Laws of software evolution revisited](https://www.cs.kent.edu/~jmaletic/cs63902/Papers/Lehman96.pdf) and [Wikipedia: Lehman's laws](https://en.wikipedia.org/wiki/Lehman%27s_laws_of_software_evolution)
 - [DORA 2025 report](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/) and [Google's write-up](https://blog.google/technology/developers/dora-report-2025/)
 - My own reasoning: sections 4 to 6 and "My take", including the three moves

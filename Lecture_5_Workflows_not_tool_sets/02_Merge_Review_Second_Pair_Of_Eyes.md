@@ -2,7 +2,7 @@
 
 > A PR bot such as CodeRabbit helps but guarantees nothing. A separate reviewer agent, on a fast and cheap model, with a clean context and a narrow brief, adds an independent check before the PR is filed and a bounded revise-and-recheck loop after it. It is a filter that makes my review easier, not a replacement for tests, bots, a human or a way back.
 
-Related: [01 Skill or agent for exploring](01_Skill_Or_Agent_For_Explore_Loops.md) · [03 The gap](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) · [draft_08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [draft_06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [01 Skill or agent for exploring](01_Skill_Or_Agent_For_Explore_Loops.md) · [03 The gap](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) · [08 Skills as building blocks](08_Skills_As_Building_Blocks.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S01E05 transcript (the sol-loop and the merge button with its sketch `img/merge-step-before-and-after-sketch.png`, with the PR reviewers named in the story). Papers, DORA and vendor docs checked on 2026-11-09 as search summaries, see [Fact-check](#fact-check).
 
@@ -190,7 +190,7 @@ A cheap model makes the extra pass affordable, so I can run it on every change i
 | Strong, other family | High severity findings and risky areas: verify the finding, look for what the cheap pass missed | Still unresolved after round three |
 | Human | Anything the strong model cannot settle, and every change that has no way back | |
 
-This is the same shape as the lecturer's nightly triage: cheap models filter, strong models confirm ([draft_02](draft_02_Markdown_Is_Executable.md), [Lecture 4: 08](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md)).
+This is the same shape as the lecturer's nightly triage: cheap models filter, strong models confirm ([04](04_Executable_Markdown_Skills_As_Programs.md), [Lecture 4: 08](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md)).
 
 **Where a cheap reviewer fails:**
 - It misses subtle logic and cross-file effects, so a clean result from it proves little.

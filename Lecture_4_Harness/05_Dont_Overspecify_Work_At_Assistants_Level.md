@@ -2,7 +2,7 @@
 
 > The stack is Code → LLMs → Harnesses → Assistants. The higher I work, the more scalable my setup is. Overspecifying the harness is the same trap as tuning temperature was — investing effort in a layer the model will outgrow.
 
-Related: [12 Context language models](12_Context_Language_Models.md) · [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 1 Simplify first](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/01_Simplify_First_Knowledge_Guardrails.md) · [Lecture 5: 01 Workflows live in prompts and skills](../Lecture_5_Workflows_not_tool_sets/draft_01_Workflows_Live_In_Prompts_And_Skills.md)
+Related: [12 Context language models](12_Context_Language_Models.md) · [01 Harness lock-in](01_Harness_Lock-in_Keep_Doors_Open.md) · [02 Agent runner portability](02_Agent_Runner_Portability.md) · [03 Skill and folder orchestration](03_Skill_And_Folder_Orchestration.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 1 Simplify first](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/01_Simplify_First_Knowledge_Guardrails.md) · [08 Skills as building blocks](../Lecture_5_Workflows_not_tool_sets/08_Skills_As_Building_Blocks.md)
 
 Source: S01E04 lecture slide (the four-layer stack), transcript discussion on native capabilities and heavy guidance, see [Fact-check](#fact-check).
 

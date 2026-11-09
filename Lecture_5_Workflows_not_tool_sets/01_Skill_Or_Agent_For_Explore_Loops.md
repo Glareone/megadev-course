@@ -2,7 +2,7 @@
 
 > The industry does not choose skill over agent. It splits the job: the procedure (the loop, the stop rule, the shape of the answer) goes in a skill, and the agent file keeps what a skill cannot enforce (separate context, tool limits, model). My explore agents stay, and the sol-loop idea makes them better.
 
-Related: [08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [09 Where skills live](draft_09_Where_Skills_Live_Global_Harness_Repo.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Before the merge: a second pair of eyes](02_Merge_Review_Second_Pair_Of_Eyes.md)
+Related: [08 Skills as building blocks](08_Skills_As_Building_Blocks.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [02 Before the merge: a second pair of eyes](02_Merge_Review_Second_Pair_Of_Eyes.md)
 
 Source: S01E05 transcript (the sol-loop skill and the subagent bloat it hit), my existing note [Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md), Claude Code subagent and skill docs and Anthropic engineering posts, all read as search summaries on 2026-11-09. See [Fact-check](#fact-check).
 
@@ -62,7 +62,7 @@ flowchart TD
 | Claude Code, skills with `context: fork` | A skill can run as an isolated subagent and return a summary. Sources say it is for when isolation is the point, and that the forked skill cannot spawn further forks | The two formats converge. A skill can borrow an agent's isolation |
 | Anthropic, [Building effective agents](https://www.anthropic.com/research/building-effective-agents) | Patterns: evaluator-optimizer (a loop with clear criteria), orchestrator-workers, parallelization. Start with the simplest that works | A loop needs a clear criterion. Add agents only when they help |
 
-**Where I land on the question:** I found no source that says "prefer a skill over an agent". I found a consistent direction: **knowledge and procedure in skills (portable, cheap to change, reused by many agents), isolation and limits in agent files (or forked skills)**. This matches [01](draft_01_Workflows_Live_In_Prompts_And_Skills.md) and the four-layer stack in [Lecture 4: 05](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md): the durable text goes up, the thin harness-specific settings stay below.
+**Where I land on the question:** I found no source that says "prefer a skill over an agent". I found a consistent direction: **knowledge and procedure in skills (portable, cheap to change, reused by many agents), isolation and limits in agent files (or forked skills)**. This matches [08](08_Skills_As_Building_Blocks.md) and the four-layer stack in [Lecture 4: 05](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md): the durable text goes up, the thin harness-specific settings stay below.
 
 ### The worked case: the lecturer's sol agent
 
@@ -153,7 +153,7 @@ The sol-loop's edit history ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the
 | Does it have a number or stop rule for loops? | Add one |
 | Does it name the tool or agent to call, not a general category? | Name it |
 | Does its output waste context or money? | Tell the agent what not to read |
-| Do I still use it? | Delete it ([draft_09](draft_09_Where_Skills_Live_Global_Harness_Repo.md)) |
+| Do I still use it? | Delete it ([08](08_Skills_As_Building_Blocks.md)) |
 
 An agent can run this audit on a schedule instead of me: see [note 05](05_Agents_Maintain_The_Tools_I_Review.md).
 

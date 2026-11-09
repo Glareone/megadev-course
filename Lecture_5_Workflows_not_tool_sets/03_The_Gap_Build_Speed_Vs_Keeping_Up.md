@@ -2,7 +2,7 @@
 
 > Building gets faster every month, but my ability to understand, review, test and decide does not. The gap between the two grows with time, and it is the reason shipping is still slow. The answer is not to build less. It is to move the keeping-up work from my attention to checks, workflows and ways back that run without me.
 
-Related: [04 Executable Markdown](04_Executable_Markdown_Skills_As_Programs.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [draft_02 Markdown is executable](draft_02_Markdown_Is_Executable.md) · [draft_05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [draft_06 Teach with bad and good examples](draft_06_Teach_With_Bad_And_Good_Examples.md) · [draft_07 Prompting wider](draft_07_Prompting_Wider.md) · [01 Skill or agent](01_Skill_Or_Agent_For_Explore_Loops.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 4 Ask why](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/04_Ask_Why.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
+Related: [04 Executable Markdown](04_Executable_Markdown_Skills_As_Programs.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [08 Skills as building blocks](08_Skills_As_Building_Blocks.md) · [01 Skill or agent](01_Skill_Or_Agent_For_Explore_Loops.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 4 Ask why](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/04_Ask_Why.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
 
 Source: S01E05 article, section "Speed of complexity growth" and its two figures (`img/build-vs-keep-up-gap.png`, `img/agent-fleet-where-my-time-goes.png`); my own reading of both. Lehman's laws and the DORA 2025 report checked on 2026-11-09 as search summaries. See [Fact-check](#fact-check).
 
@@ -100,7 +100,7 @@ flowchart LR
 
 ## 6. Two practices that move work off my attention
 
-The lecturer's workflows hold two habits that shrink the gap by letting the agent do the part I used to do. The full notes are [draft_07](draft_07_Prompting_Wider.md) and [draft_06](draft_06_Teach_With_Bad_And_Good_Examples.md).
+The lecturer's workflows hold two habits that shrink the gap by letting the agent do the part I used to do. The second habit is written up in [note 08](08_Skills_As_Building_Blocks.md).
 
 **Prompt wider: my gate moves to after the evidence.** A narrow prompt returns a diff that I read line by line. A wide one starts from the raw report and ends at a PR with proof. His case: a screenshot of a bug complaint, and by the time he looks again there is "a pull request up, ready to go, with a video showing exactly what was wrong and a video confirming the fix actually works."
 
@@ -160,8 +160,8 @@ Building speed grows faster than my capacity to follow, and the unchecked differ
 | 6 | Testing alone can take longer than the agents' work | **Lecture-specific (opinion)** | Article text, no source given | 2026-11-09 |
 | 7 | "Use AI to keep up with AI" | **Lecture-specific (opinion)** | Article text. The article says "at least to some degree" for the fixes | 2026-11-09 |
 | 9 | Agents "can easily game" unit and e2e tests | **Lecture-specific (opinion)** | Article, section "Quality". No source given | 2026-11-09 |
-| 10 | A bug report can become a PR with before and after video evidence | **Lecture-specific** | The lecturer's demonstration ([draft_07](draft_07_Prompting_Wider.md)). No outside check | 2026-11-09 |
-| 11 | A bad and a good example in a skill steer the model well | **Lecture-specific** | The lecturer's experience ([draft_06](draft_06_Teach_With_Bad_And_Good_Examples.md)). Consistent with common few-shot practice, not verified here | 2026-11-09 |
+| 10 | A bug report can become a PR with before and after video evidence | **Lecture-specific** | The lecturer's demonstration. No outside check | 2026-11-09 |
+| 11 | A bad and a good example in a skill steer the model well | **Lecture-specific** | The lecturer's experience ([08](08_Skills_As_Building_Blocks.md)). Consistent with common few-shot practice, not verified here | 2026-11-09 |
 | 8 | Each unchecked agent adds attention cost (stuck, waiting, silent failure) | **Lecture-specific (opinion)** | Article's second figure (`img/agent-fleet-where-my-time-goes.png`). Matches my own experience, not measured | 2026-11-09 |
 
 ## Sources

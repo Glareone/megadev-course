@@ -2,7 +2,7 @@
 
 > A Markdown file given to an agent runs almost like a program. It is not deterministic, but it is cheap to change and good enough for many jobs. I keep the Markdown for judgment, move exact and repeated steps into saved scripts and generalized tools, and test changes with synthetic scenarios.
 
-Related: [03 The gap](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) · [05 Agents maintain the tools](05_Agents_Maintain_The_Tools_I_Review.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [01 Skill or agent](01_Skill_Or_Agent_For_Explore_Loops.md) · [draft_01 Workflows live in prompts and skills](draft_01_Workflows_Live_In_Prompts_And_Skills.md) · [draft_05 Seek tedium](draft_05_Seek_Tedium_Delegate_The_Boring.md) · [draft_08 Compose skills](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 12 Update triggers](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/12_Knowledge_Event_&_Triggers.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
+Related: [03 The gap](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) · [05 Agents maintain the tools](05_Agents_Maintain_The_Tools_I_Review.md) · [06 Run the fleet on a remote seat](06_Run_The_Fleet_On_A_Remote_Seat.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [01 Skill or agent](01_Skill_Or_Agent_For_Explore_Loops.md) · [08 Skills as building blocks](08_Skills_As_Building_Blocks.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 12 Update triggers](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/12_Knowledge_Event_&_Triggers.md) · [Lecture 4: 10 Automation](../Lecture_4_Harness/10_Automation_Repository_Agents.md) · [Lecture 4: 08 Model routing and cost](../Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) · [Lecture 4: 17 Cost per task](../Lecture_4_Harness/17_Cost_Per_Task.md)
 
 Source: S01E05 article, section "Executable Markdown vs Code" (figure `img/executable-markdown-for-agent.png`, and figures 4 and 5 as the article describes them), and the transcript's nightly PR triage story. Claude Code scheduling and subagent docs, Promptfoo and Moderne checked on 2026-11-09 as search summaries. See [Fact-check](#fact-check).
 
@@ -74,7 +74,7 @@ The four strengths the article lists:
 
 | Strength | What it means | Example |
 |---|---|---|
-| **Flexibility** | Skills combine with other skills, tools and one-off scripts. For that, a skill needs a single responsibility | Skills as building blocks ([draft_08](draft_08_Compose_Skills_Building_Blocks_To_Workflows.md)) |
+| **Flexibility** | Skills combine with other skills, tools and one-off scripts. For that, a skill needs a single responsibility | Skills as building blocks ([08](08_Skills_As_Building_Blocks.md)) |
 | **Code mode** | Models write small scoped apps well. Save and reuse them, as a skill dependency or deployed (the article names Cloudflare) so events, schedules or other agents trigger them | A saved script for a daily brief |
 | **Capabilities** | Generalize tools so the agent handles what it was not prepared for, and specializes them for the case | `generate_creation`, specialized for Facebook ads, instead of a "create Facebook ads" tool |
 | **Evaluation** | AI generates synthetic scenarios, and a tool such as [Promptfoo](https://www.promptfoo.dev/) shows trends in behavior | Run the same scenarios before and after editing a skill |
@@ -144,6 +144,16 @@ before we set up the scheduled task.
 
 This part is my own reasoning, not the lecture's. The question: debt grows faster than anyone on the project can pay it down. That is the gap from [note 03](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) on one codebase. The executable Markdown idea gives me the shape: a prompt file is the job definition, a scheduled prompt triggers it every night (the triage in section 5), and the agent comes back with a fix prepared and the proof attached. A single prompt "fix the tech debt" fails every row of the problem table at once, so I split the work by how exact it must be.
 
+**Why this work goes to agents.** Debt removal is tedious and important, and that is the work the lecturer says to hand over: "Historically, as engineers, we have always tried to avoid the tedious stuff, but if the tedious thing was important enough, we would write a bunch of code to make it go away." His test: "If the task is so boring that you feel your eyes glazing over as you do it, that is incredible work for your agents to do." The gain is attention, not saved time: he reviews no PR by hand and has "built systems and workflows with my agents to bring the important things up".
+
+| | Old instinct | New instinct |
+|---|---|---|
+| Boring and important | Write code to remove it, or skip it | **Give it to an agent, in bulk** |
+| Boring and unimportant | Skip | Skip, or let an agent do it cheaply |
+| Interesting and important | I do it | I do it, with the attention I freed |
+
+The agent is a filter: it works through everything and surfaces a short list, as in the triage of section 5. It needs care in three places: wrong work that nobody notices (the list is read, and PRs revert alone), token and rate-limit cost (cheap model filters, strong model confirms), and losing my feel for the system (the interesting and risky work stays mine).
+
 ```mermaid
 flowchart TD
     TM["Nightly trigger: scheduled prompt runs the job file"] --> SV["Survey: read-only agent lists debt items with evidence"]
@@ -181,6 +191,7 @@ Why each choice:
 - **The smoke test is a saved script, not prose.** It is the exact part of the job, so it is code: Playwright opens the pages the change can touch and takes a screenshot of each, on main and on the branch. The article warns that agents "can easily game" unit and e2e tests and says to verify by using the app as a person would ([note 03, section 6](03_The_Gap_Build_Speed_Vs_Keeping_Up.md#6-two-practices-that-move-work-off-my-attention)). Before and after screenshots are that proof, in a form I read in seconds. They show that pages render and look the same. They do not show that behavior is right, so the script also asserts on what matters, and the reviewer reads the diff.
 - **The screenshots travel with the PR.** `gh pr create --attach` uploads a local image and writes its link into the PR text, from `gh` 2.99.0 on (fact-check). I do not need a browser trick or a hosting service.
 - **The cap protects me.** Fifty debt PRs a night is a new gap, in my review queue. The lecturer's "eight or fewer" is the shape: a short list I can read. The cap rises only when merged PRs stay clean.
+- **Where it runs:** on a remote seat, as in [note 06](06_Run_The_Fleet_On_A_Remote_Seat.md), which also says what the docs do not provide (a timer, a cap on jobs in flight).
 - **Tests come first.** An agent refactoring code with no tests has nothing to check against. Areas without tests start with a test-writing item, and a human reads those tests.
 - **A way back for every PR.** Small, single-purpose PRs revert alone ([note 02, section 7](02_Merge_Review_Second_Pair_Of_Eyes.md#7-the-other-side-of-the-button-the-way-back)).
 - **A trend I can see.** Open debt items, PRs merged and PRs reverted tell me whether the fleet shrinks the debt or only moves it. A night that fails must say so, or it is the silent agent from note 03. Keeping the job file itself fit as models change is [note 05](05_Agents_Maintain_The_Tools_I_Review.md).
@@ -277,6 +288,8 @@ A Markdown prompt can be the whole workflow: written once, tested once, schedule
 | 20 | Several sub-agents can each work in an isolated git worktree and branch | **Agrees** | [git worktree docs](https://git-scm.com/docs/git-worktree). That the harness starts a sub-agent in its own worktree comes from the harness's own tool descriptions in this session, and I did not read the vendor docs page. Verify before building | 2026-11-09 |
 | 21 | Parallel workers cost more tokens than one, and conflicts and shared limits cap the speedup | **My interpretation** | Reasoning from shared files, shared rate limits and per-worker context. No measurement. A "3 to 10 times" figure for multi-agent token use is unverified ([note 01](01_Skill_Or_Agent_For_Explore_Loops.md)) | 2026-11-09 |
 | 22 | The review queue, not the number of agents, is the limit | **My interpretation** | Reasoning from [note 03](03_The_Gap_Build_Speed_Vs_Keeping_Up.md). Not measured | 2026-11-09 |
+| 23 | Tedious but important work is the best work for agents, and the gain is attention | **Lecture-specific (opinion)** | The lecturer's opinion and his own usage. No measurement | 2026-11-09 |
+| 24 | He hits GitHub rate limits more often than agent limits | **Lecture-specific** | His statement. Not checked | 2026-11-09 |
 
 ## Sources
 

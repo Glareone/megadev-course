@@ -155,6 +155,8 @@ The sol-loop's edit history ([02](02_Merge_Review_Second_Pair_Of_Eyes.md#how-the
 | Does its output waste context or money? | Tell the agent what not to read |
 | Do I still use it? | Delete it ([draft_09](draft_09_Where_Skills_Live_Global_Harness_Repo.md)) |
 
+An agent can run this audit on a schedule instead of me: see [note 05](05_Agents_Maintain_The_Tools_I_Review.md).
+
 A skill with a change history can be reviewed like code: what failed, what line fixed it. I would keep that history next to the skill (the "structure log" idea from [Lecture 3: 13](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md)) and the fleet metadata from [Lecture 4: 03](../Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md).
 
 ## My take

@@ -64,12 +64,15 @@ Short numbered steps.
 What stays out of scope, even if it looks related.
 
 ## Done-check
-A command that proves it, and its expected result. Example: `grep -rc "AZ-304-SA" --include=*.md . | grep -v ":0"` prints nothing.
+Commands that prove it, with their expected results. Example for an edit item:
+1. Target state: `git grep -c "AZ-304-SA" -- '*.md'` prints nothing.
+2. Size of the change: `git diff --numstat HEAD~1 HEAD` lists only the scoped files, with as many lines added as removed.
 ```
 
 ## Rules
 
 - **Never edit outside `.fleet/`.** You are the planner, not a worker.
 - **Every done-check is a command** whose result a person can verify. "Looks better" is not a check.
+- **An edit item gets two checks:** the target state (for example "old string gone") **and** the size of the change (`git diff --numstat HEAD~1 HEAD` lists only the scoped files, with the expected added and removed counts). The first alone also passes if the worker deletes the line.
 - **Never read or print secrets** (`.env`, key files, tokens). If you see one in the repo, report where, without the value.
 - **Small beats complete.** Five good items beat fifteen vague ones. A later run can take the rest.

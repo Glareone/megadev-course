@@ -11,7 +11,24 @@ Three skills that plan, run and do work items in parallel, each item in its own 
 | [claude/agents/fleet-worker.md](claude/agents/fleet-worker.md) | Claude Code launcher: `isolation: worktree`, preloads the worker skill |
 | [install.sh](install.sh) | Copies the skills to `<repo>/.agents/skills/`, symlinks `<repo>/.claude/skills/`, copies the agent, excludes `.fleet/` from git |
 
-This folder is not loaded by any harness as it stands (it is not under `.agents/skills/` or `.claude/skills/`). `install.sh` puts it where each harness looks.
+## Where things live
+
+| What | Where | Loaded there |
+|---|---|---|
+| The kit's source | This folder, in megadev-course | No. It is not under `.agents/skills/` or `.claude/skills/` |
+| The working copy | The target repository: `.agents/skills/` (Pi) and `.claude/skills/` symlinks (Claude Code) | Yes, after `install.sh` |
+| Fleet state | `<target>/.fleet/` (excluded from git, never committed) | Written by `fleet-plan` and `fleet-run` |
+
+The agents work only on the target repository. A sandbox sees only the repository it was started from, and a clone only its committed files, so the skills are copied and committed into the target.
+
+## What to install for each level
+
+| Level | Pi on my Mac | `sbx` |
+|---|---|---|
+| 0: Claude Code only | No | No |
+| 1 to 3: Pi in a sandbox | No. Pi runs inside the sandbox (`pi-kit`) | Yes |
+
+A global Pi install (`npm install -g`) is only for running Pi outside a sandbox, which this lab avoids.
 
 ## Portability in one table
 
@@ -27,13 +44,13 @@ This folder is not loaded by any harness as it stands (it is not under `.agents/
 Install into the target repository on a branch and commit, so a sandbox clone sees the skills:
 
 ```bash
-cd ~/src/Azure-Solution-and-Enterprise-Architecture-in-Depth
+cd "<path to the target repo>"          # quote it: paths with spaces work only in quotes
 git switch -c fleet/setup
-"<megadev-course>/.agents/fleet-lab/install.sh" .
+"<path to megadev-course>/.agents/fleet-lab/install.sh" .
 git add .agents .claude && git commit -m "Add fleet-lab skills"
 ```
 
-**Level 0, Claude Code only, nothing installed.** In the target repo: `/fleet-plan rewrite links and remove build output`, approve items in `.fleet/items/`, then `/fleet-run`. Changes are isolated, execution is not.
+**Level 0, Claude Code only, nothing installed.** Claude Code worker worktrees branch from the default branch, so the skills must be on it: merge `fleet/setup` into the default branch first (or install there directly). Start Claude Code in the target repo, then: `/fleet-plan rewrite links and remove build output`, approve items in `.fleet/items/`, then `/fleet-run`. Changes are isolated, execution is not.
 
 **Level 1, one Pi agent in a sandbox.** I type the secret myself, never the agent:
 

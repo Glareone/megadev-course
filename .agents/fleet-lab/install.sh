@@ -21,5 +21,12 @@ done
 chmod +x "$target/.agents/skills/fleet-run/scripts/run-pi-workers.sh"
 cp "$kit/claude/agents/fleet-worker.md" "$target/.claude/agents/fleet-worker.md"
 echo "agent fleet-worker (Claude Code)"
-grep -qx '.fleet/' "$target/.git/info/exclude" 2>/dev/null || echo '.fleet/' >> "$target/.git/info/exclude"
-echo "done. Commit these files on a branch before 'sbx run --clone': the clone sees only committed files."
+exclude="$(cd "$target" && git rev-parse --git-path info/exclude)"
+case "$exclude" in /*) ;; *) exclude="$target/$exclude" ;; esac
+grep -qx '.fleet/' "$exclude" 2>/dev/null || echo '.fleet/' >> "$exclude"
+# Shell scripts run inside Linux sandboxes: keep LF line endings, also for Windows checkouts.
+if ! grep -qE '^\*\.sh[[:space:]]+text[[:space:]]+eol=lf' "$target/.gitattributes" 2>/dev/null; then
+  echo '*.sh text eol=lf' >> "$target/.gitattributes"
+  echo ".gitattributes: *.sh text eol=lf"
+fi
+echo "done. Commit .agents, .claude and .gitattributes on a branch before 'sbx run --clone': the clone sees only committed files."

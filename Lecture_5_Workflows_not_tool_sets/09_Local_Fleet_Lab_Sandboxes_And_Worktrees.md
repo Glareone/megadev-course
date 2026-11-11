@@ -2,7 +2,7 @@
 
 > I run my first fleet on my own Mac with nothing installed globally except the `sbx` CLI. Each Pi agent runs inside a Docker Sandbox microVM in **clone mode**, so it cannot touch my files. Each work item gets its own **git worktree and branch** inside that clone, so parallel changes cannot collide. Three small skills (`fleet-plan`, `fleet-run`, `fleet-worker`) work unchanged in Pi and in Claude Code, and I climb from one agent to a full fleet in four levels.
 
-Related: [06 Run the fleet on a remote seat](06_Run_The_Fleet_On_A_Remote_Seat.md) · [07 Herdr or Orca for my fleet](07_Herdr_Or_Orca_For_My_Fleet.md) · [04 Executable Markdown](04_Executable_Markdown_Skills_As_Programs.md) · [08 Skills as building blocks](08_Skills_As_Building_Blocks.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [03 The gap](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md) · [Lecture 4: 13 Herdr vs Orca](../Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md) · [Lecture 4: 14 What agent fleets need](../Lecture_4_Harness/14_What_Agent_Fleets_Need_Beyond_Spawning.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md)
+Related: [10 Fleet lab threat model](10_Fleet_Lab_Threat_Model.md) · [06 Run the fleet on a remote seat](06_Run_The_Fleet_On_A_Remote_Seat.md) · [07 Herdr or Orca for my fleet](07_Herdr_Or_Orca_For_My_Fleet.md) · [04 Executable Markdown](04_Executable_Markdown_Skills_As_Programs.md) · [08 Skills as building blocks](08_Skills_As_Building_Blocks.md) · [02 Before the merge](02_Merge_Review_Second_Pair_Of_Eyes.md) · [03 The gap](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md) · [Lecture 4: 13 Herdr vs Orca](../Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md) · [Lecture 4: 14 What agent fleets need](../Lecture_4_Harness/14_What_Agent_Fleets_Need_Beyond_Spawning.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md)
 
 Source: Pi docs (skills, CLI, providers, security, containerization), Claude Code docs (skills, subagents), Docker Sandboxes docs (get started, credentials, Git workflow) and a search summary of the `sbx run --clone` reference and release notes, all checked on 2026-11-11. The pilot facts come from a shallow clone of my own repository on the same day. The kit is in [`.agents/fleet-lab/`](../.agents/fleet-lab/README.md). See [Fact-check](#fact-check).
 
@@ -81,7 +81,7 @@ flowchart TD
 | Level | Commands I type (exact syntax in the [kit README](../.agents/fleet-lab/README.md)) | I move up when |
 |---|---|---|
 | 0 | `/fleet-plan` then `/fleet-run` in Claude Code | Plans are good and items do not overlap |
-| 1 | `sbx run --clone --kit docker.io/sbx/pi-kit:latest pi`, one item by hand | I fetched one clean branch from the sandbox |
+| 1 | The run gate of [note 10](10_Fleet_Lab_Threat_Model.md#7-run-gate-for-level-1), then `sbx run --clone --kit docker.io/sbx/pi-kit@sha256:<digest> pi`, one item by hand | I fetched one clean branch from the sandbox |
 | 2 | `sbx exec <name> -- .agents/skills/fleet-run/scripts/run-pi-workers.sh 3` | Three branches come back, each with a status block |
 | 3 | One `sbx run --clone` per item, started from my Mac | A worker needs its own tools or services, or I don't trust one item's code near the others |
 
@@ -162,7 +162,7 @@ The lecturer's question is which control plane runs the fleet. The local lab sho
 ## Cautions
 
 - **Not run yet.** The kit is written from the docs. The `--clone` and `--kit` combination, Pi inside `pi-kit`, and the placeholder key with Pi's OpenRouter client are the three things Level 1 must prove first.
-- **Network policy.** Balanced is the documented first choice. A direct DeepSeek host may need an allow rule. Check with `sbx policy` before blaming the model.
+- **Defaults are not safe for this lab.** SSH agent forwarding is on and the Balanced preset allows whole categories of hosts. The threat model ([10](10_Fleet_Lab_Threat_Model.md)) turns forwarding off, uses Locked Down with one allow rule, and gives the run gate for Level 1.
 - **Clone mode reads everything in the repo**, including git-ignored files. No `.env` in a repo I hand to a sandbox.
 - **Cheap models fail quietly.** A worker can claim "done" with a weak check. The done-check must be a command, and the reviewer runs on another family.
 
@@ -191,7 +191,7 @@ Execution isolation comes from an `sbx` microVM, and change isolation from clone
 | 8 | Pi documents Docker Sandboxes with `sbx run --kit docker.io/sbx/pi-kit:latest pi` | **Agrees** | [Pi containerization](https://pi.dev/docs/latest/containerization.md) | 2026-11-11 |
 | 9 | `sbx secret set openrouter` is built in, `deepseek` is not, and the real key never enters the sandbox | **Agrees** | [Docker credentials](https://docs.docker.com/ai/sandboxes/configuration/credentials/) | 2026-11-11 |
 | 10 | Clone mode mounts the repo read-only, the agent edits a private clone, I fetch from `sandbox-<name>`. Docker recommends a worktree per parallel task | **Agrees** | [Docker Git workflow](https://docs.docker.com/ai/sandboxes/workflows/git/); `--clone` details from a search summary of the [run reference](https://docs.docker.com/reference/cli/sbx/run/) and [v0.31.0 release](https://github.com/docker/sbx-releases/releases/tag/v0.31.0) | 2026-11-11 |
-| 11 | `sbx` installs with Homebrew (`docker/tap/sbx`) on Apple Silicon, macOS 14 or later | **Unverified** | Search summary of Docker's get-started page. The install page returned 404. Verify before presenting | 2026-11-11 |
+| 11 | `sbx` installs on macOS 14+ Apple silicon with `brew trust docker/tap` and `brew install docker/tap/sbx`, and on Windows 11 with `winget install -h Docker.sbx`. Docker Desktop is not needed | **Agrees** | [Docker Sandboxes install](https://docs.docker.com/ai/sandboxes/install/) | 2026-11-11 |
 | 12 | `--clone` and `--kit` can be combined | **Unverified** | No page shows both. Level 1 tests it | 2026-11-11 |
 | 13 | OpenRouter id `deepseek/deepseek-v4.1-flash` exists (released 2026-09-10) | **Unverified** | Search summary of OpenRouter model pages. Verify before presenting | 2026-11-11 |
 | 14 | GitHub rename redirects stop when a repository with the old name is created | **Agrees** | [GitHub docs: renaming a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/renaming-a-repository), known behaviour, page not re-read | 2026-11-11 |

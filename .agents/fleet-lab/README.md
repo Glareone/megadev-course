@@ -9,7 +9,9 @@ Three skills that plan, run and do work items in parallel, each item in its own 
 | [skills/fleet-run/scripts/run-pi-workers.sh](skills/fleet-run/scripts/run-pi-workers.sh) | Pi runner: a worktree per item, `pi -p` with the worker skill, `xargs -P` for the cap, `after:` order, logs per item |
 | [skills/fleet-worker/SKILL.md](skills/fleet-worker/SKILL.md) | Worker: one item, own branch `fleet/<id>`, scope only, done-check, one commit, `FLEET-STATUS` block. No push, no merge |
 | [claude/agents/fleet-worker.md](claude/agents/fleet-worker.md) | Claude Code launcher: `isolation: worktree`, preloads the worker skill |
-| [install.sh](install.sh) | Copies the skills to `<repo>/.agents/skills/`, symlinks `<repo>/.claude/skills/`, copies the agent, excludes `.fleet/` from git |
+| [install.sh](install.sh) | Copies the skills to `<repo>/.agents/skills/`, symlinks `<repo>/.claude/skills/`, copies the agent, excludes `.fleet/` from git, adds `*.sh text eol=lf` to `.gitattributes` |
+| [install.ps1](install.ps1) | The same for Windows. Falls back to copies when symbolic links are not allowed |
+| [skills/fleet-run/scripts/run-pi-workers.ps1](skills/fleet-run/scripts/run-pi-workers.ps1) | The Pi runner for a Windows host (PowerShell 7, `ForEach-Object -Parallel`) |
 
 ## Where things live
 
@@ -52,19 +54,13 @@ git add .agents .claude && git commit -m "Add fleet-lab skills"
 
 **Level 0, Claude Code only, nothing installed.** Claude Code worker worktrees branch from the default branch, so the skills must be on it: merge `fleet/setup` into the default branch first (or install there directly). Start Claude Code in the target repo, then: `/fleet-plan rewrite links and remove build output`, approve items in `.fleet/items/`, then `/fleet-run`. Changes are isolated, execution is not.
 
-**Level 1, one Pi agent in a sandbox.** I type the secret myself, never the agent:
+**Level 1, one Pi agent in a sandbox.** Set up through the ten-step **run gate** in [Lecture 5: 10 Fleet lab threat model](../../Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md#7-run-gate-for-level-1), one approved step at a time. It turns off SSH agent forwarding, sets the Locked Down network preset with one allow rule, uses a capped lab key, and pins `pi-kit` by digest. I type every secret myself, never the agent. The defaults (`Balanced`, forwarding on, `pi-kit:latest`) are not safe for this lab.
 
-```bash
-brew install docker/tap/sbx && sbx login
-sbx policy init balanced
-sbx secret set openrouter                      # prompts, stored in the macOS Keychain
-sbx run --clone --name fleet-azure --kit docker.io/sbx/pi-kit:latest pi
-```
-
-Inside Pi: `/model` to pick DeepSeek V4.1 Flash, then hand it one item by hand. On my Mac afterwards:
+Inside Pi: `/model` to pick DeepSeek V4.1 Flash, then hand it one item by hand. Afterwards, on my Mac, I **inspect before I check out** (risk R6 in note 10). Fetching only adds refs:
 
 ```bash
 git fetch sandbox-fleet-azure
+git diff --name-only fleet/setup..sandbox-fleet-azure/fleet/01-old-repo-links   # no .claude/, .agents/, .github/, .vscode/, .git*, *.sh, package.json
 git diff fleet/setup..sandbox-fleet-azure/fleet/01-old-repo-links
 ```
 
@@ -79,17 +75,28 @@ sbx exec fleet-azure -- pi -p "Use the fleet-run skill, Collect step only."
 git fetch sandbox-fleet-azure
 ```
 
-Then on my Mac, for each `done` branch: check it out, run `review-loop` in Claude Code, and open the PR myself.
+Then on my Mac, for each `done` branch: check the changed paths as in Level 1, and only then check it out, run `review-loop` in Claude Code, and open the PR myself.
 
-**Direct DeepSeek instead of OpenRouter** (comparison run):
+**Direct DeepSeek instead of OpenRouter** (comparison run, public content only: DeepSeek stores data in the PRC and trains on inputs unless I opt out, see note 10, R1). It also needs an allow rule for `api.deepseek.com`:
 
 ```bash
 sbx secret set-custom --host api.deepseek.com --env DEEPSEEK_API_KEY   # prompts for the value
 ```
 
+## Windows
+
+| Mac / Linux | Windows (PowerShell 7) | Notes |
+|---|---|---|
+| `install.sh <repo>` | `pwsh -ExecutionPolicy Bypass -File install.ps1 "<repo>"` | Without Developer Mode, Windows cannot create symbolic links, so `.claude\skills` gets copies and a warning. Then edit skills only in `.agents\skills` and run the installer again |
+| `run-pi-workers.sh 3` | `pwsh -File .agents\skills\fleet-run\scripts\run-pi-workers.ps1 -Max 3` | Only for Pi on the Windows host itself. Inside a sandbox (always Linux) the `.sh` runner is used |
+| `brew trust docker/tap` + `brew install docker/tap/sbx` | `winget install -h Docker.sbx` | Windows 11, x64. Local sandboxes need Windows Hypervisor Platform, which an elevated prompt enables ([Docker install](https://docs.docker.com/ai/sandboxes/install/)) |
+
+Both installers add `*.sh text eol=lf` to the target's `.gitattributes`, so a Windows checkout does not turn the sandbox runner into CRLF and break it under Linux.
+
 ## Before trusting it
 
-- **Only the shell logic is tested.** On 2026-11-11 `install.sh` and `run-pi-workers.sh` ran against a throwaway repo with a stub `pi`: two items in parallel, one worktree and branch each, an `after:` item held back, an unapproved item ignored, started items skipped on a rerun. No model, no `sbx` and no real Pi have run these skills yet.
+- **Only the shell logic is tested.** On 2026-11-11 `install.sh` and `run-pi-workers.sh` ran against a throwaway repo with a stub `pi`: two items in parallel, one worktree and branch each, an `after:` item held back, an unapproved item ignored, started items skipped on a rerun. `install.ps1` and `run-pi-workers.ps1` passed the same test under PowerShell 7.4 in a Linux container, so the Windows symbolic-link fallback is not tested. No model, no `sbx` and no real Pi have run these skills yet.
+- **Security first.** Read [Lecture 5: 10 Fleet lab threat model](../../Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md) before any run. The skills' "never" rules are guidance. Only the mechanisms listed there make an action impossible.
 - **Level 1 must prove three things first:** `--clone` works together with `--kit`, Pi inside `pi-kit` uses the proxy's placeholder key for OpenRouter, and the model id `deepseek/deepseek-v4.1-flash` exists (check with `/model`).
 - **`sbx exec` working directory.** The commands above assume `sbx exec` starts in the clone's root. If not, add `cd` to the clone path first.
 - **Claude Code worktrees branch from the default branch**, not from the branch I am on. If the skills live only on `fleet/setup`, merge them first or run Level 0 from the default branch.

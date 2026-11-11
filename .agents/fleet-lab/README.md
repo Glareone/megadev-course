@@ -56,7 +56,19 @@ git add .agents .claude && git commit -m "Add fleet-lab skills"
 
 **Level 1, one Pi agent in a sandbox.** Set up through the ten-step **run gate** in [Lecture 5: 10 Fleet lab threat model](../../Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md#7-run-gate-for-level-1), one approved step at a time. It turns off SSH agent forwarding, sets the Locked Down network preset with one allow rule, uses a capped lab key, and pins `pi-kit` by digest. I type every secret myself, never the agent. The defaults (`Balanced`, forwarding on, `pi-kit:latest`) are not safe for this lab.
 
-Inside Pi: `/model` to pick DeepSeek V4.1 Flash, then hand it one item by hand. Afterwards, on my Mac, I **inspect before I check out** (risk R6 in note 10). Fetching only adds refs:
+Right after `sbx create`, cap Pi's output tokens, or every call fails with 402 (Pi requests the model's maximum, 938,712 tokens for DeepSeek V4.1 Flash, and OpenRouter reserves that against the key's limit):
+
+```bash
+sbx exec fleet-azure -- sh -c 'printf "%s\n" "{\"providers\":{\"openrouter\":{\"modelOverrides\":{\"deepseek/deepseek-v4.1-flash\":{\"maxTokens\":8192}}}}}" > ~/.pi/agent/models.json'
+```
+
+Every `pi -p` through `sbx exec` needs `</dev/null`: `sbx exec` keeps stdin open and Pi waits for it to end. Smoke test:
+
+```bash
+sbx exec fleet-azure -- sh -c 'timeout 120 pi -p --no-session --tools read --model openrouter/deepseek/deepseek-v4.1-flash "Reply with exactly: pong" </dev/null'
+```
+
+Then hand it one item. Afterwards, on my Mac, I **inspect before I check out** (risk R6 in note 10). Fetching only adds refs:
 
 ```bash
 git fetch sandbox-fleet-azure
@@ -84,11 +96,11 @@ A FAIL does not mean the branch is malicious. It means I read that diff by hand 
 **Level 2, planner and three workers in one sandbox.**
 
 ```bash
-sbx exec fleet-azure -- pi -p --model openrouter/deepseek/deepseek-v4.1-flash "Use the fleet-plan skill. Goal: reduce structural debt of this repository."
+sbx exec fleet-azure -- sh -c 'pi -p --no-session --model openrouter/deepseek/deepseek-v4.1-flash "Use the fleet-plan skill. Goal: reduce structural debt of this repository." </dev/null'
 sbx exec fleet-azure -- cat .fleet/plan.md
 # approve items: sbx exec fleet-azure -- sed -i 's/^status: proposed/status: approved/' .fleet/items/01-*.md
 sbx exec fleet-azure -- .agents/skills/fleet-run/scripts/run-pi-workers.sh 3
-sbx exec fleet-azure -- pi -p "Use the fleet-run skill, Collect step only."
+sbx exec fleet-azure -- sh -c 'pi -p --no-session --model openrouter/deepseek/deepseek-v4.1-flash "Use the fleet-run skill, Collect step only." </dev/null'
 git fetch sandbox-fleet-azure
 ```
 

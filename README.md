@@ -167,6 +167,7 @@ Folder: [Lecture_4_Harness](Lecture_4_Harness/)
 | [06](Lecture_5_Workflows_not_tool_sets/06_Run_The_Fleet_On_A_Remote_Seat.md) | Running the fleet on a remote seat: the lecturer's Pi, Herdr and Limen setup on a VPS and tailnet, where Orca fits, setup split between me and the agent, a nightly timer the docs do not provide, security and Aras governance gates |
 | [07](Lecture_5_Workflows_not_tool_sets/07_Herdr_Or_Orca_For_My_Fleet.md) | Herdr or Orca for my fleet: what the Orca docs add to the Lecture 4 comparison, a decision flow, a fair trial of both, the security posture of each. Links to [Lecture 4: 13](Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md) |
 | [08](Lecture_5_Workflows_not_tool_sets/08_Skills_As_Building_Blocks.md) | Skills as building blocks: skills or code, blocks then workflow skills then a prompt, Full Send and Full Stop, a skill from a real bad example, global or repo or harness, the PR comment skill, keeping the set small |
+| [09](Lecture_5_Workflows_not_tool_sets/09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md) | A local fleet lab: `sbx` microVM in clone mode for execution, a worktree per item for changes, four levels from Claude-only to a sandbox per worker, portable skills for Pi and Claude Code, DeepSeek workers through OpenRouter, my architecture repository as the pilot |
 
 ### Example skills I keep (not enabled)
 
@@ -182,6 +183,7 @@ These are pinned, verbatim copies of other people's skills, kept as examples of 
 | Folder | What it is |
 |---|---|
 | [.claude/review-loop/](.claude/review-loop/README.md) | A `review-loop` skill and a read-only `review-second-eyes` agent (`model: claude-sonnet-5-5` in its header): independent review before the PR, then the PR until CI and bots are green, `MAX = 3` rounds per loop, no merge. Built from [Lecture 5: 02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md). Not run yet |
+| [.agents/fleet-lab/](.agents/fleet-lab/README.md) | `fleet-plan`, `fleet-run` and `fleet-worker` skills for Pi and Claude Code, a Pi runner script (a worktree per item, `xargs -P` cap), a Claude worker agent with `isolation: worktree`, and an installer that puts the skills in `.agents/skills/` with `.claude/skills/` symlinks. Built from [Lecture 5: 09](Lecture_5_Workflows_not_tool_sets/09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md). Shell logic tested with a stub `pi`. No model run yet |
 
 ## The lecturer's reference setup
 

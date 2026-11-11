@@ -59,6 +59,7 @@ A note, a README or a table always reads as a finished document. It states what 
 ## Rules
 - Never read or print `.env`, `github.pat`, `configuration.txt` (secrets).
 - **Content scope:** notes hold how we think, analyze and struggle. Never put Aras business secrets, customer data, PII, credentials or other Restricted Data in any file. If an example needs business detail, abstract it. If something slips in, stop and tell me.
+- **No install or execution without my explicit yes.** This covers packages (brew, npm, winget, pip), Docker image pulls and anything installed inside a container, `sbx` and Pi, sandboxes, agents and model calls, and changes to another repository. Before asking, state the exact command, what it changes, how to undo it, and the risk (see [Lecture 5: 10](Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md)). Then wait. A yes covers that one action, not the next. Read-only checks and work inside the session scratchpad need no approval.
 - Don't commit unless asked. Branch per lecture: `feature/lesson-N`.
 - Diagrams from images: describe the story, what's important, what's not.
 - **Diagrams are Mermaid only** (` ```mermaid `). No ASCII art, box-drawing characters or arrow sketches in code blocks, and no folder-tree drawings. Pick the fitting type: `flowchart`, `sequenceDiagram`, `stateDiagram-v2`, etc.

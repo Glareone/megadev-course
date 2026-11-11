@@ -60,9 +60,26 @@ Inside Pi: `/model` to pick DeepSeek V4.1 Flash, then hand it one item by hand. 
 
 ```bash
 git fetch sandbox-fleet-azure
-git diff --name-only fleet/setup..sandbox-fleet-azure/fleet/01-old-repo-links   # no .claude/, .agents/, .github/, .vscode/, .git*, *.sh, package.json
-git diff fleet/setup..sandbox-fleet-azure/fleet/01-old-repo-links
+"<path to megadev-course>/.agents/fleet-lab/guard/fleet-guard.sh" sandbox-fleet-azure/fleet/01-old-repo-links --base fleet/setup --scope '*.md'
+git diff fleet/setup...sandbox-fleet-azure/fleet/01-old-repo-links   # read it, even on PASS
 ```
+
+## The path guard
+
+[guard/fleet-guard.sh](guard/fleet-guard.sh) (Windows: [guard/fleet-guard.ps1](guard/fleet-guard.ps1)) checks a fetched branch before checkout. It reads git objects only. It fails the branch when it:
+
+| Check | Why |
+|---|---|
+| Touches agent config or instructions: `.claude/`, `.agents/`, `CLAUDE.md`, `AGENTS.md`, `.mcp.json` | Hooks and MCP servers run on my Mac, and instructions steer my host-side reviewer |
+| Touches CI, editor or dev-container config: `.github/`, `.vscode/`, `.idea/`, `.devcontainer/` | Tasks and workflows can run on open or on push |
+| Touches git config or hooks: `.git*`, `.husky/`, `.pre-commit-config.yaml`, `.envrc` | Run on commit or on `cd` |
+| Touches scripts or build files: `*.sh`, `*.ps1`, `*.cmd`, `Makefile`, `package.json`, `.npmrc`, `*.csproj`, `Directory.Build.*` | Run on build or install |
+| Adds a symbolic link, a submodule or an executable file | A link can point at `~/.ssh`. A submodule pulls code from elsewhere |
+| Changes a path outside `--scope`, or more than `--max-files` (50) files | The item's scope, enforced outside the agent |
+
+**It lives here, not in the target.** A guard inside the target repository could be changed by the very branch it checks. `install.sh` does not copy it.
+
+A FAIL does not mean the branch is malicious. It means I read that diff by hand before deciding. Tested on 2026-11-11 against twelve crafted branches (all cases above, a rename of a file name with a colon, an unknown ref). The PowerShell twin is untested.
 
 **Level 2, planner and three workers in one sandbox.**
 

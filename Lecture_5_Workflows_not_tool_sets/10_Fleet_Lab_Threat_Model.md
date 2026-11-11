@@ -100,26 +100,28 @@ Balanced allows whole categories (code hosts, package managers, cloud services) 
 | B: with me | Start a sandbox on a repo | A pre-run check that lists ignored and untracked files: `git ls-files --others --ignored --exclude-standard` must show nothing secret |
 | C: never | Read host files outside the repo, host env vars, the real API key, my SSH agent | VM and no other mount. Proxy injects the key on the host side. `sbx settings set ssh.agentForwardingEnabled false` and `sbx daemon restart` |
 
-SSH forwarding is the default ([Docker settings](https://docs.docker.com/ai/sandboxes/configuration/settings/)). An open issue reports forwarding while `SSH_AUTH_SOCK` was unset ([sbx #115](https://github.com/docker/sbx-releases/issues/115)), so after turning it off I check inside the sandbox that `ssh-add -l` finds no agent.
+**Which folders a sandbox gets** is decided by mount rules. Without a paid organization policy, the local defaults `default-fs-read-allow-all` and `default-fs-write-allow-all` allow any host path, and the CLI cannot change them ([Docker filesystem policies](https://docs.docker.com/ai/sandboxes/governance/access-controls/filesystem/)). So the only control is the path I pass to `sbx create`. A host-side orchestrator must take that path from a fixed wrapper script, never from an agent. Mount decisions are not in `sbx policy log`, so I record the path per sandbox myself.
+
+SSH forwarding is the default ([Docker settings](https://docs.docker.com/ai/sandboxes/configuration/settings/)), and `sbx settings ls` on my Mac (v0.53.0) shows `ssh.agentForwardingEnabled true`. The same list shows `browser.enabled true`: a sandboxed process can open a URL in my host browser, and that request leaves through the browser, outside the sandbox network policy. Both go off in step 3 of the run gate. An open issue reports forwarding while `SSH_AUTH_SOCK` was unset ([sbx #115](https://github.com/docker/sbx-releases/issues/115)), so after turning it off I check inside the sandbox that `ssh-add -l` finds no agent.
 
 ## 5. R5 to R9 in one table
 
 | # | Risk | OWASP | A: alone | B: with me | C: never (mechanism) |
 |---|---|---|---|---|---|
 | R5 | Supply chain: `pi-kit:latest`, the `docker/tap` Homebrew tap, Pi packages, skills | ASI04 | Use pinned images and read skills | Every install and version bump | An unpinned image: pin `pi-kit` by digest |
-| R6 | **Poisoned return path:** an agent branch adds `.claude/settings.json` hooks, `.vscode/tasks.json`, git hooks or npm scripts that run on my Mac | ASI05 | Write such files in its own branch | Checkout on the host, only after a path guard passes | Running them unseen: a path guard that fails the branch if it touches `.claude/`, `.agents/`, `.github/`, `.vscode/`, `.git*`, `*.sh`, `package.json` |
+| R6 | **Poisoned return path:** an agent branch adds `.claude/settings.json` hooks, `.vscode/tasks.json`, git hooks or npm scripts that run on my Mac | ASI05 | Write such files in its own branch | Checkout on the host, only after the path guard passes and I read the diff | Running them unseen: [`fleet-guard`](../.agents/fleet-lab/guard/fleet-guard.sh) fails a branch that touches agent config, CI, editor tasks, git hooks, scripts or build files, or adds a link, submodule or executable |
 | R7 | Level 0 and host-side Pi have no execution isolation | ASI02 | Nothing on the host | Level 0 as plan-only, with Claude Code asking per tool | Host Pi runs: not used in this lab |
 | R8 | A cheap model reports "done" with a weak check, or hides a change in a large diff | ASI09 (title unverified) | Commit on its branch | Review with another model family, human merge | Push or merge: no GitHub credential, branch protection on `main` |
 | R9 | No audit trail | — | Logs in `.fleet/logs/` | Read `sbx policy log` after each run | Losing them: keep logs before `sbx rm` |
 
-R6 deserves its own line. Claude Code's trust dialog gates project hooks in interactive sessions, but in `-p` and SDK runs the folder counts as trusted, and committed project hooks run ([Claude Code hooks](https://code.claude.com/docs/en/hooks)). My target repo is a folder I already trust. So an agent branch that adds a hook runs on my Mac the moment I check it out and start a headless review. The guard must run on the fetched ref, before checkout.
+R6 deserves its own line. Claude Code's trust dialog gates project hooks in interactive sessions, but in `-p` and SDK runs the folder counts as trusted, and committed project hooks run ([Claude Code hooks](https://code.claude.com/docs/en/hooks)). My target repo is a folder I already trust. So an agent branch that adds a hook runs on my Mac the moment I check it out and start a headless review. So the guard runs on the fetched ref, before checkout, and it runs from megadev-course, not from the target repo: a guard inside the target could be changed by the branch it checks. `git fetch` itself only adds refs and runs nothing from the branch. The guard is a path list, not a content review. A harmful change inside an allowed file (a link rewritten to another domain in a `.md`) passes it, so I still read every diff.
 
 ## 6. Rules in my skills are not controls
 
 | Skill rule | Mechanism that backs it | Zone it really is |
 |---|---|---|
 | Worker: "never `git push`" | No GitHub credential in the VM, SSH forwarding off | C, once both are in place |
-| Worker: "change only paths in scope" | None yet. The path guard (R6) would back it | A, until the guard exists |
+| Worker: "change only paths in scope" | `fleet-guard --scope` on the host fails any path outside it | B: the branch cannot reach my checkout without passing |
 | Worker: "never read secrets" | None. Clone mode exposes ignored files | A. The pre-run check makes it B |
 | Runner: "never merge" | Branch protection on GitHub, no credential | C |
 | Planner: "do not edit code" | None | A. Its output is only a plan I approve, so low impact |
@@ -132,14 +134,14 @@ Each step needs my yes. Nothing on this list has run yet.
 |---|---|---|---|---|
 | 1 | `brew trust docker/tap`, `brew install docker/tap/sbx` | Trusts Docker's tap, installs `sbx` | `brew uninstall sbx`, untrust the tap | R5 |
 | 2 | `sbx login` | Docker account session on this Mac | `sbx logout` (verify) | Low |
-| 3 | `sbx settings set ssh.agentForwardingEnabled false`, `sbx daemon restart` | Global: no SSH agent in any sandbox | Set back to `true` | Closes R4 |
-| 4 | Locked Down preset (exact `sbx policy init` argument: check `--help`), then `sbx policy allow network openrouter.ai` | Global network policy | `sbx policy` reset | Closes R2 |
+| 3 | `sbx settings set ssh.agentForwardingEnabled false`, `sbx settings set browser.enabled false`, `sbx daemon restart` | Global: no SSH agent in any sandbox, and no sandbox can open URLs in my host browser | `sbx settings unset <key>` | Closes R4, and an R2 exfiltration path that bypasses the network policy |
+| 4 | `sbx policy init deny-all` (the Locked Down preset. v0.53.0 offers `allow-all`, `balanced`, `deny-all`), then `sbx policy allow network openrouter.ai` | Global network policy | `sbx policy` reset | Closes R2 |
 | 5 | OpenRouter: new lab key with a daily limit. Account privacy: deny training, ZDR where offered | Account settings | Delete key, revert settings | Closes R3, narrows R1 |
-| 6 | `sbx secret set openrouter` | Key in the macOS Keychain | `sbx secret rm openrouter` | Low |
+| 6 | `sbx secret set openrouter`, then paste the key at the hidden prompt. Never `-t` (shell history). Check with masked output only: `sbx secret ls \| awk 'NR>1{print $1, $2}'` | Key in the macOS Keychain | `sbx secret rm openrouter` | Medium: `sbx` v0.53.0 accepts any string as the service name. A key typed in that position (`sbx secret set <key> --sandbox …`) is stored as a name, and `sbx secret ls` displays it. A key that is ever displayed gets revoked |
 | 7 | In the target repo: `git ls-files --others --ignored --exclude-standard` | Nothing. Read-only | — | Checks R4 |
-| 8 | `sbx run --clone --name fleet-azure --kit docker.io/sbx/pi-kit@sha256:<digest> pi` | Creates the VM and clone | `sbx rm fleet-azure` (deletes unfetched work) | R5 if not pinned |
+| 8 | `sbx create --clone --skills=off --name fleet-azure docker.io/sbx/pi-kit@sha256:<digest> .` (Pi is not a built-in agent in v0.53.0, so the kit is the first argument. Confirm with a dry look at `sbx create --help` on the day) | Creates the VM and clone | `sbx rm fleet-azure` (deletes unfetched work) | R5 if not pinned |
 | 9 | Inside: `ssh-add -l` must fail, `sbx policy check network github.com` must deny | Nothing | — | Verifies 3 and 4 |
-| 10 | After: `sbx policy log`, path guard on each branch, then `git fetch` | Refs under `sandbox-fleet-azure/` | `git remote remove` | R6, R9 |
+| 10 | After: `sbx policy log`, `git fetch sandbox-fleet-azure`, `fleet-guard` on each branch, read the diff, only then check out | Refs under `sandbox-fleet-azure/` | `git remote remove`, delete the refs | R6, R9 |
 
 ## My take
 
@@ -148,19 +150,18 @@ The useful question for any agent setup is not "is it sandboxed" but "which colu
 ## Cautions
 
 - **Search summaries carry part of this note:** the two `sbx` issues, the OpenRouter key limits, the ASI09 title. I read the Docker, OpenRouter and Claude Code pages through a fetch tool, not in full.
-- **The path guard (R6) does not exist yet.** Until it does, no agent branch gets checked out on my Mac or reviewed headless.
+- **The guard checks paths, not content,** and its PowerShell twin is untested.
 - **On a Windows work laptop** enabling Windows Hypervisor Platform needs an elevated prompt, which is IT's decision, and work data rules apply before anything else.
 - **`sbx` changes fast.** The SSH setting arrived in a recent CLI version (search summary). I check `sbx version` and the settings page before the run.
 
 ## Summary
 
-Three zones: alone inside the VM, with my approval per action, and never because no path exists. R2, R3 and most of R4 close with mechanisms (Locked Down network, a capped lab key, SSH forwarding off). R1 cannot close by mechanism, so public repos only. R6, code that runs on my Mac after review, needs a path guard before the first fetch.
+Three zones: alone inside the VM, with my approval per action, and never because no path exists. R2, R3 and most of R4 close with mechanisms (Locked Down network, a capped lab key, SSH forwarding off). R1 cannot close by mechanism, so public repos only. R6, code that runs on my Mac after review, is held by a host-side path guard between fetch and checkout, plus my reading of the diff.
 
 ## Open questions
 
 - Does OpenRouter offer a ZDR endpoint for DeepSeek V4.1 Flash, or does `zdr` make the model unusable?
 - Mountless mode keeps even ignored files away from the agent. Can I get branches back from a mountless sandbox without giving it a GitHub credential?
-- Should the path guard live in `fleet-run` (inside the VM) or on the host before fetch? Only the host side is outside the agent's reach.
 
 ## Fact-check
 
@@ -181,6 +182,11 @@ Three zones: alone inside the VM, with my approval per action, and never because
 | 13 | ASI09 covers misplaced human trust in agent output | **Unverified** | Title not seen in the pages read | 2026-11-11 |
 | 14 | LLM10:2025 is Unbounded Consumption. A 2026 LLM list exists | **Agrees** | [OWASP LLM10:2025](https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/), [OWASP LLM Top 10 page](https://genai.owasp.org/initiatives/top-10-for-llm-and-genai/) | 2026-11-11 |
 | 15 | `sbx` installs on macOS 14+ Apple silicon with `brew trust docker/tap` and `brew install docker/tap/sbx`, and on Windows 11 with `winget install -h Docker.sbx`. Docker Desktop is not needed | **Agrees** | [Docker Sandboxes install](https://docs.docker.com/ai/sandboxes/install/) | 2026-11-11 |
+| 16 | In `sbx` v0.53.0 the defaults are `ssh.agentForwardingEnabled true`, `browser.enabled true`, `skills.defaultMode readonly`. Built-in agents are claude, codex, copilot, cursor, devin, docker-agent, droid, kiro, opencode, shell (no Pi). `--kit` takes mixins only. `create` has `--clone` and `--deny-network` | **Agrees** | `sbx settings ls`, `sbx create --help`, `sbx skills --help` on my Mac, read-only | 2026-11-11 |
+| 17 | The `sbx` CLI and local sandboxes are free, including for commercial work. A free Docker account signs in. Cloud sandboxes are pay-as-you-go and organization governance is a paid subscription. When signed in, CLI telemetry includes the Docker username | **Agrees** | [Docker Sandboxes FAQ](https://docs.docker.com/ai/sandboxes/faq/), read via fetch | 2026-11-11 |
+| 18 | Local mount rules allow read and write on all host paths by default, only organization policy narrows them, they do not limit reads inside a mount, and mount decisions are not logged | **Agrees** | `sbx policy inspect local-policy` on my Mac; search summary of [Docker filesystem policies](https://docs.docker.com/ai/sandboxes/governance/access-controls/filesystem/) and [monitoring](https://docs.docker.com/ai/sandboxes/governance/monitor-and-enforce/monitoring/) | 2026-11-11 |
+| 19 | After run gate steps 3 and 4: SSH forwarding and browser off, `deny-all` with one allow rule; `sbx policy check network` allows `openrouter.ai:443` and denies `api.deepseek.com`, `github.com`, `registry.npmjs.org`, `pastebin.com` | **Agrees** | `sbx settings get`, `sbx policy ls`, `sbx policy check` on my Mac | 2026-11-11 |
+| 20 | `sbx secret set` takes the service as its first argument and does not check it against its 13 known services. `--sandbox` names a sandbox scope. The value stays masked in `sbx secret ls`, but a key given as the service name is shown in full | **Agrees** | `sbx secret set --help` and two runs on my Mac, checked with masked output | 2026-11-11 |
 
 ## Sources
 

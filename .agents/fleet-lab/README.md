@@ -1,0 +1,121 @@
+# fleet-lab: a small agent fleet for Pi and Claude Code
+
+Three skills that plan, run and do work items in parallel, each item in its own git worktree and branch, plus a Claude Code launcher and an installer. The design, the four levels and the fact-check are in [Lecture 5: 09 A local fleet lab](../../Lecture_5_Workflows_not_tool_sets/09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md). Review of the finished branches uses [review-loop](../../.claude/review-loop/README.md).
+
+| File | What it is |
+|---|---|
+| [skills/fleet-plan/SKILL.md](skills/fleet-plan/SKILL.md) | Planner: survey with counts, at most 5 items, no shared paths, a command as done-check, stops for my approval |
+| [skills/fleet-run/SKILL.md](skills/fleet-run/SKILL.md) | Runner: one worker per approved item, `MAX = 3` at once, collects `FLEET-STATUS` into `.fleet/report.md`. Only writer of `.fleet/` |
+| [skills/fleet-run/scripts/run-pi-workers.sh](skills/fleet-run/scripts/run-pi-workers.sh) | Pi runner: a worktree per item, `pi -p` with the worker skill, `xargs -P` for the cap, `after:` order, logs per item |
+| [skills/fleet-worker/SKILL.md](skills/fleet-worker/SKILL.md) | Worker: one item, own branch `fleet/<id>`, scope only, done-check, one commit, `FLEET-STATUS` block. No push, no merge |
+| [claude/agents/fleet-worker.md](claude/agents/fleet-worker.md) | Claude Code launcher: `isolation: worktree`, preloads the worker skill |
+| [install.sh](install.sh) | Copies the skills to `<repo>/.agents/skills/`, symlinks `<repo>/.claude/skills/`, copies the agent, excludes `.fleet/` from git, adds `*.sh text eol=lf` to `.gitattributes` |
+| [install.ps1](install.ps1) | The same for Windows. Falls back to copies when symbolic links are not allowed |
+| [skills/fleet-run/scripts/run-pi-workers.ps1](skills/fleet-run/scripts/run-pi-workers.ps1) | The Pi runner for a Windows host (PowerShell 7, `ForEach-Object -Parallel`) |
+
+## Where things live
+
+| What | Where | Loaded there |
+|---|---|---|
+| The kit's source | This folder, in megadev-course | No. It is not under `.agents/skills/` or `.claude/skills/` |
+| The working copy | The target repository: `.agents/skills/` (Pi) and `.claude/skills/` symlinks (Claude Code) | Yes, after `install.sh` |
+| Fleet state | `<target>/.fleet/` (excluded from git, never committed) | Written by `fleet-plan` and `fleet-run` |
+
+The agents work only on the target repository. A sandbox sees only the repository it was started from, and a clone only its committed files, so the skills are copied and committed into the target.
+
+## What to install for each level
+
+| Level | Pi on my Mac | `sbx` |
+|---|---|---|
+| 0: Claude Code only | No | No |
+| 1 to 3: Pi in a sandbox | No. Pi runs inside the sandbox (`pi-kit`) | Yes |
+
+A global Pi install (`npm install -g`) is only for running Pi outside a sandbox, which this lab avoids.
+
+## Portability in one table
+
+| | Pi | Claude Code |
+|---|---|---|
+| Finds the skills in | `.agents/skills/` | `.claude/skills/` (symlinks) |
+| Frontmatter it uses | Portable fields only | Same. The Claude-only settings live in the agent file |
+| Runs workers with | `run-pi-workers.sh` (separate `pi -p` processes) | `fleet-worker` subagent, `isolation: worktree` |
+| Worker model | `FLEET_MODEL` env var | `model:` in the agent file |
+
+## Run it, level by level
+
+Install into the target repository on a branch and commit, so a sandbox clone sees the skills:
+
+```bash
+cd "<path to the target repo>"          # quote it: paths with spaces work only in quotes
+git switch -c fleet/setup
+"<path to megadev-course>/.agents/fleet-lab/install.sh" .
+git add .agents .claude && git commit -m "Add fleet-lab skills"
+```
+
+**Level 0, Claude Code only, nothing installed.** Claude Code worker worktrees branch from the default branch, so the skills must be on it: merge `fleet/setup` into the default branch first (or install there directly). Start Claude Code in the target repo, then: `/fleet-plan rewrite links and remove build output`, approve items in `.fleet/items/`, then `/fleet-run`. Changes are isolated, execution is not.
+
+**Level 1, one Pi agent in a sandbox.** Set up through the ten-step **run gate** in [Lecture 5: 10 Fleet lab threat model](../../Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md#7-run-gate-for-level-1), one approved step at a time. It turns off SSH agent forwarding, sets the Locked Down network preset with one allow rule, uses a capped lab key, and pins `pi-kit` by digest. I type every secret myself, never the agent. The defaults (`Balanced`, forwarding on, `pi-kit:latest`) are not safe for this lab.
+
+Inside Pi: `/model` to pick DeepSeek V4.1 Flash, then hand it one item by hand. Afterwards, on my Mac, I **inspect before I check out** (risk R6 in note 10). Fetching only adds refs:
+
+```bash
+git fetch sandbox-fleet-azure
+"<path to megadev-course>/.agents/fleet-lab/guard/fleet-guard.sh" sandbox-fleet-azure/fleet/01-old-repo-links --base fleet/setup --scope '*.md'
+git diff fleet/setup...sandbox-fleet-azure/fleet/01-old-repo-links   # read it, even on PASS
+```
+
+## The path guard
+
+[guard/fleet-guard.sh](guard/fleet-guard.sh) (Windows: [guard/fleet-guard.ps1](guard/fleet-guard.ps1)) checks a fetched branch before checkout. It reads git objects only. It fails the branch when it:
+
+| Check | Why |
+|---|---|
+| Touches agent config or instructions: `.claude/`, `.agents/`, `CLAUDE.md`, `AGENTS.md`, `.mcp.json` | Hooks and MCP servers run on my Mac, and instructions steer my host-side reviewer |
+| Touches CI, editor or dev-container config: `.github/`, `.vscode/`, `.idea/`, `.devcontainer/` | Tasks and workflows can run on open or on push |
+| Touches git config or hooks: `.git*`, `.husky/`, `.pre-commit-config.yaml`, `.envrc` | Run on commit or on `cd` |
+| Touches scripts or build files: `*.sh`, `*.ps1`, `*.cmd`, `Makefile`, `package.json`, `.npmrc`, `*.csproj`, `Directory.Build.*` | Run on build or install |
+| Adds a symbolic link, a submodule or an executable file | A link can point at `~/.ssh`. A submodule pulls code from elsewhere |
+| Changes a path outside `--scope`, or more than `--max-files` (50) files | The item's scope, enforced outside the agent |
+
+**It lives here, not in the target.** A guard inside the target repository could be changed by the very branch it checks. `install.sh` does not copy it.
+
+A FAIL does not mean the branch is malicious. It means I read that diff by hand before deciding. Tested on 2026-11-11 against twelve crafted branches (all cases above, a rename of a file name with a colon, an unknown ref). The PowerShell twin is untested.
+
+**Level 2, planner and three workers in one sandbox.**
+
+```bash
+sbx exec fleet-azure -- pi -p --model openrouter/deepseek/deepseek-v4.1-flash "Use the fleet-plan skill. Goal: reduce structural debt of this repository."
+sbx exec fleet-azure -- cat .fleet/plan.md
+# approve items: sbx exec fleet-azure -- sed -i 's/^status: proposed/status: approved/' .fleet/items/01-*.md
+sbx exec fleet-azure -- .agents/skills/fleet-run/scripts/run-pi-workers.sh 3
+sbx exec fleet-azure -- pi -p "Use the fleet-run skill, Collect step only."
+git fetch sandbox-fleet-azure
+```
+
+Then on my Mac, for each `done` branch: check the changed paths as in Level 1, and only then check it out, run `review-loop` in Claude Code, and open the PR myself.
+
+**Direct DeepSeek instead of OpenRouter** (comparison run, public content only: DeepSeek stores data in the PRC and trains on inputs unless I opt out, see note 10, R1). It also needs an allow rule for `api.deepseek.com`:
+
+```bash
+sbx secret set-custom --host api.deepseek.com --env DEEPSEEK_API_KEY   # prompts for the value
+```
+
+## Windows
+
+| Mac / Linux | Windows (PowerShell 7) | Notes |
+|---|---|---|
+| `install.sh <repo>` | `pwsh -ExecutionPolicy Bypass -File install.ps1 "<repo>"` | Without Developer Mode, Windows cannot create symbolic links, so `.claude\skills` gets copies and a warning. Then edit skills only in `.agents\skills` and run the installer again |
+| `run-pi-workers.sh 3` | `pwsh -File .agents\skills\fleet-run\scripts\run-pi-workers.ps1 -Max 3` | Only for Pi on the Windows host itself. Inside a sandbox (always Linux) the `.sh` runner is used |
+| `brew trust docker/tap` + `brew install docker/tap/sbx` | `winget install -h Docker.sbx` | Windows 11, x64. Local sandboxes need Windows Hypervisor Platform, which an elevated prompt enables ([Docker install](https://docs.docker.com/ai/sandboxes/install/)) |
+
+Both installers add `*.sh text eol=lf` to the target's `.gitattributes`, so a Windows checkout does not turn the sandbox runner into CRLF and break it under Linux.
+
+## Before trusting it
+
+- **Only the shell logic is tested.** On 2026-11-11 `install.sh` and `run-pi-workers.sh` ran against a throwaway repo with a stub `pi`: two items in parallel, one worktree and branch each, an `after:` item held back, an unapproved item ignored, started items skipped on a rerun. `install.ps1` and `run-pi-workers.ps1` passed the same test under PowerShell 7.4 in a Linux container, so the Windows symbolic-link fallback is not tested. No model, no `sbx` and no real Pi have run these skills yet.
+- **Security first.** Read [Lecture 5: 10 Fleet lab threat model](../../Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md) before any run. The skills' "never" rules are guidance. Only the mechanisms listed there make an action impossible.
+- **Level 1 must prove three things first:** `--clone` works together with `--kit`, Pi inside `pi-kit` uses the proxy's placeholder key for OpenRouter, and the model id `deepseek/deepseek-v4.1-flash` exists (check with `/model`).
+- **`sbx exec` working directory.** The commands above assume `sbx exec` starts in the clone's root. If not, add `cd` to the clone path first.
+- **Claude Code worktrees branch from the default branch**, not from the branch I am on. If the skills live only on `fleet/setup`, merge them first or run Level 0 from the default branch.
+- **The reviewer is a different model family on purpose** (Claude reviewing DeepSeek), as [Lecture 5: 02](../../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md) argues.
+- **Data:** item text and code go to OpenRouter and DeepSeek. Use it on my own public repositories. For Aras code check the [AI Solutions Catalog](http://aitools.aras.com/) first.

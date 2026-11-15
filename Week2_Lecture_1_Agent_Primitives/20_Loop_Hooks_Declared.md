@@ -1,8 +1,8 @@
-# 16. A hook is a callback at a fixed point of the loop: the lecture's three are an illustration, Pi's real ones differ
+# 20. A hook is a callback at a fixed point of the loop: the lecture's three are an illustration, Pi's real ones differ
 
 > The lecture's naive loop declares three hooks (`beforeModel`, `beforeTool`, `afterTool`) as an example; Pi's loop declares others with defined return values, and Claude Code and LangChain add their own, so I read a harness's declaration before I copy a hook name or assume what a hook may change.
 
-Related: [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md) · [14 The harness around the loop](14_Harness_Around_The_Loop.md) · [15 Pi, LangGraph and the DeepSeek paper](15_Pi_LangGraph_DeepSeek_Harnesses.md) · [13 Extend, adjust or leave the framework](draft_13_Extend_Adjust_Or_Leave_The_Framework.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 15 Pi and limen](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md)
+Related: [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md) · [18 The harness around the loop](18_Harness_Around_The_Loop.md) · [19 Pi, LangGraph and the DeepSeek paper](19_Pi_LangGraph_DeepSeek_Harnesses.md) · [17 Extend, adjust or leave the framework](17_Extend_Adjust_Or_Leave_The_Framework.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 15 Pi and limen](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md)
 
 Source: S02E01 article, figure 3 (the naive loop with hooks, which the article says Pi "fully implements"). Pi source (`types.ts`, `agent-loop.ts`, README, extension docs), Claude Code hooks reference and LangChain middleware page read through fetch agents on 2026-11-15. See [Fact-check](#fact-check).
 

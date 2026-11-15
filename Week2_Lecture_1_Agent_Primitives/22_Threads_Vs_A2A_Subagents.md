@@ -1,8 +1,8 @@
-# 18. A subagent is a sub-thread in my process or a peer behind A2A: the difference is whose context and whose lifetime
+# 22. A subagent is a sub-thread in my process or a peer behind A2A: the difference is whose context and whose lifetime
 
 > An in-process subagent shares my process, store and deadline but starts with a fresh context and returns one final message; an A2A peer is opaque, owns its own store and execution and is addressed by a task under a `contextId`, which is easier to run and limit in the cloud, at the price of a shared trace and tight control.
 
-Related: [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [13 Extend, adjust or leave the framework](draft_13_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [17 Extend, adjust or leave the framework](17_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, "Threads and sessions" (figure 7). A2A specification, LangGraph, Microsoft Agent Framework, OpenAI, Claude Code and Anthropic and Cognition articles read through fetch agents on 2026-11-15. My own design is marked. See [Fact-check](#fact-check).
 

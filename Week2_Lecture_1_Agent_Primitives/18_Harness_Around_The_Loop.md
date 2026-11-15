@@ -1,8 +1,8 @@
-# 14. The loop is small, the harness is what is drawn around it: callers, hooks, limits
+# 18. The loop is small, the harness is what is drawn around it: callers, hooks, limits
 
 > A run is woken by an external event, intercepted by hooks at six points, bounded by limits (permissions, sandbox, budgets, deadlines, cancellation) and recorded by history, memory and observability: that surrounding set is the harness.
 
-Related: [03 Agent loop, exits, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [15 Pi, LangGraph and the DeepSeek paper](15_Pi_LangGraph_DeepSeek_Harnesses.md) · [16 Loop hooks declared](16_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [08 Memory](08_Memory.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [03 Agent loop, exits, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [19 Pi, LangGraph and the DeepSeek paper](19_Pi_LangGraph_DeepSeek_Harnesses.md) · [20 Loop hooks declared](20_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [10 Memory](10_Memory.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, figure 1. Hook mapping is my own reasoning. Checked 2026-11-15, see [Fact-check](#fact-check).
 
@@ -17,7 +17,7 @@ Source: S02E01 article, figure 1. Hook mapping is my own reasoning. Checked 2026
 | Caller | What starts a run | LangGraph: whoever calls `invoke` or `stream` | - |
 | Wake | Loads the agent profile before the first model call | Agent definition and config loaded per run | - |
 | Limits frame | Permissions, sandbox, budgets, deadlines, cancellation | `recursion_limit`, budget caps, abort signals | - |
-| Write-ahead history | Intent recorded before its effect | Durable-execution checkpointing, see [11](draft_11_Tool_Approval_Durable_Waits.md) | - |
+| Write-ahead history | Intent recorded before its effect | Durable-execution checkpointing, see [14](14_Tool_Approval_Durable_Waits.md) | - |
 
 ## 1. The problem
 
@@ -68,9 +68,9 @@ Check the mapping against the [hooks reference](https://code.claude.com/docs/en/
 
 | Band | The figure says | Note |
 |---|---|---|
-| History | Records each intent before its effect and each result after it | [04](04_HITL_And_Execution_Isolation.md), [11](draft_11_Tool_Approval_Durable_Waits.md) |
-| Memory | Read when context is built, written through tools | [08](08_Memory.md) |
-| Observability | One trace across every step: logs, tokens, cost, time | [12](draft_12_Evals_And_Traces_For_Agent_Changes.md) |
+| History | Records each intent before its effect and each result after it | [04](04_HITL_And_Execution_Isolation.md), [14](14_Tool_Approval_Durable_Waits.md) |
+| Memory | Read when context is built, written through tools | [10](10_Memory.md) |
+| Observability | One trace across every step: logs, tokens, cost, time | [15](draft_15_Evals_And_Traces_For_Agent_Changes.md) |
 
 Important:
 - Four caller forms: the same loop runs interactively, on a schedule, on an event or as a subagent.
@@ -90,7 +90,7 @@ External events start a run, six hook points let code watch, change, block or qu
 |---|---|---|---|---|
 | 1 | A run can be woken by a user, schedule, event or parent agent | **Lecture-specific** | Figure 1. Triggers differ per harness: verify for the one I use | 2026-11-15 |
 | 2 | A hook can watch, change, block or queue work at each dot | **Unverified** | Figure 1 only. `PreToolUse` can block ([memory docs](https://code.claude.com/docs/en/memory.md)). Other dots not checked | 2026-11-15 |
-| 3 | History records intent before its effect and the result after | **Unverified** | Figure 1 only. Compare LangGraph checkpointing, [11](draft_11_Tool_Approval_Durable_Waits.md) | 2026-11-15 |
+| 3 | History records intent before its effect and the result after | **Unverified** | Figure 1 only. Compare LangGraph checkpointing, [14](14_Tool_Approval_Durable_Waits.md) | 2026-11-15 |
 | 4 | Subagents run the same loop with their own budget | **Differs** in part | Agent SDK budget includes subagents; no per-subagent wall-clock ([hosting](https://code.claude.com/docs/en/agent-sdk/hosting)) | 2026-11-15 |
 
 ## Sources

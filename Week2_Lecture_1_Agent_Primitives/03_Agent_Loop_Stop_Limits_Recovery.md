@@ -2,7 +2,7 @@
 
 > A loop that ends when the model returns no tool calls is correct but not production-safe: I add a routing function with more than one exit, a hard step cap, a budget, error recovery and a named result for every way a run ends, all as runtime code outside the model.
 
-Related: [14 The harness around the loop](14_Harness_Around_The_Loop.md) · [15 Pi, LangGraph and the DeepSeek paper](15_Pi_LangGraph_DeepSeek_Harnesses.md) · [16 Loop hooks declared](16_Loop_Hooks_Declared.md) · [17 AI SDK or official SDKs](17_AI_SDK_Or_Official_SDKs.md) · [13 Extend, adjust or leave the framework](draft_13_Extend_Adjust_Or_Leave_The_Framework.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [18 The harness around the loop](18_Harness_Around_The_Loop.md) · [19 Pi, LangGraph and the DeepSeek paper](19_Pi_LangGraph_DeepSeek_Harnesses.md) · [20 Loop hooks declared](20_Loop_Hooks_Declared.md) · [21 AI SDK or official SDKs](21_AI_SDK_Or_Official_SDKs.md) · [17 Extend, adjust or leave the framework](17_Extend_Adjust_Or_Leave_The_Framework.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S02E01 article "Agentic Loop" (figures 2, 3, 5, 6) and the transcript demo (step limit, trace; worked example only). Primary docs read 2026-11-15, see [Fact-check](#fact-check).
 
@@ -66,13 +66,13 @@ The runtime enforces it and ends the run with a named result.
 |---|---|---|---|
 | Mastra (demo) | `maxSteps` | 5 in the demo | Run ends after five model steps |
 | Claude Agent SDK | `max_turns`, `max_budget_usd` | None | `error_max_turns` or `error_max_budget_usd`, no final text |
-| LangGraph | `recursion_limit` | 10,007 super-steps (1.1.4+) | `GraphRecursionError` |
+| LangGraph | `recursion_limit` | Python 10,007 super-steps (1.1.4+). The JS docs say 25 | `GraphRecursionError` |
 | Semantic Kernel | Max auto-invoke attempts, filter `Terminate` | Per connector, unverified | Auto-invocation stops |
 | Goose | `GOOSE_MAX_TURNS`, `GOOSE_SUBAGENT_MAX_TURNS` | 1000, 25 (unverified) | Stops and asks the user |
 | Pi | None in `agent-loop.ts` | None | Caller or hook |
 
 - **Units differ.** Model turns, super-steps, turns per user input: a "limit of 25" is not portable.
-- **Defaults are not safety limits.** 10,007 and "no limit" need my own cap.
+- **Defaults are not safety limits.** 10,007 and "no limit" need my own cap. Mine: an explicit `recursion_limit` of 200 and a confirmation from the user before the run continues (my practice, not a default). LangGraph can route before the limit with `RemainingSteps`, or catch `GraphRecursionError` after it.
 - **A limit needs a result type**, or I cannot tell a finished run from a stopped one.
 
 ## 4. Budget, deadline and who owns the cap
@@ -108,7 +108,7 @@ My rule: **retry only what is idempotent.** A failed model call is safe to repea
 
 Retryable: 429, 503, timeout, incomplete reply (`max_output_tokens`), invalid tool arguments. Not retryable: other HTTP statuses such as 401, a wrong check order, unknown errors. The attempt counter resets after each successful step. 429, 503 and timeout are thrown before the request and cost no tokens. An incomplete or malformed reply costs a real request.
 
-Against my notes: the example covers the transport and run layers only. The error is not fed back to the model as a tool result. It has no idempotency guard, which is safe only because `record_check` has no external side effect. A tool with a side effect needs my rule above. The file-based resume is the lecturer's `resumable-run` example (not read), see [11](draft_11_Tool_Approval_Durable_Waits.md).
+Against my notes: the example covers the transport and run layers only. The error is not fed back to the model as a tool result. It has no idempotency guard, which is safe only because `record_check` has no external side effect. A tool with a side effect needs my rule above. The file-based resume is the lecturer's `resumable-run` example (not read), see [14](14_Tool_Approval_Durable_Waits.md).
 
 ## Summary
 
@@ -124,7 +124,7 @@ The stop condition ends a correct run. A routing function with several exits, a 
 | 4 | Claude Code recovers from API errors | **Agrees** | [errors](https://code.claude.com/docs/en/errors), first 100,000 characters read | 2026-11-15 |
 | 5 | Codex recovers the same way | **Unverified** | No Codex retry docs found | 2026-11-15 |
 | 6 | A step is one model call that may request several tools | **Agrees** (SDK), **Differs** (LangGraph) | Agent SDK loop page; LangGraph counts super-steps | 2026-11-15 |
-| 7 | `recursion_limit` default 10,007 since 1.1.4, `GraphRecursionError` | **Agrees** | [graph API](https://docs.langchain.com/oss/python/langgraph/graph-api), page read: "Starting in version 1.1.4, the default is 10,007 super-steps" | 2026-11-15 |
+| 7 | `recursion_limit` default 10,007 since 1.1.4, `GraphRecursionError` | **Agrees** for Python, **Differs** in the JS docs | Source code `libs/langgraph/langgraph/_internal/_config.py`: `getenv("LANGGRAPH_DEFAULT_RECURSION_LIMIT", "10007")`, read in full. [Python graph API](https://docs.langchain.com/oss/python/langgraph/graph-api): 10,007 from 1.1.4, 10,000 for 1.0.6 to 1.1.3. [JS graph API](https://docs.langchain.com/oss/javascript/langgraph/graph-api): "The default is 25 super-steps", no version given. A default of 200 was not found in any source I read | 2026-11-15 |
 | 8 | Agent SDK has no default turn or budget cap | **Agrees** | Agent SDK loop page, table "Turns and budget" | 2026-11-15 |
 | 9 | Semantic Kernel default auto-invoke attempts is 128 | **Unverified** | Issue mirror only; [filters page](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/filters) confirms counters and `Terminate` | 2026-11-15 |
 | 10 | Goose `GOOSE_MAX_TURNS` 1000, subagent 25 | **Unverified** | [Goose env vars](https://block.github.io/goose/docs/guides/environment-variables), search summary | 2026-11-15 |

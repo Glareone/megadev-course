@@ -10,6 +10,6 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [21 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/21_Tool_Execution_Instead_Of_Tool_Calls.md) | Function calling against code mode, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, my review table |
-| [07 Tools: awareness, discovery, gateway](../Week2_Lecture_1_Agent_Primitives/draft_07_Context_Tool_Awareness_Avoids_Compression.md) | How the agent finds its tools |
+| [25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) | Function calling against code mode, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, my review table |
+| [07 Tools: awareness, discovery, gateway](../Week2_Lecture_1_Agent_Primitives/07_Context_Tool_Awareness_Avoids_Compression.md) | How the agent finds its tools |
 | [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) | Earlier notes on code mode |

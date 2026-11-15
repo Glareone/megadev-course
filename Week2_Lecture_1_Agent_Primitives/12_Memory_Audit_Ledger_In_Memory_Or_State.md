@@ -1,8 +1,8 @@
-# 10. An audit ledger fits LangGraph state better than Store memory, but state alone is not a harness-only, tamper-evident log
+# 12. An audit ledger fits LangGraph state better than Store memory, but state alone is not a harness-only, tamper-evident log
 
 > A per-run, append-only ledger belongs in graph state (ordered with the run, restored with it, kept apart from memory the agent reads), but a state channel is writable by any node, streamed by default, copied in full into every checkpoint and deleted or pruned by hand, so the durable audit record needs an append-only sink outside the graph.
 
-Related: [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [08 Memory](08_Memory.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [18 Threads, subagents and A2A](18_Threads_Vs_A2A_Subagents.md) · [14 The harness around the loop](14_Harness_Around_The_Loop.md) · [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md)
+Related: [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [10 Memory](10_Memory.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [22 Threads, subagents and A2A](22_Threads_Vs_A2A_Subagents.md) · [18 The harness around the loop](18_Harness_Around_The_Loop.md) · [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md)
 
 Source: my own Ledger idea (audit log kept in state, not in memory), reviewed against the LangGraph docs read through a fetch agent on 2026-11-15. I have not seen the implementation, so section 4 lists questions, not findings. See [Fact-check](#fact-check).
 
@@ -33,7 +33,7 @@ My agents keep an audit log. I put it in graph state, not in memory. **Is that t
 | Read path | Node input, streaming, `get_state` | Nodes, search (default 10, silently truncated) | A ledger in the Store sits beside what memory tools read |
 | Scope | One thread | Namespace I choose, no access control in the docs | A cross-thread question needs another index |
 
-State is the better home for the in-run record. Putting it in the Store mixes audit data into the layer the agent reads when it builds context ([08](08_Memory.md)).
+State is the better home for the in-run record. Putting it in the Store mixes audit data into the layer the agent reads when it builds context ([10](10_Memory.md)).
 
 ## 3. What a state channel does not give
 
@@ -74,7 +74,7 @@ Why two nodes: checkpoints sit at super-step boundaries, and a node that is repl
 | What does an entry hold: ids and hashes, or payloads? Are secrets and personal data kept out? | Checkpoints store everything in full |
 | How is growth bounded, and is `DeltaChannel` an option? | Cost per step |
 | How do I answer "what did these agents do for user X"? | State is per thread. Deleted threads lose their ledger |
-| Who records what a disposed A2A peer did? | The orchestrator, [18](18_Threads_Vs_A2A_Subagents.md) |
+| Who records what a disposed A2A peer did? | The orchestrator, [22](22_Threads_Vs_A2A_Subagents.md) |
 | What happens to entries on a fork or time-travel replay? | Alternate histories |
 | Is there a hash chain or an external append-only copy? | Tamper evidence |
 

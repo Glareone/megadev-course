@@ -10,7 +10,7 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [15 Pi, LangGraph and the DeepSeek paper](../Week2_Lecture_1_Agent_Primitives/15_Pi_LangGraph_DeepSeek_Harnesses.md) | The three side by side: who owns the loop, exits, state, extension points, runtime change |
-| [13 Extend, adjust or leave the framework](../Week2_Lecture_1_Agent_Primitives/draft_13_Extend_Adjust_Or_Leave_The_Framework.md) | The three moves for an agent I already run |
+| [19 Pi, LangGraph and the DeepSeek paper](../Week2_Lecture_1_Agent_Primitives/19_Pi_LangGraph_DeepSeek_Harnesses.md) | The three side by side: who owns the loop, exits, state, extension points, runtime change |
+| [17 Extend, adjust or leave the framework](../Week2_Lecture_1_Agent_Primitives/17_Extend_Adjust_Or_Leave_The_Framework.md) | The three moves for an agent I already run |
 | [Lecture 4: 15 Pi and limen behind the scenes](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) | Pi's events and extension details |
 | [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) | The community DeepSeek TUI, a different project |

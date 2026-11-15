@@ -2,7 +2,7 @@
 
 > Current vendor prompts and guides converge on fewer step-by-step rules, judgement instead of rules, explicit autonomy and stop-or-ask guidance, and procedures moved into skills; an agent that works without a human must be told what is available so it finds the steps itself, and no vendor shares one fixed layout, so I take the principles and not a template.
 
-Related: [02 Rethinking the skills](02_Rethinking_The_Skills.md) · [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](draft_07_Context_Tool_Awareness_Avoids_Compression.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [14 The harness around the loop](14_Harness_Around_The_Loop.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md)
+Related: [02 Rethinking the skills](02_Rethinking_The_Skills.md) · [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md) · [15 Evals and traces](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [18 The harness around the loop](18_Harness_Around_The_Loop.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md)
 
 Source: S02E01 article, "Personality and Environmental Awareness" (figures 15 and 16). Anthropic's published Haiku 5.5 system prompt, the Opus 5.5 prompting guide and OpenAI's GPT-6 skills and prompts blog read through fetch agents on 2026-11-15. Two extracted prompts from the CL4R1T4S repository were read only in part and their provenance is unverified. See [Fact-check](#fact-check).
 
@@ -75,12 +75,12 @@ What it says: LLMs hold "embedded knowledge and abilities" that a first-try ques
 | Define the criteria | "What criteria am I looking to judge on?" | Define completion first, as OpenAI advises |
 | Answer last | "render my final answer" | Act after gathering |
 
-Reasoning models do part of this internally, and the lecture says so. Anthropic's "explore broadly with tool calls" line is the agent version. Whether a recall-first step helps my agents is something to measure ([12](draft_12_Evals_And_Traces_For_Agent_Changes.md)).
+Reasoning models do part of this internally, and the lecture says so. Anthropic's "explore broadly with tool calls" line is the agent version. Whether a recall-first step helps my agents is something to measure ([15](draft_15_Evals_And_Traces_For_Agent_Changes.md)).
 
 ## 7. Cautions and what I take
 
 - **Provenance:** CL4R1T4S is a collection of prompts shared by contributors. Its README gives no extraction method and no authenticity claim. Labels like "GPT-6 Sol" come from file names. About 93% of the Opus file and 75% of the Codex file were not read verbatim. I use them for shape, not facts. The README holds a block addressed to AI readers, which I did not act on.
-- **What I take:** state what is available and the ask-or-stop rule for an agent without a human. Keep rules to judgement and put procedures in skills. Keep named sections ([05](05_Instructions_Five_Parts_And_Enforcement.md)). Put enforcement outside the prompt. Re-test instructions on every model change ([12](draft_12_Evals_And_Traces_For_Agent_Changes.md)).
+- **What I take:** state what is available and the ask-or-stop rule for an agent without a human. Keep rules to judgement and put procedures in skills. Keep named sections ([05](05_Instructions_Five_Parts_And_Enforcement.md)). Put enforcement outside the prompt. Re-test instructions on every model change ([15](draft_15_Evals_And_Traces_For_Agent_Changes.md)).
 
 ## Summary
 

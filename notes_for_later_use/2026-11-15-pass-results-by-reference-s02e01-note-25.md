@@ -10,7 +10,7 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [21 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/21_Tool_Execution_Instead_Of_Tool_Calls.md), section 5 | Figure 13, pass by reference, where the result lives, risks |
-| [08 Memory](../Week2_Lecture_1_Agent_Primitives/08_Memory.md) | Memory as the store behind the context |
-| [10 Audit ledger](../Week2_Lecture_1_Agent_Primitives/10_Memory_Audit_Ledger_In_Memory_Or_State.md) | Why a large result does not belong in a state channel |
+| [25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md), section 5 | Figure 13, pass by reference, where the result lives, risks |
+| [10 Memory](../Week2_Lecture_1_Agent_Primitives/10_Memory.md) | Memory as the store behind the context |
+| [12 Audit ledger](../Week2_Lecture_1_Agent_Primitives/12_Memory_Audit_Ledger_In_Memory_Or_State.md) | Why a large result does not belong in a state channel |
 | [Lecture 2: 10 Tool results to file and back](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md) | Earlier notes on results to file |

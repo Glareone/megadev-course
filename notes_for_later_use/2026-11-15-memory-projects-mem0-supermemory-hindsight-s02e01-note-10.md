@@ -10,5 +10,5 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [08 Memory](../Week2_Lecture_1_Agent_Primitives/08_Memory.md), section 7 | A comparison table of license, storage, structure, updates, search and maturity, read on 2026-11-15 |
-| [09 Memory known problems](../Week2_Lecture_1_Agent_Primitives/09_Memory_Known_Problems.md) | How each handles contradiction and duplication |
+| [10 Memory](../Week2_Lecture_1_Agent_Primitives/10_Memory.md), section 7 | A comparison table of license, storage, structure, updates, search and maturity, read on 2026-11-15 |
+| [11 Memory known problems](../Week2_Lecture_1_Agent_Primitives/11_Memory_Known_Problems.md) | How each handles contradiction and duplication |

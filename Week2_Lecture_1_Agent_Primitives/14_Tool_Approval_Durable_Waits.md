@@ -1,8 +1,8 @@
-# 11. Tool approval is the harness's job, and the wait must survive a restart
+# 14. Tool approval is the harness's job, and the wait must survive a restart
 
 > The model only asks for an irreversible tool call. The harness stops, saves the run, asks a human, and executes the tool in code after the answer, even days later. That only works if the run state lives on disk and the action is idempotent.
 
-Related: [03 Agent loop, stop limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [05 Instructions, five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [07 Tools: awareness, discovery, gateway](draft_07_Context_Tool_Awareness_Avoids_Compression.md) · [12 Evals and traces for agent changes](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 1: 17 Ambient, durable agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md)
+Related: [03 Agent loop, stop limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [05 Instructions, five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md) · [15 Evals and traces for agent changes](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 1: 17 Ambient, durable agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md)
 
 Source: S02E01 article (the approvals paragraph and its sequence figure, with an email tool as the example; the permission and persistence parts), the lecture's `resumable-run` example read on 2026-11-15 as a fetched page summary (not the code), LangGraph, Semantic Kernel, Claude Code and MCP docs checked on 2026-11-15. See [Fact-check](#fact-check).
 
@@ -97,7 +97,7 @@ A line in the system prompt such as "never send mail without asking" is a recomm
 | Policy gate in the harness | Rule table: tool X needs approval, tool Y is denied | Yes |
 | Tool implementation | Ownership and scope checks inside `execute` | Yes, runs on every call |
 
-Config-gated tools are the strongest and cheapest control. In the transcript demo a setting turns the `getOrder` tool on or off. With it off, the model is only sent the tool list without it, so it cannot call it. That demo is also where the lecturer enforces access in code: the query needs both order ID and customer ID, so another customer's order returns "not found". I cover that case in [12](draft_12_Evals_And_Traces_For_Agent_Changes.md).
+Config-gated tools are the strongest and cheapest control. In the transcript demo a setting turns the `getOrder` tool on or off. With it off, the model is only sent the tool list without it, so it cannot call it. That demo is also where the lecturer enforces access in code: the query needs both order ID and customer ID, so another customer's order returns "not found". I cover that case in [15](draft_15_Evals_And_Traces_For_Agent_Changes.md).
 
 Permission grants are the standing counterpart. The agent asks for a capability, the user grants it, and the grant is stored as a rule the gate reads. The lecture mentions permissions in the persistence part but gives no mechanism, so the storage and expiry of grants is my design question, not a lecture fact.
 

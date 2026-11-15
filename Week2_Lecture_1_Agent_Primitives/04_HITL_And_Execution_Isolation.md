@@ -2,9 +2,9 @@
 
 > A harness persists threads, artifacts, permissions and more, and each kind needs its own access rule (agent reads, agent writes, user grants); once more than one user shares the runtime, the filesystem is not a boundary, so isolation has to be enforced by the sandbox and the host, not by the agent.
 
-Related: [18 Threads, subagents and A2A](18_Threads_Vs_A2A_Subagents.md) · [03 Agent loop, limits and recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [08 Memory: extraction and retrieval](08_Memory.md) · [11 Tool approval and durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [Lecture 4: 04 Computers.md fleet infrastructure](../Lecture_4_Harness/04_Computers_md_Fleet_Infrastructure.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [22 Threads, subagents and A2A](22_Threads_Vs_A2A_Subagents.md) · [03 Agent loop, limits and recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [10 Memory: extraction and retrieval](10_Memory.md) · [14 Tool approval and durable waits](14_Tool_Approval_Durable_Waits.md) · [Lecture 4: 04 Computers.md fleet infrastructure](../Lecture_4_Harness/04_Computers_md_Fleet_Infrastructure.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
-Source: S02E01 article, sections "Threads and sessions" and "Persistence" (figures 8, 10; figure 7 is in [18](18_Threads_Vs_A2A_Subagents.md)). S02E01 transcript only for the worked example of a deterministic access check inside a tool. Claude Agent SDK hosting and sandboxing docs, Pi session docs, LangGraph persistence docs checked on 2026-11-15, see [Fact-check](#fact-check).
+Source: S02E01 article, sections "Threads and sessions" and "Persistence" (figures 8, 10; figure 7 is in [22](22_Threads_Vs_A2A_Subagents.md)). S02E01 transcript only for the worked example of a deterministic access check inside a tool. Claude Agent SDK hosting and sandboxing docs, Pi session docs, LangGraph persistence docs checked on 2026-11-15, see [Fact-check](#fact-check).
 
 ## Glossary
 
@@ -14,7 +14,7 @@ Source: S02E01 article, sections "Threads and sessions" and "Persistence" (figur
 | Session | One continuous run of the harness on a thread, from start to exit | - | A thread. One thread has many sessions |
 | Checkpoint (LangGraph) | A snapshot of graph state at a super-step, keyed by `thread_id` | - | A saved file the agent can read |
 | Store (LangGraph) | Cross-thread key-value memory with namespaces | - | A checkpointer. The checkpointer is per thread |
-| Harness-only state | Stored state the agent can neither read nor write: credentials, grant records, audit log (a ledger in graph state: [10](10_Memory_Audit_Ledger_In_Memory_Or_State.md)) | Secrets injected by an egress proxy; service session IDs kept in trusted storage (Microsoft) | Agent-readable state |
+| Harness-only state | Stored state the agent can neither read nor write: credentials, grant records, audit log (a ledger in graph state: [12](12_Memory_Audit_Ledger_In_Memory_Or_State.md)) | Secrets injected by an egress proxy; service session IDs kept in trusted storage (Microsoft) | Agent-readable state |
 | Sandbox | An OS-enforced boundary around code the agent runs | - | A permission rule. Rules decide, the sandbox enforces |
 | Workspace | The directory (or volume) one user or task works in | - | The sandbox. A workspace is data, a sandbox is a wall |
 
@@ -24,7 +24,7 @@ On my laptop an agent reads and writes my files freely, and that is fine. In a t
 
 ## 2. Where threads are stored
 
-The article: history "is often stored in text files agents can easily read using **bash**". What a thread is, and how subagent threads differ from A2A peers, is in [18](18_Threads_Vs_A2A_Subagents.md).
+The article: history "is often stored in text files agents can easily read using **bash**". What a thread is, and how subagent threads differ from A2A peers, is in [22](22_Threads_Vs_A2A_Subagents.md).
 
 How the real systems store it:
 

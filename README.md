@@ -245,13 +245,13 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 
 | Name | What it does | Notes |
 |---|---|---|
-| [AI SDK](https://vercel.com/ai-sdk) | Vercel's TypeScript toolkit for multi-provider model calls, tools and agent loops. The lecturer prefers official SDKs over it | [17](Week2_Lecture_1_Agent_Primitives/17_AI_SDK_Or_Official_SDKs.md) |
-| [Pi](https://github.com/earendil-works/pi) | Minimal terminal agent harness, loop in `packages/agent` | [15](Week2_Lecture_1_Agent_Primitives/15_Pi_LangGraph_DeepSeek_Harnesses.md), [16](Week2_Lecture_1_Agent_Primitives/16_Loop_Hooks_Declared.md) |
+| [AI SDK](https://vercel.com/ai-sdk) | Vercel's TypeScript toolkit for multi-provider model calls, tools and agent loops. The lecturer prefers official SDKs over it | [21](Week2_Lecture_1_Agent_Primitives/21_AI_SDK_Or_Official_SDKs.md) |
+| [Pi](https://github.com/earendil-works/pi) | Minimal terminal agent harness, loop in `packages/agent` | [19](Week2_Lecture_1_Agent_Primitives/19_Pi_LangGraph_DeepSeek_Harnesses.md), [20](Week2_Lecture_1_Agent_Primitives/20_Loop_Hooks_Declared.md) |
 | [Goose](https://github.com/aaif-goose/goose) | Open-source agent harness named as a loop implementation | [03](Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) (loop source not read) |
-| DeepSeek Harness paper ([arXiv 2608.25512](https://arxiv.org/abs/2608.25512)) | A composability paper, not an agent harness | [15](Week2_Lecture_1_Agent_Primitives/15_Pi_LangGraph_DeepSeek_Harnesses.md) |
-| [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [08](Week2_Lecture_1_Agent_Primitives/08_Memory.md) |
-| [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [07](Week2_Lecture_1_Agent_Primitives/draft_07_Context_Tool_Awareness_Avoids_Compression.md) |
-| [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [12](Week2_Lecture_1_Agent_Primitives/draft_12_Evals_And_Traces_For_Agent_Changes.md) |
+| DeepSeek Harness paper ([arXiv 2608.25512](https://arxiv.org/abs/2608.25512)) | A composability paper, not an agent harness | [19](Week2_Lecture_1_Agent_Primitives/19_Pi_LangGraph_DeepSeek_Harnesses.md) |
+| [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [10](Week2_Lecture_1_Agent_Primitives/10_Memory.md) |
+| [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [07](Week2_Lecture_1_Agent_Primitives/07_Context_Tool_Awareness_Avoids_Compression.md) |
+| [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [15](Week2_Lecture_1_Agent_Primitives/draft_15_Evals_And_Traces_For_Agent_Changes.md) |
 
 ## Repository rules
 

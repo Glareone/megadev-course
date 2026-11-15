@@ -2,7 +2,7 @@
 
 > The system prompt tells the agent who it is, where it works, what exists, how to look and what is off limits, but only the first four are guidance I can rely on; every boundary that matters must also be enforced in code, because the model may ignore a prompt.
 
-Related: [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [06 Tools awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [01 Agent loop, stop, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
+Related: [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [06 Tools awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [01 Agent loop, stop, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
 Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Loop" (Context), takeaways; S02E01 transcript (retail-agent demo, used only as a worked example); the layout in section 4 is my own platform design. Vendor docs read on 2026-11-15, see [Fact-check](#fact-check).
 
@@ -20,7 +20,7 @@ Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Lo
 | Tagged chapter | One prompt concern wrapped in an XML-like tag | Anthropic: XML tags per content type | - |
 | Layering | A base prompt plus the author's domain prompt, concatenated | Deep Agents: `system_prompt` appended to the base prompt | - |
 | Loaded skill | The body of the single skill currently in context | A skill after invocation, as against the skill list with descriptions | - |
-| Static prefix | The part of the prompt identical between calls | Cache prefix, see [04](draft_04_Context_Window_Cache_Compaction.md) | - |
+| Static prefix | The part of the prompt identical between calls | Cache prefix, see [17](draft_17_KV_Cache_And_Prompt_Caching.md) | - |
 
 ## 1. The problem
 
@@ -105,7 +105,7 @@ What industry sources say:
 - **Tags.** Anthropic recommends XML tags for prompts that mix instructions, context, examples and inputs, with a separate tag per content type and consistent, descriptive names ([Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)). It gives no comparison against Markdown. OpenAI's guide uses Markdown headers for sections and XML to mark where reference content starts and stops ([Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering)). A format study finds large effects that vary by task and model, with no universal winner, on 2024 OpenAI models only ([arXiv 2411.10541](https://arxiv.org/abs/2411.10541)). So tags are well supported, and "tags beat Markdown" is not a vendor-neutral rule.
 - **My own observation.** On a smaller model (GPT-5.4-mini) switching from Markdown headers to tags improved results. On GPT-6 Luna the difference is minor. I recorded no numbers, and the model names are as I use them. This is a practitioner observation, not a published result.
 - **Layering.** The Deep Agents library appends the author's `system_prompt` to its built-in base prompt, so the author writes only the domain part ([create_deep_agent](https://reference.langchain.com/python/deepagents/graph/create_deep_agent)). `create_react_agent` takes the author's prompt as the whole system message. My `<behavior>` chapter plays the role of that base layer.
-- **Skills.** One loaded skill at a time and 5,000 characters are my platform's choices. Claude Code differs: it can hold several skills and re-attaches them after compaction with a cap of 5,000 tokens per skill and 25,000 in total (see [04](draft_04_Context_Window_Cache_Compaction.md)).
+- **Skills.** One loaded skill at a time and 5,000 characters are my platform's choices. Claude Code differs: it can hold several skills and re-attaches them after compaction with a cap of 5,000 tokens per skill and 25,000 in total (see [04](draft_04_Context_Window_And_Compaction.md)).
 
 ## 5. Boundaries: recommendation in the prompt, rule in code
 

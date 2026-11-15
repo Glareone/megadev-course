@@ -2,7 +2,7 @@
 
 > An in-process subagent shares my process, store and deadline but starts with a fresh context and returns one final message; an A2A peer is opaque, owns its own store and execution and is addressed by a task under a `contextId`, which is easier to run and limit in the cloud, at the price of a shared trace and tight control.
 
-Related: [02 Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) · [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, "Threads and sessions" (figure 7). A2A specification, LangGraph, Microsoft Agent Framework, OpenAI, Claude Code and Anthropic and Cognition articles read through fetch agents on 2026-11-15. My own design is marked. See [Fact-check](#fact-check).
 
@@ -85,7 +85,7 @@ I have not settled this. The options, with what the sources say:
 | Option | What the peer gets | Source or reasoning | Risk |
 |---|---|---|---|
 | Task prompt only | One prompt string | Claude Code: "The only content you pass from parent to subagent is the Agent tool's prompt string" | The peer misses implicit decisions (Cognition) |
-| Decision summary | Goal, constraints, decisions with reasons, options ruled out, artifact references, expected output | No standard found. My candidate | A summary can drop a detail, as in [04](draft_04_Context_Window_Cache_Compaction.md) |
+| Decision summary | Goal, constraints, decisions with reasons, options ruled out, artifact references, expected output | No standard found. My candidate | A summary can drop a detail, as in [04](draft_04_Context_Window_And_Compaction.md) |
 | Full trace | The parent's history | Cognition: share full traces | Tokens, and parent context leaks across the boundary |
 | References | Links to artifacts, not contents | Anthropic has subagents pass lightweight references back to the coordinator. The same idea in the other direction is my reasoning | The peer needs access to the store |
 

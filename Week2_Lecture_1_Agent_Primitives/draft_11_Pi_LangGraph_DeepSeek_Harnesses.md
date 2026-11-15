@@ -2,7 +2,7 @@
 
 > LangGraph lets a graph own the loop, Pi runs one small fixed loop that I extend through events, and the DeepSeek paper defines no loop at all: it is a composition layer for adding and removing components safely.
 
-Related: [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [16 Self-configuring harness](draft_16_Self_Configuring_Harness.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 4: 15 Pi and limen](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [16 Self-configuring harness](draft_16_Self_Configuring_Harness.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 4: 15 Pi and limen](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S02E01 article ("Agentic Loop", "Configuration"). Pi docs and repo, LangChain docs and the arXiv paper read 2026-11-15 through fetch agents and local PDF text. See [Fact-check](#fact-check).
 
@@ -59,7 +59,7 @@ The lecture's "DeepSeek Harness" is arXiv 2608.25512, "A Programming Paradigm fo
 
 - **Different layers, not rivals.** A graph fits when control flow is the product. Pi fits when the loop is standard and value is in tools. A composition layer matters when components change while the agent runs.
 - **Rollback for agent-written tools.** Removing a saved integration must undo what it changed ([06](draft_06_Tools_Awareness_Discovery_Code_Mode.md)). A restart discards state.
-- **Checkpoint granularity.** LangGraph resumes at a super-step boundary. Pi persists per turn but documents no crash resume. Compare [02](draft_02_Persistence_Access_Isolation.md) and [07](draft_07_Tool_Approval_Durable_Waits.md).
+- **Checkpoint granularity.** LangGraph resumes at a super-step boundary. Pi persists per turn but documents no crash resume. Compare [02](02_HITL_And_Execution_Isolation.md) and [07](draft_07_Tool_Approval_Durable_Waits.md).
 
 ## Summary
 

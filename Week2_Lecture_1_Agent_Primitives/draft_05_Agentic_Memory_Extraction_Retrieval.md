@@ -2,7 +2,7 @@
 
 > Memory has four parts (structure, extraction, retrieval, context); saving a fact is the easy part, and the hard parts are keeping one current, owned value per fact (contradiction, duplication, ambiguity) and recalling it from the whole thread plus a global profile instead of the last message.
 
-Related: [02 Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) · [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 1: 15 Self-querying](../Lecture_1_Mechanics_Behind_Generative_AI/15_self_querying.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
+Related: [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 1: 15 Self-querying](../Lecture_1_Mechanics_Behind_Generative_AI/15_self_querying.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
 
 Source: S02E01 article "Agentic Primitives", section "Context and Memory" (figures 19 to 23), plus the Mastra retail-agent demo in the S02E01 transcript used only as a worked example; sources checked 2026-11-15, see [Fact-check](#fact-check).
 
@@ -110,7 +110,7 @@ Industry check: Semantic Kernel's `Mem0Provider` queries Mem0 "for memories matc
 
 ## 6. Retention window is not memory
 
-A retention window (last N messages) forgets by position. Memory forgets by decision. A compacted summary sits between them (see [04](draft_04_Context_Window_Cache_Compaction.md)).
+A retention window (last N messages) forgets by position. Memory forgets by decision. A compacted summary sits between them (see [04](draft_04_Context_Window_And_Compaction.md)).
 
 | Mechanism | Scope | Forgets | Survives a new thread |
 |---|---|---|---|

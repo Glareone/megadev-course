@@ -2,7 +2,7 @@
 
 > The Vercel AI SDK is one TypeScript layer over many providers with a built-in multi-step loop, so it could replace two adapters plus two official SDKs, but only if it passes a parity check on caching, reasoning options, usage accounting, retries and error classes, and I accept version churn and silent option rewrites.
 
-Related: [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md)
+Related: [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md)
 
 Source: S02E01 article, "Connection" paragraph (use official SDKs to avoid unnecessary abstractions, AI SDK named as an example). [vercel.com/ai-sdk](https://vercel.com/ai-sdk), the AI SDK docs and provider pages, and the `vercel/ai` issue tracker read through fetch agents on 2026-11-15. My current setup (two adapters over the Anthropic and OpenAI SDKs) is the case I test against. See [Fact-check](#fact-check).
 
@@ -42,7 +42,7 @@ The loop default is the same trap as in [01](01_Agent_Loop_Stop_Limits_Recovery.
 
 | Feature | AI SDK behaviour | Why it matters |
 |---|---|---|
-| Anthropic prompt caching | `cacheControl` set via `providerOptions`, reads and writes in `usage.inputTokenDetails`. Short prompts are not cached | My cache prefix from [04](draft_04_Context_Window_Cache_Compaction.md) must survive the mapping |
+| Anthropic prompt caching | `cacheControl` set via `providerOptions`, reads and writes in `usage.inputTokenDetails`. Short prompts are not cached | My cache prefix from [17](draft_17_KV_Cache_And_Prompt_Caching.md) must survive the mapping |
 | Reasoning and effort | `providerOptions.anthropic.thinking` and `effort`, `openai.reasoningEffort`. Unsupported settings are rewritten or dropped with a warning | A silent rewrite can hide behaviour change |
 | Usage | v5 reports the last step in `usage` and the sum in `totalUsage` | Cost per task needs the sum |
 | Provider-only features | Anthropic message threads are beta and absent on Bedrock and Vertex Anthropic wrappers. A feature the SDK does not model needs the escape hatches (`providerOptions`, `anthropicBeta`, `headers`) | Open issue [#24882](https://github.com/vercel/ai/issues/24882): `allowed_callers` cannot be sent on web tools |

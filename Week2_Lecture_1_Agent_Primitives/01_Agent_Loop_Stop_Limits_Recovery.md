@@ -2,7 +2,7 @@
 
 > A loop that ends when the model returns no tool calls is correct but not production-safe: I add a routing function with more than one exit, a hard step cap, a budget, error recovery and a named result for every way a run ends, all as runtime code outside the model.
 
-Related: [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [11 Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [13 AI SDK or official SDKs](draft_13_AI_SDK_Or_Official_SDKs.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [11 Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [13 AI SDK or official SDKs](draft_13_AI_SDK_Or_Official_SDKs.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S02E01 article "Agentic Loop" (figures 2, 3, 5, 6) and the transcript demo (step limit, trace; worked example only). Primary docs read 2026-11-15, see [Fact-check](#fact-check).
 
@@ -88,7 +88,7 @@ Article figure 5: model call 2 gets an API error, "no path for the error", the t
 | Layer | Failure | Safe handling | Owner |
 |---|---|---|---|
 | Transport | 5xx, 529, timeout, temporary 429 | Retry with backoff and jitter | Runtime |
-| Run | Process dies, wait of days | Resume from persisted state, see [02](draft_02_Persistence_Access_Isolation.md) | Runtime and storage |
+| Run | Process dies, wait of days | Resume from persisted state, see [02](02_HITL_And_Execution_Isolation.md) | Runtime and storage |
 | Tool | Throws, bad arguments, denied | Return an error result to the model | Loop |
 
 - **Claude Code:** up to 10 retries with backoff, none after a completed text block or tool call; `CLAUDE_CODE_RETRY_WATCHDOG=1` retries 429 and 529 indefinitely ([errors](https://code.claude.com/docs/en/errors)).

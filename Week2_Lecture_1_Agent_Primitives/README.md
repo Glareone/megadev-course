@@ -14,10 +14,11 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | Whether an audit ledger belongs in graph state or in memory | [15](15_Audit_Ledger_In_State_Or_Memory.md) |
 | What a self-configuring harness can change and what guards it | [16](draft_16_Self_Configuring_Harness.md) |
 | Whether to add a tool, adjust a harness or leave a framework | [09](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) |
-| What a harness stores and how users are separated | [02](draft_02_Persistence_Access_Isolation.md) |
+| What a harness stores and how users are separated | [02](02_HITL_And_Execution_Isolation.md) |
 | Threads, sessions, and subagent in-process versus over A2A | [14](14_Threads_Vs_A2A_Subagents.md) |
 | What belongs in instructions and what code must enforce | [03](03_Instructions_Five_Parts_And_Enforcement.md) |
-| How to keep context small, cacheable and not lossy | [04](draft_04_Context_Window_Cache_Compaction.md) |
+| How to keep context small and not lossy: window, compaction, what survives | [04](draft_04_Context_Window_And_Compaction.md) |
+| What the KV and prompt cache is, which attributes control it, what to cache | [17](draft_17_KV_Cache_And_Prompt_Caching.md) |
 | Why memory is hard and what exists | [05](draft_05_Agentic_Memory_Extraction_Retrieval.md) |
 | How an agent knows its tools and chains them cheaply | [06](draft_06_Tools_Awareness_Discovery_Code_Mode.md) |
 | How a run waits days for approval and resumes | [07](draft_07_Tool_Approval_Durable_Waits.md) |
@@ -28,9 +29,9 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | # | File | Topic |
 |---|---|---|
 | 01 | [Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) | The routing function behind the stop condition, step limits across runtimes, budget and deadline, three recovery layers, retry only what is idempotent. |
-| 02 | [Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) | Where threads are stored, what else a harness persists, who may read, write or grant each kind, access checks inside tools, per-user workspaces and sandbox coverage. |
+| 02 | [HITL and execution isolation](02_HITL_And_Execution_Isolation.md) | Where threads are stored, what else a harness persists, who may read, write or grant each kind, access checks inside tools, per-user workspaces and sandbox coverage. |
 | 03 | [Instructions](03_Instructions_Five_Parts_And_Enforcement.md) | The five prompt parts, my tagged-chapter layout, boundaries as requests versus rules in code, start simple and iterate with evals. |
-| 04 | [Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) | Stable prefix and prompt cache, tools loaded on demand, compaction, skill re-injection, why a long AGENTS.md hurts. |
+| 04 | [Context window and compaction](draft_04_Context_Window_And_Compaction.md) | Window and compaction, tools and results kept out of the thread, what survives compaction in Claude Code, skill re-injection, why a long AGENTS.md hurts. |
 | 05 | [Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) | Structure, extraction, retrieval, context; contradiction, duplication, ambiguity; retention window versus memory; existing projects. |
 | 06 | [Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) | Capability maps, search tool versus files, function calling versus code mode, large results to files, a gateway at scale. |
 | 07 | [Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) | Approval as a harness duty, persisted run state, resume after days, LangGraph `interrupt`, permission grants. |
@@ -43,6 +44,7 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | 14 | [Threads, subagents and A2A](14_Threads_Vs_A2A_Subagents.md) | The lecture's thread figure, in-process subagents against A2A peers, `contextId` and tasks, what the A2A spec, LangGraph, Microsoft, Claude Code, Anthropic and Cognition say, my process-per-agent choice. |
 | 15 | [Audit ledger: state or memory](15_Audit_Ledger_In_State_Or_Memory.md) | My Ledger idea checked against the LangGraph docs: state against Store, what a state channel does not guarantee, write-ahead entries, ten review questions for the implementation, an external append-only sink. |
 | 16 | [Self-configuring harness](draft_16_Self_Configuring_Harness.md) | The lecture's "Configuration" part: what Claude Code, OpenCode and Pi let the agent change at runtime, what the documented guards cover, what the DeepSeek paper adds, and a change-class design with undo. |
+| 17 | [KV cache and prompt caching](draft_17_KV_Cache_And_Prompt_Caching.md) | The KV cache and prefix caching in three layers, Anthropic's `cache_control` against OpenAI's `prompt_cache_key`, options and breakpoints, what to cache and in what order, what breaks a hit, cost arithmetic, isolation. |
 
 ## Images
 

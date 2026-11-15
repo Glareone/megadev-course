@@ -11,5 +11,5 @@ Where the topic already appears:
 | Where | What it holds |
 |---|---|
 | [04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md), section 5 | Per-tenant workspaces, containers, shell sandbox coverage, escape hatches |
-| [08 Tools: awareness, discovery, gateway](../Week2_Lecture_1_Agent_Primitives/draft_08_Tools_Awareness_Discovery_Gateway.md) | Code mode and per-user workspace isolation as it concerns tools |
+| [10 Tools: awareness, discovery, gateway](../Week2_Lecture_1_Agent_Primitives/draft_10_Tools_Awareness_Discovery_Gateway.md) | Code mode and per-user workspace isolation as it concerns tools |
 | [Lecture 4: 14 What agent fleets need beyond spawning](../Lecture_4_Harness/14_What_Agent_Fleets_Need_Beyond_Spawning.md) | Sandboxing pointers for agent fleets |

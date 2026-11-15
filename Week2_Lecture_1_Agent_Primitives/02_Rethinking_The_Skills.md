@@ -2,7 +2,7 @@
 
 > OpenAI's guidance for GPT-6 generation models is to write skill descriptions as short as possible but clear about when to use the skill, keep the root file a router, drop recipes, ask-first language and test-running reminders, define completion up front, and revisit every instruction when the model changes; the skill specifications and Claude Code's limits explain why, and the advice is qualitative with no measurements.
 
-Related: [01 Advanced prompt techniques](01_Advanced_Prompt_Techniques.md) · [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [10 Evals and traces](draft_10_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 13 Knowledge skill anatomy](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) · [Lecture 5: 08 Skills as building blocks](../Lecture_5_Workflows_not_tool_sets/08_Skills_As_Building_Blocks.md)
+Related: [01 Advanced prompt techniques](01_Advanced_Prompt_Techniques.md) · [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 3: 13 Knowledge skill anatomy](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) · [Lecture 5: 08 Skills as building blocks](../Lecture_5_Workflows_not_tool_sets/08_Skills_As_Building_Blocks.md)
 
 Source: OpenAI's blog "Rethinking skills and prompts for GPT-6" (linked in S02E01, "Personality and Environmental Awareness"), read in full on 2026-11-15, no byline or date on the page. The Agent Skills specification, Claude Code skills docs, Anthropic's skill best practices and OpenAI's Codex skills page, read through fetch agents. See [Fact-check](#fact-check).
 
@@ -74,7 +74,7 @@ The blog's own examples (good wording for the second one is quoted from it). My 
 ## 5. What I take
 
 - **Review each skill like code** ([Lecture 5: 05](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md)): description short and specific, root a router, no recipe, no ask-first line, no test reminder, completion defined.
-- **Re-test on a model change**, with and without the instruction, on my golden set ([10](draft_10_Evals_And_Traces_For_Agent_Changes.md)). Anthropic says the same: test with every model I plan to use.
+- **Re-test on a model change**, with and without the instruction, on my golden set ([12](draft_12_Evals_And_Traces_For_Agent_Changes.md)). Anthropic says the same: test with every model I plan to use.
 - **Remember the exceptions.** The same sources add explicit lines for unattended runs and keep important constraints, see [01](01_Advanced_Prompt_Techniques.md).
 - **Cap the numbers I control:** descriptions under the smallest limit I deploy to (1,024 in the spec, 1,536 in the Claude Code listing), the body under 500 lines.
 

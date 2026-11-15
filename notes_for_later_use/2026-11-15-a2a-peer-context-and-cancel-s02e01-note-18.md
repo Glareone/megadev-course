@@ -10,5 +10,5 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [16 Threads, subagents and A2A](../Week2_Lecture_1_Agent_Primitives/16_Threads_Vs_A2A_Subagents.md), sections 5 and 6 | Disposable peers, the four options for what the peer gets, the cancel gap |
+| [18 Threads, subagents and A2A](../Week2_Lecture_1_Agent_Primitives/18_Threads_Vs_A2A_Subagents.md), sections 5 and 6 | Disposable peers, the four options for what the peer gets, the cancel gap |
 | [03 Agent loop](../Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) | Deadlines and limits, no per-subagent wall-clock in the Agent SDK |

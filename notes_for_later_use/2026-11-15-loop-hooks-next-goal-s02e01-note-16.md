@@ -10,6 +10,6 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [14 Loop hooks declared](../Week2_Lecture_1_Agent_Primitives/14_Loop_Hooks_Declared.md) | The lecture's hooks against Pi's real callbacks, Claude Code and LangChain middleware, the four powers, fail-open versus fail-closed |
-| [12 The harness around the loop](../Week2_Lecture_1_Agent_Primitives/12_Harness_Around_The_Loop.md) | The six hook points of the harness figure |
+| [16 Loop hooks declared](../Week2_Lecture_1_Agent_Primitives/16_Loop_Hooks_Declared.md) | The lecture's hooks against Pi's real callbacks, Claude Code and LangChain middleware, the four powers, fail-open versus fail-closed |
+| [14 The harness around the loop](../Week2_Lecture_1_Agent_Primitives/14_Harness_Around_The_Loop.md) | The six hook points of the harness figure |
 | [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) | Earlier notes on lifecycle hooks |

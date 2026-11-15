@@ -1,8 +1,8 @@
-# 18. A self-configuring harness lets the agent change its own settings, tools and UI, so the guard must sit outside what the agent can edit
+# 19. A self-configuring harness lets the agent change its own settings, tools and UI, so the guard must sit outside what the agent can edit
 
 > Claude Code, OpenCode and Pi load settings, skills, plugins or extensions from files they watch, so an agent can change itself within a session; the documented guards decide who may override and what loads, not whether the agent may edit and reload itself, so for my platform the guard is a design I own.
 
-Related: [11 Extend, adjust or leave the framework](draft_11_Extend_Adjust_Or_Leave_The_Framework.md) · [13 Pi, LangGraph and the DeepSeek paper](13_Pi_LangGraph_DeepSeek_Harnesses.md) · [14 Loop hooks declared](14_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [08 Tools: awareness, discovery, gateway](draft_08_Tools_Awareness_Discovery_Gateway.md) · [17 Audit ledger](17_Audit_Ledger_In_State_Or_Memory.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
+Related: [13 Extend, adjust or leave the framework](draft_13_Extend_Adjust_Or_Leave_The_Framework.md) · [15 Pi, LangGraph and the DeepSeek paper](15_Pi_LangGraph_DeepSeek_Harnesses.md) · [16 Loop hooks declared](16_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [10 Tools: awareness, discovery, gateway](draft_10_Tools_Awareness_Discovery_Gateway.md) · [09 Audit ledger](09_Memory_Audit_Ledger_In_Memory_Or_State.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
 
 Source: S02E01 article, "Configuration" (figure 9). [OpenCode Reloaded](https://anoma.ly/notes/opencode-reloaded/) (read in part: the page was cut after its "Reloading" section), OpenCode, Claude Code and Pi docs, and the arXiv paper 2608.25512 (sections 5.2.2 and 6.3, PDF text read locally), all on 2026-11-15. See [Fact-check](#fact-check).
 
@@ -30,7 +30,7 @@ Source: S02E01 article, figure 9. Caption: "The agent manages the settings and e
 Important: two paths. Settings loop back to the agent as new behavior. The UI path, in red, ends at the user: no arrow returns to the agent, so in this picture the agent does not see what the user sees (my reading). Not important: box positions and the corner pattern.
 
 - **OpenCode Reloaded** (author's note): OpenCode "can edit its config, connect an MCP server, or write a plugin", with changes taking effect "across every session", and the agent can make a tool and use it in the same turn. Its demo changes tools and skills. I found no readable example of the agent changing its own UI.
-- **The DeepSeek paper** is not an agent harness paper, see [13](13_Pi_LangGraph_DeepSeek_Harnesses.md). Its relevance is the mechanism: components can be removed with their effects reverted.
+- **The DeepSeek paper** is not an agent harness paper, see [15](15_Pi_LangGraph_DeepSeek_Harnesses.md). Its relevance is the mechanism: components can be removed with their effects reverted.
 
 ## 3. What each harness lets the agent change
 
@@ -72,7 +72,7 @@ No page I read says the agent's own edit-and-reload of its configuration needs a
 | Capability | Tools, MCP servers, plugins | Declared capabilities reviewed before load, run in a sandbox | Remove the component and revert its effects | Registry I control |
 | Policy | Permissions, limits, credentials, deadlines | Never agent-editable | Harness only | Harness-only state, [04](04_HITL_And_Execution_Isolation.md) |
 
-Every self-change is an entry in the ledger ([17](17_Audit_Ledger_In_State_Or_Memory.md)), scoped to one tenant. The unit of rollback is the open design choice.
+Every self-change is an entry in the ledger ([09](09_Memory_Audit_Ledger_In_Memory_Or_State.md)), scoped to one tenant. The unit of rollback is the open design choice.
 
 ## Summary
 

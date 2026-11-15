@@ -1,8 +1,8 @@
-# 11. Knowing the primitives turns a framework into a choice: add tools, adjust the harness, or step out of it
+# 13. Knowing the primitives turns a framework into a choice: add tools, adjust the harness, or step out of it
 
 > When I understand the loop and the parts around it, an improvement to an agent is one of three moves (add a tool, adjust the harness at an extension point, or leave the framework's paradigm for the part it fights), and I pick the smallest move that works for that one part.
 
-Related: [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [08 Tools: awareness, discovery, gateway](draft_08_Tools_Awareness_Discovery_Gateway.md) · [09 Tool approval and durable waits](draft_09_Tool_Approval_Durable_Waits.md) · [10 Evals and traces](draft_10_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
+Related: [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [10 Tools: awareness, discovery, gateway](draft_10_Tools_Awareness_Discovery_Gateway.md) · [11 Tool approval and durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
 
 Source: S02E01 article, intro and figure 4 ("knowledge of agentic logic" and its four uses). LangChain, LangGraph, Pi and Anthropic documents checked on 2026-11-15, see [Fact-check](#fact-check). The three-move ladder and the decision flow are my own reasoning.
 
@@ -18,7 +18,7 @@ Source: S02E01 article, intro and figure 4 ("knowledge of agentic logic" and its
 | Middleware | Code wrapped around the model call, the tool call or the whole agent run | LangChain `create_agent` middleware, Semantic Kernel filters, Claude Code hooks | - |
 | Extension | A module loaded into a harness to add tools and subscribe to events | Pi extensions | - |
 | Functional API | LangGraph's way to write control flow as ordinary code with `entrypoint` and `task` | Graph API is the node-and-edge form | - |
-| Durable execution | A run that can stop and resume from saved progress | LangGraph checkpointer, see [09](draft_09_Tool_Approval_Durable_Waits.md) | - |
+| Durable execution | A run that can stop and resume from saved progress | LangGraph checkpointer, see [11](draft_11_Tool_Approval_Durable_Waits.md) | - |
 
 ## 1. The problem
 
@@ -80,11 +80,11 @@ Each move needs a different part of the harness to be clear in my head. The earl
 
 | Before I … | I need to know | Note |
 |---|---|---|
-| Add a tool | How the agent finds and loads it | [08](draft_08_Tools_Awareness_Discovery_Gateway.md) |
-| Add a hook | Which points exist and what a hook may do | [12](12_Harness_Around_The_Loop.md) |
+| Add a tool | How the agent finds and loads it | [10](draft_10_Tools_Awareness_Discovery_Gateway.md) |
+| Add a hook | Which points exist and what a hook may do | [14](14_Harness_Around_The_Loop.md) |
 | Change context or prompts | What is cached and what compaction drops | [06](06_Context_Window_And_Compaction.md) |
-| Add an approval step | How the run waits and resumes | [09](draft_09_Tool_Approval_Durable_Waits.md) |
-| Leave the paradigm | What state the framework stored for me, and how I would see a regression | [04](04_HITL_And_Execution_Isolation.md), [10](draft_10_Evals_And_Traces_For_Agent_Changes.md) |
+| Add an approval step | How the run waits and resumes | [11](draft_11_Tool_Approval_Durable_Waits.md) |
+| Leave the paradigm | What state the framework stored for me, and how I would see a regression | [04](04_HITL_And_Execution_Isolation.md), [12](draft_12_Evals_And_Traces_For_Agent_Changes.md) |
 
 ## Summary
 

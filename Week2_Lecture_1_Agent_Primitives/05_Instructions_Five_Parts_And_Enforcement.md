@@ -2,7 +2,7 @@
 
 > The system prompt tells the agent who it is, where it works, what exists, how to look and what is off limits, but only the first four are guidance I can rely on; every boundary that matters must also be enforced in code, because the model may ignore a prompt.
 
-Related: [01 Modern system prompts](01_Advanced_Prompt_Techniques.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [08 Tools: awareness, discovery, gateway](draft_08_Tools_Awareness_Discovery_Gateway.md) · [09 Tool approval, durable waits](draft_09_Tool_Approval_Durable_Waits.md) · [10 Evals and traces for agent changes](draft_10_Evals_And_Traces_For_Agent_Changes.md) · [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
+Related: [01 Modern system prompts](01_Advanced_Prompt_Techniques.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [10 Tools: awareness, discovery, gateway](draft_10_Tools_Awareness_Discovery_Gateway.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [12 Evals and traces for agent changes](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
 Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Loop" (Context), takeaways; S02E01 transcript (retail-agent demo, used only as a worked example); the layout in section 4 is my own platform design. Vendor docs read on 2026-11-15, see [Fact-check](#fact-check).
 
@@ -20,7 +20,7 @@ Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Lo
 | Tagged chapter | One prompt concern wrapped in an XML-like tag | Anthropic: XML tags per content type | - |
 | Layering | A base prompt plus the author's domain prompt, concatenated | Deep Agents: `system_prompt` appended to the base prompt | - |
 | Loaded skill | The body of the single skill currently in context | A skill after invocation, as against the skill list with descriptions | - |
-| Static prefix | The part of the prompt identical between calls | Cache prefix, see [19](19_KV_Cache_And_Prompt_Caching.md) | - |
+| Static prefix | The part of the prompt identical between calls | Cache prefix, see [20](20_KV_Cache_And_Prompt_Caching.md) | - |
 
 ## 1. The problem
 
@@ -134,7 +134,7 @@ The transcript demo does exactly this: the access check sits in the tool, not in
 | Tool argument validation, authorization in tool code | Guarantee | Tool implementation |
 | Pre-tool hook, permission rules | Guarantee | Harness |
 | Sandbox, per-user workspace, scoped credentials | Guarantee | Infrastructure |
-| Approval before an irreversible action | Guarantee, with a wait | [09](draft_09_Tool_Approval_Durable_Waits.md) |
+| Approval before an irreversible action | Guarantee, with a wait | [11](draft_11_Tool_Approval_Durable_Waits.md) |
 
 Architect mapping: in LangGraph this is a node or tool wrapper that checks `state` and the caller identity before it runs, plus `interrupt` for approval. In Semantic Kernel it is a function invocation filter (`IFunctionInvocationFilter`) that can cancel or replace the result. I keep the prompt sentence as well, because it lowers how often the model hits the wall, but the wall is the control.
 
@@ -151,7 +151,7 @@ flowchart LR
     style V fill:#2a7,stroke:#2a7,color:#fff
 ```
 
-This agrees with vendor advice: Anthropic says to test effort levels "against your own evals rather than carrying over the setting" from the previous model, and OpenAI says to revisit AGENTS.md entries as the model improves. Details of the eval loop are in [10](draft_10_Evals_And_Traces_For_Agent_Changes.md).
+This agrees with vendor advice: Anthropic says to test effort levels "against your own evals rather than carrying over the setting" from the previous model, and OpenAI says to revisit AGENTS.md entries as the model improves. Details of the eval loop are in [12](draft_12_Evals_And_Traces_For_Agent_Changes.md).
 
 ## 7. The 80% claim, read at the source
 

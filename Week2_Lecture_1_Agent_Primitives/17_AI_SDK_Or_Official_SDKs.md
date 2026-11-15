@@ -1,8 +1,8 @@
-# 15. The AI SDK can replace my adapters only if it keeps the provider features I rely on
+# 17. The AI SDK can replace my adapters only if it keeps the provider features I rely on
 
 > The Vercel AI SDK is one TypeScript layer over many providers with a built-in multi-step loop, so it could replace two adapters plus two official SDKs, but only if it passes a parity check on caching, reasoning options, usage accounting, retries and error classes, and I accept version churn and silent option rewrites.
 
-Related: [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [09 Tool approval, durable waits](draft_09_Tool_Approval_Durable_Waits.md) · [10 Evals and traces](draft_10_Evals_And_Traces_For_Agent_Changes.md) · [11 Extend, adjust or leave the framework](draft_11_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md)
+Related: [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [13 Extend, adjust or leave the framework](draft_13_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md)
 
 Source: S02E01 article, "Connection" paragraph (use official SDKs to avoid unnecessary abstractions, AI SDK named as an example). [vercel.com/ai-sdk](https://vercel.com/ai-sdk), the AI SDK docs and provider pages, and the `vercel/ai` issue tracker read through fetch agents on 2026-11-15. My current setup (two adapters over the Anthropic and OpenAI SDKs) is the case I test against. See [Fact-check](#fact-check).
 
@@ -16,7 +16,7 @@ Source: S02E01 article, "Connection" paragraph (use official SDKs to avoid unnec
 | LiteLLM | The multi-provider layer CrewAI uses for providers without a native SDK | CrewAI docs | The AI SDK, which is TypeScript |
 | `providerOptions` | The AI SDK's pass-through for provider-only settings | Native request fields | A portable setting |
 | `stopWhen` | AI SDK loop control. Default `isStepCount(1)`, so one step | `recursion_limit`, `max_turns` | A tool-call check |
-| Parity check | Run the same cases through both paths and compare behaviour and cost | Golden-set experiment, [10](draft_10_Evals_And_Traces_For_Agent_Changes.md) | A feature list comparison |
+| Parity check | Run the same cases through both paths and compare behaviour and cost | Golden-set experiment, [12](draft_12_Evals_And_Traces_For_Agent_Changes.md) | A feature list comparison |
 
 ## 1. The problem
 
@@ -37,13 +37,13 @@ The lecture advises official SDKs to avoid unnecessary abstraction. I run two ad
 | Telemetry | OpenTelemetry spans in GenAI naming (`invoke_agent`, `step`, `chat`, `execute_tool`), needs `@ai-sdk/otel`, on by default | [telemetry](https://ai-sdk.dev/docs/ai-sdk-core/telemetry) |
 | MCP | `createMCPClient`. No session persistence, resumable streams or notifications | [MCP tools](https://ai-sdk.dev/docs/ai-sdk-core/mcp-tools) |
 
-The loop default is the same trap as in [03](03_Agent_Loop_Stop_Limits_Recovery.md): a limit of 20 is a default, not my cap. The approval flow matches [09](draft_09_Tool_Approval_Durable_Waits.md): the pause across days is still mine to build.
+The loop default is the same trap as in [03](03_Agent_Loop_Stop_Limits_Recovery.md): a limit of 20 is a default, not my cap. The approval flow matches [11](draft_11_Tool_Approval_Durable_Waits.md): the pause across days is still mine to build.
 
 ## 3. What can leak through the abstraction
 
 | Feature | AI SDK behaviour | Why it matters |
 |---|---|---|
-| Anthropic prompt caching | `cacheControl` set via `providerOptions`, reads and writes in `usage.inputTokenDetails`. Short prompts are not cached | My cache prefix from [19](19_KV_Cache_And_Prompt_Caching.md) must survive the mapping |
+| Anthropic prompt caching | `cacheControl` set via `providerOptions`, reads and writes in `usage.inputTokenDetails`. Short prompts are not cached | My cache prefix from [20](20_KV_Cache_And_Prompt_Caching.md) must survive the mapping |
 | Reasoning and effort | `providerOptions.anthropic.thinking` and `effort`, `openai.reasoningEffort`. Unsupported settings are rewritten or dropped with a warning | A silent rewrite can hide behaviour change |
 | Usage | v5 reports the last step in `usage` and the sum in `totalUsage` | Cost per task needs the sum |
 | Provider-only features | Anthropic message threads are beta and absent on Bedrock and Vertex Anthropic wrappers. A feature the SDK does not model needs the escape hatches (`providerOptions`, `anthropicBeta`, `headers`) | Open issue [#24882](https://github.com/vercel/ai/issues/24882): `allowed_callers` cannot be sent on web tools |
@@ -77,7 +77,7 @@ flowchart TD
     style M fill:#2a7,stroke:#2a7,color:#fff
 ```
 
-My parity list: prompt cache hit rate and cached tokens, reasoning settings actually sent, parallel tool calls, structured output, streaming events, per-step and total usage, retry and error classes against [03](03_Agent_Loop_Stop_Limits_Recovery.md), step cap I set myself, trace shape against [10](draft_10_Evals_And_Traces_For_Agent_Changes.md).
+My parity list: prompt cache hit rate and cached tokens, reasoning settings actually sent, parallel tool calls, structured output, streaming events, per-step and total usage, retry and error classes against [03](03_Agent_Loop_Stop_Limits_Recovery.md), step cap I set myself, trace shape against [12](draft_12_Evals_And_Traces_For_Agent_Changes.md).
 
 ## 6. What I take
 
@@ -107,7 +107,7 @@ The AI SDK can collapse adapters and official SDKs into one TypeScript layer wit
 | 3 | The loop runs only when `stopWhen` is set, `ToolLoopAgent` default 20 steps, `maxRetries` default 2 | **Agrees** | [loop control](https://ai-sdk.dev/docs/agents/loop-control), [reference](https://ai-sdk.dev/docs/reference/ai-sdk-core/generate-text), partly read, some via summary | 2026-11-15 |
 | 4 | Provider-specific features pass through `providerOptions` | **Agrees**, with gaps | [Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) and [OpenAI](https://ai-sdk.dev/providers/ai-sdk-providers/openai) pages, first 40k characters verbatim. Issue #24882 shows a gap | 2026-11-15 |
 | 5 | Benefits of the AI SDK over official SDKs | **Unverified** | No independent source found. Vendor claims only | 2026-11-15 |
-| 6 | Telemetry follows OpenTelemetry GenAI conventions | **Agrees** | [telemetry](https://ai-sdk.dev/docs/ai-sdk-core/telemetry). GenAI conventions themselves are in Development, see [10](draft_10_Evals_And_Traces_For_Agent_Changes.md) | 2026-11-15 |
+| 6 | Telemetry follows OpenTelemetry GenAI conventions | **Agrees** | [telemetry](https://ai-sdk.dev/docs/ai-sdk-core/telemetry). GenAI conventions themselves are in Development, see [12](draft_12_Evals_And_Traces_For_Agent_Changes.md) | 2026-11-15 |
 | 7 | `strictJsonSchema` default | **Unverified** | OpenAI page says `true`, the v5 migration guide summary says `false` | 2026-11-15 |
 | 8 | The AI SDK supports Python | **No** | README, docs intro, llms.txt header: TypeScript. A Python backend can serve the stream protocol. The FAQ page returned 404 and community ports were not searched: verify before presenting | 2026-11-15 |
 | 9 | The AI SDK works with LangGraph | **Agrees in part** | [LangChain adapter](https://ai-sdk.dev/providers/adapters/langchain): stream and message conversion for UI, LangGraph JS only. Does not replace the model layer. Python LangGraph not documented | 2026-11-15 |

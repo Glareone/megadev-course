@@ -1,8 +1,8 @@
-# 8. Tools: be aware of everything, load almost nothing, find tools by search or files
+# 10. Tools: be aware of everything, load almost nothing, find tools by search or files
 
-> An agent stays aware of its capabilities through a short list plus a way to load details on demand, finds tools by a search tool or by files and bash, and a gateway adds ownership and authorization at scale. Chaining tools in code is in [20](20_Tool_Execution_Instead_Of_Tool_Calls.md).
+> An agent stays aware of its capabilities through a short list plus a way to load details on demand, finds tools by a search tool or by files and bash, and a gateway adds ownership and authorization at scale. Chaining tools in code is in [21](21_Tool_Execution_Instead_Of_Tool_Calls.md).
 
-Related: [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [20 Tool execution instead of tool calls](20_Tool_Execution_Instead_Of_Tool_Calls.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Agentic memory](07_Agentic_Memory_Extraction_Retrieval.md) · [09 Tool approval and durable waits](draft_09_Tool_Approval_Durable_Waits.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 1: 11 CLI and MCP](../Lecture_1_Mechanics_Behind_Generative_AI/11_cli_and_mcp.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
+Related: [05 Instructions: five parts and enforcement](05_Instructions_Five_Parts_And_Enforcement.md) · [21 Tool execution instead of tool calls](21_Tool_Execution_Instead_Of_Tool_Calls.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Memory](07_Memory.md) · [11 Tool approval and durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 1: 11 CLI and MCP](../Lecture_1_Mechanics_Behind_Generative_AI/11_cli_and_mcp.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
 
 Source: S02E01 article "Agentic Primitives", sections "Tools" (figures 24 to 28) the Mastra retail-agent demo in the S02E01 transcript as a worked example only; sources checked 2026-11-15, see [Fact-check](#fact-check).
 
@@ -12,7 +12,7 @@ Source: S02E01 article "Agentic Primitives", sections "Tools" (figures 24 to 28)
 |---|---|---|---|
 | Awareness | The agent knows a capability exists, from a name and one line | - | Loading: having the full schema in context |
 | Discovery | Finding and loading the details of one capability | - | Registration: the harness making a tool callable |
-| Function calling | The model emits a structured call per tool; each result returns to the model, see [20](20_Tool_Execution_Instead_Of_Tool_Calls.md) | - | Code mode, where the model writes a script that calls tools |
+| Function calling | The model emits a structured call per tool; each result returns to the model, see [21](21_Tool_Execution_Instead_Of_Tool_Calls.md) | - | Code mode, where the model writes a script that calls tools |
 | Gateway | A shared service between agents and many tool servers (registry, proxy, authorization) | - | An MCP server: the gateway fronts many of them |
 
 ## 1. The problem
@@ -59,7 +59,7 @@ Anthropic's engineering write-up describes the files route: present MCP servers 
 
 ## 4. Function calling versus code mode
 
-Moved to [20 Tool execution instead of tool calls](20_Tool_Execution_Instead_Of_Tool_Calls.md): the lecture's code mode figures, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, and large results kept in memory and read by chunk.
+Moved to [21 Tool execution instead of tool calls](21_Tool_Execution_Instead_Of_Tool_Calls.md): the lecture's code mode figures, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, and large results kept in memory and read by chunk.
 
 ## 5. Tool management and reusability
 
@@ -117,11 +117,11 @@ Agents that can write code or manage their own integrations need clearly separat
 | Workspace | One runtime and filesystem per user | Lecture figure 28 |
 | Tool | Server validates input and enforces access control; caller policy is not a boundary | MCP tools spec; Anthropic `allowed_callers` note |
 
-Thread-level isolation and persistence are covered in [04](04_HITL_And_Execution_Isolation.md); approvals before irreversible tools in [09](draft_09_Tool_Approval_Durable_Waits.md).
+Thread-level isolation and persistence are covered in [04](04_HITL_And_Execution_Isolation.md); approvals before irreversible tools in [11](draft_11_Tool_Approval_Durable_Waits.md).
 
 ## Summary
 
-Keep a short list and a loading path in the prompt, three to five native tools, and defer the rest behind search or files. Chaining work in code and keeping results out of the thread is in [20](20_Tool_Execution_Instead_Of_Tool_Calls.md). At thousands of tools, add a registry that starts everything disabled, a discovery front door, and a proxy that authorizes and redacts. Isolate each user's workspace.
+Keep a short list and a loading path in the prompt, three to five native tools, and defer the rest behind search or files. Chaining work in code and keeping results out of the thread is in [21](21_Tool_Execution_Instead_Of_Tool_Calls.md). At thousands of tools, add a registry that starts everything disabled, a discovery front door, and a proxy that authorizes and redacts. Isolate each user's workspace.
 
 ## Fact-check
 

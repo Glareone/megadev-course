@@ -1,8 +1,8 @@
-# 17. Prompt caching reuses the KV state of an identical prefix: I put static content first and mark where the cache may end
+# 19. Prompt caching reuses the KV state of an identical prefix: I put static content first and mark where the cache may end
 
 > The model stores key-value tensors for tokens it has already processed, and providers reuse them for a request that starts with the same prefix, so I put tools and instructions first, volatile data last, mark a cache point with Anthropic's `cache_control` or OpenAI's `prompt_cache_key` and breakpoints, never edit what comes before it, and check the usage fields.
 
-Related: [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [03 Instructions](03_Instructions_Five_Parts_And_Enforcement.md) · [06 Tools: awareness, discovery, gateway](draft_06_Tools_Awareness_Discovery_Gateway.md) · [13 AI SDK or official SDKs](13_AI_SDK_Or_Official_SDKs.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
+Related: [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [08 Tools: awareness, discovery, gateway](draft_08_Tools_Awareness_Discovery_Gateway.md) · [15 AI SDK or official SDKs](15_AI_SDK_Or_Official_SDKs.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
 Source: S02E01 article, "Agentic Loop" (Context): the prefix-based cache "only if the existing context stays the same". OpenAI's prompt caching guide and pricing page, Anthropic's prompt caching documentation (read in full) and vLLM's prefix caching pages, read through fetch agents on 2026-11-15. Numbers change often: see [Fact-check](#fact-check).
 
@@ -20,7 +20,7 @@ Source: S02E01 article, "Agentic Loop" (Context): the prefix-based cache "only i
 
 ## 1. The problem
 
-Every call resends the whole context. The provider can skip recomputing the front of it, if the bytes match. **What is cached, which attribute turns it on, and what do I put where so it keeps hitting?** The context-size side is in [04](draft_04_Context_Window_And_Compaction.md).
+Every call resends the whole context. The provider can skip recomputing the front of it, if the bytes match. **What is cached, which attribute turns it on, and what do I put where so it keeps hitting?** The context-size side is in [06](06_Context_Window_And_Compaction.md).
 
 ## 2. Three layers
 
@@ -63,7 +63,7 @@ flowchart LR
 
 1. **Order:** tools, then instructions, then shared reference material, then conversation, then volatile data last. Both vendors say stable content first.
 2. **Multi-turn:** start with Anthropic's automatic caching, the breakpoint moves to the last block each turn. With explicit breakpoints put one on the last block that stays identical.
-3. **Append, never rewrite:** OpenAI says compaction or summarization "can change the prefix and reset cache reuse". A change at position N invalidates everything after N ([04](draft_04_Context_Window_And_Compaction.md)).
+3. **Append, never rewrite:** OpenAI says compaction or summarization "can change the prefix and reset cache reuse". A change at position N invalidates everything after N ([06](06_Context_Window_And_Compaction.md)).
 4. **Tools stay fixed:** edit a tool definition and the whole Anthropic cache is lost. OpenAI offers `allowed_tools`, `tool_choice: "none"` and `defer_loading` to change what is callable without changing the list.
 5. **Settings stay fixed:** `reasoning.effort`, `text.verbosity`, `text.format` and `parallel_tool_calls` change the OpenAI prefix. On GPT-6 and later a `configuration_update` input item changes effort. On Anthropic effort and thinking changes are model-specific.
 6. **Parallel first call:** an Anthropic entry exists only after the first response starts, so wait before fanning out.
@@ -92,7 +92,7 @@ good: system = "You are X. ..."   user = "[time: 2026-11-15T10:42:07Z] ..."
 - **Arithmetic:** a 5-minute write at 1.25x plus one read at 0.1x costs 1.35x for two requests against 2x uncached. The OpenAI page gives the same 1.35x example for 30m. Longer TTL writes cost 2x or 2.5x, so they need more reuse.
 - **Isolation:** caches are isolated between organizations. Anthropic isolates by workspace on its own API. OpenAI stores "encrypted key/value tensors in GPU-local storage" and does not share across organizations or regions. Both are zero-data-retention eligible. Neither has manual clearing.
 - **Multi-tenant:** use a `prompt_cache_key` per tenant on OpenAI. The key is routing, not security.
-- **Through the AI SDK:** `cacheControl` goes in `providerOptions` ([13](13_AI_SDK_Or_Official_SDKs.md)).
+- **Through the AI SDK:** `cacheControl` goes in `providerOptions` ([15](15_AI_SDK_Or_Official_SDKs.md)).
 
 ## Summary
 

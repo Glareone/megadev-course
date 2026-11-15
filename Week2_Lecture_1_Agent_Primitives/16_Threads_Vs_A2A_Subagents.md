@@ -1,8 +1,8 @@
-# 14. A subagent is a sub-thread in my process or a peer behind A2A: the difference is whose context and whose lifetime
+# 16. A subagent is a sub-thread in my process or a peer behind A2A: the difference is whose context and whose lifetime
 
 > An in-process subagent shares my process, store and deadline but starts with a fresh context and returns one final message; an A2A peer is opaque, owns its own store and execution and is addressed by a task under a `contextId`, which is easier to run and limit in the cloud, at the price of a shared trace and tight control.
 
-Related: [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [03 Agent loop](03_Agent_Loop_Stop_Limits_Recovery.md) · [09 Tool approval, durable waits](draft_09_Tool_Approval_Durable_Waits.md) · [11 Extend, adjust or leave the framework](draft_11_Extend_Adjust_Or_Leave_The_Framework.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, "Threads and sessions" (figure 7). A2A specification, LangGraph, Microsoft Agent Framework, OpenAI, Claude Code and Anthropic and Cognition articles read through fetch agents on 2026-11-15. My own design is marked. See [Fact-check](#fact-check).
 
@@ -75,7 +75,7 @@ None of these compares an in-process sub-thread with a remote peer head to head.
 - **The orchestrator:** owns the thread, the shared context, the audit trail, deadlines and cancellation. That is why it carries so much weight in my design.
 - **Fit with A2A:** a task in a terminal state cannot restart and a follow-up is a new task ([life of a task](https://a2a-protocol.org/latest/topics/life-of-a-task/)). Disposal after completion matches that. The peer needs no retention period, because nothing is kept.
 - **Gap:** my A2A server does not support task cancel. A runaway peer is stopped at process level (timeout or kill), not through the protocol. LangGraph's server has the same gap.
-- **Gains:** each agent has its own lifetime, deadline, scaling, sandbox and failure. The Agent SDK has no per-subagent wall-clock deadline ([01](01_Agent_Loop_Stop_Limits_Recovery.md)), a process I can time out.
+- **Gains:** each agent has its own lifetime, deadline, scaling, sandbox and failure. The Agent SDK has no per-subagent wall-clock deadline ([03](03_Agent_Loop_Stop_Limits_Recovery.md)), a process I can time out.
 - **Costs:** no shared trace, so Cognition's conflict risk is mine to manage. Model routing stops at the A2A boundary ([Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)). Token cost rises as Anthropic reports. The orchestrator is a single point of failure for context.
 
 ## 6. What the orchestrator passes: a summary or the trace
@@ -85,7 +85,7 @@ I have not settled this. The options, with what the sources say:
 | Option | What the peer gets | Source or reasoning | Risk |
 |---|---|---|---|
 | Task prompt only | One prompt string | Claude Code: "The only content you pass from parent to subagent is the Agent tool's prompt string" | The peer misses implicit decisions (Cognition) |
-| Decision summary | Goal, constraints, decisions with reasons, options ruled out, artifact references, expected output | No standard found. My candidate | A summary can drop a detail, as in [04](draft_04_Context_Window_And_Compaction.md) |
+| Decision summary | Goal, constraints, decisions with reasons, options ruled out, artifact references, expected output | No standard found. My candidate | A summary can drop a detail, as in [06](06_Context_Window_And_Compaction.md) |
 | Full trace | The parent's history | Cognition: share full traces | Tokens, and parent context leaks across the boundary |
 | References | Links to artifacts, not contents | Anthropic has subagents pass lightweight references back to the coordinator. The same idea in the other direction is my reasoning | The peer needs access to the store |
 

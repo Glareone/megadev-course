@@ -17,6 +17,6 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [16 Self-configuring harness](../Week2_Lecture_1_Agent_Primitives/16_Self_Configuring_Harness.md) | What Claude Code, OpenCode and Pi let the agent change, the documented guards, a change-class design |
-| [11 Pi, LangGraph and the DeepSeek paper](../Week2_Lecture_1_Agent_Primitives/11_Pi_LangGraph_DeepSeek_Harnesses.md) | What the DeepSeek paper is and is not, the composition layer, revertible effects |
-| [09 Extend, adjust or leave the framework](../Week2_Lecture_1_Agent_Primitives/draft_09_Extend_Adjust_Or_Leave_The_Framework.md) | The three moves for an agent I already run |
+| [18 Self-configuring harness](../Week2_Lecture_1_Agent_Primitives/18_Self_Configuring_Harness.md) | What Claude Code, OpenCode and Pi let the agent change, the documented guards, a change-class design |
+| [13 Pi, LangGraph and the DeepSeek paper](../Week2_Lecture_1_Agent_Primitives/13_Pi_LangGraph_DeepSeek_Harnesses.md) | What the DeepSeek paper is and is not, the composition layer, revertible effects |
+| [11 Extend, adjust or leave the framework](../Week2_Lecture_1_Agent_Primitives/draft_11_Extend_Adjust_Or_Leave_The_Framework.md) | The three moves for an agent I already run |

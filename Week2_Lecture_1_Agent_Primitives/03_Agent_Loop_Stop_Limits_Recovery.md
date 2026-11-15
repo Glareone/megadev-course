@@ -1,8 +1,8 @@
-# 1. The agent loop is the easy part: exits, limits and recovery make it safe
+# 3. The agent loop is the easy part: exits, limits and recovery make it safe
 
 > A loop that ends when the model returns no tool calls is correct but not production-safe: I add a routing function with more than one exit, a hard step cap, a budget, error recovery and a named result for every way a run ends, all as runtime code outside the model.
 
-Related: [10 The harness around the loop](10_Harness_Around_The_Loop.md) · [11 Pi, LangGraph and the DeepSeek paper](11_Pi_LangGraph_DeepSeek_Harnesses.md) · [12 Loop hooks declared](12_Loop_Hooks_Declared.md) · [13 AI SDK or official SDKs](13_AI_SDK_Or_Official_SDKs.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [12 The harness around the loop](12_Harness_Around_The_Loop.md) · [13 Pi, LangGraph and the DeepSeek paper](13_Pi_LangGraph_DeepSeek_Harnesses.md) · [14 Loop hooks declared](14_Loop_Hooks_Declared.md) · [15 AI SDK or official SDKs](15_AI_SDK_Or_Official_SDKs.md) · [11 Extend, adjust or leave the framework](draft_11_Extend_Adjust_Or_Leave_The_Framework.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [09 Tool approval, durable waits](draft_09_Tool_Approval_Durable_Waits.md) · [10 Evals and traces](draft_10_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S02E01 article "Agentic Loop" (figures 2, 3, 5, 6) and the transcript demo (step limit, trace; worked example only). Primary docs read 2026-11-15, see [Fact-check](#fact-check).
 
@@ -88,7 +88,7 @@ Article figure 5: model call 2 gets an API error, "no path for the error", the t
 | Layer | Failure | Safe handling | Owner |
 |---|---|---|---|
 | Transport | 5xx, 529, timeout, temporary 429 | Retry with backoff and jitter | Runtime |
-| Run | Process dies, wait of days | Resume from persisted state, see [02](02_HITL_And_Execution_Isolation.md) | Runtime and storage |
+| Run | Process dies, wait of days | Resume from persisted state, see [04](04_HITL_And_Execution_Isolation.md) | Runtime and storage |
 | Tool | Throws, bad arguments, denied | Return an error result to the model | Loop |
 
 - **Claude Code:** up to 10 retries with backoff, none after a completed text block or tool call; `CLAUDE_CODE_RETRY_WATCHDOG=1` retries 429 and 529 indefinitely ([errors](https://code.claude.com/docs/en/errors)).
@@ -108,7 +108,7 @@ My rule: **retry only what is idempotent.** A failed model call is safe to repea
 
 Retryable: 429, 503, timeout, incomplete reply (`max_output_tokens`), invalid tool arguments. Not retryable: other HTTP statuses such as 401, a wrong check order, unknown errors. The attempt counter resets after each successful step. 429, 503 and timeout are thrown before the request and cost no tokens. An incomplete or malformed reply costs a real request.
 
-Against my notes: the example covers the transport and run layers only. The error is not fed back to the model as a tool result. It has no idempotency guard, which is safe only because `record_check` has no external side effect. A tool with a side effect needs my rule above. The file-based resume is the lecturer's `resumable-run` example (not read), see [07](draft_07_Tool_Approval_Durable_Waits.md).
+Against my notes: the example covers the transport and run layers only. The error is not fed back to the model as a tool result. It has no idempotency guard, which is safe only because `record_check` has no external side effect. A tool with a side effect needs my rule above. The file-based resume is the lecturer's `resumable-run` example (not read), see [09](draft_09_Tool_Approval_Durable_Waits.md).
 
 ## Summary
 

@@ -1,8 +1,8 @@
-# 18. Run tools from a script and keep results out of the thread: the model reads a chunk, the rest stays in memory
+# 20. Run tools from a script and keep results out of the thread: the model reads a chunk, the rest stays in memory
 
 > Instead of one model round trip per tool call, the model can write one script that chains the tools, keeps intermediate results in variables and returns a small result, and large results go to a file or store that the model reads by handle one chunk at a time, which is how memory binds to context; vendors ship this, but it needs a sandbox and a measurement against plain calls.
 
-Related: [06 Tools: awareness, discovery, gateway](draft_06_Tools_Awareness_Discovery_Gateway.md) · [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [15 Audit ledger](15_Audit_Ledger_In_State_Or_Memory.md) · [12 Loop hooks declared](12_Loop_Hooks_Declared.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 2: 10 Tool results to file and back](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md)
+Related: [08 Tools: awareness, discovery, gateway](draft_08_Tools_Awareness_Discovery_Gateway.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Agentic memory](07_Agentic_Memory_Extraction_Retrieval.md) · [17 Audit ledger](17_Audit_Ledger_In_State_Or_Memory.md) · [14 Loop hooks declared](14_Loop_Hooks_Declared.md) · [09 Tool approval, durable waits](draft_09_Tool_Approval_Durable_Waits.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 2: 10 Tool results to file and back](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md)
 
 Source: S02E01 article, "Agentic Loop" (tools paragraph, figures 12 and 13). Anthropic, OpenAI, Cloudflare, Pi and DeepSeek documentation read through fetch agents on 2026-11-15. The optimization ideas in section 6 are my own. See [Fact-check](#fact-check).
 
@@ -60,7 +60,7 @@ flowchart LR
 | [DeepSeek API](https://api-docs.deepseek.com/guides/tool_calls) | "The model itself does not execute specific functions": the caller does. With thinking, `reasoning_content` must be passed back or the API returns 400 | No programmatic tool calling or code interpreter found. V3.2 is "first ... to integrate thinking directly into tool-use" |
 | DeepSeek TUI (community) | Sandboxed Python REPL tools, sub-agent transcripts "parked behind `var_handle` references" | Not official |
 
-"DeepSeek" here means three things: the API and models (official), the "DeepSeek Harness" paper (a composability paper, no tool execution content, see [11](11_Pi_LangGraph_DeepSeek_Harnesses.md)) and the community TUI.
+"DeepSeek" here means three things: the API and models (official), the "DeepSeek Harness" paper (a composability paper, no tool execution content, see [13](13_Pi_LangGraph_DeepSeek_Harnesses.md)) and the community TUI.
 
 ## 4. Parallel calls are not scripts
 
@@ -74,7 +74,7 @@ The lecture's figure 13: a script writes a big report to a file, the model gets 
 
 Source: S02E01 article, figure 13. Caption: "Code mode writes a big result to a file. The model gets only a reference to the file, so it can read a fragment, display the file or pass it to another tool." Example text: `Result saved to file: results/report.md`.
 
-The idea is pass by reference instead of by value. The reference passes through the model, the content does not: the user's screen and the email tool resolve the reference themselves, so the model never copies the report and cannot alter it on the way (my reading). Risks: the tool must check that the caller owns the reference (identity from the session, [02](02_HITL_And_Execution_Isolation.md)), a reference can dangle after cleanup, and a chunk read into context is still untrusted text.
+The idea is pass by reference instead of by value. The reference passes through the model, the content does not: the user's screen and the email tool resolve the reference themselves, so the model never copies the report and cannot alter it on the way (my reading). Risks: the tool must check that the caller owns the reference (identity from the session, [04](04_HITL_And_Execution_Isolation.md)), a reference can dangle after cleanup, and a chunk read into context is still untrusted text.
 
 ```mermaid
 flowchart LR
@@ -91,9 +91,9 @@ tool_result: report stored as handle rpt_91 (412 KB, 3,100 lines). Preview: firs
 Read a range with read_range(rpt_91, offset, limit) or pass rpt_91 to mail.send(attachment).
 ```
 
-- **Where it lives:** a file in the workspace, or a store namespace ([05](draft_05_Agentic_Memory_Extraction_Retrieval.md)). Not a LangGraph state channel: checkpoints write the full value of every channel at each super-step, so a large result there is copied at every step ([15](15_Audit_Ledger_In_State_Or_Memory.md)).
+- **Where it lives:** a file in the workspace, or a store namespace ([07](07_Agentic_Memory_Extraction_Retrieval.md)). Not a LangGraph state channel: checkpoints write the full value of every channel at each super-step, so a large result there is copied at every step ([17](17_Audit_Ledger_In_State_Or_Memory.md)).
 - **Evidence:** Anthropic: filter or aggregate in the environment and write files. Pi: the `read` tool defaults to the first 2,000 lines with offset and limit (2025 article), and a tool result separates `content` for the model from `details` for UI. DeepSeek TUI parks transcripts behind handles (community).
-- **Cost:** a handle outlives the thread only if I store it so. Its lifetime and access follow the rules in [02](02_HITL_And_Execution_Isolation.md).
+- **Cost:** a handle outlives the thread only if I store it so. Its lifetime and access follow the rules in [04](04_HITL_And_Execution_Isolation.md).
 
 ## 6. What I would review (my reasoning)
 
@@ -128,7 +128,7 @@ Code mode replaces round trips with one script and keeps intermediate results ou
 | 7 | DeepSeek's official docs offer programmatic tool calling | **Not found** | [Tool calls](https://api-docs.deepseek.com/guides/tool_calls), [thinking mode](https://api-docs.deepseek.com/guides/thinking_mode). V3.2 tech report not read | 2026-11-15 |
 | 8 | Large results should stay out of the thread and be read in chunks | **Agrees** | Anthropic code-execution article, Pi `read` limits, lecture figure 13. Summary-only items: Pi's 50 KB limit | 2026-11-15 |
 | 9 | Code mode reduces tokens | **Differs** in strength | OpenAI: "depends on the task". Measure | 2026-11-15 |
-| 10 | A large result in a state channel is copied into every checkpoint | **Agrees** | [LangGraph checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers.md), see [15](15_Audit_Ledger_In_State_Or_Memory.md) | 2026-11-15 |
+| 10 | A large result in a state channel is copied into every checkpoint | **Agrees** | [LangGraph checkpointers](https://docs.langchain.com/oss/python/langgraph/checkpointers.md), see [17](17_Audit_Ledger_In_State_Or_Memory.md) | 2026-11-15 |
 
 ## Sources
 

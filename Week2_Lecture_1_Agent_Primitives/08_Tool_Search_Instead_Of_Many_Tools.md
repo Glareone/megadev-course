@@ -65,7 +65,7 @@ Anthropic's advice on when: use it with 10 or more tools, definitions over 10k t
 | Name the categories in the prompt ("you can search for tools to interact with Slack, GitHub, and Jira") | Anthropic |
 | A tool needed on nearly every turn, or a safety-critical one, is native | My reasoning |
 | Everything rare is deferred, behind a prefix | My reasoning |
-| Decide from measured use: count tool calls per task in my traces and keep the top few | My reasoning, [15](draft_15_Evals_And_Traces_For_Agent_Changes.md) |
+| Decide from measured use: count tool calls per task in my traces and keep the top few | My reasoning, [15](15_Trace_A_Run_And_Size_Its_Step_Limit.md) |
 
 Cost to weigh: every discovery step is an extra request and latency, and a changed tool list can break the cache prefix ([24](24_KV_Cache_And_Prompt_Caching.md)). A short capability list in the prompt, as the example does, is my tagged `<tools>` chapter with one line per tool ([05](05_Instructions_Five_Parts_And_Enforcement.md)).
 

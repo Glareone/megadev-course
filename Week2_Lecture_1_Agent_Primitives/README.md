@@ -28,8 +28,10 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | Memory operations: search, update, insert, reflect, consolidate, maintain | [13](13_Memory_Operations.md) |
 | How an agent knows its tools and finds them at scale | [07](07_Context_Tool_Awareness_Avoids_Compression.md) |
 | Running tools from a script, and keeping large results in memory | [25](25_Tool_Execution_Instead_Of_Tool_Calls.md) |
+| What makes an agent-made tool reusable, and what guards it needs | [26](26_Packages.md) |
 | How a run waits days for approval and resumes | [14](14_Tool_Approval_Durable_Waits.md) |
-| How to find a wrong answer's source and check a change | [15](draft_15_Evals_And_Traces_For_Agent_Changes.md) |
+| How to find a wrong answer's source and size the step limit | [15](15_Trace_A_Run_And_Size_Its_Step_Limit.md) |
+| How to check a change did not break behaviour, and pick the smallest model | [16](16_Evals_For_Agent_Changes.md) |
 
 ## Files
 
@@ -49,7 +51,8 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | 12 | [Audit ledger: state or memory](12_Memory_Audit_Ledger_In_Memory_Or_State.md) | My Ledger idea checked against the LangGraph docs: state against Store, what a state channel does not guarantee, write-ahead entries, ten review questions for the implementation, an external append-only sink. |
 | 13 | [Memory operations](13_Memory_Operations.md) | Search, update and insert against Hindsight's retain, recall and reflect with its worker, Mem0, supermemory, the Anthropic memory tool and lamarck's maintenance (gates, lifecycle, decay, budget), what reflect and mental models add, what Joel Hooks' retired pipeline shows. |
 | 14 | [Tool approval and durable waits](14_Tool_Approval_Durable_Waits.md) | Approval as a harness duty, persisted run state, resume after days, LangGraph `interrupt`, permission grants. |
-| 15 | [Evals and traces](draft_15_Evals_And_Traces_For_Agent_Changes.md) | Traces, the debugging rule, step-limit tuning, behaviour evals, self-revision cases, tool comparison. |
+| 15 | [Trace a run and size its step limit](15_Trace_A_Run_And_Size_Its_Step_Limit.md) | Traces, the debugging rule, step-limit tuning against LangGraph supersteps, tracing tools. |
+| 16 | [Evals for agent changes](16_Evals_For_Agent_Changes.md) | Behaviour eval cases, self-revision cases, rerun after every change, prompt-eval loop and smallest model, eval tools. |
 | 17 | [Extend, adjust or leave the framework](17_Extend_Adjust_Or_Leave_The_Framework.md) | Three moves from cheapest to costliest, a decision flow, what I must understand before choosing. |
 | 18 | [The harness around the loop](18_Harness_Around_The_Loop.md) | The lecture's harness figure: four caller forms, six hook points, the limits frame, history, memory, observability. |
 | 19 | [Pi, LangGraph and the DeepSeek paper](19_Pi_LangGraph_DeepSeek_Harnesses.md) | Who owns the loop in each, extension points, state and resume, and why the DeepSeek paper is a composability paper. |
@@ -59,6 +62,7 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | 23 | [Self-configuring harness](23_Self_Configuring_Harness.md) | The lecture's "Configuration" part: what Claude Code, OpenCode and Pi let the agent change at runtime, what the documented guards cover, what the DeepSeek paper adds, and a change-class design with undo. |
 | 24 | [KV cache and prompt caching](24_KV_Cache_And_Prompt_Caching.md) | The KV cache and prefix caching in three layers, Anthropic's `cache_control` against OpenAI's `prompt_cache_key`, options and breakpoints, what to cache and in what order, what breaks a hit, cost arithmetic, isolation. |
 | 25 | [Tool execution instead of tool calls](25_Tool_Execution_Instead_Of_Tool_Calls.md) | The lecture's code mode figure, function calling against scripts, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, parallel calls versus scripts, large results stored and read by chunk (memory bound to context), what I would review. |
+| 26 | [Packages](26_Packages.md) | The lecture's package figure, Anthropic's code-execution pattern, Voyager's skill library, Agent Skills docs, and the guards a saved package needs. |
 
 ## Images
 
@@ -80,5 +84,6 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | [threads-sessions-subagent-thread.png](img/threads-sessions-subagent-thread.png) | 22 |
 | [harness-storage-agent-artifacts-permissions.png](img/harness-storage-agent-artifacts-permissions.png) | 04 |
 | [agent-configures-settings-and-ui.png](img/agent-configures-settings-and-ui.png) | 23 |
+| [agent-creates-package-reusing-capabilities.png](img/agent-creates-package-reusing-capabilities.png) | 26 |
 
 Personal review reminders live in [notes_for_later_use](../notes_for_later_use/). The form of every note is set by [.claude/rules/note-format.md](../.claude/rules/note-format.md). State of the work: [CHANGELOG.md](../CHANGELOG.md).

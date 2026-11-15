@@ -251,7 +251,7 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 | DeepSeek Harness paper ([arXiv 2608.25512](https://arxiv.org/abs/2608.25512)) | A composability paper, not an agent harness | [19](Week2_Lecture_1_Agent_Primitives/19_Pi_LangGraph_DeepSeek_Harnesses.md) |
 | [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [10](Week2_Lecture_1_Agent_Primitives/10_Memory.md) |
 | [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [07](Week2_Lecture_1_Agent_Primitives/07_Context_Tool_Awareness_Avoids_Compression.md) |
-| [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [15](Week2_Lecture_1_Agent_Primitives/draft_15_Evals_And_Traces_For_Agent_Changes.md) |
+| [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [15](Week2_Lecture_1_Agent_Primitives/15_Trace_A_Run_And_Size_Its_Step_Limit.md), [16](Week2_Lecture_1_Agent_Primitives/16_Evals_For_Agent_Changes.md) |
 
 ## Repository rules
 

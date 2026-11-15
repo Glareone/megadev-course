@@ -21,4 +21,4 @@ Where the topic already appears:
 | Where | What it holds |
 |---|---|
 | [01 Advanced prompt techniques](../Week2_Lecture_1_Agent_Primitives/01_Advanced_Prompt_Techniques.md), section 6 | The repository read in full, what it says and does not say, my mapping to agents |
-| [15 Evals and traces](../Week2_Lecture_1_Agent_Primitives/draft_15_Evals_And_Traces_For_Agent_Changes.md) | How I would compare the two versions |
+| [15 Evals and traces](../Week2_Lecture_1_Agent_Primitives/16_Evals_For_Agent_Changes.md) | How I would compare the two versions |

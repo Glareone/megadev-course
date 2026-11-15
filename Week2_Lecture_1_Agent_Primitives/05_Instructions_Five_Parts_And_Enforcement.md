@@ -2,7 +2,7 @@
 
 > The system prompt tells the agent who it is, where it works, what exists, how to look and what is off limits, but only the first four are guidance I can rely on; every boundary that matters must also be enforced in code, because the model may ignore a prompt.
 
-Related: [01 Modern system prompts](01_Advanced_Prompt_Techniques.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces for agent changes](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
+Related: [01 Modern system prompts](01_Advanced_Prompt_Techniques.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces for agent changes](16_Evals_For_Agent_Changes.md) · [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
 Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Loop" (Context), takeaways; S02E01 transcript (retail-agent demo, used only as a worked example); the layout in section 4 is my own platform design. Vendor docs read on 2026-11-15, see [Fact-check](#fact-check).
 
@@ -151,7 +151,7 @@ flowchart LR
     style V fill:#2a7,stroke:#2a7,color:#fff
 ```
 
-This agrees with vendor advice: Anthropic says to test effort levels "against your own evals rather than carrying over the setting" from the previous model, and OpenAI says to revisit AGENTS.md entries as the model improves. Details of the eval loop are in [15](draft_15_Evals_And_Traces_For_Agent_Changes.md).
+This agrees with vendor advice: Anthropic says to test effort levels "against your own evals rather than carrying over the setting" from the previous model, and OpenAI says to revisit AGENTS.md entries as the model improves. Details of the eval loop are in [15](16_Evals_For_Agent_Changes.md).
 
 ## 7. The 80% claim, read at the source
 

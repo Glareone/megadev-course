@@ -2,7 +2,7 @@
 
 > The lecture names contradiction, duplication and ambiguity as the hard part of memory; the lecturer's memory-extraction example turns them into counters over six dated chats and shows that an append-only profile keeps a stale city, mixes two people and stores paraphrases twice, while one document per person with replace-by-key and a held note removes most of that, so I keep the counters in my evals and treat identity, supersede and a hold state as the fixes.
 
-Related: [10 Memory](10_Memory.md) · [12 Memory audit ledger](12_Memory_Audit_Ledger_In_Memory_Or_State.md) · [15 Evals and traces](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md)
+Related: [10 Memory](10_Memory.md) · [12 Memory audit ledger](12_Memory_Audit_Ledger_In_Memory_Or_State.md) · [15 Evals and traces](16_Evals_For_Agent_Changes.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md)
 
 Source: S02E01 article, "Context and Memory" (figures 20 and 21). The lecturer's [memory-extraction example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/memory-extraction): README, `memory.ts`, `memory.test.ts`, `api.ts`, `index.ts` and the UI read in full by a fetch agent on 2026-11-15. Mem0, Zep and Hindsight facts from the research behind [10](10_Memory.md). See [Fact-check](#fact-check).
 
@@ -73,7 +73,7 @@ The test uses a mock model with scripted outputs, so its numbers show the scorin
 | Temporary facts | A labelled chat with an end date | Skip or store with an expiry | Example skips them by a hard-coded rule |
 | Change over time | Ask "what was true in September" | Keep history with valid-from and valid-to | Zep bi-temporal edges |
 
-**Scoring.** The lecture suggests confidence scores. The example uses none: no confidence, similarity or recency. My proposal, untested: store source chat and date with every fact, write only above a confidence threshold, hold the rest, and break ties by recency. The cheaper step is the example's own method: a labelled set of chats and the counters above, run after every change to the extractor ([15](draft_15_Evals_And_Traces_For_Agent_Changes.md)).
+**Scoring.** The lecture suggests confidence scores. The example uses none: no confidence, similarity or recency. My proposal, untested: store source chat and date with every fact, write only above a confidence threshold, hold the rest, and break ties by recency. The cheaper step is the example's own method: a labelled set of chats and the counters above, run after every change to the extractor ([15](16_Evals_For_Agent_Changes.md)).
 
 ## 6. What the example does not solve
 

@@ -2,7 +2,7 @@
 
 > When I understand the loop and the parts around it, an improvement to an agent is one of three moves (add a tool, adjust the harness at an extension point, or leave the framework's paradigm for the part it fights), and I pick the smallest move that works for that one part.
 
-Related: [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md) · [14 Tool approval and durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
+Related: [03 Agent loop, stop, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [05 Instructions](05_Instructions_Five_Parts_And_Enforcement.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](07_Context_Tool_Awareness_Avoids_Compression.md) · [14 Tool approval and durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces](16_Evals_For_Agent_Changes.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
 
 Source: S02E01 article, intro and figure 4 ("knowledge of agentic logic" and its four uses). LangChain, LangGraph, Pi and Anthropic documents checked on 2026-11-15, see [Fact-check](#fact-check). The three-move ladder and the decision flow are my own reasoning.
 
@@ -84,7 +84,7 @@ Each move needs a different part of the harness to be clear in my head. The earl
 | Add a hook | Which points exist and what a hook may do | [18](18_Harness_Around_The_Loop.md) |
 | Change context or prompts | What is cached and what compaction drops | [06](06_Context_Window_And_Compaction.md) |
 | Add an approval step | How the run waits and resumes | [14](14_Tool_Approval_Durable_Waits.md) |
-| Leave the paradigm | What state the framework stored for me, and how I would see a regression | [04](04_HITL_And_Execution_Isolation.md), [15](draft_15_Evals_And_Traces_For_Agent_Changes.md) |
+| Leave the paradigm | What state the framework stored for me, and how I would see a regression | [04](04_HITL_And_Execution_Isolation.md), [15](16_Evals_For_Agent_Changes.md) |
 
 ## Summary
 

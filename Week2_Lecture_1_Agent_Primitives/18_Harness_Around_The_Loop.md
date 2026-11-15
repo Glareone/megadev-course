@@ -2,7 +2,7 @@
 
 > A run is woken by an external event, intercepted by hooks at six points, bounded by limits (permissions, sandbox, budgets, deadlines, cancellation) and recorded by history, memory and observability: that surrounding set is the harness.
 
-Related: [03 Agent loop, exits, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [19 Pi, LangGraph and the DeepSeek paper](19_Pi_LangGraph_DeepSeek_Harnesses.md) · [20 Loop hooks declared](20_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [10 Memory](10_Memory.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces](draft_15_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [03 Agent loop, exits, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [19 Pi, LangGraph and the DeepSeek paper](19_Pi_LangGraph_DeepSeek_Harnesses.md) · [20 Loop hooks declared](20_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [10 Memory](10_Memory.md) · [14 Tool approval, durable waits](14_Tool_Approval_Durable_Waits.md) · [15 Evals and traces](16_Evals_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, figure 1. Hook mapping is my own reasoning. Checked 2026-11-15, see [Fact-check](#fact-check).
 
@@ -70,7 +70,7 @@ Check the mapping against the [hooks reference](https://code.claude.com/docs/en/
 |---|---|---|
 | History | Records each intent before its effect and each result after it | [04](04_HITL_And_Execution_Isolation.md), [14](14_Tool_Approval_Durable_Waits.md) |
 | Memory | Read when context is built, written through tools | [10](10_Memory.md) |
-| Observability | One trace across every step: logs, tokens, cost, time | [15](draft_15_Evals_And_Traces_For_Agent_Changes.md) |
+| Observability | One trace across every step: logs, tokens, cost, time | [15](15_Trace_A_Run_And_Size_Its_Step_Limit.md) |
 
 Important:
 - Four caller forms: the same loop runs interactively, on a schedule, on an event or as a subagent.

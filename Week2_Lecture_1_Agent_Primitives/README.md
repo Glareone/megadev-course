@@ -11,8 +11,11 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | How Pi, LangGraph and the DeepSeek paper differ | [11](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) |
 | Which hooks a loop declares and what each may change | [12](draft_12_Loop_Hooks_Declared.md) |
 | Whether the AI SDK can replace my adapters and official SDKs | [13](draft_13_AI_SDK_Or_Official_SDKs.md) |
+| Whether an audit ledger belongs in graph state or in memory | [15](15_Audit_Ledger_In_State_Or_Memory.md) |
+| What a self-configuring harness can change and what guards it | [16](draft_16_Self_Configuring_Harness.md) |
 | Whether to add a tool, adjust a harness or leave a framework | [09](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) |
-| What a harness stores and how users are separated | [02](draft_02_Threads_Persistence_Isolation.md) |
+| What a harness stores and how users are separated | [02](draft_02_Persistence_Access_Isolation.md) |
+| Threads, sessions, and subagent in-process versus over A2A | [14](14_Threads_Vs_A2A_Subagents.md) |
 | What belongs in instructions and what code must enforce | [03](03_Instructions_Five_Parts_And_Enforcement.md) |
 | How to keep context small, cacheable and not lossy | [04](draft_04_Context_Window_Cache_Compaction.md) |
 | Why memory is hard and what exists | [05](draft_05_Agentic_Memory_Extraction_Retrieval.md) |
@@ -25,7 +28,7 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | # | File | Topic |
 |---|---|---|
 | 01 | [Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) | The routing function behind the stop condition, step limits across runtimes, budget and deadline, three recovery layers, retry only what is idempotent. |
-| 02 | [Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) | Threads, sessions and subagent threads, what a harness persists, who may touch it, per-user workspaces and sandbox coverage. |
+| 02 | [Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) | Where threads are stored, what else a harness persists, who may read, write or grant each kind, access checks inside tools, per-user workspaces and sandbox coverage. |
 | 03 | [Instructions](03_Instructions_Five_Parts_And_Enforcement.md) | The five prompt parts, my tagged-chapter layout, boundaries as requests versus rules in code, start simple and iterate with evals. |
 | 04 | [Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) | Stable prefix and prompt cache, tools loaded on demand, compaction, skill re-injection, why a long AGENTS.md hurts. |
 | 05 | [Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) | Structure, extraction, retrieval, context; contradiction, duplication, ambiguity; retention window versus memory; existing projects. |
@@ -37,6 +40,9 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | 11 | [Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) | Who owns the loop in each, extension points, state and resume, and why the DeepSeek paper is a composability paper. |
 | 12 | [Loop hooks declared](draft_12_Loop_Hooks_Declared.md) | The lecture's three illustrative hooks against Pi's real callbacks, the same points in Claude Code and LangChain middleware, fail-open versus fail-closed. |
 | 13 | [AI SDK or official SDKs](draft_13_AI_SDK_Or_Official_SDKs.md) | What the Vercel AI SDK gives (providers, loop, middleware, telemetry), what leaks through the abstraction, whether a layer really goes, a parity check before migrating. |
+| 14 | [Threads, subagents and A2A](14_Threads_Vs_A2A_Subagents.md) | The lecture's thread figure, in-process subagents against A2A peers, `contextId` and tasks, what the A2A spec, LangGraph, Microsoft, Claude Code, Anthropic and Cognition say, my process-per-agent choice. |
+| 15 | [Audit ledger: state or memory](15_Audit_Ledger_In_State_Or_Memory.md) | My Ledger idea checked against the LangGraph docs: state against Store, what a state channel does not guarantee, write-ahead entries, ten review questions for the implementation, an external append-only sink. |
+| 16 | [Self-configuring harness](draft_16_Self_Configuring_Harness.md) | The lecture's "Configuration" part: what Claude Code, OpenCode and Pi let the agent change at runtime, what the documented guards cover, what the DeepSeek paper adds, and a change-class design with undo. |
 
 ## Images
 
@@ -46,6 +52,8 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | [agent-harness-loop-hooks-limits.png](img/agent-harness-loop-hooks-limits.png) | 10 |
 | [agent-logic-to-harness-or-tools.png](img/agent-logic-to-harness-or-tools.png) | 09 |
 | [naive-loop-with-hooks-code.png](img/naive-loop-with-hooks-code.png) | 12 |
-| [threads-sessions-subagent-thread.png](img/threads-sessions-subagent-thread.png) | 02 |
+| [threads-sessions-subagent-thread.png](img/threads-sessions-subagent-thread.png) | 14 |
+| [harness-storage-agent-artifacts-permissions.png](img/harness-storage-agent-artifacts-permissions.png) | 02 |
+| [agent-configures-settings-and-ui.png](img/agent-configures-settings-and-ui.png) | 16 |
 
 Personal review reminders live in [notes_for_later_use](../notes_for_later_use/). The form of every note is set by [.claude/rules/note-format.md](../.claude/rules/note-format.md). State of the work: [CHANGELOG.md](../CHANGELOG.md).

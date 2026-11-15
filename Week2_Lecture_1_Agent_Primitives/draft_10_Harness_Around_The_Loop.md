@@ -2,7 +2,7 @@
 
 > A run is woken by an external event, intercepted by hooks at six points, bounded by limits (permissions, sandbox, budgets, deadlines, cancellation) and recorded by history, memory and observability: that surrounding set is the harness.
 
-Related: [01 Agent loop, exits, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [11 Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [01 Agent loop, exits, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [11 Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [02 Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, figure 1. Hook mapping is my own reasoning. Checked 2026-11-15, see [Fact-check](#fact-check).
 
@@ -68,7 +68,7 @@ Check the mapping against the [hooks reference](https://code.claude.com/docs/en/
 
 | Band | The figure says | Note |
 |---|---|---|
-| History | Records each intent before its effect and each result after it | [02](draft_02_Threads_Persistence_Isolation.md), [07](draft_07_Tool_Approval_Durable_Waits.md) |
+| History | Records each intent before its effect and each result after it | [02](draft_02_Persistence_Access_Isolation.md), [07](draft_07_Tool_Approval_Durable_Waits.md) |
 | Memory | Read when context is built, written through tools | [05](draft_05_Agentic_Memory_Extraction_Retrieval.md) |
 | Observability | One trace across every step: logs, tokens, cost, time | [08](draft_08_Evals_And_Traces_For_Agent_Changes.md) |
 

@@ -84,7 +84,7 @@ Each move needs a different part of the harness to be clear in my head. The earl
 | Add a hook | Which points exist and what a hook may do | [10](draft_10_Harness_Around_The_Loop.md) |
 | Change context or prompts | What is cached and what compaction drops | [04](draft_04_Context_Window_Cache_Compaction.md) |
 | Add an approval step | How the run waits and resumes | [07](draft_07_Tool_Approval_Durable_Waits.md) |
-| Leave the paradigm | What state the framework stored for me, and how I would see a regression | [02](draft_02_Threads_Persistence_Isolation.md), [08](draft_08_Evals_And_Traces_For_Agent_Changes.md) |
+| Leave the paradigm | What state the framework stored for me, and how I would see a regression | [02](draft_02_Persistence_Access_Isolation.md), [08](draft_08_Evals_And_Traces_For_Agent_Changes.md) |
 
 ## Summary
 

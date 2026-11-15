@@ -2,7 +2,7 @@
 
 > An agent stays aware of its capabilities through a short list plus a way to load details on demand, finds tools by a search tool or by files and bash, and finishes multi-tool work in few steps by writing one script whose intermediate results stay out of the thread.
 
-Related: [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 1: 11 CLI and MCP](../Lecture_1_Mechanics_Behind_Generative_AI/11_cli_and_mcp.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
+Related: [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [02 Persistence, access, isolation](draft_02_Persistence_Access_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 1: 11 CLI and MCP](../Lecture_1_Mechanics_Behind_Generative_AI/11_cli_and_mcp.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
 
 Source: S02E01 article "Agentic Primitives", sections "Tools" (figures 24 to 28) and the tools paragraph of "Agentic Loop" (figures 12, 13); the Mastra retail-agent demo in the S02E01 transcript as a worked example only; sources checked 2026-11-15, see [Fact-check](#fact-check).
 
@@ -151,7 +151,7 @@ Agents that can write code or manage their own integrations need clearly separat
 | Workspace | One runtime and filesystem per user | Lecture figure 28 |
 | Tool | Server validates input and enforces access control; caller policy is not a boundary | MCP tools spec; Anthropic `allowed_callers` note |
 
-Thread-level isolation and persistence are covered in [02](draft_02_Threads_Persistence_Isolation.md); approvals before irreversible tools in [07](draft_07_Tool_Approval_Durable_Waits.md).
+Thread-level isolation and persistence are covered in [02](draft_02_Persistence_Access_Isolation.md); approvals before irreversible tools in [07](draft_07_Tool_Approval_Durable_Waits.md).
 
 ## Summary
 

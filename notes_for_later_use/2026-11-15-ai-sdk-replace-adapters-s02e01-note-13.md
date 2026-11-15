@@ -10,5 +10,5 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [13 AI SDK or official SDKs](../Week2_Lecture_1_Agent_Primitives/draft_13_AI_SDK_Or_Official_SDKs.md) | What the AI SDK gives, what leaks through the abstraction, the layer decision flow, the parity list |
+| [13 AI SDK or official SDKs](../Week2_Lecture_1_Agent_Primitives/13_AI_SDK_Or_Official_SDKs.md) | What the AI SDK gives, what leaks through the abstraction, the layer decision flow, the parity list |
 | [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) | Adapter boundaries and runner contracts |

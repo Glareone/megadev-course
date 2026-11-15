@@ -6,21 +6,23 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 
 | If I want to know | Go to |
 |---|---|
+| What current vendor system prompts look like and what an unattended agent needs in its prompt | [00](draft_00_Modern_System_Prompts.md) |
 | What ends a run, how a loop is capped, how it recovers | [01](01_Agent_Loop_Stop_Limits_Recovery.md) |
-| What a harness draws around the loop: callers, hooks, limits | [10](draft_10_Harness_Around_The_Loop.md) |
-| How Pi, LangGraph and the DeepSeek paper differ | [11](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) |
-| Which hooks a loop declares and what each may change | [12](draft_12_Loop_Hooks_Declared.md) |
-| Whether the AI SDK can replace my adapters and official SDKs | [13](draft_13_AI_SDK_Or_Official_SDKs.md) |
+| What a harness draws around the loop: callers, hooks, limits | [10](10_Harness_Around_The_Loop.md) |
+| How Pi, LangGraph and the DeepSeek paper differ | [11](11_Pi_LangGraph_DeepSeek_Harnesses.md) |
+| Which hooks a loop declares and what each may change | [12](12_Loop_Hooks_Declared.md) |
+| Whether the AI SDK can replace my adapters and official SDKs | [13](13_AI_SDK_Or_Official_SDKs.md) |
 | Whether an audit ledger belongs in graph state or in memory | [15](15_Audit_Ledger_In_State_Or_Memory.md) |
-| What a self-configuring harness can change and what guards it | [16](draft_16_Self_Configuring_Harness.md) |
+| What a self-configuring harness can change and what guards it | [16](16_Self_Configuring_Harness.md) |
 | Whether to add a tool, adjust a harness or leave a framework | [09](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) |
 | What a harness stores and how users are separated | [02](02_HITL_And_Execution_Isolation.md) |
 | Threads, sessions, and subagent in-process versus over A2A | [14](14_Threads_Vs_A2A_Subagents.md) |
 | What belongs in instructions and what code must enforce | [03](03_Instructions_Five_Parts_And_Enforcement.md) |
 | How to keep context small and not lossy: window, compaction, what survives | [04](draft_04_Context_Window_And_Compaction.md) |
-| What the KV and prompt cache is, which attributes control it, what to cache | [17](draft_17_KV_Cache_And_Prompt_Caching.md) |
+| What the KV and prompt cache is, which attributes control it, what to cache | [17](17_KV_Cache_And_Prompt_Caching.md) |
 | Why memory is hard and what exists | [05](draft_05_Agentic_Memory_Extraction_Retrieval.md) |
-| How an agent knows its tools and chains them cheaply | [06](draft_06_Tools_Awareness_Discovery_Code_Mode.md) |
+| How an agent knows its tools and finds them at scale | [06](draft_06_Tools_Awareness_Discovery_Gateway.md) |
+| Running tools from a script, and keeping large results in memory | [18](18_Tool_Execution_Instead_Of_Tool_Calls.md) |
 | How a run waits days for approval and resumes | [07](draft_07_Tool_Approval_Durable_Waits.md) |
 | How to find a wrong answer's source and check a change | [08](draft_08_Evals_And_Traces_For_Agent_Changes.md) |
 
@@ -28,32 +30,38 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 
 | # | File | Topic |
 |---|---|---|
+| 00 | [Modern system prompts](draft_00_Modern_System_Prompts.md) | The lecture's direct-work-versus-unattended table, Anthropic's published prompt sections, what the extracted Codex and Opus prompts show (provenance unverified), what Anthropic and OpenAI recommend, how it maps to the five parts. |
 | 01 | [Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) | The routing function behind the stop condition, step limits across runtimes, budget and deadline, three recovery layers, retry only what is idempotent. |
 | 02 | [HITL and execution isolation](02_HITL_And_Execution_Isolation.md) | Where threads are stored, what else a harness persists, who may read, write or grant each kind, access checks inside tools, per-user workspaces and sandbox coverage. |
 | 03 | [Instructions](03_Instructions_Five_Parts_And_Enforcement.md) | The five prompt parts, my tagged-chapter layout, boundaries as requests versus rules in code, start simple and iterate with evals. |
 | 04 | [Context window and compaction](draft_04_Context_Window_And_Compaction.md) | Window and compaction, tools and results kept out of the thread, what survives compaction in Claude Code, skill re-injection, why a long AGENTS.md hurts. |
 | 05 | [Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) | Structure, extraction, retrieval, context; contradiction, duplication, ambiguity; retention window versus memory; existing projects. |
-| 06 | [Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) | Capability maps, search tool versus files, function calling versus code mode, large results to files, a gateway at scale. |
+| 06 | [Tools: awareness, discovery, gateway](draft_06_Tools_Awareness_Discovery_Gateway.md) | Capability lists, native versus deferred tools, search tool versus files and bash, agent-written integrations and MCP, a gateway at scale, per-user workspaces. |
 | 07 | [Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) | Approval as a harness duty, persisted run state, resume after days, LangGraph `interrupt`, permission grants. |
 | 08 | [Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) | Traces, the debugging rule, step-limit tuning, behaviour evals, self-revision cases, tool comparison. |
 | 09 | [Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) | Three moves from cheapest to costliest, a decision flow, what I must understand before choosing. |
-| 10 | [The harness around the loop](draft_10_Harness_Around_The_Loop.md) | The lecture's harness figure: four caller forms, six hook points, the limits frame, history, memory, observability. |
-| 11 | [Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) | Who owns the loop in each, extension points, state and resume, and why the DeepSeek paper is a composability paper. |
-| 12 | [Loop hooks declared](draft_12_Loop_Hooks_Declared.md) | The lecture's three illustrative hooks against Pi's real callbacks, the same points in Claude Code and LangChain middleware, fail-open versus fail-closed. |
-| 13 | [AI SDK or official SDKs](draft_13_AI_SDK_Or_Official_SDKs.md) | What the Vercel AI SDK gives (providers, loop, middleware, telemetry), what leaks through the abstraction, whether a layer really goes, a parity check before migrating. |
+| 10 | [The harness around the loop](10_Harness_Around_The_Loop.md) | The lecture's harness figure: four caller forms, six hook points, the limits frame, history, memory, observability. |
+| 11 | [Pi, LangGraph and the DeepSeek paper](11_Pi_LangGraph_DeepSeek_Harnesses.md) | Who owns the loop in each, extension points, state and resume, and why the DeepSeek paper is a composability paper. |
+| 12 | [Loop hooks declared](12_Loop_Hooks_Declared.md) | The lecture's three illustrative hooks against Pi's real callbacks, the same points in Claude Code and LangChain middleware, fail-open versus fail-closed. |
+| 13 | [AI SDK or official SDKs](13_AI_SDK_Or_Official_SDKs.md) | What the Vercel AI SDK gives (providers, loop, middleware, telemetry), what leaks through the abstraction, language and framework fit (no Python SDK, LangGraph only at the UI edge, no CrewAI fit), whether a layer really goes, a parity check before migrating. |
 | 14 | [Threads, subagents and A2A](14_Threads_Vs_A2A_Subagents.md) | The lecture's thread figure, in-process subagents against A2A peers, `contextId` and tasks, what the A2A spec, LangGraph, Microsoft, Claude Code, Anthropic and Cognition say, my process-per-agent choice. |
 | 15 | [Audit ledger: state or memory](15_Audit_Ledger_In_State_Or_Memory.md) | My Ledger idea checked against the LangGraph docs: state against Store, what a state channel does not guarantee, write-ahead entries, ten review questions for the implementation, an external append-only sink. |
-| 16 | [Self-configuring harness](draft_16_Self_Configuring_Harness.md) | The lecture's "Configuration" part: what Claude Code, OpenCode and Pi let the agent change at runtime, what the documented guards cover, what the DeepSeek paper adds, and a change-class design with undo. |
-| 17 | [KV cache and prompt caching](draft_17_KV_Cache_And_Prompt_Caching.md) | The KV cache and prefix caching in three layers, Anthropic's `cache_control` against OpenAI's `prompt_cache_key`, options and breakpoints, what to cache and in what order, what breaks a hit, cost arithmetic, isolation. |
+| 16 | [Self-configuring harness](16_Self_Configuring_Harness.md) | The lecture's "Configuration" part: what Claude Code, OpenCode and Pi let the agent change at runtime, what the documented guards cover, what the DeepSeek paper adds, and a change-class design with undo. |
+| 17 | [KV cache and prompt caching](17_KV_Cache_And_Prompt_Caching.md) | The KV cache and prefix caching in three layers, Anthropic's `cache_control` against OpenAI's `prompt_cache_key`, options and breakpoints, what to cache and in what order, what breaks a hit, cost arithmetic, isolation. |
+| 18 | [Tool execution instead of tool calls](18_Tool_Execution_Instead_Of_Tool_Calls.md) | The lecture's code mode figure, function calling against scripts, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, parallel calls versus scripts, large results stored and read by chunk (memory bound to context), what I would review. |
 
 ## Images
 
 | File | Used in |
 |---|---|
+| [direct-work-vs-agent-without-us.png](img/direct-work-vs-agent-without-us.png) | 00 |
+| [claude-behavior-system-prompt-sections.png](img/claude-behavior-system-prompt-sections.png) | 00 |
 | [agent-loop-state-model-tools-hooks.png](img/agent-loop-state-model-tools-hooks.png) | 01 |
 | [agent-harness-loop-hooks-limits.png](img/agent-harness-loop-hooks-limits.png) | 10 |
 | [agent-logic-to-harness-or-tools.png](img/agent-logic-to-harness-or-tools.png) | 09 |
 | [naive-loop-with-hooks-code.png](img/naive-loop-with-hooks-code.png) | 12 |
+| [code-mode-chained-tools-final-result.png](img/code-mode-chained-tools-final-result.png) | 18 |
+| [large-result-file-reference.png](img/large-result-file-reference.png) | 18 |
 | [threads-sessions-subagent-thread.png](img/threads-sessions-subagent-thread.png) | 14 |
 | [harness-storage-agent-artifacts-permissions.png](img/harness-storage-agent-artifacts-permissions.png) | 02 |
 | [agent-configures-settings-and-ui.png](img/agent-configures-settings-and-ui.png) | 16 |

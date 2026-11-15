@@ -2,7 +2,7 @@
 
 > The model stores key-value tensors for tokens it has already processed, and providers reuse them for a request that starts with the same prefix, so I put tools and instructions first, volatile data last, mark a cache point with Anthropic's `cache_control` or OpenAI's `prompt_cache_key` and breakpoints, never edit what comes before it, and check the usage fields.
 
-Related: [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [03 Instructions](03_Instructions_Five_Parts_And_Enforcement.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [13 AI SDK or official SDKs](draft_13_AI_SDK_Or_Official_SDKs.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
+Related: [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [03 Instructions](03_Instructions_Five_Parts_And_Enforcement.md) · [06 Tools: awareness, discovery, gateway](draft_06_Tools_Awareness_Discovery_Gateway.md) · [13 AI SDK or official SDKs](13_AI_SDK_Or_Official_SDKs.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
 Source: S02E01 article, "Agentic Loop" (Context): the prefix-based cache "only if the existing context stays the same". OpenAI's prompt caching guide and pricing page, Anthropic's prompt caching documentation (read in full) and vLLM's prefix caching pages, read through fetch agents on 2026-11-15. Numbers change often: see [Fact-check](#fact-check).
 
@@ -92,7 +92,7 @@ good: system = "You are X. ..."   user = "[time: 2026-11-15T10:42:07Z] ..."
 - **Arithmetic:** a 5-minute write at 1.25x plus one read at 0.1x costs 1.35x for two requests against 2x uncached. The OpenAI page gives the same 1.35x example for 30m. Longer TTL writes cost 2x or 2.5x, so they need more reuse.
 - **Isolation:** caches are isolated between organizations. Anthropic isolates by workspace on its own API. OpenAI stores "encrypted key/value tensors in GPU-local storage" and does not share across organizations or regions. Both are zero-data-retention eligible. Neither has manual clearing.
 - **Multi-tenant:** use a `prompt_cache_key` per tenant on OpenAI. The key is routing, not security.
-- **Through the AI SDK:** `cacheControl` goes in `providerOptions` ([13](draft_13_AI_SDK_Or_Official_SDKs.md)).
+- **Through the AI SDK:** `cacheControl` goes in `providerOptions` ([13](13_AI_SDK_Or_Official_SDKs.md)).
 
 ## Summary
 

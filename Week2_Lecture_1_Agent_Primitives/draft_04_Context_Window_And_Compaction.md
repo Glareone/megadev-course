@@ -2,7 +2,7 @@
 
 > I keep the context small by loading tools and results on demand and compacting the thread, and I keep it not lossy by putting durable instructions in files that are re-read after compaction, because anything said only in chat is gone.
 
-Related: [17 KV cache and prompt caching](draft_17_KV_Cache_And_Prompt_Caching.md) · [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [06 Tools awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 11 Tool upfront vs discovery](../Lecture_2_Context_Agents_md_Skills_Tools/11_tool_upfront_vs_tool_discovery.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md)
+Related: [17 KV cache and prompt caching](17_KV_Cache_And_Prompt_Caching.md) · [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [06 Tools: awareness, discovery, gateway](draft_06_Tools_Awareness_Discovery_Gateway.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 11 Tool upfront vs discovery](../Lecture_2_Context_Agents_md_Skills_Tools/11_tool_upfront_vs_tool_discovery.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md)
 
 Source: S02E01 article "Agentic Loop" (Context, the three context columns and the four conclusions); S02E01 transcript (last-20 window and compaction trade-offs, as worked example). Claude Code, LangGraph and Semantic Kernel docs read on 2026-11-15, see [Fact-check](#fact-check).
 
@@ -14,11 +14,11 @@ Source: S02E01 article "Agentic Loop" (Context, the three context columns and th
 | Message window | Send only the last N messages | LangGraph `trim_messages`, Semantic Kernel truncation reducer | Compaction, which rewrites older ones |
 | Compaction | Replace older messages with a summary, keep recent ones as they are | Claude Code `/compact`, Semantic Kernel summarization reducer | Truncation, which just drops |
 | Reactivation | Re-loading a skill body after compaction removed it | Claude Code re-injection of invoked skills | First activation |
-| Stable front | The part of the context that does not change between calls | The cacheable prefix, see [17](draft_17_KV_Cache_And_Prompt_Caching.md) | The whole prompt |
+| Stable front | The part of the context that does not change between calls | The cacheable prefix, see [17](17_KV_Cache_And_Prompt_Caching.md) | The whole prompt |
 
 ## 1. The problem
 
-Every model call resends the whole context. That costs tokens and latency, the window is finite, and the model attends worse to a bloated context. I want it **small** (little sent) and **not lossy** (what the task needs survives trimming). Trimming and summarizing pull against the second goal, and they also change the front of the context, which matters for caching ([17](draft_17_KV_Cache_And_Prompt_Caching.md)).
+Every model call resends the whole context. That costs tokens and latency, the window is finite, and the model attends worse to a bloated context. I want it **small** (little sent) and **not lossy** (what the task needs survives trimming). Trimming and summarizing pull against the second goal, and they also change the front of the context, which matters for caching ([17](17_KV_Cache_And_Prompt_Caching.md)).
 
 ## 2. The layout the lecture shows
 
@@ -40,7 +40,7 @@ flowchart TB
 
 - **Last-N window.** The transcript agent sends up to the last 20 messages. The presenter's trade-off: "an important detail from earlier in the conversation might get left out", and 20 is not a magic number.
 - **Compaction.** Older messages are "compressed into shorter notes" kept next to recent ones, and "those notes may leave out some details".
-- **Keep it out of the thread.** Tool schemas loaded on demand and large results written to a file, with only a reference returned, keep the thread small. Detail in [06](draft_06_Tools_Awareness_Discovery_Code_Mode.md) and [Lecture 2: 10](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md).
+- **Keep it out of the thread.** Tool schemas loaded on demand and large results written to a file, with only a reference returned, keep the thread small. Detail in [06](draft_06_Tools_Awareness_Discovery_Gateway.md) and [Lecture 2: 10](../Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md).
 
 | Mechanism | LangGraph | Semantic Kernel | Claude Code |
 |---|---|---|---|
@@ -66,11 +66,26 @@ What I take from it: the lecture's "skills sometimes need to be reactivated" is 
 
 ## 5. Why a long AGENTS.md hurts
 
-It is sent on every call (tokens and latency), and the model follows it less. The lecture says the model "will ignore most of it". Claude Code docs give a softer, vendor-backed version: target under 200 lines, because "longer files consume more context and reduce adherence", and importing files with `@path` organizes but does not reduce the cost. "Ignores most of it" is the lecturer's strong phrasing, and I have no measurement for the share. Remedy: keep the root file as a router, move detail to skills and path-scoped rules, and put concrete verifiable rules first. An edit to it also changes the front of the context, see [17](draft_17_KV_Cache_And_Prompt_Caching.md).
+It is sent on every call (tokens and latency), and the model follows it less. The lecture says the model "will ignore most of it". Claude Code docs give a softer, vendor-backed version: target under 200 lines, because "longer files consume more context and reduce adherence", and importing files with `@path` organizes but does not reduce the cost. "Ignores most of it" is the lecturer's strong phrasing, and I have no measurement for the share. Remedy: keep the root file as a router, move detail to skills and path-scoped rules, and put concrete verifiable rules first. An edit to it also changes the front of the context, see [17](17_KV_Cache_And_Prompt_Caching.md).
+
+## 6. What the vendor removed from its own context
+
+Anthropic's Claude Code team removed over 80% of the system prompt for Claude Opus 5 and Fable 5, "with no measurable loss on our coding evaluations" ([article](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/), Thariq Shihipar, 2026-07-24). It gives six "then, now" pairs, which bear on context like this:
+
+| Then | Now | Effect on context |
+|---|---|---|
+| Give rules | Let the model use judgement | Fewer constraints sent on every call |
+| Give examples | Design interfaces with expressive parameters | Examples "constrain" exploration. Shorter tool text |
+| Put it all upfront | Progressive disclosure: deferred tools, skills | Loaded when needed |
+| Repeat yourself | Simple tool descriptions | Tool guidance lives once, in the tool description |
+| Memory in CLAUDE.md | Auto-memory | The agent saves relevant memories itself |
+| Simple specs | Rich references: code, tests, rubrics | Point to artifacts, not prose |
+
+Caveats. The evidence is coding evaluations with no numbers, the advice is tied to those models and to Claude Code, and the article says nothing on compaction or caching. The [Opus 5.5 prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5) adds explicit lines for unattended runs and says to declare tools from the first request, because adding a tool later "invalidates earlier thinking blocks". That sits uneasily with deferred loading. I decide per agent, with evals ([03](03_Instructions_Five_Parts_And_Enforcement.md), [17](17_KV_Cache_And_Prompt_Caching.md)).
 
 ## Summary
 
-The window and compaction keep the context small, at the price of detail. Durable instructions live in files that are re-read after compaction, skills respect the re-injection cap, and the root AGENTS.md stays short. The cache effect of each choice is in [17](draft_17_KV_Cache_And_Prompt_Caching.md).
+The window and compaction keep the context small, at the price of detail. Durable instructions live in files that are re-read after compaction, skills respect the re-injection cap, and the root AGENTS.md stays short. The vendor's own move is the opposite direction: fewer rules and examples, more on-demand loading ([section 6](#6-what-the-vendor-removed-from-its-own-context)). The cache effect of each choice is in [17](17_KV_Cache_And_Prompt_Caching.md).
 
 ## Open questions
 
@@ -84,10 +99,13 @@ The window and compaction keep the context small, at the price of detail. Durabl
 | 2 | A long AGENTS.md is mostly ignored by the model | **Differs**, strong wording | [Claude Code memory](https://code.claude.com/docs/en/memory.md): longer files "reduce adherence", target under 200 lines, no measured share. "Most of it" is opinion | 2026-11-15 |
 | 3 | A last-N window and compaction both lose detail | **Agrees** | Transcript trade-offs, plus LangGraph and Semantic Kernel docs describing truncation and summarization as lossy strategies | 2026-11-15 |
 | 4 | The stable front is system prompt, AGENTS.md, profile and core tools | **Lecture-specific** | The lecture's figure | 2026-11-15 |
+| 5 | Claude Code's system prompt lost over 80% for the latest models | **Agrees**, narrower than implied | [Article](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/), read in full: "no measurable loss on our coding evaluations", no eval or number named | 2026-11-15 |
+| 6 | The vendor's prompting guide supports removing instructions | **Differs** in part | [Opus 5.5 guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5), read in full: remove thinking substitutes, but add explicit lines for unattended runs and declare tools from the first request | 2026-11-15 |
 
 ## Sources
 
 - S02E01 article and transcript.
 - [Claude Code: explore the context window](https://code.claude.com/docs/en/context-window.md) · [Claude Code: how Claude remembers your project](https://code.claude.com/docs/en/memory.md)
 - [LangGraph: add memory](https://docs.langchain.com/oss/python/langgraph/add-memory) · [Semantic Kernel: chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history)
+- [Claude.dev: the new rules of context engineering](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/) · [Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)
 - My own reasoning: the framework mapping.

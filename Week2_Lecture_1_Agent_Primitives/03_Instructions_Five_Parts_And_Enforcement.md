@@ -2,7 +2,7 @@
 
 > The system prompt tells the agent who it is, where it works, what exists, how to look and what is off limits, but only the first four are guidance I can rely on; every boundary that matters must also be enforced in code, because the model may ignore a prompt.
 
-Related: [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [06 Tools awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [01 Agent loop, stop, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
+Related: [00 Modern system prompts](draft_00_Modern_System_Prompts.md) · [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [06 Tools: awareness, discovery, gateway](draft_06_Tools_Awareness_Discovery_Gateway.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [01 Agent loop, stop, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
 Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Loop" (Context), takeaways; S02E01 transcript (retail-agent demo, used only as a worked example); the layout in section 4 is my own platform design. Vendor docs read on 2026-11-15, see [Fact-check](#fact-check).
 
@@ -20,7 +20,7 @@ Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Lo
 | Tagged chapter | One prompt concern wrapped in an XML-like tag | Anthropic: XML tags per content type | - |
 | Layering | A base prompt plus the author's domain prompt, concatenated | Deep Agents: `system_prompt` appended to the base prompt | - |
 | Loaded skill | The body of the single skill currently in context | A skill after invocation, as against the skill list with descriptions | - |
-| Static prefix | The part of the prompt identical between calls | Cache prefix, see [17](draft_17_KV_Cache_And_Prompt_Caching.md) | - |
+| Static prefix | The part of the prompt identical between calls | Cache prefix, see [17](17_KV_Cache_And_Prompt_Caching.md) | - |
 
 ## 1. The problem
 
@@ -155,7 +155,7 @@ This agrees with vendor advice: Anthropic says to test effort levels "against yo
 
 ## 7. The 80% claim, read at the source
 
-The lecture says Claude Code "had 80% of its system prompt removed for the latest models" and implies clear instructions may even degrade the model. The source says something narrower: Anthropic removed over 80% of Claude Code's system prompt for Claude Opus 5 and Claude Fable 5 "with no measurable loss on our coding evaluations" ([claude.dev blog](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/)). That is a result about one interactive coding harness and its evals. It does not show that instructions degrade performance, and it does not cover an unattended agent in my domain. I still check my own prompt with my own evals.
+The lecture says Claude Code "had 80% of its system prompt removed for the latest models" and implies clear instructions may even degrade the model. The source ([Thariq Shihipar, Anthropic, 2026-07-24](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/)) says something narrower: "We removed over 80% of Claude Code's system prompt" for models like Claude Opus 5 and Claude Fable 5, "with no measurable loss on our coding evaluations". It names no evaluation, number or score. What went out: strict rules (a no-comments rule became "match the surrounding code"), tool-usage examples and repeated tool references, while step-by-step procedures moved into skills. Its thesis is that the team was overconstraining the model, and it keeps constraints "in highly important areas". It does not say instructions are irrelevant or hurt performance. The [Opus 5.5 prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5) points the other way for unattended agents: it recommends explicit system-prompt lines for unattended runs. The result covers one coding harness, so I check my own prompt with my own evals. The article's context rules are in [04](draft_04_Context_Window_And_Compaction.md).
 
 ## Summary
 
@@ -171,7 +171,7 @@ The five parts (personality, environment, context, discovery, boundaries) are a 
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
-| 1 | Claude Code had 80% of its system prompt removed for the latest models | **Agrees, narrower than implied.** Over 80% removed for Opus 5 and Fable 5 with no measurable loss on Anthropic's coding evals. It does not show that instructions degrade performance | [claude.dev blog](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/), read via fetch | 2026-11-15 |
+| 1 | Claude Code had 80% of its system prompt removed for the latest models | **Agrees, narrower than implied.** Over 80% removed for Opus 5 and Fable 5, no measurable loss on coding evals, no eval named, no numbers. The article does not say instructions are irrelevant or harmful | [claude.dev blog](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/), 2026-07-24, read in full via fetch (14,129 characters) | 2026-11-15 |
 | 2 | A five-part prompt (personality, environment, context, discovery, boundaries) | **Lecture-specific** | Not a vendor template. Vendor guides give task patterns, see [Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5) and [OpenAI](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) | 2026-11-15 |
 | 3 | Unattended agents need explicit instructions about their environment | **Agrees** | Anthropic guide section "Unattended agentic runs" and "Explore context in multiapp workflows" | 2026-11-15 |
 | 4 | A boundary in the prompt is only a recommendation | **Agrees** | Claude Code memory docs: "context, not enforced configuration", use a PreToolUse hook to block. Transcript: "Instructions don't guarantee" | 2026-11-15 |

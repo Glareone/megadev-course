@@ -1,10 +1,10 @@
-# 6. Tools: be aware of everything, load almost nothing, chain calls in code
+# 6. Tools: be aware of everything, load almost nothing, find tools by search or files
 
-> An agent stays aware of its capabilities through a short list plus a way to load details on demand, finds tools by a search tool or by files and bash, and finishes multi-tool work in few steps by writing one script whose intermediate results stay out of the thread.
+> An agent stays aware of its capabilities through a short list plus a way to load details on demand, finds tools by a search tool or by files and bash, and a gateway adds ownership and authorization at scale. Chaining tools in code is in [18](18_Tool_Execution_Instead_Of_Tool_Calls.md).
 
-Related: [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 1: 11 CLI and MCP](../Lecture_1_Mechanics_Behind_Generative_AI/11_cli_and_mcp.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
+Related: [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [18 Tool execution instead of tool calls](18_Tool_Execution_Instead_Of_Tool_Calls.md) · [04 Context window and compaction](draft_04_Context_Window_And_Compaction.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [Lecture 1: 10 Code mode](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) · [Lecture 1: 11 CLI and MCP](../Lecture_1_Mechanics_Behind_Generative_AI/11_cli_and_mcp.md) · [Lecture 1: 13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) · [Lecture 1: 16 Self-management](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)
 
-Source: S02E01 article "Agentic Primitives", sections "Tools" (figures 24 to 28) and the tools paragraph of "Agentic Loop" (figures 12, 13); the Mastra retail-agent demo in the S02E01 transcript as a worked example only; sources checked 2026-11-15, see [Fact-check](#fact-check).
+Source: S02E01 article "Agentic Primitives", sections "Tools" (figures 24 to 28) the Mastra retail-agent demo in the S02E01 transcript as a worked example only; sources checked 2026-11-15, see [Fact-check](#fact-check).
 
 ## Glossary
 
@@ -12,7 +12,7 @@ Source: S02E01 article "Agentic Primitives", sections "Tools" (figures 24 to 28)
 |---|---|---|---|
 | Awareness | The agent knows a capability exists, from a name and one line | - | Loading: having the full schema in context |
 | Discovery | Finding and loading the details of one capability | - | Registration: the harness making a tool callable |
-| Function calling | The model emits a structured call per tool; each result returns to the model | - | Code mode, where the model writes a script that calls tools |
+| Function calling | The model emits a structured call per tool; each result returns to the model, see [18](18_Tool_Execution_Instead_Of_Tool_Calls.md) | - | Code mode, where the model writes a script that calls tools |
 | Gateway | A shared service between agents and many tool servers (registry, proxy, authorization) | - | An MCP server: the gateway fronts many of them |
 
 ## 1. The problem
@@ -59,41 +59,7 @@ Anthropic's engineering write-up describes the files route: present MCP servers 
 
 ## 4. Function calling versus code mode
 
-Function calling needs each schema in context and returns every result to the model so it can pick the next step. Fine for simple work, inefficient for complex workflows. Code mode lets the model write one script that chains tools and keeps results in variables.
-
-```mermaid
-flowchart TB
-    subgraph FC["Function calling: 3 round trips"]
-        direction LR
-        F1["calendar.list"] --> M1["model"] --> F2["mail.search"] --> M2["model"] --> F3["files.write"] --> M3["model"]
-    end
-    subgraph CM["Code mode: 1 script"]
-        direction LR
-        S["script"] --> V1["events"] --> V2["mails"] --> V3["file"] --> OUT["final result to thread"]
-    end
-    style CM fill:#2a7,stroke:#2a7,color:#fff
-```
-
-Industry check, two independent write-ups agree on the mechanism:
-
-| Source | Claim | Consistent with lecture |
-|---|---|---|
-| [Anthropic programmatic tool calling](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling) | Tool opts in with `allowed_callers: ["code_execution_20260120"]`; "intermediate results are not loaded into Claude's context window"; a 20-employee budget check is one script, not 20 round trips | Yes |
-| [Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/) | Models have seen much more code than tool-call tokens; with direct calls each output passes through the model only to be copied into the next call; code runs in a V8 isolate with no general network, reached through bindings | Yes, and adds the training-data argument |
-| Lecture | "Modern agents write code that can chain tools and keep results in variables" | Baseline |
-
-Two cautions from the same sources. Anthropic's docs say `allowed_callers` "is not a hard API-level block on direct calls", so I do not use it as a security boundary. Anthropic's article also notes that running agent-generated code needs sandboxing, resource limits and monitoring, which is operational cost that function calling does not have. The earlier-lecture version of this idea, two tools `find` and `execute`, is in [Lecture 1: 10](../Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md).
-
-### Big results go to a file, the model gets a reference
-
-When a script returns a large report, I do not append it to the thread. I write it to a file and hand the model a path, so it can read a fragment, show the file to the user, or pass it to another tool (the lecture's figure 13: read a fragment, display, or email it).
-
-```text
-tool_result: report written to workspace/reports/q3.md (412 KB). Read a range with
-read(path, lines) or attach it with mail.send(attachment=path).
-```
-
-Evidence: Anthropic's code-execution article shows the same idea in two forms: filter or aggregate inside the environment so the model sees 5 rows instead of 10,000, and write files to persist state across runs. The file-reference form is the lecture's wording; the principle matches.
+Moved to [18 Tool execution instead of tool calls](18_Tool_Execution_Instead_Of_Tool_Calls.md): the lecture's code mode figures, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, and large results kept in memory and read by chunk.
 
 ## 5. Tool management and reusability
 
@@ -155,25 +121,23 @@ Thread-level isolation and persistence are covered in [02](02_HITL_And_Execution
 
 ## Summary
 
-Keep a short list and a loading path in the prompt, three to five native tools, and defer the rest behind search or files. Chain work in code and keep intermediate and large results out of the thread. At thousands of tools, add a registry that starts everything disabled, a discovery front door, and a proxy that authorizes and redacts. Isolate each user's workspace.
+Keep a short list and a loading path in the prompt, three to five native tools, and defer the rest behind search or files. Chaining work in code and keeping results out of the thread is in [18](18_Tool_Execution_Instead_Of_Tool_Calls.md). At thousands of tools, add a registry that starts everything disabled, a discovery front door, and a proxy that authorizes and redacts. Isolate each user's workspace.
 
 ## Fact-check
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
 | 1 | Function calling needs schemas in context and returns every result to the model | **Agrees** | [Anthropic tool search](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool): about 55k tokens of definitions in a five-server setup; [Anthropic code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp): "every intermediate result must pass through the model" | 2026-11-15 |
-| 2 | Code mode chains tools and keeps results in variables | **Agrees** | [Anthropic programmatic tool calling](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling); [Cloudflare Code Mode](https://blog.cloudflare.com/code-mode/) | 2026-11-15 |
-| 3 | Large results are dropped into a file and the model gets a reference | **Agrees, with scope** | Anthropic code-execution article: filter in code, persist files; the explicit file-reference wording is the lecture's | 2026-11-15 |
-| 4 | Uber's MCP gateway manages 8000+ tools | **Wrong** | [Uber blog](https://www.uber.com/pl/en/blog/designing-mcp-gateway/): over 800 servers and over 5000 tools; confirmed by search summary of [InfoQ](https://infoq.com/news/2026/11/uber-mcp-gateway-ai-agents). Counts may have changed since the post | 2026-11-15 |
-| 5 | Uber architecture: registry, proxy, tool search front door, tools off by default | **Agrees** | Same blog (page fetched, small-model summary): registry, proxy, crawler, Omni MCP discovery calls, "every MCP server and tool starts in a disabled state". The post does not use the phrase "front door" | 2026-11-15 |
-| 6 | Treg is an open-sourced gateway for tools | **Agrees, with scope** | [Treg README](https://github.com/superdesigndev/treg): hosted proxy and registry for agent tools; not an internal enterprise gateway; MCP status unclear. Verify before presenting | 2026-11-15 |
-| 7 | An agent can be aware of tools without loading them all | **Agrees** | Anthropic tool search: `defer_loading`, 3 to 5 native tools, over 85% definition reduction (vendor figure) | 2026-11-15 |
-| 8 | Discovery by search tool gives control; files and bash give flexibility | **Lecture-specific (opinion)** | Both forms exist (tool search; directory of code files); the trade-off judgment is the lecturer's | 2026-11-15 |
-| 9 | Agents can write integrations, save and reuse them once tested | **Agrees** | Anthropic code-execution article: save working code as reusable functions, package as skills; sandboxing needed | 2026-11-15 |
-| 10 | MCP provides tool discovery by listing | **Agrees** | [MCP spec 2025-06-18, tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools): `tools/list`, pagination, `listChanged`; a newer spec revision may exist, not checked | 2026-11-15 |
-| 11 | Use official SDKs, avoid abstractions like AI SDK | **Lecture-specific (opinion)** | Lecture "Agentic Loop"; not a tools claim | 2026-11-15 |
-| 12 | Agents easily get around workspace boundaries | **Lecture-specific (opinion)** | Cloudflare sandbox design and Anthropic "not a security boundary" note point the same way; no measurement found | 2026-11-15 |
-| 13 | Schema validates shape, implementation enforces access (transcript demo) | **Agrees** | MCP tools spec: servers must validate inputs and implement access controls | 2026-11-15 |
+| 2 | Uber's MCP gateway manages 8000+ tools | **Wrong** | [Uber blog](https://www.uber.com/pl/en/blog/designing-mcp-gateway/): over 800 servers and over 5000 tools; confirmed by search summary of [InfoQ](https://infoq.com/news/2026/11/uber-mcp-gateway-ai-agents). Counts may have changed since the post | 2026-11-15 |
+| 3 | Uber architecture: registry, proxy, tool search front door, tools off by default | **Agrees** | Same blog (page fetched, small-model summary): registry, proxy, crawler, Omni MCP discovery calls, "every MCP server and tool starts in a disabled state". The post does not use the phrase "front door" | 2026-11-15 |
+| 4 | Treg is an open-sourced gateway for tools | **Agrees, with scope** | [Treg README](https://github.com/superdesigndev/treg): hosted proxy and registry for agent tools; not an internal enterprise gateway; MCP status unclear. Verify before presenting | 2026-11-15 |
+| 5 | An agent can be aware of tools without loading them all | **Agrees** | Anthropic tool search: `defer_loading`, 3 to 5 native tools, over 85% definition reduction (vendor figure) | 2026-11-15 |
+| 6 | Discovery by search tool gives control; files and bash give flexibility | **Lecture-specific (opinion)** | Both forms exist (tool search; directory of code files); the trade-off judgment is the lecturer's | 2026-11-15 |
+| 7 | Agents can write integrations, save and reuse them once tested | **Agrees** | Anthropic code-execution article: save working code as reusable functions, package as skills; sandboxing needed | 2026-11-15 |
+| 8 | MCP provides tool discovery by listing | **Agrees** | [MCP spec 2025-06-18, tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools): `tools/list`, pagination, `listChanged`; a newer spec revision may exist, not checked | 2026-11-15 |
+| 9 | Use official SDKs, avoid abstractions like AI SDK | **Lecture-specific (opinion)** | Lecture "Agentic Loop"; not a tools claim | 2026-11-15 |
+| 10 | Agents easily get around workspace boundaries | **Lecture-specific (opinion)** | Cloudflare sandbox design and Anthropic "not a security boundary" note point the same way; no measurement found | 2026-11-15 |
+| 11 | Schema validates shape, implementation enforces access (transcript demo) | **Agrees** | MCP tools spec: servers must validate inputs and implement access controls | 2026-11-15 |
 
 ## Sources
 

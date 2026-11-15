@@ -245,12 +245,12 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 
 | Name | What it does | Notes |
 |---|---|---|
-| [AI SDK](https://vercel.com/ai-sdk) | Vercel's TypeScript toolkit for multi-provider model calls, tools and agent loops. The lecturer prefers official SDKs over it | [13](Week2_Lecture_1_Agent_Primitives/draft_13_AI_SDK_Or_Official_SDKs.md) |
-| [Pi](https://github.com/earendil-works/pi) | Minimal terminal agent harness, loop in `packages/agent` | [11](Week2_Lecture_1_Agent_Primitives/draft_11_Pi_LangGraph_DeepSeek_Harnesses.md), [12](Week2_Lecture_1_Agent_Primitives/draft_12_Loop_Hooks_Declared.md) |
+| [AI SDK](https://vercel.com/ai-sdk) | Vercel's TypeScript toolkit for multi-provider model calls, tools and agent loops. The lecturer prefers official SDKs over it | [13](Week2_Lecture_1_Agent_Primitives/13_AI_SDK_Or_Official_SDKs.md) |
+| [Pi](https://github.com/earendil-works/pi) | Minimal terminal agent harness, loop in `packages/agent` | [11](Week2_Lecture_1_Agent_Primitives/11_Pi_LangGraph_DeepSeek_Harnesses.md), [12](Week2_Lecture_1_Agent_Primitives/12_Loop_Hooks_Declared.md) |
 | [Goose](https://github.com/aaif-goose/goose) | Open-source agent harness named as a loop implementation | [01](Week2_Lecture_1_Agent_Primitives/01_Agent_Loop_Stop_Limits_Recovery.md) (loop source not read) |
-| DeepSeek Harness paper ([arXiv 2608.25512](https://arxiv.org/abs/2608.25512)) | A composability paper, not an agent harness | [11](Week2_Lecture_1_Agent_Primitives/draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) |
+| DeepSeek Harness paper ([arXiv 2608.25512](https://arxiv.org/abs/2608.25512)) | A composability paper, not an agent harness | [11](Week2_Lecture_1_Agent_Primitives/11_Pi_LangGraph_DeepSeek_Harnesses.md) |
 | [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [05](Week2_Lecture_1_Agent_Primitives/draft_05_Agentic_Memory_Extraction_Retrieval.md) |
-| [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [06](Week2_Lecture_1_Agent_Primitives/draft_06_Tools_Awareness_Discovery_Code_Mode.md) |
+| [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [06](Week2_Lecture_1_Agent_Primitives/draft_06_Tools_Awareness_Discovery_Gateway.md) |
 | [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [08](Week2_Lecture_1_Agent_Primitives/draft_08_Evals_And_Traces_For_Agent_Changes.md) |
 
 ## Repository rules

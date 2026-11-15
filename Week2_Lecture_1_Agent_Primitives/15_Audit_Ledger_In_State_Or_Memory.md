@@ -2,7 +2,7 @@
 
 > A per-run, append-only ledger belongs in graph state (ordered with the run, restored with it, kept apart from memory the agent reads), but a state channel is writable by any node, streamed by default, copied in full into every checkpoint and deleted or pruned by hand, so the durable audit record needs an append-only sink outside the graph.
 
-Related: [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [14 Threads, subagents and A2A](14_Threads_Vs_A2A_Subagents.md) · [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md)
+Related: [02 HITL and execution isolation](02_HITL_And_Execution_Isolation.md) · [05 Agentic memory](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [14 Threads, subagents and A2A](14_Threads_Vs_A2A_Subagents.md) · [10 The harness around the loop](10_Harness_Around_The_Loop.md) · [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md)
 
 Source: my own Ledger idea (audit log kept in state, not in memory), reviewed against the LangGraph docs read through a fetch agent on 2026-11-15. I have not seen the implementation, so section 4 lists questions, not findings. See [Fact-check](#fact-check).
 

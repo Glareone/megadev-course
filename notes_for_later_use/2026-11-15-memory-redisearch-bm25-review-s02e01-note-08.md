@@ -10,6 +10,6 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [07 Memory](../Week2_Lecture_1_Agent_Primitives/07_Memory.md) | The five principles against Zep, Hindsight, Mem0, Claude Code and others, eight review questions for my store |
-| [09 Audit ledger](../Week2_Lecture_1_Agent_Primitives/09_Memory_Audit_Ledger_In_Memory_Or_State.md) | Why an audit log is not memory |
+| [08 Memory](../Week2_Lecture_1_Agent_Primitives/08_Memory.md) | The five principles against Zep, Hindsight, Mem0, Claude Code and others, eight review questions for my store |
+| [10 Audit ledger](../Week2_Lecture_1_Agent_Primitives/10_Memory_Audit_Ledger_In_Memory_Or_State.md) | Why an audit log is not memory |
 | [21 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/21_Tool_Execution_Instead_Of_Tool_Calls.md) | Reading a result by reference and in chunks |

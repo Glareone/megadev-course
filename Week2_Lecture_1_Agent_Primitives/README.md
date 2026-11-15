@@ -13,7 +13,7 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | How Pi, LangGraph and the DeepSeek paper differ | [15](15_Pi_LangGraph_DeepSeek_Harnesses.md) |
 | Which hooks a loop declares and what each may change | [16](16_Loop_Hooks_Declared.md) |
 | Whether the AI SDK can replace my adapters and official SDKs | [17](17_AI_SDK_Or_Official_SDKs.md) |
-| Whether an audit ledger belongs in graph state or in memory | [09](09_Memory_Audit_Ledger_In_Memory_Or_State.md) |
+| Whether an audit ledger belongs in graph state or in memory | [10](10_Memory_Audit_Ledger_In_Memory_Or_State.md) |
 | What a self-configuring harness can change and what guards it | [19](19_Self_Configuring_Harness.md) |
 | Whether to add a tool, adjust a harness or leave a framework | [13](draft_13_Extend_Adjust_Or_Leave_The_Framework.md) |
 | What a harness stores and how users are separated | [04](04_HITL_And_Execution_Isolation.md) |
@@ -21,9 +21,9 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | What belongs in instructions and what code must enforce | [05](05_Instructions_Five_Parts_And_Enforcement.md) |
 | How to keep context small and not lossy: window, compaction, what survives | [06](06_Context_Window_And_Compaction.md) |
 | What the KV and prompt cache is, which attributes control it, what to cache | [20](20_KV_Cache_And_Prompt_Caching.md) |
-| How to organize memory: relations, placement, search, immutable and append-only pieces | [07](07_Memory.md) |
-| Memory known problems and how to count and beat them | [08](draft_08_Memory_Known_Problems.md) |
-| How an agent knows its tools and finds them at scale | [10](draft_10_Tools_Awareness_Discovery_Gateway.md) |
+| How to organize memory: relations, placement, search, immutable and append-only pieces | [08](08_Memory.md) |
+| Memory known problems and how to count and beat them | [09](09_Memory_Known_Problems.md) |
+| How an agent knows its tools and finds them at scale | [07](draft_07_Context_Tool_Awareness_Avoids_Compression.md) |
 | Running tools from a script, and keeping large results in memory | [21](21_Tool_Execution_Instead_Of_Tool_Calls.md) |
 | How a run waits days for approval and resumes | [11](draft_11_Tool_Approval_Durable_Waits.md) |
 | How to find a wrong answer's source and check a change | [12](draft_12_Evals_And_Traces_For_Agent_Changes.md) |
@@ -38,10 +38,10 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 | 04 | [HITL and execution isolation](04_HITL_And_Execution_Isolation.md) | Where threads are stored, what else a harness persists, who may read, write or grant each kind, access checks inside tools, per-user workspaces and sandbox coverage. |
 | 05 | [Instructions](05_Instructions_Five_Parts_And_Enforcement.md) | The five prompt parts, my tagged-chapter layout, boundaries as requests versus rules in code, start simple and iterate with evals. |
 | 06 | [Context window and compaction](06_Context_Window_And_Compaction.md) | Window and compaction, tools and results kept out of the thread, what survives compaction in Claude Code, skill re-injection, why a long AGENTS.md hurts. |
-| 07 | [Memory](07_Memory.md) | The lecture's memory figures, five principles (relations, placement, search, readable pieces, immutable and append-only) against Zep, Hindsight, Mem0, Claude Code, the Anthropic memory tool, LangMem and Redis BM25, extraction choices, review questions for my flat RediSearch store. |
-| 08 | [Memory known problems](draft_08_Memory_Known_Problems.md) | Contradiction, duplication and ambiguity, the lecturer's memory-extraction example (three modes over six dated chats and its counters), how I beat each with replace-by-key, identity from the session and a hold state, what the example leaves open. |
-| 09 | [Audit ledger: state or memory](09_Memory_Audit_Ledger_In_Memory_Or_State.md) | My Ledger idea checked against the LangGraph docs: state against Store, what a state channel does not guarantee, write-ahead entries, ten review questions for the implementation, an external append-only sink. |
-| 10 | [Tools: awareness, discovery, gateway](draft_10_Tools_Awareness_Discovery_Gateway.md) | Capability lists, native versus deferred tools, search tool versus files and bash, agent-written integrations and MCP, a gateway at scale, per-user workspaces. |
+| 07 | [Context: tool awareness avoids compression](draft_07_Context_Tool_Awareness_Avoids_Compression.md)(draft_07_Context_Tool_Awareness_Avoids_Compression.md) | Capability lists, native versus deferred tools, search tool versus files and bash, agent-written integrations and MCP, a gateway at scale, per-user workspaces. |
+| 08 | [Memory](08_Memory.md) | The lecture's memory figures, a comparison of Mem0 OSS, supermemory and Hindsight, five principles (relations, placement, search, readable pieces, immutable and append-only) against Zep, Hindsight, Mem0, Claude Code, the Anthropic memory tool, LangMem and Redis BM25, extraction choices, review questions for my flat RediSearch store. |
+| 09 | [Memory known problems](09_Memory_Known_Problems.md) | Contradiction, duplication and ambiguity, the lecturer's memory-extraction example (three modes over six dated chats and its counters), how I beat each with replace-by-key, identity from the session and a hold state, what the example leaves open. |
+| 10 | [Audit ledger: state or memory](10_Memory_Audit_Ledger_In_Memory_Or_State.md) | My Ledger idea checked against the LangGraph docs: state against Store, what a state channel does not guarantee, write-ahead entries, ten review questions for the implementation, an external append-only sink. |
 | 11 | [Tool approval and durable waits](draft_11_Tool_Approval_Durable_Waits.md) | Approval as a harness duty, persisted run state, resume after days, LangGraph `interrupt`, permission grants. |
 | 12 | [Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) | Traces, the debugging rule, step-limit tuning, behaviour evals, self-revision cases, tool comparison. |
 | 13 | [Extend, adjust or leave the framework](draft_13_Extend_Adjust_Or_Leave_The_Framework.md) | Three moves from cheapest to costliest, a decision flow, what I must understand before choosing. |
@@ -60,9 +60,9 @@ Source: S02E01 article (primary), S02E01 transcript (a retail-agent demo, used o
 |---|---|
 | [direct-work-vs-agent-without-us.png](img/direct-work-vs-agent-without-us.png) | 01 |
 | [claude-behavior-system-prompt-sections.png](img/claude-behavior-system-prompt-sections.png) | 01 |
-| [agentic-memory-four-parts.png](img/agentic-memory-four-parts.png) | 07 |
-| [memory-profile-updated-from-thread.png](img/memory-profile-updated-from-thread.png) | 07 |
-| [memory-known-problems-contradiction-duplication-ambiguity.png](img/memory-known-problems-contradiction-duplication-ambiguity.png) | 08 |
+| [agentic-memory-four-parts.png](img/agentic-memory-four-parts.png) | 08 |
+| [memory-profile-updated-from-thread.png](img/memory-profile-updated-from-thread.png) | 08 |
+| [memory-known-problems-contradiction-duplication-ambiguity.png](img/memory-known-problems-contradiction-duplication-ambiguity.png) | 09 |
 | [agent-loop-state-model-tools-hooks.png](img/agent-loop-state-model-tools-hooks.png) | 03 |
 | [agent-harness-loop-hooks-limits.png](img/agent-harness-loop-hooks-limits.png) | 14 |
 | [agent-logic-to-harness-or-tools.png](img/agent-logic-to-harness-or-tools.png) | 13 |

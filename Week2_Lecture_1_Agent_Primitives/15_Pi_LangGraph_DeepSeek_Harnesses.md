@@ -58,7 +58,7 @@ The lecture's "DeepSeek Harness" is arXiv 2608.25512, "A Programming Paradigm fo
 ## 4. What I take
 
 - **Different layers, not rivals.** A graph fits when control flow is the product. Pi fits when the loop is standard and value is in tools. A composition layer matters when components change while the agent runs.
-- **Rollback for agent-written tools.** Removing a saved integration must undo what it changed ([10](draft_10_Tools_Awareness_Discovery_Gateway.md)). A restart discards state.
+- **Rollback for agent-written tools.** Removing a saved integration must undo what it changed ([07](draft_07_Context_Tool_Awareness_Avoids_Compression.md)). A restart discards state.
 - **Checkpoint granularity.** LangGraph resumes at a super-step boundary. Pi persists per turn but documents no crash resume. Compare [04](04_HITL_And_Execution_Isolation.md) and [11](draft_11_Tool_Approval_Durable_Waits.md).
 
 ## Summary

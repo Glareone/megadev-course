@@ -1,17 +1,17 @@
-# 8. Memory fails in three known ways, and each can be counted and beaten
+# 9. Memory fails in three known ways, and each can be counted and beaten
 
 > The lecture names contradiction, duplication and ambiguity as the hard part of memory; the lecturer's memory-extraction example turns them into counters over six dated chats and shows that an append-only profile keeps a stale city, mixes two people and stores paraphrases twice, while one document per person with replace-by-key and a held note removes most of that, so I keep the counters in my evals and treat identity, supersede and a hold state as the fixes.
 
-Related: [07 Memory](07_Memory.md) · [09 Memory audit ledger](09_Memory_Audit_Ledger_In_Memory_Or_State.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [10 Tools: awareness, discovery, gateway](draft_10_Tools_Awareness_Discovery_Gateway.md)
+Related: [08 Memory](08_Memory.md) · [10 Memory audit ledger](10_Memory_Audit_Ledger_In_Memory_Or_State.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [06 Context window and compaction](06_Context_Window_And_Compaction.md) · [07 Tools: awareness, discovery, gateway](draft_07_Context_Tool_Awareness_Avoids_Compression.md)
 
-Source: S02E01 article, "Context and Memory" (figures 20 and 21). The lecturer's [memory-extraction example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/memory-extraction): README, `memory.ts`, `memory.test.ts`, `api.ts`, `index.ts` and the UI read in full by a fetch agent on 2026-11-15. Mem0, Zep and Hindsight facts from the research behind [07](07_Memory.md). See [Fact-check](#fact-check).
+Source: S02E01 article, "Context and Memory" (figures 20 and 21). The lecturer's [memory-extraction example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/memory-extraction): README, `memory.ts`, `memory.test.ts`, `api.ts`, `index.ts` and the UI read in full by a fetch agent on 2026-11-15. Mem0, Zep and Hindsight facts from the research behind [08](08_Memory.md). See [Fact-check](#fact-check).
 
 ## Glossary
 
 | Term | What it means here | Same thing elsewhere | Not to be confused with |
 |---|---|---|---|
-| Contradiction | A new statement conflicts with a stored value | Mem0 DELETE or UPDATE, Zep invalidation | Duplication |
-| Duplication | The same fact stored twice, often as a paraphrase | Mem0 NOOP, Hindsight merge | A repeat that changes nothing |
+| Contradiction | A new statement conflicts with a stored value | Mem0 paper UPDATE or DELETE, Zep invalidation | Duplication |
+| Duplication | The same fact stored twice, often as a paraphrase | Mem0 hash dedup, Hindsight merge | A repeat that changes nothing |
 | Ambiguity | A fact cannot be tied to one owner | Two clients with the same name | Contradiction |
 | Stale fact | A stored value that no longer matches the expected one | The example's `stale` counter | An old fact kept on purpose with its history |
 | Held note | A fact kept aside until its owner is known | The example's `pending` | A stored fact |
@@ -67,8 +67,8 @@ The test uses a mock model with scripted outputs, so its numbers show the scorin
 
 | Problem | Detect | Fix | Evidence |
 |---|---|---|---|
-| Contradiction | `stale` counter on a labelled chat | Replace by key or supersede and keep the old value. State the rule in the extraction prompt ("a move replaces an old city") | The example; Zep invalidates contradicted edges, Mem0 deletes them |
-| Duplication | `duplicates` counter | Normalize, then compare. "A paraphrase of a stored fact is not new". Merge near-duplicates | Example prompt; Hindsight merges at 0.97 by default; Mem0 NOOP. A synonym map does not scale: a judge or embeddings is my reasoning |
+| Contradiction | `stale` counter on a labelled chat | Replace by key or supersede and keep the old value. State the rule in the extraction prompt ("a move replaces an old city") | The example; Zep invalidates contradicted edges. Mem0 OSS v3 never overwrites: it adds, ranks the current fact first and dedups by hash |
+| Duplication | `duplicates` counter | Normalize, then compare. "A paraphrase of a stored fact is not new". Merge near-duplicates | Example prompt; Hindsight merges at 0.97 by default; Mem0 hash dedup catches exact copies only. A synonym map does not scale: a judge or embeddings is my reasoning |
 | Ambiguity | `crossPerson` and `pending` | Identity comes from the session, never from the model. Hold the note until the owner is known | Example: the profile mode ignores the model's person. It never resolves the unattributed chat |
 | Temporary facts | A labelled chat with an end date | Skip or store with an expiry | Example skips them by a hard-coded rule |
 | Change over time | Ask "what was true in September" | Keep history with valid-from and valid-to | Zep bi-temporal edges |
@@ -100,7 +100,7 @@ Contradiction, duplication and ambiguity can each be counted on a labelled set o
 | 2 | The example scores retained, stale, duplicates, crossPerson, pending, requests and cost | **Agrees** | [memory.ts](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/memory-extraction) read in full, `index.ts`, `api.ts` | 2026-11-15 |
 | 3 | The example uses confidence scores | **Differs**: it does not | No confidence, similarity or recency found. Binary hold only | 2026-11-15 |
 | 4 | The example's numbers show how models behave | **Differs** | `memory.test.ts` uses a mock model with scripted outputs. No live results in the README | 2026-11-15 |
-| 5 | Zep invalidates contradicted edges, Mem0 deletes them | **Agrees** | [Zep](https://arxiv.org/abs/2501.13956), [Mem0](https://arxiv.org/abs/2504.19413), see [07](07_Memory.md) | 2026-11-15 |
+| 5 | Zep invalidates contradicted edges, Mem0 deletes them | **Agrees** for Zep, **Outdated** for Mem0 | [Zep](https://arxiv.org/abs/2501.13956). Mem0's paper and OSS v2 decided UPDATE or DELETE, current OSS v3 is ADD-only, see [08](08_Memory.md) section 7 | 2026-11-15 |
 | 6 | Hindsight merges near-duplicates at 0.97 | **Agrees**, vendor | [Hindsight observations](https://hindsight.vectorize.io/developer/observations) | 2026-11-15 |
 | 7 | Confidence thresholds beat the problems | **Unverified**, my proposal | No source or test | 2026-11-15 |
 

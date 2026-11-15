@@ -249,8 +249,8 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 | [Pi](https://github.com/earendil-works/pi) | Minimal terminal agent harness, loop in `packages/agent` | [15](Week2_Lecture_1_Agent_Primitives/15_Pi_LangGraph_DeepSeek_Harnesses.md), [16](Week2_Lecture_1_Agent_Primitives/16_Loop_Hooks_Declared.md) |
 | [Goose](https://github.com/aaif-goose/goose) | Open-source agent harness named as a loop implementation | [03](Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) (loop source not read) |
 | DeepSeek Harness paper ([arXiv 2608.25512](https://arxiv.org/abs/2608.25512)) | A composability paper, not an agent harness | [15](Week2_Lecture_1_Agent_Primitives/15_Pi_LangGraph_DeepSeek_Harnesses.md) |
-| [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [07](Week2_Lecture_1_Agent_Primitives/07_Memory.md) |
-| [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [10](Week2_Lecture_1_Agent_Primitives/draft_10_Tools_Awareness_Discovery_Gateway.md) |
+| [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [08](Week2_Lecture_1_Agent_Primitives/08_Memory.md) |
+| [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [07](Week2_Lecture_1_Agent_Primitives/draft_07_Context_Tool_Awareness_Avoids_Compression.md) |
 | [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [12](Week2_Lecture_1_Agent_Primitives/draft_12_Evals_And_Traces_For_Agent_Changes.md) |
 
 ## Repository rules

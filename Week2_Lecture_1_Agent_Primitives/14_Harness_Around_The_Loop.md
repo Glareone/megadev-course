@@ -2,7 +2,7 @@
 
 > A run is woken by an external event, intercepted by hooks at six points, bounded by limits (permissions, sandbox, budgets, deadlines, cancellation) and recorded by history, memory and observability: that surrounding set is the harness.
 
-Related: [03 Agent loop, exits, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [15 Pi, LangGraph and the DeepSeek paper](15_Pi_LangGraph_DeepSeek_Harnesses.md) · [16 Loop hooks declared](16_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [07 Memory](07_Memory.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [03 Agent loop, exits, limits, recovery](03_Agent_Loop_Stop_Limits_Recovery.md) · [15 Pi, LangGraph and the DeepSeek paper](15_Pi_LangGraph_DeepSeek_Harnesses.md) · [16 Loop hooks declared](16_Loop_Hooks_Declared.md) · [04 HITL and execution isolation](04_HITL_And_Execution_Isolation.md) · [08 Memory](08_Memory.md) · [11 Tool approval, durable waits](draft_11_Tool_Approval_Durable_Waits.md) · [12 Evals and traces](draft_12_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, figure 1. Hook mapping is my own reasoning. Checked 2026-11-15, see [Fact-check](#fact-check).
 
@@ -69,7 +69,7 @@ Check the mapping against the [hooks reference](https://code.claude.com/docs/en/
 | Band | The figure says | Note |
 |---|---|---|
 | History | Records each intent before its effect and each result after it | [04](04_HITL_And_Execution_Isolation.md), [11](draft_11_Tool_Approval_Durable_Waits.md) |
-| Memory | Read when context is built, written through tools | [07](07_Memory.md) |
+| Memory | Read when context is built, written through tools | [08](08_Memory.md) |
 | Observability | One trace across every step: logs, tokens, cost, time | [12](draft_12_Evals_And_Traces_For_Agent_Changes.md) |
 
 Important:

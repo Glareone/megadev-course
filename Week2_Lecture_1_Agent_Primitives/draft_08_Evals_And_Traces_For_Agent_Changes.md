@@ -2,24 +2,31 @@
 
 > A trace tells me which step went wrong (the tool result or the model's use of it). A small set of behaviour-based eval cases, rerun after every change to instructions, tools, memory settings or model, tells me whether the agent still behaves, and which smallest model passes.
 
-Related: [01 Agent loop, stop limits, recovery](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [03 Instructions, five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory: extraction, retrieval](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) · [Lecture 5: 02 Before the merge](../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md)
+Related: [01 Agent loop, stop limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [03 Instructions, five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory: extraction, retrieval](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) · [Lecture 5: 02 Before the merge](../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md)
 
 Source: S02E01 article (the "Personality and Environmental Awareness" part and its prompt-eval loop figure), S02E01 transcript (a retail-agent demo in Mastra, used only as a worked example: trace view, `maxSteps`, three eval cases), the lecture's `prompt-eval-loop` and `loop-error-recovery` examples read on 2026-11-15 as fetched page summaries (not the code). LangSmith, LangGraph, OpenTelemetry, Semantic Kernel, promptfoo, Inspect and Anthropic docs checked on 2026-11-15. See [Fact-check](#fact-check).
+
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Trace | The record of one run: every step, model call and tool call with inputs and outputs | - | A log line, or the chat transcript |
+| Step | One model call in the loop. That call may request several tools | - | One tool call; a LangGraph superstep |
+| Eval case | A request plus a check on behaviour | - | A unit test on an exact string |
+| Scorer | Code or a model that turns a run into pass or fail | - | The model that drafts the prompt |
+| Superstep | One round of node execution in a LangGraph graph. A model node and a tools node are usually two | Not the same as the lecture's step (one model call) | - |
+| Golden set | A fixed set of cases with known expected behaviour, used to judge every change | Phoenix and Arize: golden dataset. LangSmith: offline dataset | - |
+| Experiment | One run of the agent as a task over a dataset, scored by evaluators | Phoenix: experiment. LangSmith: offline evaluation | - |
+| Evaluator | Code or a model that scores one run | The lecture's scorer | - |
+| LLM judge | A model that scores a run against a rubric. Still probabilistic | Phoenix `create_classifier`, LangSmith LLM-judge evaluator | - |
+| Held-out set | Cases kept out of prompt tuning to test generalization | Test set | - |
+| Self-revision test | A case that asks the agent what it can and cannot do and checks the answer against the registry | No standard name found: my term | - |
 
 ## 1. The problem
 
 An agent is shaped by instructions, tools, memory settings and a model. Change one, and behaviour moves in places I did not look. Two questions follow. **When an answer is wrong, where did it come from? After a change, how do I know nothing else broke?** The lecturer's point: many people treat agents as black boxes, and engineers need to look inside.
 
-## 2. Words
-
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Trace | The record of one run: every step, model call and tool call with inputs and outputs | A log line, or the chat transcript |
-| Step | One model call in the loop. That call may request several tools | One tool call; a LangGraph superstep |
-| Eval case | A request plus a check on behaviour | A unit test on an exact string |
-| Scorer | Code or a model that turns a run into pass or fail | The model that drafts the prompt |
-
-## 3. A trace is one run, read step by step
+## 2. A trace is one run, read step by step
 
 In the lecture demo the trace of one customer turn has this order: history loaded from memory, model steps (numbered from 0), tool calls as nested entries, conversation saved for the next message.
 
@@ -40,7 +47,7 @@ Important:
 
 Not important: the studio UI. Any trace viewer shows the same tree.
 
-## 4. The debugging rule
+## 3. The debugging rule
 
 ```mermaid
 flowchart TD
@@ -52,7 +59,7 @@ flowchart TD
 
 The lecturer's version: if the shoe size was wrong in the tool result, check the lookup code or the stored order. If it was right in the tool result and wrong in the answer, investigate how the agent used it. In the demo the odd behaviour (asking for exchange details the agent could not process) was traced to the instructions, which told it to collect replacement details. The fix was an instruction change, with model, order and tools left the same.
 
-## 5. Step limits are measured, not guessed
+## 4. Step limits are measured, not guessed
 
 The lecture's definition: "A step is a call to the model and that call can request more than one tool. So five steps doesn't mean five tool calls." The limit is a maximum, not a target. To choose it, run scenarios and measure steps to success. In the demo the agent needed two steps, and a limit of five gave buffer.
 
@@ -65,7 +72,7 @@ These differ. A ReAct loop in LangGraph usually takes one superstep for the mode
 
 Tuning rule, mine: take the p95 of steps over the success cases and add headroom. The lecture's `loop-error-recovery` example uses a fixed three-step task and does not state a general limit (page summary), so it gives no number to copy.
 
-## 6. Behaviour-based eval cases
+## 5. Behaviour-based eval cases
 
 An eval gives the agent a request and checks behaviour against what I expect. The lecture's cases use a test customer and known orders, so the expected facts are known. Each case describes behaviour, not one exact sentence.
 
@@ -88,7 +95,7 @@ Where each check comes from:
 
 The ownership rule itself is enforced in code, so the eval confirms the whole path still holds after I change the prompt.
 
-## 7. Self-revision cases: can the agent say what it can and cannot do
+## 6. Self-revision cases: can the agent say what it can and cannot do
 
 The three cases above test what the agent does. A fourth kind tests what it says about itself. With MCP tools, internal tools, A2A sub-agents, skills and a TODO list in play, the end user needs a correct answer to "what can you do, and how?".
 
@@ -118,7 +125,7 @@ flowchart LR
 
 Where the data comes from in a Phoenix-based setup, which is my reference stack: a golden dataset holds the questions, an experiment runs the agent as the task over that dataset, and evaluators (code or an LLM judge) score each run. The Phoenix evals library ships LLM-as-judge classifiers, and its docs describe experiments that take a dataset, a task function and a list of evaluators ([Phoenix evals](https://arize.com/docs/ax/integrations/evaluation-integrations/phoenix-evals), search summary: Arize AX and open-source Phoenix use somewhat different APIs, so verify before presenting). The registry-derived expected list is generated when the dataset is built or when the experiment starts. How MCP and A2A expose the capability lists (`tools/list`, the Agent Card skills field) is unverified: verify before presenting.
 
-## 8. Rerun after every change
+## 7. Rerun after every change
 
 Instructions, tool descriptions, memory settings (history length, working memory on or off) and the model all move behaviour. The suite is cheap compared with finding a regression in production. The lecturer says evals are covered in detail in a later chapter, so the demo shows only the idea.
 
@@ -132,7 +139,7 @@ flowchart LR
     style R fill:#2a7,stroke:#2a7,color:#fff
 ```
 
-## 9. The prompt-eval loop and the smallest passing model
+## 8. The prompt-eval loop and the smallest passing model
 
 The lecture's figure: start simple, let the model draft the prompt, verify the results or score them with evals, refine with the model, repeat until the prompt is clean, well generalized and holds only what is needed. The first version working is likely, the goal is "right".
 
@@ -140,7 +147,7 @@ The `prompt-eval-loop` example, from the fetched page: 20 labeled support messag
 
 Picking the model follows from the same suite. The lecture's recommendation, as I read it, is to start with the smallest model that passes. Anthropic's guide offers it as one of two valid starts: "start efficiency-first" with the lowest tier, test, upgrade only for specific gaps, or "start capability-first" and optimize down later. It also says a good evaluation set is "the most important step" and that tuning effort is often a better lever than switching models.
 
-## 10. How tools compare
+## 9. How tools compare
 
 | Need | LangSmith | OpenTelemetry GenAI | Semantic Kernel | promptfoo / Inspect |
 |---|---|---|---|---|
@@ -158,18 +165,6 @@ OpenTelemetry's GenAI conventions are not stable: the spec pages list Developmen
 - A self-revision case asks the agent what it can and cannot do and checks the answer against the live capability registry, so an invented, missed or stale capability fails.
 - Behaviour evals check tools called, correct facts, no leak and no false claims, then rerun after each change to instructions, tools, memory or model.
 - The same suite picks the smallest model that passes and drives the prompt-refinement loop.
-
-## Glossary
-
-| Term | What it means here | Same thing elsewhere |
-|---|---|---|
-| Superstep | One round of node execution in a LangGraph graph. A model node and a tools node are usually two | Not the same as the lecture's step (one model call) |
-| Golden set | A fixed set of cases with known expected behaviour, used to judge every change | Phoenix and Arize: golden dataset. LangSmith: offline dataset |
-| Experiment | One run of the agent as a task over a dataset, scored by evaluators | Phoenix: experiment. LangSmith: offline evaluation |
-| Evaluator | Code or a model that scores one run | The lecture's scorer |
-| LLM judge | A model that scores a run against a rubric. Still probabilistic | Phoenix `create_classifier`, LangSmith LLM-judge evaluator |
-| Held-out set | Cases kept out of prompt tuning to test generalization | Test set |
-| Self-revision test | A case that asks the agent what it can and cannot do and checks the answer against the registry | No standard name found: my term |
 
 ## Open questions
 
@@ -206,7 +201,7 @@ OpenTelemetry's GenAI conventions are not stable: the spec pages list Developmen
 - [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/graph-api).
 - [OpenTelemetry GenAI conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) and the [moved repository](https://github.com/open-telemetry/semantic-conventions-genai).
 - [Semantic Kernel observability](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/observability).
-- [Phoenix evals](https://arize.com/docs/ax/integrations/evaluation-integrations/phoenix-evals). Section 7 (self-revision cases) is my own design.
+- [Phoenix evals](https://arize.com/docs/ax/integrations/evaluation-integrations/phoenix-evals). Section 6 (self-revision cases) is my own design.
 - [promptfoo assertions](https://www.promptfoo.dev/docs/configuration/expected-outputs/), [Inspect](https://inspect.aisi.org.uk/).
 - [Anthropic: choosing a model](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model).
 - My own reasoning: the superstep mapping, the p95 tuning rule, the check-kind table, the open questions.

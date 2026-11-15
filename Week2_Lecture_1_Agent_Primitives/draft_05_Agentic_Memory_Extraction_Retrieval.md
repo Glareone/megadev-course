@@ -6,21 +6,21 @@ Related: [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isola
 
 Source: S02E01 article "Agentic Primitives", section "Context and Memory" (figures 19 to 23), plus the Mastra retail-agent demo in the S02E01 transcript used only as a worked example; sources checked 2026-11-15, see [Fact-check](#fact-check).
 
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Thread | The ordered messages of one conversation | - | Memory: a thread is raw history, memory is distilled and cross-thread |
+| Retention window | How many recent messages I still send to the model | - | Memory: the window forgets by position, memory forgets by decision |
+| Profile | One mutable document of facts about a user or client | - | A collection of separate documents (section 3) |
+| Extraction | Turning thread content into stored memory | - | Retrieval: reading it back |
+| Recall | Choosing which memories enter this turn's context | - | Search: recall is search plus ranking plus the thread |
+
 ## 1. The problem
 
 Users ask for memory more than for most features, yet a model only sees what is in its context window. So the question is: **what has to exist around the model so that something said last week changes today's answer, and stays correct when the user changes their mind?** The article splits it into four parts. Each one fails in its own way.
 
-## 2. Words
-
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Thread | The ordered messages of one conversation | Memory: a thread is raw history, memory is distilled and cross-thread |
-| Retention window | How many recent messages I still send to the model | Memory: the window forgets by position, memory forgets by decision |
-| Profile | One mutable document of facts about a user or client | A collection of separate documents (section 4) |
-| Extraction | Turning thread content into stored memory | Retrieval: reading it back |
-| Recall | Choosing which memories enter this turn's context | Search: recall is search plus ranking plus the thread |
-
-## 3. Four parts of agentic memory
+## 2. Four parts of agentic memory
 
 The lecturer's decomposition: memory is a store, a write path, a read path and a presentation layer. Failures sit in different parts, so I debug them separately.
 
@@ -45,7 +45,7 @@ flowchart TB
 
 Industry check: the four parts map cleanly onto both stacks. Lecture-specific is the emphasis on **context** as its own part; LangMem calls it the memory tools, Semantic Kernel calls it the context prompt.
 
-## 4. Extraction: background call or explicit tool call, profile or documents
+## 3. Extraction: background call or explicit tool call, profile or documents
 
 Two independent choices. **When and who writes:** a background LLM request after the turn, or a tool call the agent makes itself. **What shape is written:** an update to one profile, or separate categorized documents linked to existing ones.
 
@@ -69,7 +69,7 @@ Concrete evidence from the lecture (figure 20): the thread says "I prefer short 
 
 Worked example from the transcript (a Mastra demo, used only for the pattern): working memory is off by default; the agent gets explicit save and read preference tools, and storage is per customer. The pattern I keep is the choice to make writes an explicit, visible tool call scoped to one customer, not the framework.
 
-## 5. Three problems: contradiction, duplication, ambiguity
+## 4. Three problems: contradiction, duplication, ambiguity
 
 Storing a preference is easy. Keeping one current, single, clearly owned value over time is the hard part. The lecturer's figure 21 shows three failures on one profile.
 
@@ -90,7 +90,7 @@ flowchart LR
 
 Evidence: the lecture says most of this is unsolved, "partly because of the cost of background processing, but also because the whole process is so complex". The confidence-score idea is lecture-specific practice, not a documented standard.
 
-## 6. Recall: fast, contextual, efficient
+## 5. Recall: fast, contextual, efficient
 
 Retrieval has to be quick, relevant to the task, and cheap in tokens. The lecturer's point: the latest message alone usually cannot find the right memory, so recall needs **the thread plus a global profile or map**.
 
@@ -108,7 +108,7 @@ Evidence (figure 23): the profile says client Acme Logistics, Enterprise plan, n
 
 Industry check: Semantic Kernel's `Mem0Provider` queries Mem0 "for memories matching the provided user request" on each invocation. That is the request-only case the lecture calls insufficient, so a custom provider that builds the query from the thread and a profile is the usual fix. Lecture-specific design advice; I found no vendor doc that states this rule.
 
-## 7. Retention window is not memory
+## 6. Retention window is not memory
 
 A retention window (last N messages) forgets by position. Memory forgets by decision. A compacted summary sits between them (see [04](draft_04_Context_Window_Cache_Compaction.md)).
 
@@ -129,9 +129,9 @@ The transcript's demo agent shows the same split inside one framework's `memory`
 | `semanticRecall: false` | Retrieve past messages by meaning, not keywords | Recall by embedding search | AI Search |
 | `workingMemory.enabled: false` | Facts kept across conversations | Memory (profile) | Near-field knowledge store |
 
-The lecturer turned automatic working memory off and registered two explicit tools, `readPreference` and `savePreference`. The save tool takes categories such as shoe size and shirt size, saves only when the customer asks, and stores each category per customer. His reason: a remembered order number could decide which purchase the next request is about. That is an extraction policy (explicit tool call, scoped schema), not a retrieval setting, so it belongs to section 4. MCP tools are external capabilities, not memory (see [06](draft_06_Tools_Awareness_Discovery_Code_Mode.md)). The option meanings come from the transcript narration only; the demo framework's docs were not read, and its storage backends are verify before presenting.
+The lecturer turned automatic working memory off and registered two explicit tools, `readPreference` and `savePreference`. The save tool takes categories such as shoe size and shirt size, saves only when the customer asks, and stores each category per customer. His reason: a remembered order number could decide which purchase the next request is about. That is an extraction policy (explicit tool call, scoped schema), not a retrieval setting, so it belongs to section 3. MCP tools are external capabilities, not memory (see [06](draft_06_Tools_Awareness_Discovery_Code_Mode.md)). The option meanings come from the transcript narration only; the demo framework's docs were not read, and its storage backends are verify before presenting.
 
-## 8. Existing projects and what each teaches
+## 7. Existing projects and what each teaches
 
 The lecturer: most are open source, so I can read their code with an agent. I compare them by the part they own.
 
@@ -177,7 +177,7 @@ Four parts, four failure modes. Extraction by background call or tool call is a 
 | 6 | lamarck is a source of inspiration for memory | **Agrees, with scope** | [lamarck README](https://github.com/johnlindquist/lamarck): offline CLI that writes `MEMORY.md`; it does not recall at runtime | 2026-11-15 |
 | 7 | Joel Hooks built an observation pipeline so his AI remembers yesterday | **Unverified** | [joelclaw.com article](https://joelclaw.com/observation-pipeline-persistent-ai-memory) did not resolve; only search summaries of his repo's memory-system skill (observe, reflect, promote); verify before presenting | 2026-11-15 |
 | 8 | Extraction runs as a background LLM request or as explicit tool calls | **Agrees** | [LangChain memory concepts](https://docs.langchain.com/oss/python/concepts/memory): hot path and background | 2026-11-15 |
-| 9 | Memories are stored as profile updates or as separate documents | **Agrees** | Same page: profile vs collection, with the trade-offs in section 4 | 2026-11-15 |
+| 9 | Memories are stored as profile updates or as separate documents | **Agrees** | Same page: profile vs collection, with the trade-offs in section 3 | 2026-11-15 |
 | 10 | Recall needs the thread and a global profile, not the last message alone | **Lecture-specific (opinion)** | Lecture figure 23; consistent with the request-only query in the Semantic Kernel Mem0 provider | 2026-11-15 |
 | 11 | Confidence scores or temporary notes handle ambiguity | **Lecture-specific (opinion)** | Lecture text; no vendor doc read. Search summary says Hooks' pipeline stores a write confidence per observation, unverified | 2026-11-15 |
 
@@ -188,4 +188,4 @@ Four parts, four failure modes. Extraction by background call or tool call is a 
 - [Semantic Kernel: adding memory to agents](https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/agent-memory)
 - [Anthropic: memory tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool)
 - [Hindsight](https://hindsight.vectorize.io/) · [mem0](https://mem0.ai/) · [supermemory](https://supermemory.ai/) · [lamarck](https://github.com/johnlindquist/lamarck)
-- My own reasoning: the retention-window table in section 7 and the mapping tables in sections 3 to 5.
+- My own reasoning: the retention-window table in section 6 and the mapping tables in sections 2 to 4.

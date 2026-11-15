@@ -2,25 +2,29 @@
 
 > When I understand the loop and the parts around it, an improvement to an agent is one of three moves (add a tool, adjust the harness at an extension point, or leave the framework's paradigm for the part it fights), and I pick the smallest move that works for that one part.
 
-Related: [01 Agent loop, stop, limits, recovery](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [03 Instructions](03_Instructions_Five_Parts_And_Enforcement.md) · [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
+Related: [01 Agent loop, stop, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [03 Instructions](03_Instructions_Five_Parts_And_Enforcement.md) · [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 4: 01 Harness lock-in](../Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) · [Lecture 4: 02 Agent runner portability](../Lecture_4_Harness/02_Agent_Runner_Portability.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md)
 
 Source: S02E01 article, intro and figure 4 ("knowledge of agentic logic" and its four uses). LangChain, LangGraph, Pi and Anthropic documents checked on 2026-11-15, see [Fact-check](#fact-check). The three-move ladder and the decision flow are my own reasoning.
+
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Framework | A library that gives me agent abstractions (graphs, nodes, middleware). LangGraph, Semantic Kernel | - | A harness |
+| Harness | Everything around the loop: wake, context, limits, hooks, history, memory, observability (see [01](01_Agent_Loop_Stop_Limits_Recovery.md)) | - | The loop alone |
+| Agentic tool | An agent used for myself or shipped as a product feature | - | A tool the model calls |
+| Extension point | A place the framework or harness lets me add behaviour without forking it (a hook, middleware, a plugin) | - | A fork or a patch |
+| Paradigm | The way the framework wants control flow expressed, such as a graph of nodes | Graph of nodes in LangGraph | The model or the prompt |
+| Middleware | Code wrapped around the model call, the tool call or the whole agent run | LangChain `create_agent` middleware, Semantic Kernel filters, Claude Code hooks | - |
+| Extension | A module loaded into a harness to add tools and subscribe to events | Pi extensions | - |
+| Functional API | LangGraph's way to write control flow as ordinary code with `entrypoint` and `task` | Graph API is the node-and-edge form | - |
+| Durable execution | A run that can stop and resume from saved progress | LangGraph checkpointer, see [07](draft_07_Tool_Approval_Durable_Waits.md) | - |
 
 ## 1. The problem
 
 The lecture says the point of learning the primitives is that I can "either create a harness from scratch or customize a harness at any level", and build agentic tools for myself or for a product. I already run a framework. **When I want to improve an agent, or upgrade or replace that framework, which move fits, and what do I need to understand to choose well?**
 
-## 2. Words
-
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Framework | A library that gives me agent abstractions (graphs, nodes, middleware). LangGraph, Semantic Kernel | A harness |
-| Harness | Everything around the loop: wake, context, limits, hooks, history, memory, observability (see [01](draft_01_Agent_Loop_Stop_Limits_Recovery.md)) | The loop alone |
-| Agentic tool | An agent used for myself or shipped as a product feature | A tool the model calls |
-| Extension point | A place the framework or harness lets me add behaviour without forking it (a hook, middleware, a plugin) | A fork or a patch |
-| Paradigm | The way the framework wants control flow expressed, such as a graph of nodes | The model or the prompt |
-
-## 3. What the figure says
+## 2. What the figure says
 
 ![The lecture's figure. One box, agentic logic: patterns and options, sends four arrows. Two go into a frame named Harnesses: build from scratch (your own harness) and customize at any level (an existing harness). Two go into a frame named Agentic tools: for your own use (agents for yourself) and as product features (for clients). Caption: an agent is more than a loop; when you know the patterns of agentic logic, you can build or customize a harness, and build agentic tools for yourself or for a product.](img/agent-logic-to-harness-or-tools.png)
 
@@ -32,7 +36,7 @@ Important:
 
 Not important: the line routing, the frame borders, the corner pattern.
 
-## 4. Three moves, smallest first
+## 3. Three moves, smallest first
 
 The lecture's two harness boxes become, in my reading, three moves for an agent I already run.
 
@@ -58,7 +62,7 @@ flowchart TD
 
 Stepping out of the paradigm does not mean losing persistence. In the Functional API a task can be called from an entrypoint, another task or a Graph API node. Replay starts at the entrypoint and restores completed task results from the checkpointer, and `interrupt` works inside an entrypoint when a checkpointer is passed ([Functional API](https://docs.langchain.com/oss/python/langgraph/functional-api), page read). So I can write one part as ordinary code and keep resume.
 
-## 5. What industry sources say
+## 4. What industry sources say
 
 Anthropic's "Building effective agents" advises starting with LLM APIs directly. Frameworks simplify calling the model, defining tools and chaining calls, but add layers that can obscure the prompts and responses and make debugging harder, so a team that uses one should understand the code underneath ([source](https://anthropic.com/engineering/building-effective-agents), search summary). That agrees with the lecture's reason for learning the primitives. Anthropic also sells the API, so the advice is not neutral on the SDK question. The lecture's own line, to prefer official SDKs over multi-provider abstractions, is an opinion (see [Lecture 4: 02](../Lecture_4_Harness/02_Agent_Runner_Portability.md) for the portability trade-off).
 
@@ -70,14 +74,14 @@ Worked example, abstract. The requirement: block a tool call when the caller lac
 | Hook at the tool-call point (a `wrap_tool_call` middleware, a Pi `tool` event, a Claude Code `PreToolUse` hook) | Fits. It blocks whatever the model decides, see [03](03_Instructions_Five_Parts_And_Enforcement.md) |
 | Rewrite the loop | Not needed, so the cost is not justified |
 
-## 6. What I must understand before choosing
+## 5. What I must understand before choosing
 
 Each move needs a different part of the harness to be clear in my head. The earlier notes cover them.
 
 | Before I … | I need to know | Note |
 |---|---|---|
 | Add a tool | How the agent finds and loads it | [06](draft_06_Tools_Awareness_Discovery_Code_Mode.md) |
-| Add a hook | Which points exist and what a hook may do | [01](draft_01_Agent_Loop_Stop_Limits_Recovery.md) section 4 |
+| Add a hook | Which points exist and what a hook may do | [10](draft_10_Harness_Around_The_Loop.md) |
 | Change context or prompts | What is cached and what compaction drops | [04](draft_04_Context_Window_Cache_Compaction.md) |
 | Add an approval step | How the run waits and resumes | [07](draft_07_Tool_Approval_Durable_Waits.md) |
 | Leave the paradigm | What state the framework stored for me, and how I would see a regression | [02](draft_02_Threads_Persistence_Isolation.md), [08](draft_08_Evals_And_Traces_For_Agent_Changes.md) |
@@ -85,16 +89,6 @@ Each move needs a different part of the harness to be clear in my head. The earl
 ## Summary
 
 An agent improvement is a tool, a hook or a different control flow, in that order of cost. Knowing the loop and its harness is what lets me tell which one the problem needs. Leaving the framework's paradigm can be local to one part, and LangGraph's Functional API keeps the same runtime.
-
-## Glossary
-
-| Term | What it means here | Same thing elsewhere |
-|---|---|---|
-| Middleware | Code wrapped around the model call, the tool call or the whole agent run | LangChain `create_agent` middleware, Semantic Kernel filters, Claude Code hooks |
-| Extension | A module loaded into a harness to add tools and subscribe to events | Pi extensions |
-| Functional API | LangGraph's way to write control flow as ordinary code with `entrypoint` and `task` | Graph API is the node-and-edge form |
-| Durable execution | A run that can stop and resume from saved progress | LangGraph checkpointer, see [07](draft_07_Tool_Approval_Durable_Waits.md) |
-| Paradigm | How a framework wants control flow expressed | Graph of nodes in LangGraph |
 
 ## Fact-check
 

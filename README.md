@@ -241,6 +241,18 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 | [T3 Code](https://github.com/pingdotgg/t3code) | The lecturer's GUI harness for Codex, Claude and others | [02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md#how-the-sol-loop-got-here-seven-edits) |
 | [Matt Pocock's skills](https://github.com/mattpocock/skills) | Includes the grilling skill used to settle a plan with the agent | [08](Lecture_5_Workflows_not_tool_sets/08_Skills_As_Building_Blocks.md) |
 
+### Tools the lecturer names (S02E01)
+
+| Name | What it does | Notes |
+|---|---|---|
+| [AI SDK](https://vercel.com/ai-sdk) | Vercel's TypeScript toolkit for multi-provider model calls, tools and agent loops. The lecturer prefers official SDKs over it | [13](Week2_Lecture_1_Agent_Primitives/draft_13_AI_SDK_Or_Official_SDKs.md) |
+| [Pi](https://github.com/earendil-works/pi) | Minimal terminal agent harness, loop in `packages/agent` | [11](Week2_Lecture_1_Agent_Primitives/draft_11_Pi_LangGraph_DeepSeek_Harnesses.md), [12](Week2_Lecture_1_Agent_Primitives/draft_12_Loop_Hooks_Declared.md) |
+| [Goose](https://github.com/aaif-goose/goose) | Open-source agent harness named as a loop implementation | [01](Week2_Lecture_1_Agent_Primitives/01_Agent_Loop_Stop_Limits_Recovery.md) (loop source not read) |
+| DeepSeek Harness paper ([arXiv 2608.25512](https://arxiv.org/abs/2608.25512)) | A composability paper, not an agent harness | [11](Week2_Lecture_1_Agent_Primitives/draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) |
+| [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [05](Week2_Lecture_1_Agent_Primitives/draft_05_Agentic_Memory_Extraction_Retrieval.md) |
+| [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [06](Week2_Lecture_1_Agent_Primitives/draft_06_Tools_Awareness_Discovery_Code_Mode.md) |
+| [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [08](Week2_Lecture_1_Agent_Primitives/draft_08_Evals_And_Traces_For_Agent_Changes.md) |
+
 ## Repository rules
 
 The rules for working in this repo are in [AGENTS.md](AGENTS.md). [CLAUDE.md](CLAUDE.md) only imports it. The main ones:

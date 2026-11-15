@@ -2,58 +2,52 @@
 
 > A harness persists threads, artifacts, permissions and more, and each kind needs its own access rule (agent reads, agent writes, user grants); once more than one user shares the runtime, the filesystem is not a boundary, so isolation has to be enforced by the sandbox and the host, not by the agent.
 
-Related: [01 Agent loop, limits and recovery](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory: extraction and retrieval](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 4: 04 Computers.md fleet infrastructure](../Lecture_4_Harness/04_Computers_md_Fleet_Infrastructure.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
+Related: [01 Agent loop, limits and recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [03 Instructions: five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory: extraction and retrieval](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 4: 04 Computers.md fleet infrastructure](../Lecture_4_Harness/04_Computers_md_Fleet_Infrastructure.md) · [Lecture 4: 07 Multi-agent coordination](../Lecture_4_Harness/07_Multi_Agent_Coordination.md)
 
 Source: S02E01 article, sections "Threads and sessions" and "Persistence" (figures 7, 8, 10). S02E01 transcript only for the worked example of a deterministic access check inside a tool. Claude Agent SDK hosting and sandboxing docs, Pi session docs, LangGraph persistence docs checked on 2026-11-15, see [Fact-check](#fact-check).
+
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Thread | The record of one interaction line: messages, tool calls, results. Can span several sessions | - | A process or an OS thread |
+| Session | One continuous run of the harness on a thread, from start to exit | - | A thread. One thread has many sessions |
+| Subagent thread | A separate thread an agent opens to delegate. Only the answer returns to the parent | A2A: a task under its own `contextId`, in another process | A parallel tool call inside one thread |
+| Checkpoint (LangGraph) | A snapshot of graph state at a super-step, keyed by `thread_id` | - | A saved file the agent can read |
+| Store (LangGraph) | Cross-thread key-value memory with namespaces | - | A checkpointer. The checkpointer is per thread |
+| Sandbox | An OS-enforced boundary around code the agent runs | - | A permission rule. Rules decide, the sandbox enforces |
+| Workspace | The directory (or volume) one user or task works in | - | The sandbox. A workspace is data, a sandbox is a wall |
 
 ## 1. The problem
 
 On my laptop an agent reads and writes my files freely, and that is fine. In a team or production product the same agent serves many users from one runtime. **What does the harness have to persist, who is allowed to read, write or grant each kind of state, and what keeps user A's data away from user B's agent?**
 
-## 2. Words
+## 2. Threads, sessions and subagents
 
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Thread | The record of one interaction line: messages, tool calls, results. Can span several sessions | A process or an OS thread |
-| Session | One continuous run of the harness on a thread, from start to exit | A thread. One thread has many sessions |
-| Subagent thread | A separate thread an agent opens to delegate. Only the answer returns to the parent | A parallel tool call inside one thread |
-| Checkpoint (LangGraph) | A snapshot of graph state at a super-step, keyed by `thread_id` | A saved file the agent can read |
-| Store (LangGraph) | Cross-thread key-value memory with namespaces | A checkpointer. The checkpointer is per thread |
-| Sandbox | An OS-enforced boundary around code the agent runs | A permission rule. Rules decide, the sandbox enforces |
-| Workspace | The directory (or volume) one user or task works in | The sandbox. A workspace is data, a sandbox is a wall |
+The article defines it this way: a thread "can span multiple sessions and involve more than one agent (`subagents`)". Figure 7: a main thread with two sessions, and in session 2 the agent asks a subagent that lives in its own subagent thread.
 
-## 3. Threads, sessions and subagents
+![The lecture's thread figure. A frame "Main Thread" holds Session 1 (the user asks, the agent answers) and Session 2 (the user comes back, the agent asks a subagent and gets an answer). The subagent sits in a separate frame "Subagent Thread". The ask and answer lines to it are red.](img/threads-sessions-subagent-thread.png)
 
-The article defines it this way: a thread "can span multiple sessions and involve more than one agent (`subagents`)". Figure 7 shows a main thread with two sessions, and in session 2 the agent asks a subagent that lives in its own subagent thread.
-
-```mermaid
-flowchart TB
-    subgraph MT["Main thread"]
-        S1["Session 1<br/>user asks, agent answers"]
-        S2["Session 2<br/>user returns, agent delegates"]
-    end
-    ST["Subagent thread<br/>own history"]
-    S1 --> S2
-    S2 -- "task" --> ST
-    ST -- "answer only" --> S2
-    style ST fill:#d44,stroke:#d44,color:#fff
-```
+Source: S02E01 article, figure 7. Caption: "The user comes back, and the main thread goes on in a new session. In session 2, the main thread connects with a subagent thread."
 
 How the real systems store it:
 
 | System | Thread unit | Where it lives | Subagent thread |
 |---|---|---|---|
 | Claude Code / Agent SDK | Session, resumable by ID, forkable | JSONL transcripts under `~/.claude/projects/` (or `CLAUDE_CONFIG_DIR`), one process per session | Separate transcript file per subagent. Community docs describe `subagents/agent-<id>.jsonl`, verify before presenting |
-| Pi | Session file, tree of entries linked by `id` and `parentId` | JSONL under `~/.pi/agent/sessions/`, grouped by working directory | Not the focus of the docs I read |
+| Pi | Session file, tree of entries linked by `id` and `parentId` | JSONL under `~/.pi/agent/sessions/`, grouped by working directory ([session format](https://docs.pi.dev/latest/session-format)) | Not described in the docs I read |
 | LangGraph | `thread_id` in `config["configurable"]`, primary key for checkpoints | Checkpointer backend (SQLite, Postgres, Redis) | Subgraph checkpointer mode: per-invocation (default), per-thread or stateless |
 | Semantic Kernel | `ChatHistory` object or an agent thread abstraction | In memory unless I persist it | My own design |
+| A2A | Task `id` per task, `contextId` groups tasks and messages of one conversation | The remote agent's own store, opaque to the caller | Another process behind its own `contextId` |
+
+**Subagent: sub-thread or separate process?** In my harness a subagent is a peer reached over A2A, a separate process, not a sub-thread inside the parent's process (my design, not the lecture's figure). In the cloud each agent then has its own lifetime, limits, scaling and failure, which an in-process sub-thread does not: the Agent SDK has no per-subagent wall-clock deadline ([01](01_Agent_Loop_Stop_Limits_Recovery.md)). A2A fits the thread model: a `contextId` groups related tasks and messages into one conversation, the server creates the Task `id`, and clients treat `contextId` as opaque ([A2A spec](https://a2a-protocol.org/latest/specification/), search summary, field names differ across spec versions). The parent keeps its own history and the subagent's thread lives behind its own `contextId`. The cost: the parent cannot read the subagent's history from disk, and model routing stops at the A2A boundary ([Lecture 2: 12](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)).
 
 Two architect points:
 
 - **Files are a design choice, not a law.** The lecture says history is "often stored in text files agents can easily read using **bash**". That is true for Claude Code and Pi and it gives the agent cheap self-inspection and search. LangGraph and SK keep state in a database or in objects, which is better for multi-host runs but needs a tool to expose history to the agent. The lecture adds "**not every harness** supports subagents and easy access to threads", which is a fair warning.
 - **Local disk is ephemeral in production.** The Agent SDK hosting guide says transcripts, `CLAUDE.md` memory and working-directory artifacts live on the container filesystem and "none of them survive a container restart, a scale-down, or a move to a different node". Transcripts need a `SessionStore` adapter. The store mirrors transcripts only, not memory files or artifacts.
 
-## 4. What else is persisted, and who may touch it
+## 3. What else is persisted, and who may touch it
 
 The article names more than threads: "attachments, generated artifacts, scripts, skills, permissions, connections, integrations, custom tools". Figure 8 groups them by access level. The grouping is the lecturer's example, and I keep it because it makes the rule explicit.
 
@@ -77,7 +71,7 @@ Evidence in the lecture: generated images should be available to the agent "so i
 
 Mapping to LangGraph: the checkpointer holds thread state, the **store** holds cross-thread data such as user preferences and facts, with namespaces I can scope per user. Permissions and grants are not part of either, so I keep them in my own service. Mapping to Semantic Kernel: function invocation filters are the place where a grant check runs before every call.
 
-## 5. Where the access rule lives: inside the tool
+## 4. Where the access rule lives: inside the tool
 
 The transcript demo gives the cleanest example. The retail agent looks up an order, and the check that the order belongs to the caller sits **in the tool code**, not in the prompt. The lecturer's point, as I read it: the model decides to call `getOrder`, the function decides whether the data may leave the database.
 
@@ -89,7 +83,7 @@ The transcript demo gives the cleanest example. The retail agent looks up an ord
 
 My rule: identity comes from the authenticated session, never from a tool argument the model fills in. The Agent SDK hosting guide gives the same direction for secrets: put authentication at a gateway in front of the agent, and keep tool credentials out of the agent environment behind a proxy that injects them. Detail on enforcement is in [03](03_Instructions_Five_Parts_And_Enforcement.md).
 
-## 6. Separating users: sandbox, workspace, config
+## 5. Separating users: sandbox, workspace, config
 
 The article: "once we go beyond [a single user's machine] ... things get much harder without sandboxes and proper permission management." It does not say how. These are the mechanisms I can verify.
 
@@ -129,7 +123,7 @@ A harness persists threads (often as text files), artifacts and scripts the agen
 | 1 | A thread can span sessions and involve subagents with their own thread | **Agrees** | [Agent SDK sessions and subagents](https://code.claude.com/docs/en/agent-sdk/agent-loop): resume and fork by session ID, a subagent returns only its final response. LangGraph: [subgraph persistence](https://docs.langchain.com/oss/python/langgraph/use-subgraphs), via Context7 | 2026-11-15 |
 | 2 | History is stored as text files agents can read with bash (Claude Code) | **Agrees** | [Hosting the Agent SDK](https://code.claude.com/docs/en/agent-sdk/hosting): "JSONL session transcripts on local disk", `~/.claude/projects/` | 2026-11-15 |
 | 3 | Subagent transcripts are separate files named `agent-<id>.jsonl` in a `subagents/` folder | **Unverified** | Community docs only (search summary, for example [claude-dev.tools](https://claude-dev.tools/docs/transcripts)). Not in the official pages I read. Verify before presenting | 2026-11-15 |
-| 4 | Pi stores sessions as JSONL trees under `~/.pi/agent/sessions/` | **Unverified** | Search summary of versioned npm docs of the Pi coding agent, for example [sessions.md](https://cdn.jsdelivr.net/npm/@mariozechner/pi-coding-agent@0.73.1/docs/sessions.md). The lecture links the `earendil-works/pi` repo, I did not read the repo docs. Verify before presenting | 2026-11-15 |
+| 4 | Pi stores sessions as JSONL trees under `~/.pi/agent/sessions/` | **Agrees** | [Session format](https://docs.pi.dev/latest/session-format), read: JSONL, entries form a tree via `id` and `parentId`, grouped by working directory. Crash resume is not described | 2026-11-15 |
 | 5 | Not every harness supports subagents and easy thread access | **Lecture-specific** | Lecture states it without naming harnesses. Consistent with LangGraph and SK, which store state in backends and need a tool to expose it | 2026-11-15 |
 | 6 | Local state does not survive restarts, so transcripts need external storage | **Agrees** | [Hosting the Agent SDK](https://code.claude.com/docs/en/agent-sdk/hosting), `SessionStore`, "transcripts only" | 2026-11-15 |
 | 7 | LangGraph checkpointer is per thread, store is cross-thread | **Agrees** | [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence), comparison table, via Context7 | 2026-11-15 |
@@ -138,6 +132,8 @@ A harness persists threads (often as text files), artifacts and scripts the agen
 | 10 | Agents get around boundaries | **Agrees** | [Sandboxing](https://code.claude.com/docs/en/sandboxing): `dangerouslyDisableSandbox` retry and `excludedCommands` described as escape hatches | 2026-11-15 |
 | 11 | Sandbox covers the agent's file tools | **Differs** | Sandbox covers Bash, PowerShell and Monitor processes. Built-in Read, Edit, Write and WebFetch are not covered, see [Sandboxing](https://code.claude.com/docs/en/sandboxing). The lecture says only "sandboxes" | 2026-11-15 |
 | 12 | Default Agent SDK sessions are isolated per user | **Differs** | [Hosting](https://code.claude.com/docs/en/agent-sdk/hosting): sessions inherit the app's working directory and read shared settings and memory unless configured | 2026-11-15 |
+| 13 | An A2A `contextId` groups tasks and messages of one conversation, opaque to clients | **Agrees**, search summary | [A2A specification](https://a2a-protocol.org/latest/specification/): field names and bindings differ across v0.2.6, v0.3.0 and v1.0. Verify before presenting | 2026-11-15 |
+| 14 | A subagent is a sub-thread in the parent's process | **Differs** in my design | The lecture draws a subagent thread. My harness runs subagents as separate A2A processes, easier to manage in the cloud | 2026-11-15 |
 
 ## Sources
 
@@ -146,5 +142,5 @@ A harness persists threads (often as text files), artifacts and scripts the agen
 - [Claude Code sandboxing](https://code.claude.com/docs/en/sandboxing)
 - [Claude Agent SDK: how the agent loop works](https://code.claude.com/docs/en/agent-sdk/agent-loop)
 - [LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence) and [subgraphs](https://docs.langchain.com/oss/python/langgraph/use-subgraphs), read through Context7
-- [Pi sessions docs (npm package copy)](https://cdn.jsdelivr.net/npm/@mariozechner/pi-coding-agent@0.73.1/docs/sessions.md), search summary
+- [Pi session format](https://docs.pi.dev/latest/session-format) · [A2A specification](https://a2a-protocol.org/latest/specification/)
 - My own reasoning: the identity-from-session rule, the logical versus physical isolation split, the Semantic Kernel mappings.

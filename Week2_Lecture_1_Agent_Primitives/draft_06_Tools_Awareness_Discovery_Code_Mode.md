@@ -6,20 +6,20 @@ Related: [03 Instructions: five parts and enforcement](03_Instructions_Five_Part
 
 Source: S02E01 article "Agentic Primitives", sections "Tools" (figures 24 to 28) and the tools paragraph of "Agentic Loop" (figures 12, 13); the Mastra retail-agent demo in the S02E01 transcript as a worked example only; sources checked 2026-11-15, see [Fact-check](#fact-check).
 
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Awareness | The agent knows a capability exists, from a name and one line | - | Loading: having the full schema in context |
+| Discovery | Finding and loading the details of one capability | - | Registration: the harness making a tool callable |
+| Function calling | The model emits a structured call per tool; each result returns to the model | - | Code mode, where the model writes a script that calls tools |
+| Gateway | A shared service between agents and many tool servers (registry, proxy, authorization) | - | An MCP server: the gateway fronts many of them |
+
 ## 1. The problem
 
 The lecture asks for two things at once: the agent must be **aware of its capabilities** and must **use them together in as few steps as possible**, without drowning its context. Loading every schema breaks the first; one tool call per round trip breaks the second. How do I get both, and what changes when the catalog grows from 10 tools to thousands?
 
-## 2. Words
-
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Awareness | The agent knows a capability exists, from a name and one line | Loading: having the full schema in context |
-| Discovery | Finding and loading the details of one capability | Registration: the harness making a tool callable |
-| Function calling | The model emits a structured call per tool; each result returns to the model | Code mode, where the model writes a script that calls tools |
-| Gateway | A shared service between agents and many tool servers (registry, proxy, authorization) | An MCP server: the gateway fronts many of them |
-
-## 3. Awareness: a list, a way to load, and a few native tools
+## 2. Awareness: a list, a way to load, and a few native tools
 
 The lecture's figure 24: the system prompt holds three things, a **list of capabilities**, **guidance on how to load their details**, and **native tools** the agent can call at once. Details stay outside the context until needed.
 
@@ -43,7 +43,7 @@ The decision the lecture leaves to me is which tools are native. Anthropic's too
 
 Evidence: the request still carries every definition on every call, but deferred ones are excluded from the cached prefix, so the cache stays valid (Anthropic docs, "Deferred tool loading"). This is the same reason the lecture's figure 11 keeps core tools in the cached prefix and loads the rest later (see [04](draft_04_Context_Window_Cache_Compaction.md)).
 
-## 4. Discovery: search tool or files and bash
+## 3. Discovery: search tool or files and bash
 
 Two ways to expose a catalog. A **dedicated search tool** the harness owns gives control. **Files the agent explores with bash** give flexibility, because the agent can also manage them (good and bad, in the lecturer's words).
 
@@ -57,7 +57,7 @@ Two ways to expose a catalog. A **dedicated search tool** the harness owns gives
 
 Anthropic's engineering write-up describes the files route: present MCP servers as code files, the agent lists the directory and reads only the definitions it needs. Its example drops from about 150,000 tokens to 2,000 (98.7%); the article presents this as one illustration, not a benchmark.
 
-## 5. Function calling versus code mode
+## 4. Function calling versus code mode
 
 Function calling needs each schema in context and returns every result to the model so it can pick the next step. Fine for simple work, inefficient for complex workflows. Code mode lets the model write one script that chains tools and keeps results in variables.
 
@@ -95,7 +95,7 @@ read(path, lines) or attach it with mail.send(attachment=path).
 
 Evidence: Anthropic's code-execution article shows the same idea in two forms: filter or aggregate inside the environment so the model sees 5 rows instead of 10,000, and write files to persist state across runs. The file-reference form is the lecture's wording; the principle matches.
 
-## 6. Tool management and reusability
+## 5. Tool management and reusability
 
 An agent may have a fixed tool set, connect to MCP servers, or **write its own integrations**, which it saves and reuses once tested (figures 25 and 27). A saved package holds logic and imports integrations, value stores and other packages. This is the tool-side twin of skills with scripts ([Lecture 1: 13](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md), [16](../Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md)).
 
@@ -118,7 +118,7 @@ Worked example from the transcript (the retail demo, used only for the pattern):
 
 The lecture also advises official SDKs over abstractions such as AI SDK to avoid unneeded layers. That is an opinion about adapters, not about tools; I note it and do not rely on it here.
 
-## 7. Gateway at scale
+## 6. Gateway at scale
 
 When tools number in the thousands, the problem moves from context to **authorization, ownership and rollout**. The lecturer points to Uber's MCP gateway and the open-source Treg.
 
@@ -141,7 +141,7 @@ What Uber's post states: the gateway hosts over 800 MCP servers and over 5,000 t
 
 Treg is a smaller, different thing: a hosted catalog of external endpoints plus team-registered keys, not an internal enterprise gateway. Its MCP support status is unclear from the README I read. Mapping for my stack: a registry with default-off plus a discovery front door is the pattern; Semantic Kernel plugins and LangGraph tool lists are the client side of it.
 
-## 8. Per-user workspace isolation, as it concerns tools
+## 7. Per-user workspace isolation, as it concerns tools
 
 Agents that can write code or manage their own integrations need clearly separated workspaces, because they can easily find a way around a boundary and reach another user's data (figure 28: each user's agent runs code only in its own workspace with a runtime and filesystem).
 
@@ -184,4 +184,4 @@ Keep a short list and a loading path in the prompt, three to five native tools, 
 - [Cloudflare: Code Mode](https://blog.cloudflare.com/code-mode/)
 - [MCP specification: tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools)
 - [Uber: designing the MCP gateway](https://www.uber.com/pl/en/blog/designing-mcp-gateway/) · [Treg](https://github.com/superdesigndev/treg)
-- My own reasoning: the stack-mapping table in section 3 (Semantic Kernel and LangGraph rows) and the layer table in section 8.
+- My own reasoning: the stack-mapping table in section 2 (Semantic Kernel and LangGraph rows) and the layer table in section 7.

@@ -2,24 +2,28 @@
 
 > A loop that ends when the model returns no tool calls is correct but not production-safe: I add a routing function with more than one exit, a hard step cap, a budget, error recovery and a named result for every way a run ends, all as runtime code outside the model.
 
-Related: [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [11 Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [11 Pi, LangGraph and the DeepSeek paper](draft_11_Pi_LangGraph_DeepSeek_Harnesses.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [13 AI SDK or official SDKs](draft_13_AI_SDK_Or_Official_SDKs.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S02E01 article "Agentic Loop" (figures 2, 3, 5, 6) and the transcript demo (step limit, trace; worked example only). Primary docs read 2026-11-15, see [Fact-check](#fact-check).
+
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Step / turn | One model call, which may request several tools | - | One tool call |
+| Super-step | One LangGraph tick: every ready node runs once. `recursion_limit` counts these | - | A model call. A ReAct round is about two |
+| Stop condition | The rule that ends a run normally | - | A limit, which ends it abnormally |
+| Result type | The named outcome: success, max turns, max budget, error | SDK `ResultMessage` subtype | The final text |
+| Routing function | `should_continue`: picks the next node or `END` after the model node | LangGraph conditional edge, Pi `finishTurn` | - |
+| Idempotent retry | Repeat only work with no side effect | Claude Code: no retry after a completed tool call | - |
+| Checkpoint | Graph state saved at a super-step boundary | LangGraph checkpointer | - |
+| Retryable fault | An error class the runtime may retry: 429, 503, timeout, incomplete reply | Claude Code retries transient failures only | A non-retryable fault such as 401 |
 
 ## 1. The problem
 
 The lecture says an agent runs until the model "decides not to use any tools and instead returns text". That is the happy path. **Which mechanisms turn it into a run I can leave unattended, and which belong to the runtime and not the prompt?**
 
-## 2. Words
-
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Step / turn | One model call, which may request several tools | One tool call |
-| Super-step | One LangGraph tick: every ready node runs once. `recursion_limit` counts these | A model call. A ReAct round is about two |
-| Stop condition | The rule that ends a run normally | A limit, which ends it abnormally |
-| Result type | The named outcome: success, max turns, max budget, error | The final text |
-
-## 3. The loop and its exits
+## 2. The loop and its exits
 
 ![The lecture's loop. State sends context to the model call. The model returns tool calls or text only. Tool calls go to tools run by the runtime. Results go to hooks between iterations, which update the state. Text only ends in final text.](img/agent-loop-state-model-tools-hooks.png)
 
@@ -54,7 +58,7 @@ flowchart TD
 
 Pi has the same idea without a graph: a `finishTurn` hook can force `"end"` or `"continue"` ([agent-loop.ts](https://github.com/earendil-works/pi/blob/main/packages/agent/src/agent-loop.ts)). The article does not say why it omits the routing function. Simplification and avoiding LangGraph vocabulary are both guesses.
 
-## 4. Step limit: a cap the model cannot argue with
+## 3. Step limit: a cap the model cannot argue with
 
 The runtime enforces it and ends the run with a named result.
 
@@ -71,13 +75,13 @@ The runtime enforces it and ends the run with a named result.
 - **Defaults are not safety limits.** 10,007 and "no limit" need my own cap.
 - **A limit needs a result type**, or I cannot tell a finished run from a stopped one.
 
-## 5. Budget, deadline and who owns the cap
+## 4. Budget, deadline and who owns the cap
 
 - **Budget.** The Agent SDK cap includes subagent spend, is checked after a response (spend can pass it by one) and blocks new subagents once reached.
 - **No wall-clock.** The hosting guide lists no top-level session timeout and no per-subagent deadline. I add a deadline in the host.
 - **Custom caps** (cost, repeated call, deadline) belong in a Semantic Kernel filter, a LangGraph routing function or a Pi hook. `recursion_limit` is the backstop.
 
-## 6. Error recovery: three layers, three owners
+## 5. Error recovery: three layers, three owners
 
 Article figure 5: model call 2 gets an API error, "no path for the error", the task stops mid-turn.
 
@@ -94,18 +98,21 @@ Article figure 5: model call 2 gets an API error, "no path for the error", the t
 
 My rule: **retry only what is idempotent.** A failed model call is safe to repeat, a completed tool call with a side effect is not.
 
+**Worked example: the lecturer's `loop-error-recovery`.** A night-audit agent records inventory (step 1) and billing (step 2) through one tool and then answers (step 3). One seeded fault hits step 2, once. Three modes compare ([example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/loop-error-recovery), all files read by a fetch agent):
+
+| Mode | What it does | Effect of the fault |
+|---|---|---|
+| unhandled | No handler | The run stops at step 2 |
+| retry | Resend the same input, at most 2 retries (`MAX_ATTEMPTS = 3`), backoff 25 ms then 50 ms (cap 200), no jitter | Step 1 runs again, so its input tokens are sent again |
+| resume | Retry plus the conversation saved after each tool result (in memory in the demo) | Step 1 is skipped |
+
+Retryable: 429, 503, timeout, incomplete reply (`max_output_tokens`), invalid tool arguments. Not retryable: other HTTP statuses such as 401, a wrong check order, unknown errors. The attempt counter resets after each successful step. 429, 503 and timeout are thrown before the request and cost no tokens. An incomplete or malformed reply costs a real request.
+
+Against my notes: the example covers the transport and run layers only. The error is not fed back to the model as a tool result. It has no idempotency guard, which is safe only because `record_check` has no external side effect. A tool with a side effect needs my rule above. The file-based resume is the lecturer's `resumable-run` example (not read), see [07](draft_07_Tool_Approval_Durable_Waits.md).
+
 ## Summary
 
 The stop condition ends a correct run. A routing function with several exits, a step cap and budget I set myself, a deadline in the host, three recovery layers and a named result per exit make it safe.
-
-## Glossary
-
-| Term | What it means here | Same thing elsewhere |
-|---|---|---|
-| Routing function | `should_continue`: picks the next node or `END` after the model node | LangGraph conditional edge, Pi `finishTurn` |
-| Result type | Named outcome of a run | SDK `ResultMessage` subtype |
-| Idempotent retry | Repeat only work with no side effect | Claude Code: no retry after a completed tool call |
-| Checkpoint | Graph state saved at a super-step boundary | LangGraph checkpointer |
 
 ## Fact-check
 
@@ -124,6 +131,7 @@ The stop condition ends a correct run. A routing function with several exits, a 
 | 11 | Retry only before a tool call completed | **Agrees** | Claude Code errors page | 2026-11-15 |
 | 12 | A parent cap bounds a multi-agent run | **Differs** | Budget includes subagents; no per-subagent wall-clock ([hosting](https://code.claude.com/docs/en/agent-sdk/hosting)) | 2026-11-15 |
 | 13 | The loop is a yes-or-no check | **Differs**, simplification | [quickstart](https://docs.langchain.com/oss/python/langgraph/quickstart), [graph API](https://docs.langchain.com/oss/python/langgraph/graph-api): routing returns a node, `END`, a list or `Send` | 2026-11-15 |
+| 14 | Retry with backoff and a saved conversation lets a run finish after a fault | **Agrees** | [loop-error-recovery](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/loop-error-recovery): `MAX_ATTEMPTS = 3`, 25 ms then 50 ms, no jitter, resume skips step 1. Seeded faults, not real outages. No idempotency guard | 2026-11-15 |
 
 ## Sources
 
@@ -131,4 +139,5 @@ The stop condition ends a correct run. A routing function with several exits, a 
 - [Pi agent-loop.ts](https://github.com/earendil-works/pi/blob/main/packages/agent/src/agent-loop.ts) · [Agent SDK loop](https://code.claude.com/docs/en/agent-sdk/agent-loop) · [errors](https://code.claude.com/docs/en/errors) · [hosting](https://code.claude.com/docs/en/agent-sdk/hosting)
 - [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/graph-api) · [fault tolerance](https://docs.langchain.com/oss/python/langgraph/fault-tolerance)
 - [Semantic Kernel filters](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/filters) · [Goose env vars](https://block.github.io/goose/docs/guides/environment-variables)
+- [loop-error-recovery example](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/loop-error-recovery) (`recovery.ts`, `index.ts`, README)
 - My own reasoning: the three recovery layers, the idempotency rule, the units warning.

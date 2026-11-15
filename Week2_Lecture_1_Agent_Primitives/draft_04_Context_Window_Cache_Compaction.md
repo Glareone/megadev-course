@@ -6,21 +6,21 @@ Related: [03 Instructions: five parts and enforcement](03_Instructions_Five_Part
 
 Source: S02E01 article "Agentic Loop" (Context, figure of the three context columns, and the four conclusions); S02E01 transcript (last-20 window and compaction trade-offs, as worked example). Vendor docs read on 2026-11-15, see [Fact-check](#fact-check).
 
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Stable prefix | The front of the context that is byte-identical across calls | - | The whole prompt |
+| Prompt cache | Provider reuse of the computed prefix (KV state), billed at a discount | - | My own response cache |
+| Message window | Send only the last N messages | - | Compaction, which rewrites older ones |
+| Compaction | Replace older messages with a summary, keep recent ones as they are | - | Truncation, which just drops |
+| Reactivation | Re-loading a skill body after compaction removed it from the thread | - | First activation |
+
 ## 1. The problem
 
 Every model call resends the whole context. That costs tokens and latency, the window is finite, and the model attends worse to a bloated context. I want three properties at once: **small** (little sent), **cacheable** (the same bytes at the front each call) and **not lossy** (what the task needs survives trimming). The three pull against each other: trimming and summarizing change the bytes, and changing the bytes breaks the cache.
 
-## 2. Words
-
-| Term | Meaning here | Not to be confused with |
-|---|---|---|
-| Stable prefix | The front of the context that is byte-identical across calls | The whole prompt |
-| Prompt cache | Provider reuse of the computed prefix (KV state), billed at a discount | My own response cache |
-| Message window | Send only the last N messages | Compaction, which rewrites older ones |
-| Compaction | Replace older messages with a summary, keep recent ones as they are | Truncation, which just drops |
-| Reactivation | Re-loading a skill body after compaction removed it from the thread | First activation |
-
-## 3. The layout: prefix first, thread after
+## 2. The layout: prefix first, thread after
 
 The lecture figure shows three columns (session start, after tool discovery, after compaction). The same red block, the cached prefix, sits at the top of each.
 
@@ -38,7 +38,7 @@ flowchart TB
 
 Both vendors build the prefix the same way. Anthropic: order is `tools`, then `system`, then `messages`, and a `cache_control` marker caches everything up to that block. OpenAI: "Cache reuse requires the entire rendered prefix to match", stable content first, dynamic content (timestamps, user details) last ([Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-caching), [OpenAI](https://developers.openai.com/api/docs/guides/prompt-caching)).
 
-## 4. Caching: what saves money and what breaks it
+## 3. Caching: what saves money and what breaks it
 
 The saving exists only while the prefix stays identical. The lecturer's wording: the cache cuts cost and latency "but only if the existing context stays the same". The vendors agree and add numbers (read on 2026-11-15, models and prices change quickly):
 
@@ -70,7 +70,7 @@ good: system = "You are X. ..."  (static)
       last user message = "[time: 2026-11-15T10:42:07Z] ..."          -> prefix stays cached
 ```
 
-## 5. Window and compaction against the cache
+## 4. Window and compaction against the cache
 
 Trimming is needed, but each strategy has a different cache cost.
 
@@ -98,7 +98,7 @@ Framework mapping:
 
 Sources for rows: [LangGraph add-memory docs](https://docs.langchain.com/oss/python/langgraph/add-memory), [Semantic Kernel chat history docs](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history), [Claude Code context window](https://code.claude.com/docs/en/context-window.md). The LangGraph property worth using: trimming at the model node keeps the full thread in the checkpoint, so nothing is lost for audit even when the model sees less.
 
-## 6. What survives compaction in Claude Code
+## 5. What survives compaction in Claude Code
 
 I treat this as the reference case for "not lossy".
 
@@ -112,7 +112,7 @@ I treat this as the reference case for "not lossy".
 
 Consequences I take from it: the lecture's "skills sometimes need to be reactivated" is accurate, and the real mechanism is a cap and a drop order, not a bug. Put the key instructions at the top of `SKILL.md`. What must persist belongs in a file that is re-read (root AGENTS.md, a skill within the cap) and not in the conversation. An instruction given only in chat is gone after compaction.
 
-## 7. Why a long AGENTS.md hurts
+## 6. Why a long AGENTS.md hurts
 
 Three costs. It is sent on every call (tokens, latency, until cached). It sits inside the prefix, so any edit invalidates the cache for the session. And the model follows it less. The lecture says the model "will ignore most of it". Claude Code docs give a softer, vendor-backed version: target under 200 lines, because "longer files consume more context and reduce adherence", and importing files with `@path` organizes but does not reduce the cost. "Ignores most of it" is the lecturer's strong phrasing, I have no measurement for the share. Remedy: keep the root file as a router, move detail to skills and path-scoped rules, and put concrete verifiable rules first.
 

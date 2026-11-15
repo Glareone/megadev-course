@@ -19,16 +19,15 @@ Keep this order. Leave a section out when I have nothing real to put in it (neve
 | 2 | `> ` summary | One sentence: the answer, not the topic. A reader who stops here has the point | Yes |
 | 3 | `Related:` | Links to sibling notes and to earlier lectures, in both directions. No broken relative links | Yes |
 | 4 | `Source:` | The transcript part, picture or documents I actually read, and the check date | Yes |
-| 5 | `## 1. The problem` | The question this note answers, in two to four sentences | Yes |
-| 6 | `## 2. Words` | A table (term, what it means here, not to be confused with). Only when terms are conflated | If needed |
-| 7 | Body sections | Numbered. One concept per section. See "Body sections" | Yes |
+| 5 | `## Glossary` | Week 2 onward, placed first so the terms are defined before they are used. Table: `Term \| What it means here \| Same thing elsewhere \| Not to be confused with`. Internals terms (loop, superstep, checkpoint, prefix cache) with the LangGraph / Semantic Kernel / other-framework equivalent. Replaces `## 2. Words`. Lectures 1 to 5 keep their optional `## 2. Words` | Yes from Week 2 |
+| 6 | `## 1. The problem` | The question this note answers, in two to four sentences | Yes |
+| 7 | Body sections | Numbered from 2. One concept per section. See "Body sections" | Yes |
 | 8 | `## My take` | Architect view, Aras mapping, an infrastructure analogy. Only if it adds what the other sections lack | If needed |
 | 9 | `## Cautions` | Real limits and risks of the idea or of my check | If needed |
 | 10 | `## Summary` | Two to four lines | Yes |
-| 11 | `## Glossary` | Week 2 onward. Table: term, what it means here, the same thing in LangGraph / Semantic Kernel / other frameworks. Internals terms only (loop, superstep, checkpoint, prefix cache). It defines terms; `## 2. Words` separates terms that are conflated | Yes from Week 2 |
-| 12 | `## Open questions` | Real questions only | If needed |
-| 13 | `## Fact-check` | Table: `# \| Claim \| Verdict \| Source \| Checked` | Yes |
-| 14 | `## Sources` | Links. Says which parts are my own reasoning | Yes |
+| 11 | `## Open questions` | Real questions only | If needed |
+| 12 | `## Fact-check` | Table: `# \| Claim \| Verdict \| Source \| Checked` | Yes |
+| 13 | `## Sources` | Links. Says which parts are my own reasoning | Yes |
 
 **File name while a note is being redone:** the file carries a `draft_` prefix (`draft_05_Seek_Tedium.md`). When the note is final, I drop the prefix and give it its number in the folder. The prefix is the only place the state shows. The note body and the READMEs do not say "draft".
 
@@ -95,3 +94,4 @@ Answer yes to all of these.
 5. Is the voice first person, with no work-in-progress traces and no empty sections (see [AGENTS.md](../../AGENTS.md))?
 6. Do all relative links resolve, and does [CHANGELOG.md](../../CHANGELOG.md) say what was added?
 7. Is the note 150 lines or fewer, and could I restore the knowledge from it and its links?
+8. From Week 2: does the Glossary come first, and is every term used in the note defined in it?

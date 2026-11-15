@@ -2,24 +2,31 @@
 
 > The system prompt tells the agent who it is, where it works, what exists, how to look and what is off limits, but only the first four are guidance I can rely on; every boundary that matters must also be enforced in code, because the model may ignore a prompt.
 
-Related: [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [06 Tools awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [01 Agent loop, stop, limits, recovery](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
+Related: [04 Context window, cache, compaction](draft_04_Context_Window_Cache_Compaction.md) · [06 Tools awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [01 Agent loop, stop, limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [Lecture 4: 05 Don't overspecify](../Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [Lecture 2: 4 Context window](../Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md)
 
-Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Loop" (Context), takeaways; S02E01 transcript (retail-agent demo, used only as a worked example); the layout in section 5 is my own platform design. Vendor docs read on 2026-11-15, see [Fact-check](#fact-check).
+Source: S02E01 article "Personality and Environmental Awareness" and "Agentic Loop" (Context), takeaways; S02E01 transcript (retail-agent demo, used only as a worked example); the layout in section 4 is my own platform design. Vendor docs read on 2026-11-15, see [Fact-check](#fact-check).
+
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Instructions | Text sent to the model on every call (system or developer message) | - | A skill or AGENTS.md body, which the model loads or reads later |
+| Boundary | A thing the agent must not do | - | An enforced permission. A boundary written in a prompt is a request |
+| Enforcement | A check in code, a hook or a sandbox that runs whether or not the model agrees | - | A guardrail model, which is still a probabilistic check |
+| Unattended agent | An agent with no human in the session (automation, background job, app logic) | - | An interactive coding session |
+| Archetype | The loop pattern an agent follows: ReAct or Deep Agent | `langchain.agents.create_agent`, `create_react_agent` (older), `create_deep_agent` | - |
+| ReAct | A loop where the model reasons, calls a tool, reads the result and repeats | Paper: [ReAct, arXiv 2210.03629](https://arxiv.org/abs/2210.03629) | - |
+| Deep Agent | A ReAct-style loop with planning, sub-agents and a filesystem added | LangChain Deep Agents (search summary: verify before presenting) | - |
+| Tagged chapter | One prompt concern wrapped in an XML-like tag | Anthropic: XML tags per content type | - |
+| Layering | A base prompt plus the author's domain prompt, concatenated | Deep Agents: `system_prompt` appended to the base prompt | - |
+| Loaded skill | The body of the single skill currently in context | A skill after invocation, as against the skill list with descriptions | - |
+| Static prefix | The part of the prompt identical between calls | Cache prefix, see [04](draft_04_Context_Window_Cache_Compaction.md) | - |
 
 ## 1. The problem
 
 Models follow short messages well, and a harness vendor just cut most of its own system prompt. So what still belongs in the instructions of an agent I build, and what must not live there at all? The line I need: **guidance goes in the prompt, guarantees go in code.**
 
-## 2. Words
-
-| Term | Meaning here | Not to be confused with |
-|---|---|---|
-| Instructions | Text sent to the model on every call (system or developer message) | A skill or AGENTS.md body, which the model loads or reads later |
-| Boundary | A thing the agent must not do | An enforced permission. A boundary written in a prompt is a request |
-| Enforcement | A check in code, a hook or a sandbox that runs whether or not the model agrees | A guardrail model, which is still a probabilistic check |
-| Unattended agent | An agent with no human in the session (automation, background job, app logic) | An interactive coding session |
-
-## 3. Why instructions matter most when no human is present
+## 2. Why instructions matter most when no human is present
 
 An interactive user corrects the agent with a short message. An automation has nobody to do that, so the instructions carry everything the human would have said.
 
@@ -37,7 +44,7 @@ flowchart LR
 
 The lecturer: harnesses "set a solid system prompt so users can speak with agents more naturally", and once I build my own automations "we become the ones who need to craft that prompt". Anthropic's own guide for unattended agents agrees on the mechanism: a text-only end of turn can stop an unattended loop, so the guide adds a system prompt paragraph for unattended runs and keeps a separate confirmation step for risky actions ([Prompting Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#unattended-agentic-runs)). Both a prompt and a harness check appear in the same recommendation.
 
-## 4. The five parts
+## 3. The five parts
 
 The lecture splits a system prompt into five blocks. This split is the lecturer's, not a vendor standard.
 
@@ -47,7 +54,7 @@ The lecture splits a system prompt into five blocks. This split is the lecturer'
 | Environment | Why do I exist, is a human reachable | "No human is available. Do not ask questions, make the safest choice and report it" | Stops to ask, or stops after a progress note |
 | Context | What resources exist, or where to find them | "Order data: `orders` tool. Policies: `/policies/` folder" | Claims it cannot do things it can |
 | Discovery | How to explore the harness capabilities | "Search tools before saying a capability is missing. Open the process doc fully" | Skips steps of a process because the doc was badly organised |
-| Boundaries | What I must not do | "Never read another customer's order" | Only a recommendation, see section 6 |
+| Boundaries | What I must not do | "Never read another customer's order" | Only a recommendation, see section 5 |
 
 ```mermaid
 flowchart TB
@@ -64,7 +71,7 @@ Compared with vendor guides: Anthropic's and OpenAI's current guides give task-s
 - Context and Discovery: Anthropic gives a one-sentence system prompt line, "Before taking any action, explore broadly with tool calls ...", and reports more correct runs on multiapp automation tasks ([Prompting Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#explore-context-in-multi-app-workflows)).
 - Boundaries: OpenAI warns that strong "ask first" language written for older models can make a newer model stop where I would be happy for it to continue ([Rethinking skills and prompts](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)). A boundary written in prompt text has a cost in both directions.
 
-## 5. My layout: tagged chapters in a fixed order
+## 4. My layout: tagged chapters in a fixed order
 
 The five parts say what a prompt must cover. My layout says where each part lives: one tagged chapter per concern, the same sections in every agent, so a problem has one location.
 
@@ -100,7 +107,7 @@ What industry sources say:
 - **Layering.** The Deep Agents library appends the author's `system_prompt` to its built-in base prompt, so the author writes only the domain part ([create_deep_agent](https://reference.langchain.com/python/deepagents/graph/create_deep_agent)). `create_react_agent` takes the author's prompt as the whole system message. My `<behavior>` chapter plays the role of that base layer.
 - **Skills.** One loaded skill at a time and 5,000 characters are my platform's choices. Claude Code differs: it can hold several skills and re-attaches them after compaction with a cap of 5,000 tokens per skill and 25,000 in total (see [04](draft_04_Context_Window_Cache_Compaction.md)).
 
-## 6. Boundaries: recommendation in the prompt, rule in code
+## 5. Boundaries: recommendation in the prompt, rule in code
 
 The prompt reaches the model. The tool code reaches the data. Only the second one can refuse.
 
@@ -131,7 +138,7 @@ The transcript demo does exactly this: the access check sits in the tool, not in
 
 Architect mapping: in LangGraph this is a node or tool wrapper that checks `state` and the caller identity before it runs, plus `interrupt` for approval. In Semantic Kernel it is a function invocation filter (`IFunctionInvocationFilter`) that can cancel or replace the result. I keep the prompt sentence as well, because it lowers how often the model hits the wall, but the wall is the control.
 
-## 7. Start simple, then iterate with evals
+## 6. Start simple, then iterate with evals
 
 The lecturer: start with minimal instructions or let a model draft the first version, then the goal is to make it "right": clean, well generalised, only what is needed, using an iterative loop with verification or evals.
 
@@ -146,25 +153,13 @@ flowchart LR
 
 This agrees with vendor advice: Anthropic says to test effort levels "against your own evals rather than carrying over the setting" from the previous model, and OpenAI says to revisit AGENTS.md entries as the model improves. Details of the eval loop are in [08](draft_08_Evals_And_Traces_For_Agent_Changes.md).
 
-## 8. The 80% claim, read at the source
+## 7. The 80% claim, read at the source
 
 The lecture says Claude Code "had 80% of its system prompt removed for the latest models" and implies clear instructions may even degrade the model. The source says something narrower: Anthropic removed over 80% of Claude Code's system prompt for Claude Opus 5 and Claude Fable 5 "with no measurable loss on our coding evaluations" ([claude.dev blog](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/)). That is a result about one interactive coding harness and its evals. It does not show that instructions degrade performance, and it does not cover an unattended agent in my domain. I still check my own prompt with my own evals.
 
 ## Summary
 
 The five parts (personality, environment, context, discovery, boundaries) are a useful checklist, not a standard. Instructions matter most for unattended agents because no human fills the gaps. Boundaries in text are requests: authorization, limits and approvals go into tool code, hooks and infrastructure. I start with a short prompt and shorten it further only when my evals show no loss. In my own agents the prompt is a fixed set of tagged chapters, so each concern has one place.
-
-## Glossary
-
-| Term | What it means here | Same thing elsewhere |
-|---|---|---|
-| Archetype | The loop pattern an agent follows: ReAct or Deep Agent | `langchain.agents.create_agent`, `create_react_agent` (older), `create_deep_agent` |
-| ReAct | A loop where the model reasons, calls a tool, reads the result and repeats | Paper: [ReAct, arXiv 2210.03629](https://arxiv.org/abs/2210.03629) |
-| Deep Agent | A ReAct-style loop with planning, sub-agents and a filesystem added | LangChain Deep Agents (search summary: verify before presenting) |
-| Tagged chapter | One prompt concern wrapped in an XML-like tag | Anthropic: XML tags per content type |
-| Layering | A base prompt plus the author's domain prompt, concatenated | Deep Agents: `system_prompt` appended to the base prompt |
-| Loaded skill | The body of the single skill currently in context | A skill after invocation, as against the skill list with descriptions |
-| Static prefix | The part of the prompt identical between calls | Cache prefix, see [04](draft_04_Context_Window_Cache_Compaction.md) |
 
 ## Open questions
 
@@ -195,5 +190,5 @@ The five parts (personality, environment, context, discovery, boundaries) are a 
 - [Rethinking skills and prompts for GPT-6](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)
 - [The new rules of context engineering](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/)
 - [Claude Code: How Claude remembers your project](https://code.claude.com/docs/en/memory.md)
-- [Anthropic: Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [OpenAI: Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering), [arXiv 2411.10541](https://arxiv.org/abs/2411.10541), [LangChain create_deep_agent](https://reference.langchain.com/python/deepagents/graph/create_deep_agent). Section 5 is my own layout and observations.
+- [Anthropic: Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), [OpenAI: Prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering), [arXiv 2411.10541](https://arxiv.org/abs/2411.10541), [LangChain create_deep_agent](https://reference.langchain.com/python/deepagents/graph/create_deep_agent). Section 4 is my own layout and observations.
 - [Latent Space Activation](https://github.com/daveshap/latent_space_activation)

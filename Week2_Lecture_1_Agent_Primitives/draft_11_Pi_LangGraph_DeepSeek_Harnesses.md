@@ -2,23 +2,27 @@
 
 > LangGraph lets a graph own the loop, Pi runs one small fixed loop that I extend through events, and the DeepSeek paper defines no loop at all: it is a composition layer for adding and removing components safely.
 
-Related: [01 Agent loop](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 4: 15 Pi and limen](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
+Related: [01 Agent loop](01_Agent_Loop_Stop_Limits_Recovery.md) · [10 The harness around the loop](draft_10_Harness_Around_The_Loop.md) · [12 Loop hooks declared](draft_12_Loop_Hooks_Declared.md) · [09 Extend, adjust or leave the framework](draft_09_Extend_Adjust_Or_Leave_The_Framework.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [07 Tool approval, durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 4: 15 Pi and limen](../Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) · [Lecture 2: 12 Subagents vs workers](../Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md)
 
 Source: S02E01 article ("Agentic Loop", "Configuration"). Pi docs and repo, LangChain docs and the arXiv paper read 2026-11-15 through fetch agents and local PDF text. See [Fact-check](#fact-check).
+
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Orchestration runtime | Control flow expressed as a graph, with persistence | - | A harness with a ready loop |
+| Harness | A ready loop plus tools, sessions and extensions | - | A framework |
+| Composition layer | Adds and removes components and reverts their effects | - | An agent loop |
+| Cordis | The paper's meta-framework: components declare effects and coeffects | None in LangGraph or Pi | - |
+| Temporal composability | Revert a removed component's side effects completely | Process restart is the coarse substitute | - |
+| Spatial composability | Reactivate only dependents whose dependency changed | Container orchestration, at service level | - |
+| Steering / follow-up | Pi queues: after the current turn / after the run finishes | LangGraph `Command`, `interrupt` | - |
 
 ## 1. The problem
 
 The article names Pi as an elegant loop, and cites a "DeepSeek Harness" paper for self-configuring harnesses. I run LangGraph. **How do the three differ, and what does each teach me?**
 
-## 2. Words
-
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Orchestration runtime | Control flow expressed as a graph, with persistence | A harness with a ready loop |
-| Harness | A ready loop plus tools, sessions and extensions | A framework |
-| Composition layer | Adds and removes components and reverts their effects | An agent loop |
-
-## 3. Side by side
+## 2. Side by side
 
 ```mermaid
 flowchart TB
@@ -47,11 +51,11 @@ flowchart TB
 | Runtime change | Not a design goal | `/reload` hot-reloads auto-discovered extensions, project ones only after trust | The goal: remove a component and revert its tracked effects |
 | Permissions | Mine to add | No built-in permission system, extensions run with full OS permissions | Confinement and sandboxing in the paper (sections not read) |
 
-## 4. What the DeepSeek source really is
+## 3. What the DeepSeek source really is
 
 The lecture's "DeepSeek Harness" is arXiv 2608.25512, "A Programming Paradigm for Spatiotemporal Composability" (Peking University and DeepSeek-AI, 92 pages, 2026-08-26). Two properties: temporal composability (revert a removed component's side effects) and spatial composability (declared, reactive dependencies). Agent harnesses are a motivating example. The paper calls validating Cordis on a harness that rewrites its own components future work. Its evidence is one observational case study, Koishi, a chatbot framework with over 4000 plugins. It supports "safe runtime removal needs a revert mechanism", not "self-evolving harnesses work". The community DeepSeek TUI in Lecture 2 note 12 is a different project.
 
-## 5. What I take
+## 4. What I take
 
 - **Different layers, not rivals.** A graph fits when control flow is the product. Pi fits when the loop is standard and value is in tools. A composition layer matters when components change while the agent runs.
 - **Rollback for agent-written tools.** Removing a saved integration must undo what it changed ([06](draft_06_Tools_Awareness_Discovery_Code_Mode.md)). A restart discards state.
@@ -60,15 +64,6 @@ The lecture's "DeepSeek Harness" is arXiv 2608.25512, "A Programming Paradigm fo
 ## Summary
 
 Who owns the loop is the axis: a graph, a fixed extensible loop, or nothing (a composition layer). The DeepSeek paper is a composability paper, not an agent harness.
-
-## Glossary
-
-| Term | What it means here | Same thing elsewhere |
-|---|---|---|
-| Cordis | The paper's meta-framework: components declare effects and coeffects | None in LangGraph or Pi |
-| Temporal composability | Revert a removed component's side effects completely | Process restart is the coarse substitute |
-| Spatial composability | Reactivate only dependents whose dependency changed | Container orchestration, at service level |
-| Steering / follow-up | Pi queues: after the current turn / after the run finishes | LangGraph `Command`, `interrupt` |
 
 ## Fact-check
 
@@ -88,4 +83,4 @@ Who owns the loop is the axis: a graph, a fixed extensible loop, or nothing (a c
 - S02E01 article. [arXiv 2608.25512](https://arxiv.org/abs/2608.25512)
 - [Pi docs](https://docs.pi.dev/latest) · [Pi repo](https://github.com/earendil-works/pi) · [Zechner, 2025-11-30](https://mariozechner.at/posts/2025-11-30-pi-coding-agent/)
 - [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/graph-api) · [LangChain middleware](https://docs.langchain.com/oss/python/langchain/middleware/custom)
-- My own reasoning: the layer diagram and section 5.
+- My own reasoning: the layer diagram and section 4.

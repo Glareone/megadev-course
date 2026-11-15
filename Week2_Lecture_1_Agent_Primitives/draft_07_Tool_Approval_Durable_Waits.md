@@ -2,24 +2,24 @@
 
 > The model only asks for an irreversible tool call. The harness stops, saves the run, asks a human, and executes the tool in code after the answer, even days later. That only works if the run state lives on disk and the action is idempotent.
 
-Related: [01 Agent loop, stop limits, recovery](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [03 Instructions, five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 1: 17 Ambient, durable agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md)
+Related: [01 Agent loop, stop limits, recovery](01_Agent_Loop_Stop_Limits_Recovery.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [03 Instructions, five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [08 Evals and traces for agent changes](draft_08_Evals_And_Traces_For_Agent_Changes.md) · [Lecture 1: 17 Ambient, durable agents](../Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md)
 
 Source: S02E01 article (the approvals paragraph and its sequence figure, with an email tool as the example; the permission and persistence parts), the lecture's `resumable-run` example read on 2026-11-15 as a fetched page summary (not the code), LangGraph, Semantic Kernel, Claude Code and MCP docs checked on 2026-11-15. See [Fact-check](#fact-check).
+
+## Glossary
+
+| Term | What it means here | Same thing elsewhere | Not to be confused with |
+|---|---|---|---|
+| Approval | A human decision on one concrete tool call (name plus arguments) | - | A prompt line "ask before sending", which is only a recommendation |
+| Permission grant | A standing rule the user gives ("this agent may call X") | - | Approval of a single call |
+| Run state | Everything needed to continue: thread, pending tool call with its full input, decision, intent record | - | The model's context window, which is rebuilt from the thread on each call |
+| Idempotency key | A caller-chosen ID that lets the target service recognise a repeated request and return the first result | - | A retry counter in my harness |
 
 ## 1. The problem
 
 An agent loop can call a tool that cannot be undone: send a mail, refund a payment, delete a record. A human must say yes first, and that human may answer in a minute or in three days. **Where does the approval live, who enforces it, and what keeps the run alive while it waits?**
 
-## 2. Words
-
-| Term | What it means here | Not to be confused with |
-|---|---|---|
-| Approval | A human decision on one concrete tool call (name plus arguments) | A prompt line "ask before sending", which is only a recommendation |
-| Permission grant | A standing rule the user gives ("this agent may call X") | Approval of a single call |
-| Run state | Everything needed to continue: thread, pending tool call with its full input, decision, intent record | The model's context window, which is rebuilt from the thread on each call |
-| Idempotency key | A caller-chosen ID that lets the target service recognise a repeated request and return the first result | A retry counter in my harness |
-
-## 3. The approval sequence
+## 2. The approval sequence
 
 The model never executes anything. It emits a tool request. The harness decides whether to run it.
 
@@ -52,7 +52,7 @@ Important:
 
 Not important: the email example. Any irreversible tool fits.
 
-## 4. Why a naive in-memory loop cannot wait
+## 3. Why a naive in-memory loop cannot wait
 
 A `while` loop that awaits a prompt keeps the pending call in process memory. A deploy, crash, scale-to-zero or an HTTP timeout loses it. The user then approves something the system no longer knows about. A loop that waits for days also pins a worker.
 
@@ -64,7 +64,7 @@ A `while` loop that awaits a prompt keeps the pending call in process memory. A 
 
 The lecture's `resumable-run` example makes this literal. Each session is a new OS process, so only files on disk carry state. Session 1 asks the model, saves the tool call with its full input and exits. Session 2 loads the thread, records the approval and runs the action. Source: GitHub page summary read on 2026-11-15, I did not read the code.
 
-## 5. Idempotency: the second half of resuming
+## 4. Idempotency: the second half of resuming
 
 Persisting the pending call is not enough. A crash can happen after the action ran and before its result was saved. The example crashes session 2 at exactly that point and compares three recoveries in session 3.
 
@@ -86,7 +86,7 @@ flowchart LR
 
 The saved intent only helps if the outside service honours the key. The example states this. That is the architect point: **exactly-once is a property of the target API plus my intent record, not of my loop.** For a service without idempotency keys I need a check-then-act on my own ledger, and a residual risk remains.
 
-## 6. Where approval is enforced: code, not prompt
+## 5. Where approval is enforced: code, not prompt
 
 A line in the system prompt such as "never send mail without asking" is a recommendation. The lecture says the same about Boundaries in the prompt. Enforcement is a gate in the harness, outside the model's reach.
 
@@ -101,7 +101,7 @@ Config-gated tools are the strongest and cheapest control. In the transcript dem
 
 Permission grants are the standing counterpart. The agent asks for a capability, the user grants it, and the grant is stored as a rule the gate reads. The lecture mentions permissions in the persistence part but gives no mechanism, so the storage and expiry of grants is my design question, not a lecture fact.
 
-## 7. How the same shape appears in other stacks
+## 6. How the same shape appears in other stacks
 
 ```mermaid
 flowchart TB

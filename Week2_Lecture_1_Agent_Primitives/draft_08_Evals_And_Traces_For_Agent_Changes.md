@@ -2,7 +2,7 @@
 
 > A trace tells me which step went wrong (the tool result or the model's use of it). A small set of behaviour-based eval cases, rerun after every change to instructions, tools, memory settings or model, tells me whether the agent still behaves, and which smallest model passes.
 
-Related: [01 Agent loop, stop limits, recovery](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [03 Instructions, five parts and enforcement](draft_03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory: extraction, retrieval](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) · [Lecture 5: 02 Before the merge](../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md)
+Related: [01 Agent loop, stop limits, recovery](draft_01_Agent_Loop_Stop_Limits_Recovery.md) · [02 Threads, persistence, isolation](draft_02_Threads_Persistence_Isolation.md) · [03 Instructions, five parts and enforcement](03_Instructions_Five_Parts_And_Enforcement.md) · [05 Agentic memory: extraction, retrieval](draft_05_Agentic_Memory_Extraction_Retrieval.md) · [06 Tools: awareness, discovery, code mode](draft_06_Tools_Awareness_Discovery_Code_Mode.md) · [07 Tool approval and durable waits](draft_07_Tool_Approval_Durable_Waits.md) · [Lecture 5: 05 Agents maintain the tools I review](../Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) · [Lecture 5: 02 Before the merge](../Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md)
 
 Source: S02E01 article (the "Personality and Environmental Awareness" part and its prompt-eval loop figure), S02E01 transcript (a retail-agent demo in Mastra, used only as a worked example: trace view, `maxSteps`, three eval cases), the lecture's `prompt-eval-loop` and `loop-error-recovery` examples read on 2026-11-15 as fetched page summaries (not the code). LangSmith, LangGraph, OpenTelemetry, Semantic Kernel, promptfoo, Inspect and Anthropic docs checked on 2026-11-15. See [Fact-check](#fact-check).
 
@@ -88,7 +88,37 @@ Where each check comes from:
 
 The ownership rule itself is enforced in code, so the eval confirms the whole path still holds after I change the prompt.
 
-## 7. Rerun after every change
+## 7. Self-revision cases: can the agent say what it can and cannot do
+
+The three cases above test what the agent does. A fourth kind tests what it says about itself. With MCP tools, internal tools, A2A sub-agents, skills and a TODO list in play, the end user needs a correct answer to "what can you do, and how?".
+
+The lecture points at both failures. The article warns that without a map of resources the agent "will fail to finish the task or mistakenly claim it can't do things it was supposed to do". The transcript's exchange case covers only the opposite one: the agent states its limits and does not claim an approval it cannot give.
+
+| Check | Failure it catches |
+|---|---|
+| Says it can do X, and X is really available | Invented capability |
+| Says it cannot do Y, but Y is available | Missed capability |
+| Explains how it would do X: which tool, sub-agent or skill, and whether approval is needed | Wrong mechanism |
+| After a registry change (tool added or removed, MCP server down, skill disabled) the answer changes | Stale self-description |
+| Reports the current TODO list state correctly | Wrong runtime state |
+
+The expected answer comes from the live registry, not from a hand-written list, so the case does not drift when someone adds a tool.
+
+```mermaid
+flowchart LR
+    R["Capability registry:\nMCP tool list, A2A agent cards,\nskills, TODO state"] --> E["Expected capabilities"]
+    Q["Case: what can you do,\nand how?"] --> A["Agent answer"]
+    E --> J["Judge compares\nanswer to expected"]
+    A --> J
+    J --> V{"Match?"}
+    V -- "No" --> F["Fail: invented, missed\nor stale"]
+    style R fill:#2a7,stroke:#2a7,color:#fff
+    style F fill:#d44,stroke:#d44,color:#fff
+```
+
+Where the data comes from in a Phoenix-based setup, which is my reference stack: a golden dataset holds the questions, an experiment runs the agent as the task over that dataset, and evaluators (code or an LLM judge) score each run. The Phoenix evals library ships LLM-as-judge classifiers, and its docs describe experiments that take a dataset, a task function and a list of evaluators ([Phoenix evals](https://arize.com/docs/ax/integrations/evaluation-integrations/phoenix-evals), search summary: Arize AX and open-source Phoenix use somewhat different APIs, so verify before presenting). The registry-derived expected list is generated when the dataset is built or when the experiment starts. How MCP and A2A expose the capability lists (`tools/list`, the Agent Card skills field) is unverified: verify before presenting.
+
+## 8. Rerun after every change
 
 Instructions, tool descriptions, memory settings (history length, working memory on or off) and the model all move behaviour. The suite is cheap compared with finding a regression in production. The lecturer says evals are covered in detail in a later chapter, so the demo shows only the idea.
 
@@ -102,7 +132,7 @@ flowchart LR
     style R fill:#2a7,stroke:#2a7,color:#fff
 ```
 
-## 8. The prompt-eval loop and the smallest passing model
+## 9. The prompt-eval loop and the smallest passing model
 
 The lecture's figure: start simple, let the model draft the prompt, verify the results or score them with evals, refine with the model, repeat until the prompt is clean, well generalized and holds only what is needed. The first version working is likely, the goal is "right".
 
@@ -110,7 +140,7 @@ The `prompt-eval-loop` example, from the fetched page: 20 labeled support messag
 
 Picking the model follows from the same suite. The lecture's recommendation, as I read it, is to start with the smallest model that passes. Anthropic's guide offers it as one of two valid starts: "start efficiency-first" with the lowest tier, test, upgrade only for specific gaps, or "start capability-first" and optimize down later. It also says a good evaluation set is "the most important step" and that tuning effort is often a better lever than switching models.
 
-## 9. How tools compare
+## 10. How tools compare
 
 | Need | LangSmith | OpenTelemetry GenAI | Semantic Kernel | promptfoo / Inspect |
 |---|---|---|---|---|
@@ -125,11 +155,27 @@ OpenTelemetry's GenAI conventions are not stable: the spec pages list Developmen
 
 - A trace separates "the tool returned the wrong thing" from "the model used the right thing wrong".
 - A step is a model call that can ask for several tools. LangGraph counts supersteps, so the two limits are not the same number.
+- A self-revision case asks the agent what it can and cannot do and checks the answer against the live capability registry, so an invented, missed or stale capability fails.
 - Behaviour evals check tools called, correct facts, no leak and no false claims, then rerun after each change to instructions, tools, memory or model.
 - The same suite picks the smallest model that passes and drives the prompt-refinement loop.
 
+## Glossary
+
+| Term | What it means here | Same thing elsewhere |
+|---|---|---|
+| Superstep | One round of node execution in a LangGraph graph. A model node and a tools node are usually two | Not the same as the lecture's step (one model call) |
+| Golden set | A fixed set of cases with known expected behaviour, used to judge every change | Phoenix and Arize: golden dataset. LangSmith: offline dataset |
+| Experiment | One run of the agent as a task over a dataset, scored by evaluators | Phoenix: experiment. LangSmith: offline evaluation |
+| Evaluator | Code or a model that scores one run | The lecture's scorer |
+| LLM judge | A model that scores a run against a rubric. Still probabilistic | Phoenix `create_classifier`, LangSmith LLM-judge evaluator |
+| Held-out set | Cases kept out of prompt tuning to test generalization | Test set |
+| Self-revision test | A case that asks the agent what it can and cannot do and checks the answer against the registry | No standard name found: my term |
+
 ## Open questions
 
+- How is the golden set built (real traces, synthetic, hand-written), and how are cases labelled?
+- Which scorer fits a self-revision case: a code comparison of tool names, an LLM judge for the explanation, or both?
+- Should the agent describe its capabilities live from the registry or from a static prompt section, and what does each cost in cache and accuracy?
 - How many cases make a suite trustworthy for one agent, and how do I keep held-out cases separate from the ones I tune on?
 - Which scorer do I trust for "did not claim an exchange was approved": a rubric model or a code pattern?
 - Do I record prompt and tool content in traces, given what customer data may reach them?
@@ -149,6 +195,9 @@ OpenTelemetry's GenAI conventions are not stable: the spec pages list Developmen
 | 9 | OpenTelemetry GenAI conventions are an established standard | **Differs** | Still Development status per spec pages (search summary). Spec moved to [semantic-conventions-genai](https://github.com/open-telemetry/semantic-conventions-genai) (opentelemetry.io page says so). Verify status in that repo before presenting | 2026-11-15 |
 | 10 | Semantic Kernel emits OpenTelemetry traces for function loops and model calls | **Agrees**, search summary only | [Learn: SK observability](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/observability), not fetched. Content-recording defaults unverified | 2026-11-15 |
 | 11 | LangGraph Studio shows traces of runs | **Unverified** | Not checked. LangSmith tracing is the part I verified | 2026-11-15 |
+| 12 | An agent without a map of its resources may claim it cannot do things it can | **Agrees** with the article | S02E01 article, "Context" part of the prompt. Transcript exchange case covers only the false-approval side | 2026-11-15 |
+| 13 | Phoenix supports datasets, experiments and LLM-judge evaluators | **Agrees**, search summary only | [Phoenix evals](https://arize.com/docs/ax/integrations/evaluation-integrations/phoenix-evals) and the [LLM-judge experiment tutorial](https://arize.com/docs/ax/develop/tutorial/run-experiments-with-llm-judge.md). Not read in full. Phoenix and Arize AX APIs differ | 2026-11-15 |
+| 14 | A self-revision test (agent describes its own capabilities, checked against a registry) is an established practice | **Unverified**. My own design | No vendor or paper found. Verify before presenting | 2026-11-15 |
 
 ## Sources
 
@@ -157,6 +206,7 @@ OpenTelemetry's GenAI conventions are not stable: the spec pages list Developmen
 - [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/graph-api).
 - [OpenTelemetry GenAI conventions](https://opentelemetry.io/docs/specs/semconv/gen-ai/) and the [moved repository](https://github.com/open-telemetry/semantic-conventions-genai).
 - [Semantic Kernel observability](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/observability).
+- [Phoenix evals](https://arize.com/docs/ax/integrations/evaluation-integrations/phoenix-evals). Section 7 (self-revision cases) is my own design.
 - [promptfoo assertions](https://www.promptfoo.dev/docs/configuration/expected-outputs/), [Inspect](https://inspect.aisi.org.uk/).
 - [Anthropic: choosing a model](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model).
 - My own reasoning: the superstep mapping, the p95 tuning rule, the check-kind table, the open questions.

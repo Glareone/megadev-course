@@ -79,7 +79,9 @@ A claim marked **Outdated** or **Differs** is already corrected in the body. The
 ## Length and splitting
 
 - A note holds **one question**. Two questions mean two notes.
-- Aim for 120 to 250 lines. Past 250, split, or move a long table or example to its own note and link it.
+- **Hard limit: 150 lines.** Past 150, split into notes or cut. This holds for every note I create or rewrite. An older note over the limit is trimmed or split when I next touch it.
+- **Concise, restorable, referenced.** The note keeps the answer, the mechanism in one diagram or table, and a primary-source link for each key claim. I do not paste what a source says: the link and the claim are enough to rebuild the detail. Test: could I restore the full knowledge from this note plus its links? If a paragraph only repeats a source, replace it with the link.
+- Cut first: repeated explanations, long quotes, examples that restate the table, sections with no decision in them.
 - Each note ends where the next decision begins. Link forward in `Related:`.
 
 ## Before I call a note finished
@@ -92,3 +94,4 @@ Answer yes to all of these.
 4. Does the fact-check table have a verdict, source and date for each claim?
 5. Is the voice first person, with no work-in-progress traces and no empty sections (see [AGENTS.md](../../AGENTS.md))?
 6. Do all relative links resolve, and does [CHANGELOG.md](../../CHANGELOG.md) say what was added?
+7. Is the note 150 lines or fewer, and could I restore the knowledge from it and its links?

@@ -8,20 +8,27 @@ Started: 2026-11-15. Branch: `week-2-lecture-1-agent-primitives`. Folder: `Week2
 
 ### Done
 
-Eight notes, one question each, written to steps 1 to 4 of "Way of thinking" (problem, words, validation, shortest version). They keep the `draft_` prefix until I add my input.
+Eight notes, one question each, written to steps 1 to 4 of "Way of thinking" (problem, words, validation, shortest version). Notes keep the `draft_` prefix until I accept them; note 03 is accepted and renamed.
 
-- **01 Agent loop: stop, limits, recovery** (`draft_01_Agent_Loop_Stop_Limits_Recovery.md`) — loop exits, step limit versus LangGraph `recursion_limit`, error recovery.
+- **01 Agent loop: stop, limits, recovery** (`draft_01_Agent_Loop_Stop_Limits_Recovery.md`) — the harness figure (`Week2_Lecture_1_Agent_Primitives/img/agent-harness-loop-hooks-limits.png`: external and lifecycle events, six hook points, limits frame; Glossary added), the `should_continue` routing function against the lecture's yes-or-no stop check, section 9 comparing Pi, LangGraph and the DeepSeek paper (it is a composability paper, not an agent harness), loop exits, step limit versus LangGraph `recursion_limit`, error recovery.
 - **02 Threads, persistence, isolation** (`draft_02_Threads_Persistence_Isolation.md`) — what a harness stores, who may touch it, per-user separation. Claude Code's sandbox covers shell commands only.
-- **03 Instructions: five parts and enforcement** (`draft_03_Instructions_Five_Parts_And_Enforcement.md`) — prompt parts versus code-enforced boundaries. The "80% of the system prompt removed" claim holds in a narrower form.
+- **03 Instructions: five parts and enforcement** (`03_Instructions_Five_Parts_And_Enforcement.md`) — prompt parts versus code-enforced boundaries. The "80% of the system prompt removed" claim holds in a narrower form.
 - **04 Context window, cache, compaction** (`draft_04_Context_Window_Cache_Compaction.md`) — stable prefix, on-demand tools, compaction, skill re-injection.
 - **05 Agentic memory** (`draft_05_Agentic_Memory_Extraction_Retrieval.md`) — four parts, three problems, recall, retention window versus memory, the demo's memory options mapped to my stack.
 - **06 Tools: awareness, discovery, code mode** (`draft_06_Tools_Awareness_Discovery_Code_Mode.md`) — Uber's gateway is over 800 MCP servers and over 5000 tools, not "8000+".
 - **07 Tool approval and durable waits** (`draft_07_Tool_Approval_Durable_Waits.md`).
 - **08 Evals and traces for agent changes** (`draft_08_Evals_And_Traces_For_Agent_Changes.md`).
 
+- **03 updated with my input** — section 5 "My layout: tagged chapters in a fixed order" (XML-like tags, fixed sections, archetype ReAct or Deep Agent, capability chapters, one loaded skill), checked against Anthropic's tag advice, OpenAI's Markdown-first guide, the format-sensitivity preprint and Deep Agents layering. "XML beats Markdown" is my observation on a small model, not a vendor result. Glossary added.
+- **08 updated with my input** — section 7 "Self-revision cases" (invented, missed, stale capability checks against a live registry), Phoenix as my reference stack, Glossary added (superstep, golden set, experiment, LLM judge).
+- **09 Extend, adjust or leave the framework** (`draft_09_Extend_Adjust_Or_Leave_The_Framework.md`) — the article's figure 4 (`img/agent-logic-to-harness-or-tools.png`) and my reading of it as three moves (add a tool, adjust the harness at an extension point, step out of the paradigm), a decision flow, a worked example, what I must understand before choosing. Checked against Anthropic's advice on frameworks, LangChain middleware, LangGraph Functional API and Pi extensions (search summaries). Glossary added.
+- **`notes_for_later_use/`** — new folder for my personal review reminders, named `date-topic-lecture-reference`. Entries: `2026-11-15-agent-boundaries-s02e01-note-03.md` (review the boundary structure in agents) and `2026-11-15-review-pi-langgraph-deepseek-harnesses-s02e01-note-01.md` (review the Pi, LangGraph and DeepSeek harnesses).
+- **Glossary rule** added to `.claude/rules/note-format.md` (Week 2 onward).
+
 ### Gaps
 
-- **Waiting for my input** (step 5, "Listen"): no note has my insights yet.
+- **Glossary missing** in notes 01, 02, 04, 05, 06 and 07 until each is rewritten with my input.
+- **Waiting for my input** (step 5, "Listen"): notes 01, 02, 04, 05, 06 and 07 have none yet.
 - **Unverified:** Goose's loop and its turn limits, Codex retry behaviour, Semantic Kernel's max auto-invoke defaults, the Claude Code subagent transcript layout and Pi session format, Joel Hooks' pipeline (site did not resolve), supermemory, Hindsight's license, LangGraph Studio traces, OpenTelemetry GenAI status (spec moved to `open-telemetry/semantic-conventions-genai`), the demo framework's memory docs.
 - **Read in part:** the Claude Code errors page (first 100,000 characters), the sandbox page, the Anthropic caching page (about 100,000 of 167,000). Cache numbers (minimums, TTLs, prices) come from page summaries.
 - **The lecturer's three example repositories** (resumable-run, loop-error-recovery, prompt-eval-loop) were read as page summaries, not code.

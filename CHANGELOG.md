@@ -2,6 +2,32 @@
 
 What's done, what's in progress, and what gaps remain. This is the only place that tracks the state of the knowledge base. See [AGENTS.md](AGENTS.md).
 
+## Week 2 Lecture 1 — Agent primitives (in progress)
+
+Started: 2026-11-15. Branch: `week-2-lecture-1-agent-primitives`. Folder: `Week2_Lecture_1_Agent_Primitives/`. Sources: the S02E01 article (primary) and the transcript (a retail-agent demo used as a worked example only).
+
+### Done
+
+Eight notes, one question each, written to steps 1 to 4 of "Way of thinking" (problem, words, validation, shortest version). They keep the `draft_` prefix until I add my input.
+
+- **01 Agent loop: stop, limits, recovery** (`draft_01_Agent_Loop_Stop_Limits_Recovery.md`) — loop exits, step limit versus LangGraph `recursion_limit`, error recovery.
+- **02 Threads, persistence, isolation** (`draft_02_Threads_Persistence_Isolation.md`) — what a harness stores, who may touch it, per-user separation. Claude Code's sandbox covers shell commands only.
+- **03 Instructions: five parts and enforcement** (`draft_03_Instructions_Five_Parts_And_Enforcement.md`) — prompt parts versus code-enforced boundaries. The "80% of the system prompt removed" claim holds in a narrower form.
+- **04 Context window, cache, compaction** (`draft_04_Context_Window_Cache_Compaction.md`) — stable prefix, on-demand tools, compaction, skill re-injection.
+- **05 Agentic memory** (`draft_05_Agentic_Memory_Extraction_Retrieval.md`) — four parts, three problems, recall, retention window versus memory, the demo's memory options mapped to my stack.
+- **06 Tools: awareness, discovery, code mode** (`draft_06_Tools_Awareness_Discovery_Code_Mode.md`) — Uber's gateway is over 800 MCP servers and over 5000 tools, not "8000+".
+- **07 Tool approval and durable waits** (`draft_07_Tool_Approval_Durable_Waits.md`).
+- **08 Evals and traces for agent changes** (`draft_08_Evals_And_Traces_For_Agent_Changes.md`).
+
+### Gaps
+
+- **Waiting for my input** (step 5, "Listen"): no note has my insights yet.
+- **Unverified:** Goose's loop and its turn limits, Codex retry behaviour, Semantic Kernel's max auto-invoke defaults, the Claude Code subagent transcript layout and Pi session format, Joel Hooks' pipeline (site did not resolve), supermemory, Hindsight's license, LangGraph Studio traces, OpenTelemetry GenAI status (spec moved to `open-telemetry/semantic-conventions-genai`), the demo framework's memory docs.
+- **Read in part:** the Claude Code errors page (first 100,000 characters), the sandbox page, the Anthropic caching page (about 100,000 of 167,000). Cache numbers (minimums, TTLs, prices) come from page summaries.
+- **The lecturer's three example repositories** (resumable-run, loop-error-recovery, prompt-eval-loop) were read as page summaries, not code.
+- **README:** the lecturer's new tools (Pi, Goose, Mastra, mem0, supermemory, Hindsight, lamarck, Treg) are not yet in the reference setup.
+- **Rule glob:** `.claude/rules/note-format.md` matches `Lecture_*` folders only, so it does not load for this folder.
+
 ## Lecture 5 — Workflows, not tool sets (in progress)
 
 Started: 2026-11-09. Branch: `lecture-5-transcript`.

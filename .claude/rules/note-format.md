@@ -25,9 +25,10 @@ Keep this order. Leave a section out when I have nothing real to put in it (neve
 | 8 | `## My take` | Architect view, Aras mapping, an infrastructure analogy. Only if it adds what the other sections lack | If needed |
 | 9 | `## Cautions` | Real limits and risks of the idea or of my check | If needed |
 | 10 | `## Summary` | Two to four lines | Yes |
-| 11 | `## Open questions` | Real questions only | If needed |
-| 12 | `## Fact-check` | Table: `# \| Claim \| Verdict \| Source \| Checked` | Yes |
-| 13 | `## Sources` | Links. Says which parts are my own reasoning | Yes |
+| 11 | `## Glossary` | Week 2 onward. Table: term, what it means here, the same thing in LangGraph / Semantic Kernel / other frameworks. Internals terms only (loop, superstep, checkpoint, prefix cache). It defines terms; `## 2. Words` separates terms that are conflated | Yes from Week 2 |
+| 12 | `## Open questions` | Real questions only | If needed |
+| 13 | `## Fact-check` | Table: `# \| Claim \| Verdict \| Source \| Checked` | Yes |
+| 14 | `## Sources` | Links. Says which parts are my own reasoning | Yes |
 
 **File name while a note is being redone:** the file carries a `draft_` prefix (`draft_05_Seek_Tedium.md`). When the note is final, I drop the prefix and give it its number in the folder. The prefix is the only place the state shows. The note body and the READMEs do not say "draft".
 

@@ -158,7 +158,7 @@ The five parts (personality, environment, context, discovery, boundaries) are a 
 
 | Term | What it means here | Same thing elsewhere |
 |---|---|---|
-| Archetype | The loop pattern an agent follows: ReAct or Deep Agent | `create_react_agent`, now superseded by `langchain.agents.create_agent`; `create_deep_agent` |
+| Archetype | The loop pattern an agent follows: ReAct or Deep Agent | `langchain.agents.create_agent`, `create_react_agent` (older), `create_deep_agent` |
 | ReAct | A loop where the model reasons, calls a tool, reads the result and repeats | Paper: [ReAct, arXiv 2210.03629](https://arxiv.org/abs/2210.03629) |
 | Deep Agent | A ReAct-style loop with planning, sub-agents and a filesystem added | LangChain Deep Agents (search summary: verify before presenting) |
 | Tagged chapter | One prompt concern wrapped in an XML-like tag | Anthropic: XML tags per content type |

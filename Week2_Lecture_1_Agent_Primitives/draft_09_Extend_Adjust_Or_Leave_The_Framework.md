@@ -40,7 +40,7 @@ The lecture's two harness boxes become, in my reading, three moves for an agent 
 |---|---|---|---|---|
 | Add a tool | The agent gets a new capability. The loop is untouched | A tool, an MCP server, a skill | Same in Claude Code, Pi, Semantic Kernel plugins | Lowest |
 | Adjust the harness | Behaviour at a fixed point changes: watch, change or block | Middleware hooks `before_agent`, `before_model`, `wrap_model_call`, `after_model`, `wrap_tool_call`, `after_agent` | Pi extensions subscribe to lifecycle events and register tools. Semantic Kernel filters. Claude Code hooks | Low to medium |
-| Step out of the paradigm | The control flow is written another way | LangGraph Functional API (`entrypoint`, `task`) on the same runtime, or my own loop on a provider SDK, or another harness | Pi, Deep Agents | Highest |
+| Step out of the paradigm | The control flow is written another way | LangGraph Functional API (`entrypoint`, `task`), or my own loop on a provider SDK, or another harness | Pi, Deep Agents | Highest |
 
 ```mermaid
 flowchart TD
@@ -56,7 +56,7 @@ flowchart TD
     style S fill:#d44,stroke:#d44,color:#fff
 ```
 
-Stepping out of the paradigm does not mean leaving the runtime. LangGraph's two APIs run on the same runtime and can be combined in one application, and both support durable execution through a checkpointer. The Functional API is the documented fit for existing procedural code, and it has no graph visualization because the graph is built at runtime ([choosing APIs](https://docs.langchain.com/oss/python/langgraph/choosing-apis.md), search summary). So I can write one part as ordinary code and keep persistence and resume.
+Stepping out of the paradigm does not mean losing persistence. In the Functional API a task can be called from an entrypoint, another task or a Graph API node. Replay starts at the entrypoint and restores completed task results from the checkpointer, and `interrupt` works inside an entrypoint when a checkpointer is passed ([Functional API](https://docs.langchain.com/oss/python/langgraph/functional-api), page read). So I can write one part as ordinary code and keep resume.
 
 ## 5. What industry sources say
 
@@ -102,9 +102,9 @@ An agent improvement is a tool, a hook or a different control flow, in that orde
 |---|---|---|---|---|
 | 1 | Knowing agentic logic lets me build or customize a harness and build agentic tools for myself or a product | **Lecture-specific** | Figure 4 of the article | 2026-11-15 |
 | 2 | Start with direct API calls, frameworks add abstraction that obscures prompts and makes debugging harder, understand the code under a framework | **Agrees** | [Building effective agents](https://anthropic.com/engineering/building-effective-agents), search summary. Vendor sells the API | 2026-11-15 |
-| 3 | LangChain agents expose middleware hooks `before_agent`, `before_model`, `wrap_model_call`, `after_model`, `wrap_tool_call`, `after_agent` | **Agrees**, search summary | [LangChain middleware reference](https://reference.langchain.com/python/langchain/middleware/), [blog](https://blog.langchain.com/how-middleware-lets-you-customize-your-agent-harness). Names may change: `create_agent` is replacing `create_react_agent`. Verify before presenting | 2026-11-15 |
-| 4 | LangGraph's Graph and Functional APIs share one runtime, can be combined, and both support durable execution | **Agrees**, search summary | [Functional API](https://docs.langchain.com/oss/python/langgraph/functional-api), [durable execution](https://docs.langchain.com/oss/python/durable-execution). Whether `interrupt` works the same in both APIs: verify before presenting | 2026-11-15 |
-| 5 | Pi extensions subscribe to lifecycle events and register tools the model can call | **Agrees**, search summary | [Pi extensions](https://pi.dev/docs/latest/extensions). Event names change between versions (0.80.x to 0.81.x seen) | 2026-11-15 |
+| 3 | LangChain agents expose middleware hooks `before_agent`, `before_model`, `wrap_model_call`, `after_model`, `wrap_tool_call`, `after_agent` | **Agrees** | [Custom middleware](https://docs.langchain.com/oss/python/langchain/middleware/custom), page read: all six listed. That `create_agent` supersedes `create_react_agent` is **unverified**: only a forum thread says so, the docs read do not | 2026-11-15 |
+| 4 | Functional API: tasks callable from a Graph API node, replay restarts at the entrypoint, `interrupt` works in an entrypoint with a checkpointer | **Agrees** | [Functional API](https://docs.langchain.com/oss/python/langgraph/functional-api), page read. "One shared runtime" is not stated in any page read: **unverified** | 2026-11-15 |
+| 5 | Pi extensions subscribe to lifecycle events and register tools the model can call | **Agrees** | [Pi extensions](https://docs.pi.dev/latest/extensions), read (middle section summarized). Event names change between versions | 2026-11-15 |
 | 6 | Prefer official provider SDKs over multi-provider abstractions | **Lecture-specific** (opinion) | Article, "Connection" paragraph. Anthropic's advice on frameworks points the same way but is not about multi-provider SDKs | 2026-11-15 |
 
 ## Sources
@@ -112,6 +112,6 @@ An agent improvement is a tool, a hook or a different control flow, in that orde
 - S02E01 article, figure 4.
 - [Anthropic: Building effective agents](https://anthropic.com/engineering/building-effective-agents)
 - [LangChain: How middleware lets you customize your agent harness](https://blog.langchain.com/how-middleware-lets-you-customize-your-agent-harness) and the [middleware reference](https://reference.langchain.com/python/langchain/middleware/)
-- [LangGraph Functional API](https://docs.langchain.com/oss/python/langgraph/functional-api) and [durable execution](https://docs.langchain.com/oss/python/durable-execution)
-- [Pi extensions](https://pi.dev/docs/latest/extensions)
+- [LangGraph Functional API](https://docs.langchain.com/oss/python/langgraph/functional-api)
+- [Pi extensions](https://docs.pi.dev/latest/extensions)
 - My own reasoning: the three-move ladder, the decision flow, the worked example and the "what I must understand" table.

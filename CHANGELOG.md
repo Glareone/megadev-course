@@ -2,6 +2,36 @@
 
 What's done, what's in progress, and what gaps remain. This is the only place that tracks the state of the knowledge base. See [AGENTS.md](AGENTS.md).
 
+## Week 2 Lecture 2 — Building an agent (in progress)
+
+Started: 2026-11-18. Branch: `week2-lecture2`. Folder: `Week2_Lecture_2_Building_an_Agent/`. Sources: the S02E02 article (written lesson) and the audio transcript (an exchange-agent demo). Restore guide and backlog: [MEMORY.md](MEMORY.md).
+
+### Done
+
+- **01 LLM vs classification** (`01_LLM_vs_Classification.md`, formerly `01_LLM_vs_DecisionModel.md`) — trained classifiers against LLM-based steps: how each is used and supported, side-by-side table, scenarios (volume, latency, cheap hosted, tenant-defined drifting categories, offline, learn the data first), cascade, the shape of the step (one label or two flags), Anthropic's routing pattern.
+- **02 Classification model vs decision model** — where labels are bound (rules, trained, zero-shot NLI, LLM enum, decision model), the typed-answer contract, what sits under Decision-1, Kev, Laya and Jev (TypedBench), what changes in use.
+- **03 Classification options market** (formerly 02) — classical ML, trained and zero-shot encoders, SetFit, Comprehend, Azure AI Language, Azure ML AutoML, Vertex AutoML Text (deprecated), LLM enums; what each returns per class.
+- **04 Jev and Microsoft-Decision-1** (formerly 03) — reference card: maker, price, access, call shape, calibration findings, how to try.
+- **05 Support chat in production** (formerly 04) — how Lex Assisted NLU, Rasa CALM, Dialogflow CX, Azure CLU and Zendesk route a message; common shape; where to start for a support chat.
+- **06 Workflow vs LangGraph** — guardrail, workflow and durable told apart; composing calls against enforcing a process (the lecture's use); who is the outer layer; nine frameworks compared from their docs.
+- **07 Workflows on the fly and todo lists** — what Deep Agents `write_todos` is, three levels of runtime change, the resume cost, a fixed executor over a model-written plan.
+- **08 Mastra workflow mapped to LangGraph** — the lecture's exchange flow in both engines; step, suspend, run id and snapshot mapped; what reruns on resume; idempotency keys; where they differ.
+- **Correction (01, 03):** the "one to two orders of magnitude lower cost and latency" claim belongs to arXiv 2602.06370 (fine-tuned encoders against LLM prompting, four generic datasets, abstract read), not to 2607.27421, which compares 41 open-weight LLMs.
+- **Correction (03, 05):** Azure AI Language custom text classification, CLU, orchestration workflow and question answering retire on 2029-03-31 (replacement Microsoft Foundry); the earlier "no retirement notice found" was wrong. Custom NER: no notice found; LUIS not checked.
+- **Correction (01, 02):** a decision model is a typed-answer contract, not an LLM architecture. Decision-1 and Kev are decoders, Laya is a 421M encoder with a decision head, Jev's mechanism is not published (TypedBench).
+- **Links** — Week 2 Lecture 1 notes 03, 05, 14, 16, 17, 21 link back to note 01. Root README has the Week 2 Lecture 2 table and the S02E02 tools table.
+
+### Gaps
+
+- **Article not yet covered** (details and links in MEMORY.md): why a custom agent (intro), the 13 architecture questions and build options, shaping the environment (core features), the six primitives (Event, Schedule, Document, Skill, Journal, Channel), providers and configuration (gateway, adapters, routing, OpenRouter, Bedrock, Azure, Arena Max, Chat Completions to Responses), tool design (false-positive 200, Stripe price chain, four native tools, read-only workspace, guide), context management (cache stack, mid-turn developer message, tool hooks), long-horizon agents beyond the engines (events, journal and documents as memory, reflection, queues, pi-durable, pi-until), takeaways.
+- **Transcript not yet covered:** customer identity from the session, inventory tool with filters and real IDs, quote computed in code, structured output with a Zod schema for the UI, retry limits inside tools against the agent step limit, the MCP chapter.
+- **Ideas not yet written:** category discovery then fast classification, the support-chat handoff payload, a guardrails note (entry content safety, harness internals, tool results), a plan to try Jev and Decision-1 on a synthetic set (no call run, needs my yes first).
+- **Lecture claims not yet fact-checked:** 99% cache hit rate and mid-turn messages, Stripe price change, Chat Completions to Responses, OpenRouter limits, Arena Max, the Cloudflare Agents SDK link, Pi, Goose, pi-durable, pi-until, Lee Robinson's lecture, the false-success example repo.
+- Unverified: Comprehend and Azure `Score` and `confidenceScore` semantics, Azure ML AutoML inference output, CLU and LUIS retirement, Anthropic logprobs (rest of the Messages API page unread), Jev base model and license, Comprehend price list.
+- Jev's `choice` question body keys differ per provider page; no call has been run.
+- How Decision-1 and Jev compute their probabilities over options is not documented.
+- Workflows: LangChain chains status, Semantic Kernel Process current status, whether `TodoListMiddleware` runs as a separate graph node, and whether a per-request compiled LangGraph graph stays resumable are unverified. Mastra: whether a suspended step reruns from its first line, how a run id is tied to a conversation, and how an agent calls a workflow are unverified (human-in-the-loop, agents-and-tools and control-flow pages not read). CrewAI Flows, ADK dynamic workflows and the Temporal blog were read in part.
+
 ## Week 2 Lecture 1 — Agent primitives (in progress)
 
 Started: 2026-11-15. Branch: `week-2-lecture-1-agent-primitives`. Folder: `Week2_Lecture_1_Agent_Primitives/`. Sources: the S02E01 article (primary) and the transcript (a retail-agent demo used as a worked example only).

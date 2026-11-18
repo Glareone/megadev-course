@@ -14,11 +14,14 @@ Not a codebase. Output is Markdown (+ diagrams) that I re-read and present.
 ## Before writing anything
 1. **Check what already exists.** Grep the repo for the topic; extend or link an existing file instead of duplicating it.
 2. **Check cross-references.** Every file has a `Related:` line. When you add/rename/split a topic, update links in both directions and keep numbers/titles in sync. No broken relative links.
-3. Match the existing file shape (H1 `# N. Title`, `>` one-line summary, `Related:`, sections, Important / Not important for diagrams). The full form (order, minimums, colors, checklist) is in `.claude/rules/note-format.md`.
+3. Match the existing file shape (H1 `# N. Title`, `>` one-line summary, `Related:`, sections, Important / Not important for diagrams). The full form (order, minimums, colors, checklist) is in `.claude/rules/note-format.md`. From Week 2: Glossary first, at most 150 lines, numbering `NN_Title.md`. The rule's path glob matches `Lecture_*` folders only, so I apply it by hand in the Week 2 folders.
 
 ## How we work
 - Take the lecture's recommendation → **refine** it → **check how it maps to industry standards** (vendor docs, papers, common practice). Say where it agrees, differs, or is lecture-specific.
 - Mark anything not verified from a primary source: "verify before presenting" + link the source.
+- **No upfront drafts.** I navigate during the lecture and the audio. Notes are written step by step after my input, one topic at a time.
+- **A note is distilled:** my thinking plus the validation, not a retelling of the lecture. The title states the finding, with no "I pick" wording.
+- **Focus on real production:** when to choose what (latency, supportability, flexibility), how a thing is used, how it is supported, and what the market and vendors actually use.
 - Keep it simple: plain words, short sentences, tables/mermaid when they beat prose.
 - **Voice: first person singular.** Write as me: "I", "my", "me". Never "we", "our" or "us" in the notes. Keep "we" only inside quotes from the lecture or a source. After renaming a heading, fix the anchors that link to it.
 - **The lecturer's reference setup** (the tools, automated workflows and repositories he names) is kept in README.md under "The lecturer's reference setup". When a lecture names a new tool or workflow, add it to the matching category there and name the lecture it came from: [https://github.com/overment/limen](https://github.com/overment/limen)
@@ -33,7 +36,7 @@ The lecturer's ideas may be outdated, stale, or wrong. Never copy a claim into a
 - Anything we could not verify stays marked "verify before presenting".
 - **Fix outdated or wrong facts at once, in the note body.** A verdict in the fact-check table is not enough. Rewrite the sentence so it is simply right and cite the primary source. Leave no correction marker. What changed goes in CHANGELOG.md.
 - **Fix it everywhere.** Grep the whole repo (all lectures) for the same claim and correct every note that repeats it. When we edit an old note, re-check its time-sensitive claims (models, tool behaviour, versions, prices, limits).
-- Prefer the primary source over a search summary. When a search summary supports a correction, confirm it against the vendor docs and say which one we read.
+- Prefer the primary source over a search summary. When a search summary supports a correction, confirm it against the vendor docs and say which one we read. A search summary has misattributed a paper once, so read the page before citing it.
 
 ## Way of thinking (follow in order, don't skip)
 1. **Problem** – state what question the topic answers.
@@ -58,6 +61,7 @@ A note, a README or a table always reads as a finished document. It states what 
 
 ## Rules
 - Never read or print `.env`, `github.pat`, `configuration.txt` (secrets).
+- **No local file paths and no user name or surname in any repo file** (notes, MEMORY.md, README, CHANGELOG, tables). The repo may become public. Name source files by bare file name. Before finishing a write, grep the repo for the username and `C:\Users`.
 - **Content scope:** notes hold how we think, analyze and struggle. Never put Aras business secrets, customer data, PII, credentials or other Restricted Data in any file. If an example needs business detail, abstract it. If something slips in, stop and tell me.
 - **No install or execution without my explicit yes.** This covers packages (brew, npm, winget, pip), Docker image pulls and anything installed inside a container, `sbx` and Pi, sandboxes, agents and model calls, and changes to another repository. Before asking, state the exact command, what it changes, how to undo it, and the risk (see [Lecture 5: 10](Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md)). Then wait. A yes covers that one action, not the next. Read-only checks and work inside the session scratchpad need no approval.
 - Don't commit unless asked. Branch per lecture: `feature/lesson-N`.

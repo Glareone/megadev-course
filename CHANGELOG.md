@@ -15,6 +15,7 @@ Started: 2026-11-18. Branch: `week2-lecture-2`. Folder: `Week2_Lecture_2_Buildin
 - **05 Support chat in production** (formerly 04) — how Lex Assisted NLU, Rasa CALM, Dialogflow CX, Azure CLU and Zendesk route a message; common shape; where to start for a support chat.
 - **06 Workflow vs LangGraph** — guardrail, workflow and durable told apart; composing calls against enforcing a process (the lecture's use); who is the outer layer; nine frameworks compared from their docs.
 - **07 Workflows on the fly and todo lists** — what Deep Agents `write_todos` is, three levels of runtime change, the resume cost, a fixed executor over a model-written plan.
+- **08 Mastra workflow mapped to LangGraph** — the lecture's exchange flow in both engines; step, suspend, run id and snapshot mapped; what reruns on resume; idempotency keys; where they differ.
 - **Correction (01, 03):** the "one to two orders of magnitude lower cost and latency" claim belongs to arXiv 2602.06370 (fine-tuned encoders against LLM prompting, four generic datasets, abstract read), not to 2607.27421, which compares 41 open-weight LLMs.
 - **Correction (03, 05):** Azure AI Language custom text classification, CLU, orchestration workflow and question answering retire on 2029-03-31 (replacement Microsoft Foundry); the earlier "no retirement notice found" was wrong. Custom NER: no notice found; LUIS not checked.
 - **Correction (01, 02):** a decision model is a typed-answer contract, not an LLM architecture. Decision-1 and Kev are decoders, Laya is a 421M encoder with a decision head, Jev's mechanism is not published (TypedBench).
@@ -27,7 +28,7 @@ Started: 2026-11-18. Branch: `week2-lecture-2`. Folder: `Week2_Lecture_2_Buildin
 - Unverified: Comprehend and Azure `Score` and `confidenceScore` semantics, Azure ML AutoML inference output, CLU and LUIS retirement, Anthropic logprobs (rest of the Messages API page unread), Jev base model and license, Comprehend price list.
 - Jev's `choice` question body keys differ per provider page; no call has been run.
 - How Decision-1 and Jev compute their probabilities over options is not documented.
-- Workflows: LangChain chains status, Semantic Kernel Process current status, whether `TodoListMiddleware` runs as a separate graph node, and whether a per-request compiled LangGraph graph stays resumable are unverified. CrewAI Flows, ADK dynamic workflows and the Temporal blog were read in part.
+- Workflows: LangChain chains status, Semantic Kernel Process current status, whether `TodoListMiddleware` runs as a separate graph node, and whether a per-request compiled LangGraph graph stays resumable are unverified. Mastra: whether a suspended step reruns from its first line, how a run id is tied to a conversation, and how an agent calls a workflow are unverified (human-in-the-loop, agents-and-tools and control-flow pages not read). CrewAI Flows, ADK dynamic workflows and the Temporal blog were read in part.
 
 ## Week 2 Lecture 1 — Agent primitives (in progress)
 

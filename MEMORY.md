@@ -1,6 +1,6 @@
 # MEMORY — S02E02 Building an Agent
 
-Navigation index only. No lecture content is copied here. Work folder: `Week2_Lecture_2_Building_an_Agent/` (notes 01 to 07 written, the rest is built live during the lecture; state in CHANGELOG.md).
+Navigation index only. No lecture content is copied here. Work folder: `Week2_Lecture_2_Building_an_Agent/` (notes 01 to 08 written, the rest is built live during the lecture; state in CHANGELOG.md).
 
 ## Sources
 

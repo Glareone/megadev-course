@@ -213,6 +213,8 @@ Folder: [Week2_Lecture_2_Building_an_Agent](Week2_Lecture_2_Building_an_Agent/).
 | [03](Week2_Lecture_2_Building_an_Agent/03_Classification_Options_Market.md) | Classification options on the market: Classical ML, trained and zero-shot encoders, SetFit, AWS Comprehend, Azure AI Language, Azure ML AutoML, deprecated Vertex AutoML Text, LLM enums, what each returns per class |
 | [04](Week2_Lecture_2_Building_an_Agent/04_Jev_And_Microsoft_Decision_1.md) | Jev and Microsoft-Decision-1: Who makes them, price, access, a call shape, what vendors and TypedBench say about calibration, how I would try them |
 | [05](Week2_Lecture_2_Building_an_Agent/05_Support_Chat_In_Production.md) | Support chat in production: How Amazon Lex, Rasa, Dialogflow CX, Azure CLU and Zendesk route a message (first pass, confidence gate, handoff), where I start for a support chat, Azure's 2029 retirements |
+| [06](Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) | Workflow vs LangGraph: Guardrail, workflow and durable told apart, composing calls against enforcing a process, who is the outer layer, LangGraph, Mastra, CrewAI, ADK, Microsoft Agent Framework, Semantic Kernel and others compared |
+| [07](Week2_Lecture_2_Building_an_Agent/07_Workflows_On_The_Fly_And_Todo_Lists.md) | Workflows on the fly and todo lists: What the Deep Agents todo list is, three levels of runtime change, the resume cost, a fixed executor over a model-written plan |
 
 ### Example skills I keep (not enabled)
 
@@ -306,7 +308,7 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 |---|---|---|
 | Jev ([LLM Gateway docs](https://docs.llmgateway.io/features/system-one)) | TypeSafe's hosted decision model: typed answers with per-option probabilities | [01](Week2_Lecture_2_Building_an_Agent/01_LLM_vs_Classification.md), [04](Week2_Lecture_2_Building_an_Agent/04_Jev_And_Microsoft_Decision_1.md) |
 | [Microsoft-Decision-1](https://ai.azure.com/catalog/models/Microsoft-Decision-1) | Microsoft's decision model on Foundry, Qwen3.5-9B post-trained, preview. Not named by the lecturer, added as the Azure counterpart | [04](Week2_Lecture_2_Building_an_Agent/04_Jev_And_Microsoft_Decision_1.md) |
-| [Mastra](https://mastra.ai/) | Framework with `createStep`, suspend and resume, named in the S02E02 article and the transcript demo | Not yet covered |
+| [Mastra](https://mastra.ai/) | Framework with `createStep`, suspend and resume, named in the S02E02 article and the transcript demo | [06](Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) |
 | [OpenRouter](https://openrouter.com/), [Amazon Bedrock](https://aws.amazon.com/bedrock/model-choice/), [Azure AI Foundry](https://azure.microsoft.com/en-us/products/ai-foundry/models) | Provider gateways named in the S02E02 article | Not yet covered |
 | [pi-durable](https://github.com/earendil-works/pi/tree/main/packages/durable), [pi-until](https://github.com/joelhooks/pi-until) | Durable execution and watchers for Pi, named in the S02E02 article | Not yet covered |
 

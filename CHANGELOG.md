@@ -13,6 +13,8 @@ Started: 2026-11-18. Branch: `week2-lecture-2`. Folder: `Week2_Lecture_2_Buildin
 - **03 Classification options market** (formerly 02) — classical ML, trained and zero-shot encoders, SetFit, Comprehend, Azure AI Language, Azure ML AutoML, Vertex AutoML Text (deprecated), LLM enums; what each returns per class.
 - **04 Jev and Microsoft-Decision-1** (formerly 03) — reference card: maker, price, access, call shape, calibration findings, how to try.
 - **05 Support chat in production** (formerly 04) — how Lex Assisted NLU, Rasa CALM, Dialogflow CX, Azure CLU and Zendesk route a message; common shape; where to start for a support chat.
+- **06 Workflow vs LangGraph** — guardrail, workflow and durable told apart; composing calls against enforcing a process (the lecture's use); who is the outer layer; nine frameworks compared from their docs.
+- **07 Workflows on the fly and todo lists** — what Deep Agents `write_todos` is, three levels of runtime change, the resume cost, a fixed executor over a model-written plan.
 - **Correction (01, 03):** the "one to two orders of magnitude lower cost and latency" claim belongs to arXiv 2602.06370 (fine-tuned encoders against LLM prompting, four generic datasets, abstract read), not to 2607.27421, which compares 41 open-weight LLMs.
 - **Correction (03, 05):** Azure AI Language custom text classification, CLU, orchestration workflow and question answering retire on 2029-03-31 (replacement Microsoft Foundry); the earlier "no retirement notice found" was wrong. Custom NER: no notice found; LUIS not checked.
 - **Correction (01, 02):** a decision model is a typed-answer contract, not an LLM architecture. Decision-1 and Kev are decoders, Laya is a 421M encoder with a decision head, Jev's mechanism is not published (TypedBench).
@@ -20,11 +22,12 @@ Started: 2026-11-18. Branch: `week2-lecture-2`. Folder: `Week2_Lecture_2_Buildin
 
 ### Gaps
 
-- The S02E02 article is not yet covered: primitives, providers and routing, tool design, context stack, workflows.
+- The S02E02 article is not yet covered: primitives, providers and routing, tool design, context stack.
 - Transcript topics not yet written: structured output with a schema, suspend and resume workflow, idempotency and retry limits.
 - Unverified: Comprehend and Azure `Score` and `confidenceScore` semantics, Azure ML AutoML inference output, CLU and LUIS retirement, Anthropic logprobs (rest of the Messages API page unread), Jev base model and license, Comprehend price list.
 - Jev's `choice` question body keys differ per provider page; no call has been run.
 - How Decision-1 and Jev compute their probabilities over options is not documented.
+- Workflows: LangChain chains status, Semantic Kernel Process current status, whether `TodoListMiddleware` runs as a separate graph node, and whether a per-request compiled LangGraph graph stays resumable are unverified. CrewAI Flows, ADK dynamic workflows and the Temporal blog were read in part.
 
 ## Week 2 Lecture 1 — Agent primitives (in progress)
 

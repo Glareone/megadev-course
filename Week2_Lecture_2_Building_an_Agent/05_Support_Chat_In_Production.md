@@ -2,7 +2,7 @@
 
 > Amazon Lex, Rasa and Dialogflow CX each combine a trained or LLM-based first pass with a confidence gate and a fallback, Lex runs the trained model first and the LLM only on low confidence, and Azure's trained language services (CLU, custom text classification, orchestration workflow) retire on 2029-03-31.
 
-Related: [01 Two paradigms](01_LLM_vs_Classification.md) · [02 Classification model vs decision model](02_ClassificationModel_vs_DecisionModel.md) · [03 Classification options](03_Classification_Options_Market.md) · [04 Jev and Microsoft Decision-1](04_Jev_And_Microsoft_Decision_1.md) · [W2L1 14 Approval and durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md)
+Related: [01 Two paradigms](01_LLM_vs_Classification.md) · [02 Classification model vs decision model](02_ClassificationModel_vs_DecisionModel.md) · [03 Classification options](03_Classification_Options_Market.md) · [04 Jev and Microsoft Decision-1](04_Jev_And_Microsoft_Decision_1.md) · [W2L1 14 Approval and durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) · [06 Workflow vs LangGraph](06_Workflow_vs_LangGraph.md)
 
 Source: vendor documentation read on 2026-11-18, listed in [Sources](#sources). Search-summary material is marked. The navigation table is my own reasoning.
 

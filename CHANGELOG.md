@@ -4,7 +4,7 @@ What's done, what's in progress, and what gaps remain. This is the only place th
 
 ## Week 2 Lecture 2 — Building an agent (in progress)
 
-Started: 2026-11-18. Branch: `week2-lecture-2`. Folder: `Week2_Lecture_2_Building_an_Agent/`. Sources: the S02E02 article (not yet turned into notes) and the audio transcript (an exchange-agent demo).
+Started: 2026-11-18. Branch: `week2-lecture2`. Folder: `Week2_Lecture_2_Building_an_Agent/`. Sources: the S02E02 article (written lesson) and the audio transcript (an exchange-agent demo). Restore guide and backlog: [MEMORY.md](MEMORY.md).
 
 ### Done
 
@@ -23,8 +23,10 @@ Started: 2026-11-18. Branch: `week2-lecture-2`. Folder: `Week2_Lecture_2_Buildin
 
 ### Gaps
 
-- The S02E02 article is not yet covered: primitives, providers and routing, tool design, context stack.
-- Transcript topics not yet written: structured output with a schema, suspend and resume workflow, idempotency and retry limits.
+- **Article not yet covered** (details and links in MEMORY.md): why a custom agent (intro), the 13 architecture questions and build options, shaping the environment (core features), the six primitives (Event, Schedule, Document, Skill, Journal, Channel), providers and configuration (gateway, adapters, routing, OpenRouter, Bedrock, Azure, Arena Max, Chat Completions to Responses), tool design (false-positive 200, Stripe price chain, four native tools, read-only workspace, guide), context management (cache stack, mid-turn developer message, tool hooks), long-horizon agents beyond the engines (events, journal and documents as memory, reflection, queues, pi-durable, pi-until), takeaways.
+- **Transcript not yet covered:** customer identity from the session, inventory tool with filters and real IDs, quote computed in code, structured output with a Zod schema for the UI, retry limits inside tools against the agent step limit, the MCP chapter.
+- **Ideas not yet written:** category discovery then fast classification, the support-chat handoff payload, a guardrails note (entry content safety, harness internals, tool results), a plan to try Jev and Decision-1 on a synthetic set (no call run, needs my yes first).
+- **Lecture claims not yet fact-checked:** 99% cache hit rate and mid-turn messages, Stripe price change, Chat Completions to Responses, OpenRouter limits, Arena Max, the Cloudflare Agents SDK link, Pi, Goose, pi-durable, pi-until, Lee Robinson's lecture, the false-success example repo.
 - Unverified: Comprehend and Azure `Score` and `confidenceScore` semantics, Azure ML AutoML inference output, CLU and LUIS retirement, Anthropic logprobs (rest of the Messages API page unread), Jev base model and license, Comprehend price list.
 - Jev's `choice` question body keys differ per provider page; no call has been run.
 - How Decision-1 and Jev compute their probabilities over options is not documented.

@@ -1,75 +1,75 @@
 # MEMORY — S02E02 Building an Agent
 
-Navigation index only. No lecture content is copied here. Work folder: `Week2_Lecture_2_Building_an_Agent/` (notes 01 to 08 written, the rest is built live during the lecture; state in CHANGELOG.md).
+Navigation and restore index for this lecture. It holds pointers and the backlog, not lecture content. The state of the work (done, gaps, corrections) is in [CHANGELOG.md](CHANGELOG.md), section "Week 2 Lecture 2".
 
-## Sources
+## How to restore a session
 
-| Source | File (kept outside the repo) | What it is |
+1. Read this file, then the "Week 2 Lecture 2" section of CHANGELOG.md.
+2. Read [AGENTS.md](AGENTS.md) and `.claude/rules/note-format.md` (the rule's path glob does not match Week 2 folders, so I apply it by hand).
+3. Open the notes in `Week2_Lecture_2_Building_an_Agent/` (table below). Note 01 shows the house style for this lecture.
+4. The two source files are kept outside the repo and are not in git: the article `s02e02-building-an-agent.md` (written lesson, 15 figures on hq.mega.dev) and the audio transcript `s02e02-transcript.md` (one block, about 20 minutes). Ask me to provide them again before turning a backlog item into a note.
+5. Branch `week2-lecture2`. Check `git status` and `git log` first, since I commit myself.
+
+## Notes written (01 to 08)
+
+| # | File | The answer in one line |
 |---|---|---|
-| Article | `s02e02-building-an-agent.md` | Written lesson, 15 figures (hq.mega.dev links), sections below |
-| Audio transcript | `s02e02-transcript.md` | One block, about 20 min, different topic from the article (see Transcript) |
+| 01 | `01_LLM_vs_Classification.md` | Trained classifiers against LLM-based steps: how each is used and supported, scenarios (volume, latency, hosted, tenant categories), cascade |
+| 02 | `02_ClassificationModel_vs_DecisionModel.md` | A decision model is a typed-answer contract, not an architecture (Decision-1 and Kev decoders, Laya encoder, Jev unknown) |
+| 03 | `03_Classification_Options_Market.md` | Options by how much I own, what each returns per class, Azure Language retirements 2029-03-31 |
+| 04 | `04_Jev_And_Microsoft_Decision_1.md` | Reference card for trying Jev and Decision-1, calibration findings |
+| 05 | `05_Support_Chat_In_Production.md` | How Lex, Rasa, Dialogflow CX, Azure CLU and Zendesk route a message, where to start |
+| 06 | `06_Workflow_vs_LangGraph.md` | Guardrail, workflow and durable told apart, nine frameworks compared |
+| 07 | `07_Workflows_On_The_Fly_And_Todo_Lists.md` | Plan as data against runtime structure, the resume cost, a fixed executor |
+| 08 | `08_Mastra_Workflow_Mapped_To_LangGraph.md` | The lecture's exchange flow in Mastra and LangGraph, what reruns on resume |
 
-## Article map (section → what it answers)
+## Backlog: what the lecture has that no note covers yet
 
-| Section | Core idea | Figures |
+Article (sections in order):
+
+| # | Section | Core idea | Figures | Link to, when written |
+|---|---|---|---|---|
+| A1 | Intro | Why build an agent when Claude or Devin exist: a tenant's own harness cannot use platform-wide insights | 1 | A2 |
+| A2 | Architecture | 13 design questions (autonomy, UI, profiles, capabilities, memory, self-evolve, cache 99%, security). Chosen path: self-evolving, primitive-based, durable agent. Scratch, framework (Mastra, Cloudflare Agents SDK) or open harness (Pi, Goose) | 2 | W2L1 17, 19 |
+| A3 | Core features | Shape the environment (interface, rules, limits) instead of features. Photo-filter example, then tools, panels, workflows. Ambient knowledge-base agent with no UI | 3, 4, 5 | W2L1 23 |
+| A4 | Primitives | Event, Schedule, Document, Skill, Journal (append-only), Channel (only way to the user). Filesystem against database | 6 | W2L1 26, 12 |
+| A5 | Providers and configuration | Gateway plus adapters, multi-model, OpenRouter, Bedrock, Azure, Arena "Max" router, primary and secondary routing, Chat Completions to Responses | 7, 8 | W2L1 21, note 01 cascade |
+| A6 | Designing tools | False-positive 200 (music player), Stripe price change chain, four native tools (core.exec, web.search, web.fetch, channel.send), read-only workspace, guide as documents and skills, "dreaming" | 9 to 12 | W2L1 25, 07, 08 |
+| A7 | Context management | Cache-friendly stack, mid-turn developer message with only what changed, tool hooks, scheduled user message | 13 | W2L1 24, 06, 20 |
+| A8 | Workflows and long-horizon (rest) | Events as activity signals, journal and documents as memory between runs, reflection sets the next wake-up, queues or versioning for parallel updates, pi-durable, pi-until | 14, 15 | W2L1 10 to 15; notes 06 to 08 cover only the engines |
+| A9 | Takeaways and links | Custom harness or extensions, Lee Robinson's always-on agents lecture, MCP Apps, generative UI | none | A2 |
+
+Transcript (exchange agent, partly covered by notes 01 and 06 to 08):
+
+| # | Topic | State |
 |---|---|---|
-| Intro | Why build an agent when Claude / Devin exist: the user's harness cannot use platform-wide insights, so the platform needs its own harness | 1 |
-| Architecture | 13 design questions (autonomy, UI, profiles, capabilities, memory, self-evolve, cache 99%, security...). Chosen path: self-evolving, primitive-based, durable agent. Build from scratch, framework (Mastra, Cloudflare Agents SDK) or open harness (Pi, Goose) | 2 |
-| Core features | We stop designing features and shape the environment (interface, rules, limits). Example: photo-editing filters, then whole tools / panels / workflows. Ambient knowledge-base agent with no UI | 3, 4, 5 |
-| Primitives | Six: Event, Schedule, Document, Skill, Journal (append-only), Channel (only way to the user). Combined, they give behavior not designed upfront | 6 |
-| Providers and configuration | Gateway + provider adapters, multi-model, primary / secondary routing, OpenRouter, Bedrock, Azure, Arena "Max" router, Chat Completions to Responses migration | 7, 8 |
-| Designing tools | Do not trust raw APIs: false-positive 200 (music player), required action chains (Stripe price change). Four native tools: core.exec, web.search, web.fetch, channel.send. Harness-only: journal.append, events.add. Read-only vs read-write workspace. Guide = Documents + Skills ("augmented tools") | 9, 10, 11, 12 |
-| Context management | Cache-friendly stack: system prompt (role, capabilities, agent-editable notes), tools (exec / search / fetch), initial developer message, scheduled user message, mid-turn developer message with only what changed, tool hooks | 13 |
-| Workflows and long-horizon | Events as activity signals, Journal + Documents as memory between runs, reflection sets next wake-up. Parallel updates need queues or versioning. pi-durable, pi-until | 15, 14 |
-| Takeaways | Custom harness or extensions for specialization; the experience outlives the agent | none |
+| T1 | Policy enforced in code, customer identity from the session so the model cannot choose whose order | Mentioned in 01 only |
+| T2 | Inventory tool with filters returning real product IDs, quote computed in code | Not covered |
+| T3 | Structured output with a Zod schema for the UI (status, message, amounts, exchange ID or null, field descriptions) | Not covered |
+| T4 | Validating the decision answer before branching, threshold 0.8 arbitrary | In 01 and 02 |
+| T5 | Retry limits inside tools (2 retries, 10 s timeout) not counted in the agent's 5-step limit | Not covered; idempotency is in 08 |
+| T6 | Test set built around the distinctions the agent must make | In 01 (test set), link W2L1 16 |
+| T7 | Next chapter: service connections behind MCP | Not covered |
 
-## Transcript map (audio lecture, retail exchange agent)
+Ideas raised in the session, not yet written:
+- A two-step pattern for tenant-defined categories: a generative LLM proposes categories, a fast model classifies.
+- The handoff payload for a support chat (what a person needs).
+- A guardrails note: content safety at the entry and prompt protection inside the harness, including whether tool results need the same check.
+- A plan to try Jev and Decision-1 on a synthetic labeled set. No call has been run. Any install or model call needs my explicit yes first (AGENTS.md).
+- Fine-tuning a small LLM later for tenant categories; per-request categories as data in the call.
 
-Worked example, not the article's agent. Same pattern as the S02E01 retail demo.
+## Fact-check backlog
 
-1. Exchange policy enforced in code (30 days, no final sale, quantity not already exchanged); customer identity comes from the session, never from the model.
-2. Inventory tool with size / color filters, returns real product IDs. Quote computed in code ("anything you can do in code, you should").
-3. Decision model for issue classification: choice (fit / defect / unclear), score (frustration 0..N), yes/no probability. Returns probabilities + confidence. Validate the answer, then branch in code. Threshold 0.8 is arbitrary, tune with evals. Defect goes to a human.
-4. Structured output via Zod schema for the UI (status, message, amounts, exchange ID or null).
-5. Workflow with suspend / resume: assess, propose, wait for the customer, confirm or decline. Progress saved in DB and linked to the conversation.
-6. Idempotency: the request ID ties retries together; saved receipt returned on a repeat. Retry limits inside the tool (2 retries, 10 s timeout) do not count toward the agent's step limit (5).
-7. Next chapter: move service connections behind MCP.
+Resolved: the decision model is Jev (TypeSafe), the engine is Mastra, "System 1" is the System One API class.
 
-Transcription oddities to resolve before presenting: the decision model is called "JEFF" / "JEV", the vendor "System 1", the workflow engine "Maestro" (the API shape, create_step / suspend / resume_data, looks like Mastra). Names are unverified.
+Still unchecked from the lecture: "99% cache hit rate is critical" and mid-turn developer messages keeping the cache; Stripe cannot modify a price; Chat Completions to Responses limits models and features; OpenRouter loses provider-native features; Arena "Max" router; the Cloudflare Agents SDK link target; Pi, Goose, pi-durable, pi-until claims; Lee Robinson's lecture; the false-success example repo.
 
-## Links to Week 2 Lecture 1 notes (extend, do not duplicate)
+Unverified items inside the written notes are listed in the CHANGELOG gaps.
 
-| Topic here | Existing note |
-|---|---|
-| Step limits, retries, recovery | `Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md` |
-| Approval, durable waits (suspend / resume) | `04_HITL_And_Execution_Isolation.md`, `14_Tool_Approval_Durable_Waits.md` |
-| Memory, journal, audit ledger | `10_Memory.md` to `13_Memory_Operations.md` |
-| Evals before changing an agent | `16_Evals_For_Agent_Changes.md` |
-| Framework vs scratch vs open harness | `17_Extend_Adjust_Or_Leave_The_Framework.md`, `19_Pi_LangGraph_DeepSeek_Harnesses.md` |
-| Harness, hooks, self-configuring | `18_Harness_Around_The_Loop.md`, `20_Loop_Hooks_Declared.md`, `23_Self_Configuring_Harness.md` |
-| Cache hit rate, mid-turn context | `24_KV_Cache_And_Prompt_Caching.md`, `07_Context_Tool_Awareness_Avoids_Compression.md` |
-| Code mode / tool execution | `25_Tool_Execution_Instead_Of_Tool_Calls.md` |
-| Packages primitive | `26_Packages.md` |
+## Reference setup candidates
 
-## Claims to fact-check (mandatory, none checked yet)
+Added to the root README table "Tools the lecturer names (S02E02)": Jev, Microsoft-Decision-1, Mastra (links note 06). Still "Not yet covered": OpenRouter, Amazon Bedrock, Azure AI Foundry, pi-durable, pi-until. Not yet in the table: Cloudflare Agents SDK, Pi, Goose, Arena Max, MCP Apps.
 
-- "99% cache hit rate is critical", mid-turn developer message keeps the cache valid.
-- Stripe cannot modify an existing price (create new, deactivate old).
-- Chat Completions to Responses migration limits access to models / features.
-- OpenRouter loses provider-native features. Arena "Max" router exists as described.
-- Cloudflare "Agents SDK" link target, Mastra, Pi, Goose, pi-durable, pi-until repo claims.
-- Lee Robinson Stanford CS146S "How always-on agents work".
-- "A decision model from TypeSafe" (vendor name unverified).
-- False-success example repo (MEGA-DOT-DEV/examples, false-success-tool).
+## Working agreement
 
-## Reference setup candidates (add to README "lecturer's reference setup" when confirmed)
-
-Mastra, Cloudflare Agents SDK, Pi, Goose, OpenRouter, Amazon Bedrock, Azure AI Foundry, Arena Max, pi-durable, pi-until, MCP Apps. Source lecture: S02E02.
-
-## Working agreement for this lecture
-
-- No upfront drafts. I navigate during the lecture and audio; notes are written step by step.
-- Follow the six-step way of thinking in AGENTS.md; wait for my input before the final file.
-- Week 2 note shape: Glossary first, `.claude/rules/note-format.md` by hand (glob does not match Week 2 folders).
-- Numbering style in this week: `NN_Title.md`.
-- Progress goes to CHANGELOG.md only.
+The working rules (no upfront drafts, distilled notes titled by the finding, production focus, primary-source checks, Week 2 shape, no local paths or names, no commits unless asked) are in [AGENTS.md](AGENTS.md).

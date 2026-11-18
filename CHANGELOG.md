@@ -2,6 +2,30 @@
 
 What's done, what's in progress, and what gaps remain. This is the only place that tracks the state of the knowledge base. See [AGENTS.md](AGENTS.md).
 
+## Week 2 Lecture 2 — Building an agent (in progress)
+
+Started: 2026-11-18. Branch: `week2-lecture-2`. Folder: `Week2_Lecture_2_Building_an_Agent/`. Sources: the S02E02 article (not yet turned into notes) and the audio transcript (an exchange-agent demo).
+
+### Done
+
+- **01 LLM vs classification** (`01_LLM_vs_Classification.md`, formerly `01_LLM_vs_DecisionModel.md`) — trained classifiers against LLM-based steps: how each is used and supported, side-by-side table, scenarios (volume, latency, cheap hosted, tenant-defined drifting categories, offline, learn the data first), cascade, the shape of the step (one label or two flags), Anthropic's routing pattern.
+- **02 Classification model vs decision model** — where labels are bound (rules, trained, zero-shot NLI, LLM enum, decision model), the typed-answer contract, what sits under Decision-1, Kev, Laya and Jev (TypedBench), what changes in use.
+- **03 Classification options market** (formerly 02) — classical ML, trained and zero-shot encoders, SetFit, Comprehend, Azure AI Language, Azure ML AutoML, Vertex AutoML Text (deprecated), LLM enums; what each returns per class.
+- **04 Jev and Microsoft-Decision-1** (formerly 03) — reference card: maker, price, access, call shape, calibration findings, how to try.
+- **05 Support chat in production** (formerly 04) — how Lex Assisted NLU, Rasa CALM, Dialogflow CX, Azure CLU and Zendesk route a message; common shape; where to start for a support chat.
+- **Correction (01, 03):** the "one to two orders of magnitude lower cost and latency" claim belongs to arXiv 2602.06370 (fine-tuned encoders against LLM prompting, four generic datasets, abstract read), not to 2607.27421, which compares 41 open-weight LLMs.
+- **Correction (03, 05):** Azure AI Language custom text classification, CLU, orchestration workflow and question answering retire on 2029-03-31 (replacement Microsoft Foundry); the earlier "no retirement notice found" was wrong. Custom NER: no notice found; LUIS not checked.
+- **Correction (01, 02):** a decision model is a typed-answer contract, not an LLM architecture. Decision-1 and Kev are decoders, Laya is a 421M encoder with a decision head, Jev's mechanism is not published (TypedBench).
+- **Links** — Week 2 Lecture 1 notes 03, 05, 14, 16, 17, 21 link back to note 01. Root README has the Week 2 Lecture 2 table and the S02E02 tools table.
+
+### Gaps
+
+- The S02E02 article is not yet covered: primitives, providers and routing, tool design, context stack, workflows.
+- Transcript topics not yet written: structured output with a schema, suspend and resume workflow, idempotency and retry limits.
+- Unverified: Comprehend and Azure `Score` and `confidenceScore` semantics, Azure ML AutoML inference output, CLU and LUIS retirement, Anthropic logprobs (rest of the Messages API page unread), Jev base model and license, Comprehend price list.
+- Jev's `choice` question body keys differ per provider page; no call has been run.
+- How Decision-1 and Jev compute their probabilities over options is not documented.
+
 ## Week 2 Lecture 1 — Agent primitives (in progress)
 
 Started: 2026-11-15. Branch: `week-2-lecture-1-agent-primitives`. Folder: `Week2_Lecture_1_Agent_Primitives/`. Sources: the S02E01 article (primary) and the transcript (a retail-agent demo used as a worked example only).

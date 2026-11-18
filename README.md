@@ -202,6 +202,18 @@ Folder: [Week2_Lecture_1_Agent_Primitives](Week2_Lecture_1_Agent_Primitives/). W
 | [25](Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) | Tool execution instead of tool calls: The lecture's code mode figure, function calling against scripts, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, parallel calls versus scripts, large results stored and read by chunk (memory bound to context), what I would review |
 | [26](Week2_Lecture_1_Agent_Primitives/26_Packages.md) | Packages: The lecture's package figure, Anthropic's code-execution pattern, Voyager's skill library, Agent Skills docs, and the guards a saved package needs |
 
+### Week 2, Lecture 2: Building an agent
+
+Folder: [Week2_Lecture_2_Building_an_Agent](Week2_Lecture_2_Building_an_Agent/).
+
+| # | Topic |
+|---|---|
+| [01](Week2_Lecture_2_Building_an_Agent/01_LLM_vs_Classification.md) | LLM vs classification: Trained classifiers against LLM-based steps, how each is used and supported, a side-by-side table, scenarios (volume, latency, hosted, tenant-defined categories), a cascade, Anthropic's routing pattern |
+| [02](Week2_Lecture_2_Building_an_Agent/02_ClassificationModel_vs_DecisionModel.md) | Classification model vs decision model: Where labels are bound (rules, trained, zero-shot NLI, LLM enum, decision model), the typed-answer contract, and what sits under Decision-1, Kev, Laya and Jev |
+| [03](Week2_Lecture_2_Building_an_Agent/03_Classification_Options_Market.md) | Classification options on the market: Classical ML, trained and zero-shot encoders, SetFit, AWS Comprehend, Azure AI Language, Azure ML AutoML, deprecated Vertex AutoML Text, LLM enums, what each returns per class |
+| [04](Week2_Lecture_2_Building_an_Agent/04_Jev_And_Microsoft_Decision_1.md) | Jev and Microsoft-Decision-1: Who makes them, price, access, a call shape, what vendors and TypedBench say about calibration, how I would try them |
+| [05](Week2_Lecture_2_Building_an_Agent/05_Support_Chat_In_Production.md) | Support chat in production: How Amazon Lex, Rasa, Dialogflow CX, Azure CLU and Zendesk route a message (first pass, confidence gate, handoff), where I start for a support chat, Azure's 2029 retirements |
+
 ### Example skills I keep (not enabled)
 
 These are pinned, verbatim copies of other people's skills, kept as examples of good structure. Claude Code loads project skills from `.claude/skills/`, so these folders are **not loaded**. Each has a `SOURCE.md` with the repository, commit, version and license. Read the code before you enable or run anything.
@@ -287,6 +299,16 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 | [mem0](https://mem0.ai/), [supermemory](https://supermemory.ai/), [Hindsight](https://hindsight.vectorize.io/), [lamarck](https://github.com/johnlindquist/lamarck) | Agent memory projects | [10](Week2_Lecture_1_Agent_Primitives/10_Memory.md) |
 | [Treg](https://github.com/superdesigndev/treg) | Hosted proxy and registry for external tools | [09](Week2_Lecture_1_Agent_Primitives/09_Tool_Search_And_Proxy_Gateway.md) |
 | [Mastra](https://mastra.ai/) | Agent framework used in the transcript demo, worked example only | [15](Week2_Lecture_1_Agent_Primitives/15_Trace_A_Run_And_Size_Its_Step_Limit.md), [16](Week2_Lecture_1_Agent_Primitives/16_Evals_For_Agent_Changes.md) |
+
+### Tools the lecturer names (S02E02)
+
+| Name | What it does | Notes |
+|---|---|---|
+| Jev ([LLM Gateway docs](https://docs.llmgateway.io/features/system-one)) | TypeSafe's hosted decision model: typed answers with per-option probabilities | [01](Week2_Lecture_2_Building_an_Agent/01_LLM_vs_Classification.md), [04](Week2_Lecture_2_Building_an_Agent/04_Jev_And_Microsoft_Decision_1.md) |
+| [Microsoft-Decision-1](https://ai.azure.com/catalog/models/Microsoft-Decision-1) | Microsoft's decision model on Foundry, Qwen3.5-9B post-trained, preview. Not named by the lecturer, added as the Azure counterpart | [04](Week2_Lecture_2_Building_an_Agent/04_Jev_And_Microsoft_Decision_1.md) |
+| [Mastra](https://mastra.ai/) | Framework with `createStep`, suspend and resume, named in the S02E02 article and the transcript demo | Not yet covered |
+| [OpenRouter](https://openrouter.com/), [Amazon Bedrock](https://aws.amazon.com/bedrock/model-choice/), [Azure AI Foundry](https://azure.microsoft.com/en-us/products/ai-foundry/models) | Provider gateways named in the S02E02 article | Not yet covered |
+| [pi-durable](https://github.com/earendil-works/pi/tree/main/packages/durable), [pi-until](https://github.com/joelhooks/pi-until) | Durable execution and watchers for Pi, named in the S02E02 article | Not yet covered |
 
 ## Repository rules
 

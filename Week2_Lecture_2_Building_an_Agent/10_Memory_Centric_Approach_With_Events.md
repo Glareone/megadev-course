@@ -46,6 +46,16 @@ flowchart LR
 - **Important:** memory is the center, and events come from changes to it. Only Messages reaches me. The wake-up rate follows the loop: busy week often, quiet week rarely.
 - **Not important:** the bar heights of the two weeks, which the article calls illustrative.
 
+**The same loop on one example.** A saved link wakes the agent days later.
+
+![The article's example for a knowledge-base agent. In the red frame "Environment we shape": the Event "link saved" triggers the Skill "summarize article into a note", which writes a note into the Document "research topics". The Schedule "every Monday" updates Documents. Every action leaves an entry in the Journal ("09:12 summarized article", "Mon 08:00 updated 3 research notes"). The Agent reflects: it reads the Journal, saves repeated work as a Skill, sets "wake up in 2 days" on the Schedule and sends a short digest through the Channel to the User. A Trace panel links the entry "09:12 summarized article" "made by" the Skill, "triggered by" the Event "link saved".](img/wake-up-after-delay-event-skill-journal-trace.png)
+
+Source: S02E02 article, figure 6. Caption: "Six general blocks combine into behavior that nobody designed upfront, and every step stays inside the environment we shape. When something goes wrong, the Journal shows what happened and why."
+
+- **Important:** the 2-day wake-up is a schedule entry the agent wrote after reading its journal, not a timer I set. The Trace panel is the point: each journal entry points to the skill that made it and the event that triggered it, so the chain can be read backwards. Only the Channel crosses the frame to me.
+- **Not important:** the times and the example names.
+- **Two lists of six:** this figure names Event, Schedule, Document, Skill, Journal, Channel. Figure 5 names Memory, Events, Tools, Messages, Journal, Schedule. My mapping: Document is the memory I edit, Channel is where messages go, and a Skill is repeated work saved on top of the tools. The article does not give the mapping.
+
 ## 3. What I register
 
 | Primitive | I record | Why |
@@ -71,7 +81,7 @@ A self-scheduling agent can run away, so I would bound it: a minimum and a maxim
 
 ## 5. Wake-ups and the cache
 
-Claude Code's docs say a run exactly five minutes after the last one would start after the 5-minute prompt cache expired, so it fires 15 seconds sooner. A self-set schedule has the same trap: waking just after the TTL pays a full prefill ([09](09_Cache_Hit_Rate_And_P90_Latency.md)). I either wake inside the TTL or accept the miss and keep the prefix short.
+Claude Code's docs say a run exactly five minutes after the last one would start after the 5-minute prompt cache expired, so it fires 15 seconds sooner. A self-set schedule has the same trap: waking just after the TTL pays a full prefill ([09](09_Cache_Hit_Rate_And_P90_Latency.md)). A 2-day wake-up as in the example is longer than any TTL I know of (OpenAI 30 minutes or 12 hours, [W2L1 24](../Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md)), so every such wake-up starts with a miss and the prefix of a wake-up run should stay small. I either wake inside the TTL or accept the miss and keep the prefix short.
 
 ## Summary
 
@@ -96,6 +106,7 @@ Memory changes emit events, events wake the agent, and the agent reflects on its
 | 5 | Letta runs background memory consolidation | **Agrees** | [Letta docs](https://docs.letta.com/guides/agents/architectures/sleeptime): the page calls it "Dreaming" | 2026-11-22 |
 | 6 | `pi-until` gives watchers and recurring wake-ups | **Unverified** | [Repository](https://github.com/joelhooks/pi-until) not read. Verify before presenting | 2026-11-22 |
 | 7 | The journal is read-only for the agent (figure 11) and has `journal.write` (figure 5) | **Differs** within the article | S02E02 article, figures 5 and 11 | 2026-11-22 |
+| 8 | Figures 5 and 6 name different six primitives (Memory, Messages, Tools against Document, Channel, Skill) | **Differs** within the article | S02E02 article. The mapping is mine | 2026-11-22 |
 
 ## Sources
 

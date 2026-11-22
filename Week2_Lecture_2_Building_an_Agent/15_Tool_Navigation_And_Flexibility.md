@@ -69,9 +69,26 @@ I found no source that compares OData or GraphQL with curated tools. Search summ
 
 Clear names with a shared prefix (`orders_search`, `orders_get`), a system-prompt line that names the tool categories, deferred tools found by search when the set grows ([W2L1 08](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md)), a tool list filtered by state or context (LangChain), and a skill that says which tools make a flow ([14](14_Execution_Flows_Skill_Tool_Or_Workflow.md)).
 
+## 6. Low error rate with supervised freedom
+
+A failed call is a whole extra step: a model call plus a tool call. With `n` calls per run, failure rate `f` and step time `t`, a run grows by about `n × f × t` (my arithmetic), so the error rate is a latency lever ([09](09_Cache_Hit_Rate_And_P90_Latency.md)). Others stack several layers, and only the first prevents the error:
+
+| Layer | What others use | For my OData tool |
+|---|---|---|
+| Shape and constrain | MCP: a JSON Schema input and an optional output schema. Provider-side enforcement: Anthropic `strict: true`, grammar-constrained sampling, "Tool input strictly follows the input_schema". Limits: no numeric or string constraints, no `oneOf`, a regex subset, extra latency on the first use of a schema (cached 24 hours, invalidated when the schema or the tool set changes). OpenAI custom tools take a Lark or regex grammar (LLGuidance) for free-form text such as SQL, with the warning "syntactically valid but semantically wrong" | I have typed, structured input and output with variable validation. Unknown: does my harness send `strict` to the model API, or only validate after the call? `$filter` is a free string, so a schema cannot check it. Options: a grammar, or a structured filter (property enum, operator enum, value) that my server turns into OData (my reasoning) |
+| Teach | Anthropic `input_examples`: 72% to 90% on complex parameter handling (internal test, costs tokens). OpenAI: examples may hurt reasoning models | Test examples on my model |
+| Narrow | Tool search: Opus 4 49% to 74%, Opus 4.5 79.5% to 88.1% on large tool libraries (Anthropic's tests). Pydantic AI `prepare` hides a tool per step | Few tools per step |
+| Repair without a step ([20](20_Repair_Tool_Calls_Before_A_Step_Is_Spent.md)) | AI SDK `repairToolCall` fixes an invalid call "without adding extra steps", by a structured-output model, a stronger model or targeted instructions | A repair hook before the call counts as a failure |
+| Self-correct cheaply | Validation errors go back to the model (MCP, Pydantic AI). A retry budget per tool, default 1 in Pydantic AI | Errors that name the valid choices; a cap per tool |
+| Fewer calls | Programmatic tool calling: tokens down 37% on research tasks (Anthropic) | Retries inside a script |
+| Supervise | MCP: a human in the loop SHOULD be able to deny calls. Read-only roles, approval for writes | Reads free, writes approved ([14](14_Execution_Flows_Skill_Tool_Or_Workflow.md)) |
+| Measure | arXiv 2507.15296: five parameter-failure categories, with name hallucination from model limits; 2504.15546: 2,400+ generated test cases for enterprise APIs | I count failures on my own taxonomy: about 1 to 1.5% of calls with the skill loaded, 3 to 5% without skills (external agents on my MCP server). The skill cuts the rate about three times (my arithmetic on the midpoints) |
+
+**Comparison with my setup:** structured input and output, variable validation, the docstring and the annotations cover the shaping, teaching and self-correcting layers, and validation acts after the model has written the call. What the others add is provider-side enforcement (`strict`, grammars) and repair before a step is spent. A dynamic schema, such as enums built from my metadata, changes the tool definitions per tenant, so it also costs grammar compilation and invalidates the prompt prefix ([10](10_Cache_And_Context_Window.md)).
+
 ## Summary
 
-Vendors converge on descriptions, typed schemas, enums, actionable errors, bounded results and few tools. My OData, validation and Pydantic setup matches the documented route. What I add: bounded defaults, enums from the metadata, errors that name the valid choices, named tools for frequent and risky work, and an evaluation of the descriptions.
+Vendors converge on descriptions, typed schemas, enums, actionable errors, bounded results and few tools, and the ones that care about error rate add constrained generation and repair before a step is spent. My OData, validation and Pydantic setup matches the documented route. What I add: bounded defaults, enums from the metadata, errors that name the valid choices, named tools for frequent and risky work, and an evaluation of the descriptions.
 
 ## Open questions
 
@@ -79,6 +96,8 @@ Vendors converge on descriptions, typed schemas, enums, actionable errors, bound
 - Which five questions account for most of my OData calls?
 - Do examples in my descriptions help or hurt on my model?
 - What share of my calls end in an execution error, and how often does the retry fix it?
+- Which error classes cost me the most steps, and which layer in section 6 would remove them?
+- Do dynamic enums per tenant cost more in cache and grammar compilation than they save in errors?
 
 ## Fact-check
 
@@ -93,9 +112,18 @@ Vendors converge on descriptions, typed schemas, enums, actionable errors, bound
 | 7 | Generic query tools suit exploration and cost more on repeated tasks | **Unverified** | Search summary of cloud-vendor and Elastic blogs. The [AWS MCP tool design post](https://aws.amazon.com/blogs/machine-learning/mcp-tool-design-practical-approaches-and-tradeoffs/) returned no article text. Verify before presenting | 2026-11-22 |
 | 8 | OData or GraphQL against curated tools | **Not found** | One search, no direct comparison | 2026-11-22 |
 | 9 | An agent can make its own tools if I give guidance and ways to test names, descriptions, schemas and output | **Lecture-specific** | S02E02 article. Anthropic's advice to evaluate tools is consistent with it | 2026-11-22 |
+| 10 | Strict mode constrains tool inputs to the schema; it limits keywords and compiles a grammar on first use | **Agrees** | [Strict tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use), [structured outputs](https://platform.claude.com/docs/en/build-with-claude/structured-outputs), read to 100,000 of 112,853 characters | 2026-11-22 |
+| 11 | OpenAI custom tools constrain free-form text with a Lark or regex grammar, and output can still be semantically wrong | **Agrees**; full conformance **Unverified** | [Cookbook](https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_new_params_and_tools), fetch summary. A community thread disputes strict conformance | 2026-11-22 |
+| 12 | Examples lift complex-parameter accuracy 72% to 90%; tool search 49% to 74% and 79.5% to 88.1%; programmatic calling cuts tokens 37% | **Agrees**, vendor's own tests | [Anthropic advanced tool use](https://www.anthropic.com/engineering/advanced-tool-use), fetch summary | 2026-11-22 |
+| 13 | AI SDK repairs invalid tool calls without extra steps | **Agrees** | [AI SDK tools](https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling), fetch summary | 2026-11-22 |
+| 14 | Pydantic AI returns validation errors to the model, counts retries per tool (default 1), hides tools per step | **Agrees** | [Pydantic AI tools](https://pydantic.dev/docs/ai/tools-toolsets/tools-advanced/), last 9,014 characters unread | 2026-11-22 |
+| 15 | Five parameter-failure categories; mitigations: standard return formats, better error feedback, parameter consistency | **Agrees** | [arXiv 2507.15296](https://arxiv.org/abs/2507.15296), abstract | 2026-11-22 |
+| 16 | A framework generated 2,400+ test cases for enterprise APIs as tools, with an error taxonomy | **Agrees** | [arXiv 2504.15546](https://arxiv.org/abs/2504.15546), abstract | 2026-11-22 |
+| 17 | Extra run time is about `n × f × t`; a structured filter avoids OData syntax errors | **Unverified** | My reasoning | 2026-11-22 |
 
 ## Sources
 
 - S02E02 article, "Designing tools".
 - [LangChain tools](https://docs.langchain.com/oss/python/langchain/tools) · [MCP tools spec](https://modelcontextprotocol.io/specification/2025-11-25/server/tools) · [OpenAI function calling](https://developers.openai.com/api/docs/guides/function-calling) · [Anthropic: writing tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) · [TheMCPCompany](https://arxiv.org/abs/2510.19286)
-- My own reasoning: the ladder of flexibility and the OData review table.
+- [Anthropic strict tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use) · [Anthropic advanced tool use](https://www.anthropic.com/engineering/advanced-tool-use) · [OpenAI GPT-5 custom tools](https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_new_params_and_tools) · [AI SDK tools](https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling) · [Pydantic AI tools](https://pydantic.dev/docs/ai/tools-toolsets/tools-advanced/) · [arXiv 2507.15296](https://arxiv.org/abs/2507.15296) · [arXiv 2504.15546](https://arxiv.org/abs/2504.15546)
+- My own reasoning: the ladder of flexibility, the OData review table and the cost formula in section 6.

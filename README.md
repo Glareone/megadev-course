@@ -231,6 +231,7 @@ Folder: [Week2_Lecture_2_Building_an_Agent](Week2_Lecture_2_Building_an_Agent/).
 | [22](Week2_Lecture_2_Building_an_Agent/22_Long_Horizon_Runs_Concurrency_Durability_Watchers.md) | Long-horizon runs: parallel updates (Redis check-and-set, one writer per entity), pi-durable, pi-until, Temporal and a platform scheduler compared, why a two-day wake-up needs a real scheduler |
 | [23](Week2_Lecture_2_Building_an_Agent/23_Wake_And_Reflect_Agents_On_The_Market.md) | Wake and reflect on the market: ChatGPT Pulse, Letta dreaming and LangMem against the article's loop, Generative Agents, Reflexion and sleep-time compute, why reflection needs outside signals, guards and an ablation |
 | [24](Week2_Lecture_2_Building_an_Agent/24_Pi_Durable_How_It_Recovers_Long_Running_Tasks.md) | pi-durable in detail: commit-before-display, tool intent before execute, replay-safe tools, sleeping tasks and signals, the limits in its README, compared with Temporal and LangGraph, what I borrow |
+| [25](Week2_Lecture_2_Building_an_Agent/25_Always_On_Agents_Lee_Robinson_Talk_Mapped.md) | Always-on agents, the Lee Robinson talk: chapters, each secondary-source claim mapped to my notes, two points not yet covered, what to check in the video |
 
 ### Example skills I keep (not enabled)
 

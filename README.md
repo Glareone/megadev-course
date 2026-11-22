@@ -216,6 +216,9 @@ Folder: [Week2_Lecture_2_Building_an_Agent](Week2_Lecture_2_Building_an_Agent/).
 | [06](Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) | Workflow vs LangGraph: Guardrail, workflow and durable told apart, composing calls against enforcing a process, who is the outer layer, LangGraph, Mastra, CrewAI, ADK, Microsoft Agent Framework, Semantic Kernel and others compared |
 | [07](Week2_Lecture_2_Building_an_Agent/07_Workflows_On_The_Fly_And_Todo_Lists.md) | Workflows on the fly and todo lists: What the Deep Agents todo list is, three levels of runtime change, the resume cost, a fixed executor over a model-written plan |
 | [08](Week2_Lecture_2_Building_an_Agent/08_Mastra_Workflow_Mapped_To_LangGraph.md) | Mastra workflow mapped to LangGraph: The lecture's exchange flow in both engines, step to node, suspend to interrupt, runId to thread_id, snapshot to checkpoint, what reruns on resume, where they differ |
+| [09](Week2_Lecture_2_Building_an_Agent/09_Cache_Hit_Rate_And_P90_Latency.md) | Cache hit rate and P90 latency: What 95-99% cached input buys (arithmetic), what a hit does not touch (reasoning, decode, tools, steps), where a 75-89% rate may leak, the per-step fields to measure first |
+| [10](Week2_Lecture_2_Building_an_Agent/10_Memory_Centric_Approach_With_Events.md) | Memory-centric approach with events: Memory changes emit events that wake the agent, the six primitives, what to register (messages, journal, schedule), self-scheduling in Cloudflare Agents, Claude Code and Letta, guards, wake-ups against the cache TTL |
+| [12](Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) | Sandbox for agent code: Script, tool and harness walls told apart, what Pi (codemode in QuickJS, Gondolin micro-VM, `tool_search`), Cloudflare, Anthropic, the DeepSeek API and the community DeepSeek TUI provide, which wall for which situation |
 
 ### Example skills I keep (not enabled)
 

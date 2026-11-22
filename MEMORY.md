@@ -62,7 +62,7 @@ Ideas raised in the session, not yet written:
 
 Resolved: the decision model is Jev (TypeSafe), the engine is Mastra, "System 1" is the System One API class.
 
-Still unchecked from the lecture: "99% cache hit rate is critical" and mid-turn developer messages keeping the cache; Stripe cannot modify a price; Chat Completions to Responses limits models and features; OpenRouter loses provider-native features; Arena "Max" router; the Cloudflare Agents SDK link target; Pi, Goose, pi-durable, pi-until claims; Lee Robinson's lecture; the false-success example repo.
+Still unchecked from the lecture: "99% cache hit rate is critical" and mid-turn developer messages keeping the cache; Chat Completions to Responses limits models and features; OpenRouter loses provider-native features; Arena "Max" router; the Cloudflare Agents SDK link target; Pi, Goose, pi-durable, pi-until claims; Lee Robinson's lecture; the false-success example repo.
 
 Unverified items inside the written notes are listed in the CHANGELOG gaps.
 

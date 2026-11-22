@@ -125,6 +125,8 @@ Do this only in an **isolated test environment with fake data**. Never against r
 6. **Repeat across models and runs.** Results vary, and a pass doesn't prove safety.
 7. Keep the test as a **regression check** that runs on every change to tools, skills or the model.
 
+An automated version of this test, with tools and a plan: [Week 2 Lecture 2: 17](../Week2_Lecture_2_Building_an_Agent/17_Auto_Penetration_Testing_Of_My_Agent.md).
+
 Aras context: the policy forbids creating or assisting cyberattacks and handling restricted data in AI tools. Keep the test defensive, on synthetic data, in an isolated environment, and report any real exposure to legal@aras.com and infosec@aras.com.
 
 ## For agents we build for clients

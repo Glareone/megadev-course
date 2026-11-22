@@ -1,10 +1,10 @@
-# 15. A flow the agent must follow can live in a skill, in a tool, or in code; I keep judgment in the skill and move fixed sequences into consolidated tools and enforced steps, so the skill stops growing
+# 14. A flow the agent must follow can live in a skill, in a tool, or in code; I keep judgment in the skill and move fixed sequences into consolidated tools and enforced steps, so the skill stops growing
 
 > "Load the skill first, then do the job" works while the skill is small. As it grows I split it by what each part needs: judgment stays as text, a fixed sequence becomes one consolidated tool or script, and an order that must never break is enforced by a gate or a workflow; and because unloading a skill rewrites the thread, I switch flows with a subagent or a new thread, not by deleting text in the middle.
 
-Related: [06 Workflow vs LangGraph](06_Workflow_vs_LangGraph.md) · [09 Cache hit rate and P90](09_Cache_Hit_Rate_And_P90_Latency.md) · [10 Memory-centric approach with events](10_Memory_Centric_Approach_With_Events.md) · [12 Sandbox for agent code](12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [W2L1 22 Threads, subagents and A2A](../Week2_Lecture_1_Agent_Primitives/22_Threads_Vs_A2A_Subagents.md) · [W2L1 24 Prompt caching](../Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md) · [W2L1 14 Tool approval, durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) · [Lecture 5: 04 Executable Markdown](../Lecture_5_Workflows_not_tool_sets/04_Executable_Markdown_Skills_As_Programs.md)
+Related: [06 Workflow vs LangGraph](06_Workflow_vs_LangGraph.md) · [09 Cache hit rate and P90](09_Cache_Hit_Rate_And_P90_Latency.md) · [16 Memory-centric approach with events](16_Memory_Centric_Approach_With_Events.md) · [12 Sandbox for agent code](12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [W2L1 22 Threads, subagents and A2A](../Week2_Lecture_1_Agent_Primitives/22_Threads_Vs_A2A_Subagents.md) · [W2L1 24 Prompt caching](../Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md) · [W2L1 14 Tool approval, durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) · [Lecture 5: 04 Executable Markdown](../Lecture_5_Workflows_not_tool_sets/04_Executable_Markdown_Skills_As_Programs.md)
 
-Source: S02E02 article, "Designing tools" (the Stripe price example, figure 10). My own practice: one skill loaded per conversation, replaced when the task changes. Stripe's price update reference, Anthropic's tool-writing and agent-building articles read on 2026-11-22 through fetch summaries. See [Fact-check](#fact-check).
+Source: S02E02 article, "Designing tools" (the Stripe price example, figure 10, and the guide example, figure 12). My own practice: one skill loaded per conversation, replaced when the task changes. Stripe's price update reference, Anthropic's tool-writing and agent-building articles read on 2026-11-22 through fetch summaries. See [Fact-check](#fact-check).
 
 ## Glossary
 
@@ -15,6 +15,7 @@ Source: S02E02 article, "Designing tools" (the Stripe price example, figure 10).
 | Consolidated tool | One tool that does several API calls in the right order | Anthropic's `schedule_event` example | A thin wrapper over one endpoint |
 | Gate | A programmatic check between steps | Anthropic's prompt-chaining gate | A prompt rule |
 | Enforcement | Code that makes a wrong order impossible | Workflow step, tool precondition | Guidance |
+| Guide | The starting skills and documents I ship so the agent knows its workspace; the agent may edit them | The article's "guide" | AGENTS.md, which the user owns |
 | Unload | My term: removing a skill from the thread to load another | Not a vendor feature | Compaction |
 
 ## 1. The problem
@@ -30,7 +31,21 @@ Source: S02E02 article, figure 10. Caption: "Stripe does not let you modify the 
 - **Important:** the model knows this flow for Stripe, and not for my internal API, so the knowledge has to come from me. Stripe's update call takes `active`, `metadata`, `nickname`, `lookup_key`, `tax_behavior`, `currency_options` and `transfer_lookup_key`, and no amount. `transfer_lookup_key` moves a lookup key to the new price in one step.
 - **Not important:** the exact box labels.
 
-## 3. Four places a flow can live
+## 3. A guide that starts as a skill
+
+![The article's guide example. A Guide "from us" starts as the red skill weekly-digest, which the agent edits. The skill leads to three native tools, web.search, core.exec and channel.send. core.exec writes the Weekly digest Document. The skill file is skills/weekly-digest.md.](img/guide-skill-joins-native-tools-weekly-digest.png)
+
+Source: S02E02 article, figure 12. Caption: "A skill joins the existing tools into one flow and holds the report template. The agent can modify the skill, so each user gets a report in their own shape."
+
+```text
+skills/weekly-digest.md
+```
+
+- **Important:** the skill, not a new tool, joins the existing tools into one flow, and the agent may edit it, so the flow can drift per user. The tools stay fixed.
+- **My take:** I let the agent edit the template and the judgment parts, and I keep exact sequences in tools it cannot rewrite. Each edit goes into the journal so I can undo it ([16](16_Memory_Centric_Approach_With_Events.md), [12](12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) section 7).
+- **Not important:** the layout of the tool boxes.
+
+## 4. Four places a flow can live
 
 | Place | What it gives | What it costs | Use it for |
 |---|---|---|---|
@@ -52,7 +67,7 @@ flowchart TB
 
 Evidence: Anthropic says tools can handle "multiple discrete operations under the hood", with `schedule_event` instead of `list_users`, `list_events` and `create_event`. Its workflow article puts a programmatic "gate" between chained steps "to ensure that the process is still on track". My Lecture 5 note keeps Markdown for judgment and moves exact, repeated steps into scripts.
 
-## 4. When the skill grows
+## 5. When the skill grows
 
 My reasoning, from the limits in [W2L1 02](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) (body under 500 lines, about 5,000 tokens recommended):
 
@@ -61,7 +76,7 @@ My reasoning, from the limits in [W2L1 02](../Week2_Lecture_1_Agent_Primitives/0
 3. **Add a completion check.** The flow ends with a verification. The article's false-success example shows why: an API returned 200 although the player had not started.
 4. **Evaluate each flow** on its own tasks ([W2L1 16](../Week2_Lecture_1_Agent_Primitives/16_Evals_For_Agent_Changes.md)), and re-read the skill when the model changes.
 
-## 5. One skill per conversation and the swap
+## 6. One skill per conversation and the swap
 
 Removing a skill from the middle of the thread changes the prefix from that point, so everything after it misses the cache ([W2L1 24](../Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md): "append, never rewrite"). Claude Code does not unload either: an invoked skill stays, and after compaction up to 5,000 tokens per skill come back, 25,000 in total. Options:
 
@@ -73,9 +88,9 @@ Removing a skill from the middle of the thread changes the prefix from that poin
 | A new thread with a handoff summary | One cold start | Clean |
 | Unloading at compaction only | The cache is gone anyway | Clean |
 
-## 6. Showing that the flow was followed
+## 7. Showing that the flow was followed
 
-Each flow step writes a journal entry with the skill or tool that made it ([10](10_Memory_Centric_Approach_With_Events.md)). A gate or a trace check then compares the steps with the flow.
+Each flow step writes a journal entry with the skill or tool that made it ([16](16_Memory_Centric_Approach_With_Events.md)). A gate or a trace check then compares the steps with the flow.
 
 ## Summary
 
@@ -86,6 +101,7 @@ A flow lives where its guarantee is cheapest: judgment in the skill, fixed seque
 - How does my unload work today: deleting messages, or editing the system prompt? What does it do to my hit rate?
 - Which numbered steps in my skills are really tools?
 - Which of my flows are unsafe out of order and need enforcement?
+- Which parts of a starting skill may the agent edit, and which stay fixed?
 
 ## Fact-check
 

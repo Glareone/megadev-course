@@ -2,7 +2,7 @@
 
 > Going from 75-89% to 95-99% cached input removes most of the prefill work and about half of the input cost, but a cache hit does nothing for reasoning time, decode speed, tool time or the number of steps; so before I spend effort on the hit rate I split each step of my golden-set runs into those parts and test whether the high-hit calls are really faster.
 
-Related: [W2L1 24 Prompt caching](../Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md) · [W2L1 06 Context window and compaction](../Week2_Lecture_1_Agent_Primitives/06_Context_Window_And_Compaction.md) · [W2L1 25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) · [W2L1 03 Agent loop, limits and recovery](../Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) · [01 LLM vs classification](01_LLM_vs_Classification.md) · [12 Sandbox for agent code](12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [10 Memory-centric approach with events](10_Memory_Centric_Approach_With_Events.md)
+Related: [W2L1 24 Prompt caching](../Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md) · [W2L1 06 Context window and compaction](../Week2_Lecture_1_Agent_Primitives/06_Context_Window_And_Compaction.md) · [W2L1 25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) · [W2L1 03 Agent loop, limits and recovery](../Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) · [01 LLM vs classification](01_LLM_vs_Classification.md) · [12 Sandbox for agent code](12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [16 Memory-centric approach with events](16_Memory_Centric_Approach_With_Events.md)
 
 Source: S02E02 article, architecture question "Cache: how do we optimize for a 99% cache hit rate? And that's critical!" and the context-management section. My own golden-set numbers (below). OpenAI latency, reasoning and prompt-caching guides read through fetch summaries on 2026-11-22. See [Fact-check](#fact-check).
 
@@ -77,6 +77,7 @@ These are hypotheses until the logs confirm them. The mechanics are in [W2L1 24]
 | Sub-agents or branches with no shared prefix | Hit rate per agent name |
 | Model routing: each model has its own cache | Hit rate per model |
 | Too many requests per `prompt_cache_key` (about 15 per minute) | Hit rate against request rate per key |
+| Front trimming, in-place edits, a rebuilt system message | First differing position between consecutive requests, see [10](10_Cache_And_Context_Window.md#5-my-agent-today-piled-up-answers-and-system-messages) |
 | `tool_search` activation changing the tool list ([12](12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md#5-cache-and-tool-search)) | Hit rate after a tool activation |
 
 ## 5. Measure the whole picture first

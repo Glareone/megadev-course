@@ -1,4 +1,4 @@
-# 10. In a memory-centric agent every change to memory is an event, and I must record three things: the messages it sent, the journal of what it did, and the schedule it sets for itself
+# 16. In a memory-centric agent every change to memory is an event, and I must record three things: the messages it sent, the journal of what it did, and the schedule it sets for itself
 
 > The agent has no UI. The user edits notes, saves links or adds files; each change becomes an event that wakes the agent, which observes, reflects on its journal, acts and reschedules itself. Memory sits in the center. Messages, journal and schedule are the three records that make this loop safe to repeat, debug and undo.
 

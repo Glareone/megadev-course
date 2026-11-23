@@ -2,6 +2,24 @@
 
 What's done, what's in progress, and what gaps remain. This is the only place that tracks the state of the knowledge base. See [AGENTS.md](AGENTS.md).
 
+## Week 2 Lecture 3 — MCP, resources and skills (in progress)
+
+Started: 2026-11-23. Branch: `week2-lecture2-continue-building-agent-lecture`. Folder: `Week2_Lecture_3_MCP_MCP+Resources_Skills/`. Sources: the S02E03 written lesson (agentic capabilities) and the audio transcript (a Mastra retail-agent demo).
+
+### Done
+
+- **01 MCP resources** (`01_MCP_Resources_Static_Context_By_URI.md`, 2026-11-23) — resources only: ten misreadings with what I do instead, what a resource can hold (URI, static content, file, template, embedded), the stateless fit, what the spec, the learn page, the TypeScript SDK and hosts say (Claude Code, Gemini CLI, Cursor in conflict, Claude API connector tools only, Codex and VS Code not stated), and what the blogs advise (labeled secondary). Skills over MCP and MCP Apps are one line each; each gets its own note. Sources read through fetch agents and Context7. Lecture 1 note 12 and W2L2 note 15 link to it. README table and S02E03 tools table added.
+- **02 MCP resources and plugins** (`02_MCP_Resources_Plugins.md`, 2026-11-23) — the concept of a plugin told apart from an MCP extension and a registry entry; what plugins of Claude Code, Cursor, Gemini CLI, VS Code and Codex pack and how each declares an MCP server; how tools, resources, skills and files travel together (resources only inside the server). Several pages read in part, tails from summaries. Cursor MCP keys, the Codex manifest, the Agent Plugins spec and the current stage of Skills over MCP (Beta or Final) are unverified.
+- **03 Policy resource from the check rules** (`03_MCP_Resource_Policy_Text_From_The_Check_Rules.md`, 2026-11-23) — the transcript says the return-policy resource is built from the rules behind the eligibility checks, so the resource explains and the check decides (not "resources do checks"). Mapped to OPA (decoupling, structured output, explain), Claude Code hooks, OpenAI tool guardrails and Anthropic error advice. No published source found for generating prompt text and the check from one rule source. OPA docs generation, the exact combination and rule-repository tools are unverified. Note 01 has a new form row and a link.
+- **Checklist entry** (`notes_for_later_use/2026-11-23-mcp-resources-plugins-policy-checklist-s02e03-notes-01-03.md`, 2026-11-23, 23:01) — what to check (12 unverified claims with where they sit and how to check), what to read, what to adjust (Lecture 1 note 12, README, notes 01 and 02), what to try with my yes, and the notes still to write.
+
+### Gaps
+
+- **Packing inside one MCP server** (tools, resources, prompts, server instructions together, SDK limits, how hosts show them) is not written yet.
+- **Lesson not yet covered:** personalization and generalized instructions, MCP fundamentals (host, client, server, transports, upfront loading), designing a custom MCP (Spotify example, six-step process), skills with tools (cross-links, router skills).
+- **Transcript not yet covered:** code mode numbers (96% fewer tokens, one vendor demo), elicitation, MCP Apps in detail, skill testing.
+- **Unverified:** MCP Apps spec status and MIME constant, whether Codex and VS Code Copilot expose resources to the model, Cursor resource support, the 2,500-tool Cloudflare claim, SEP-2575 text.
+
 ## Week 2 Lecture 2 — Building an agent (in progress)
 
 Started: 2026-11-18. Branch: `week2-lecture2`. Folder: `Week2_Lecture_2_Building_an_Agent/`. Sources: the S02E02 article (written lesson) and the audio transcript (an exchange-agent demo). Restore guide and backlog: [MEMORY.md](MEMORY.md).

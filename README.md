@@ -233,6 +233,16 @@ Folder: [Week2_Lecture_2_Building_an_Agent](Week2_Lecture_2_Building_an_Agent/).
 | [24](Week2_Lecture_2_Building_an_Agent/24_Pi_Durable_How_It_Recovers_Long_Running_Tasks.md) | pi-durable in detail: commit-before-display, tool intent before execute, replay-safe tools, sleeping tasks and signals, the limits in its README, compared with Temporal and LangGraph, what I borrow |
 | [25](Week2_Lecture_2_Building_an_Agent/25_Always_On_Agents_Lee_Robinson_Talk_Mapped.md) | Always-on agents, the Lee Robinson talk: chapters, each secondary-source claim mapped to my notes, two points not yet covered, what to check in the video |
 
+### Week 2, Lecture 3: MCP, resources and skills
+
+Folder: [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resources_Skills/). Sources: the S02E03 written lesson and the audio transcript.
+
+| # | Topic |
+|---|---|
+| [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) | MCP resources: ten misreadings with what I do instead, what a resource can hold (URI, static content, file, template, embedded), the stateless fit, what the spec and hosts do and what the blogs advise |
+| [02](Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md) | MCP resources and plugins: three meanings of "plugin" (host bundle, MCP extension, registry entry), what Claude Code, Cursor, Gemini CLI, VS Code and Codex plugins pack, how tools, resources, skills and files travel together |
+| [03](Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Policy resource from the check rules: the lecture's return-policy resource built from the rules behind the eligibility checks, resource explains and check decides, mapped to OPA, hooks and tool guardrails |
+
 ### Example skills I keep (not enabled)
 
 These are pinned, verbatim copies of other people's skills, kept as examples of good structure. Claude Code loads project skills from `.claude/skills/`, so these folders are **not loaded**. Each has a `SOURCE.md` with the repository, commit, version and license. Read the code before you enable or run anything.
@@ -328,6 +338,15 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 | [Mastra](https://mastra.ai/) | Framework with `createStep`, suspend and resume, named in the S02E02 article and the transcript demo | [06](Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) |
 | [OpenRouter](https://openrouter.com/), [Amazon Bedrock](https://aws.amazon.com/bedrock/model-choice/), [Azure AI Foundry](https://azure.microsoft.com/en-us/products/ai-foundry/models) | Provider gateways named in the S02E02 article | Not yet covered |
 | [pi-durable](https://github.com/earendil-works/pi/tree/main/packages/durable), [pi-until](https://github.com/joelhooks/pi-until) | Durable execution and watchers for Pi, named in the S02E02 article | Not yet covered |
+
+### Tools the lecturer names (S02E03)
+
+| Name | What it does | Notes |
+|---|---|---|
+| [Streamable MCP server template](https://github.com/iceener/streamable-mcp-server-template) | The lecturer's TypeScript template for MCP servers | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (not read) |
+| [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | The lecturer's personal MCP server, used as the example of shaping tools | Not yet covered |
+| [Goose](https://github.com/aaif-goose/goose) | Client in the transcript that shows an MCP elicitation form | Not yet covered |
+| [Mastra](https://mastra.ai/) | Framework in the transcript for MCP resources, code mode and skills | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (resources only) |
 
 ## Repository rules
 

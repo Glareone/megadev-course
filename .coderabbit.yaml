@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-US"
+tone_instructions: "Be direct. Check facts, sources and the repo's own writing rules before style."
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_in_walkthrough: false
+  collapse_walkthrough: true
+  changed_files_summary: true
+  sequence_diagrams: false
+  poem: false
+  estimate_code_review_effort: false
+  assess_linked_issues: false
+  related_issues: false
+  related_prs: false
+  suggested_labels: false
+  suggested_reviewers: false
+  auto_review:
+    enabled: true
+    drafts: false
+    auto_incremental_review: true
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+    base_branches:
+      - "^main$"
+
+  path_filters:
+    # vendored third-party skills (see SOURCE.md and LICENSE files inside)
+    - "!.claude/explainer/**"
+    - "!.claude/knowledge/**"
+    - "!**/img/**"
+
+  path_instructions:
+    - path: "{Lecture_*,Week2_*}/**/*.md"
+      instructions: |
+        These are my course notes. Review them against AGENTS.md and
+        .claude/rules/note-format.md. Check, in this order:
+        1. Facts: every time-sensitive or vendor claim has a fact-check row with a
+           verdict, a primary source link and a date. Flag claims that cite only a
+           blog or a search summary without saying so.
+        2. Voice: first person singular ("I", "my"). "we", "our", "us" only inside a
+           quote from the lecture or a source.
+        3. Privacy: no local file paths, no user name or surname, no customer data,
+           credentials or business secrets.
+        4. Diagrams: Mermaid only. Flag ASCII art, box-drawing characters and folder
+           trees in code blocks. Code blocks that quote a literal format are fine.
+        5. Shape: H1 "# N. Title" with a finding as the title, a one-line summary,
+           Related, Source, a Glossary first from Week 2 on, then the numbered
+           sections, Summary, Fact-check and Sources. Week 2 notes stay within 150
+           lines.
+        6. A finished document: no "corrected", "draft", "first pass", "to be
+           refined" or notes to the reader. Open questions are real questions.
+        7. Links: relative links resolve, and Related links exist in both directions.
+    - path: "notes_for_later_use/*.md"
+      instructions: |
+        Review reminders written in the first person. Each has Date, Topic, Lecture,
+        a short reminder, a "Where the topic already appears" table with working
+        relative links, and open questions. No local paths, no user name.
+    - path: "CHANGELOG.md"
+      instructions: |
+        The only place that tracks the state of the work. Check that every added or
+        renamed note has an entry, and that gaps and unverified items are listed
+        and not repeated inside the notes.
+    - path: "README.md"
+      instructions: |
+        Check that the tables list every note in its folder, with the correct file
+        name and a one-line description, and that the reference-setup tables name
+        the lecture each tool came from.
+    - path: "**/*.{sh,ps1}"
+      instructions: |
+        Scripts for my local fleet lab. Check quoting, failure handling and that a
+        guard script fails closed. Nothing may print or store a secret.
+
+  tools:
+    gitleaks:
+      enabled: true
+    markdownlint:
+      enabled: true
+    languagetool:
+      enabled: true
+      level: "default"
+    shellcheck:
+      enabled: true
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  opt_out: false
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "AGENTS.md"
+      - "CLAUDE.md"
+      - ".claude/rules/*.md"
+  learnings:
+    scope: "local"

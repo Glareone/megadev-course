@@ -21,7 +21,7 @@ Key idea: **a resource is data, a skill is guidance.** Neither "executes" on the
 - Useful when you want to hand the model *information* without making it call a tool (and without paying for a tool schema in every request).
 
 ## Skills over MCP
-Official extension (`io.modelcontextprotocol/skills`). SEP-2640 is marked Final, but the docs say SDK and host support is still being implemented, so check the client support matrix.
+Official extension (`io.modelcontextprotocol/skills`). SEP-2640 is Final, the extensions overview lists the extension as Beta, and the docs say SDK and host support is still being implemented, so check the client support matrix.
 
 - A skill is the same as a local one: a directory with `SKILL.md` (frontmatter `name` and `description`) plus optional files.
 - The server serves it **through the Resources primitive**, with URIs like `skill://code-review/SKILL.md`.
@@ -75,6 +75,7 @@ Trade-offs to keep in mind:
 - Same-name skills from different servers must not silently replace each other.
 
 ## See also
+- [W2L3 01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md): resource forms, stateless fit, host support, and resources under skills and MCP Apps, checked on 2026-11-23.
 - [Lecture 2, 5 Skills: "Docs by pointer"](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md): why a skill should point to docs instead of embedding them, and how skills over MCP fit as one variant. Includes an experiment to measure the token saving.
 
 ## Open questions

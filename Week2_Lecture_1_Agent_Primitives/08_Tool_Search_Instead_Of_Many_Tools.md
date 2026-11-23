@@ -52,7 +52,7 @@ The README says "Deferred loading does not always use fewer tokens: each discove
 |---|---|---|
 | [Anthropic](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) | Two search variants: regex (patterns up to 200 characters) and BM25 (a query up to 500). Mark tools `defer_loading: true`. At least one tool stays non-deferred. Up to 5 results by default, up to 10,000 deferred tools | Selection "degrades once you exceed 30–50 available tools". A five-server setup "can consume ~55k tokens", reduced "by over 85 percent" (vendor). A deferred tool cannot carry `cache_control` |
 | [OpenAI](https://developers.openai.com/api/docs/guides/tools-tool-search) | `tool_search` tool, `defer_loading: true`, hosted or client-executed. GPT-5.4 and later | Keep each namespace under 10 functions. Tools load at the end of the context |
-| [Claude Code MCP](https://code.claude.com/docs/en/mcp) | On by default. Only tool names and server instructions load at start (summary) | `ENABLE_TOOL_SEARCH=auto` loads upfront below 10% of the window, and `alwaysLoad` exempts a server (both summary) |
+| [Claude Code MCP](https://code.claude.com/docs/en/mcp) | On by default. Only tool names and server instructions load at start (summary) | `ENABLE_TOOL_SEARCH=auto` loads upfront below 10% of the window, and `alwaysLoad` exempts a server (both verbatim, re-read 2026-11-23). Unset means all MCP tools are deferred |
 | Pi | A built-in `tool_search` for deferred tools (summary only, unverified) | Pi's docs read in [19](19_Pi_LangGraph_DeepSeek_Harnesses.md) |
 
 Anthropic's advice on when: use it with 10 or more tools, definitions over 10k tokens, or 200 or more MCP tools. Standard calling is better under 10 tools, when every tool is used on every request, or when definitions total under 100 tokens. Prefix names by service.
@@ -96,7 +96,7 @@ Send names and a search tool, load schemas on demand, keep three to five tools n
 | 4 | Selection degrades past 30 to 50 tools, and tool search cuts definitions by over 85% | **Agrees**, vendor | Anthropic docs, no benchmark table on the page | 2026-11-15 |
 | 5 | Keep 3 to 5 tools non-deferred | **Agrees** | Anthropic docs | 2026-11-15 |
 | 6 | OpenAI `tool_search` needs GPT-5.4 or later, keep namespaces under 10 functions | **Agrees** | OpenAI guide, read in full by a fetch agent | 2026-11-15 |
-| 7 | Claude Code turns tool search on by default and loads upfront below 10% of the window | **Agrees** in part | [MCP docs](https://code.claude.com/docs/en/mcp): "on by default" verbatim, the threshold from a summary | 2026-11-15 |
+| 7 | Claude Code turns tool search on by default, and the `auto` mode loads tools upfront while their definitions stay below 10% of the window | **Agrees** | [MCP docs](https://code.claude.com/docs/en/mcp), both verbatim. The 10% belongs to `auto`, and the unset default defers all MCP tools | 2026-11-15, re-read 2026-11-23 |
 | 8 | Pi has a built-in `tool_search` | **Unverified** | Summary only | 2026-11-15 |
 
 ## Sources

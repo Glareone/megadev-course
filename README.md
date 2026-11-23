@@ -246,6 +246,7 @@ Folder: [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resou
 | [05](Week2_Lecture_3_MCP_MCP+Resources_Skills/05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) | Where the sandbox attaches: two LangGraph placements (a tool or a node), the Deep Agents backend stack, and four attachment styles across Mastra, ADK, smolagents, CrewAI and the OpenAI SDK, in diagrams |
 | [06](Week2_Lecture_3_MCP_MCP+Resources_Skills/06_ReAct_Vs_Deep_Agent_On_LangGraph.md) | ReAct vs Deep Agent on LangGraph: the same loop, what the Deep Agent stack adds (todo tool, files, subagents, summarization), my todo node against the library's tool, and code execution as a difference |
 | [07](Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Sandbox against jailbreak and prompt injection, per tenant: what cannot be promised (OWASP, Anthropic, Willison, CaMeL), the attack paths, a tenant-bound tool bridge, how strong the wall must be (Docker, gVisor, Firecracker, Agent Sandbox), ten rules and what to test |
+| [08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) | MCP Apps and the lecturer's "preview" tool: preview is a tool name, the mechanism is a tool linked to a `ui://` resource, how it works, fallback, security, the market (MCP-UI, OpenAI Apps SDK, A2UI, AG-UI, Adaptive Cards) and four options for my cards |
 
 ### Example skills I keep (not enabled)
 
@@ -349,7 +350,7 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 |---|---|---|
 | [Streamable MCP server template](https://github.com/iceener/streamable-mcp-server-template) | The lecturer's TypeScript template for MCP servers | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (not read) |
 | [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | The lecturer's personal MCP server, used as the example of shaping tools | Not yet covered |
-| [Goose](https://github.com/aaif-goose/goose) | Client in the transcript that shows an MCP elicitation form | Not yet covered |
+| [Goose](https://github.com/aaif-goose/goose) | Client in the transcript that shows an MCP elicitation form | [08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) (elicitation compared with MCP Apps) |
 | [Mastra](https://mastra.ai/) | Framework in the transcript for MCP resources, code mode and skills | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (resources), [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) (workspace) |
 
 ## Repository rules

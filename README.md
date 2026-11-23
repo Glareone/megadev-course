@@ -244,6 +244,8 @@ Folder: [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resou
 | [03](Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Policy resource from the check rules: the lecture's return-policy resource built from the rules behind the eligibility checks, resource explains and check decides, mapped to OPA, hooks and tool guardrails |
 | [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) | Workspaces and code sandboxes in frameworks: what a Mastra workspace bundles, how LangGraph, Deep Agents, CrewAI, the OpenAI SDK, ADK, smolagents and others support a sandbox, how strong the wall is, what else a workspace gives |
 | [05](Week2_Lecture_3_MCP_MCP+Resources_Skills/05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) | Where the sandbox attaches: two LangGraph placements (a tool or a node), the Deep Agents backend stack, and four attachment styles across Mastra, ADK, smolagents, CrewAI and the OpenAI SDK, in diagrams |
+| [06](Week2_Lecture_3_MCP_MCP+Resources_Skills/06_ReAct_Vs_Deep_Agent_On_LangGraph.md) | ReAct vs Deep Agent on LangGraph: the same loop, what the Deep Agent stack adds (todo tool, files, subagents, summarization), my todo node against the library's tool, and code execution as a difference |
+| [07](Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Sandbox against jailbreak and prompt injection, per tenant: what cannot be promised (OWASP, Anthropic, Willison, CaMeL), the attack paths, a tenant-bound tool bridge, how strong the wall must be (Docker, gVisor, Firecracker, Agent Sandbox), ten rules and what to test |
 
 ### Example skills I keep (not enabled)
 

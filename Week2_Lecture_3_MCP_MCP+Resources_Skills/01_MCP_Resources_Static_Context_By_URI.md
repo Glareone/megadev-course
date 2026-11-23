@@ -58,7 +58,9 @@ flowchart LR
 ```
 
 - A read may answer with `InputRequiredResult` when it needs more input, which keeps even that step request-scoped.
-- Change notifications: `list_changed` when the set changes, and `subscriptions/listen` for content updates. Static documents need neither.
+- The 2026-07-28 revision removed protocol sessions and the `Mcp-Session-Id` header, so list endpoints no longer vary per connection. It also removed the `initialize` handshake: version and capabilities travel in `_meta` on every request.
+- Change notifications: `list_changed` when the set changes, and `subscriptions/listen` for content updates. The server's first message on a subscription must be `notifications/subscriptions/acknowledged`. Static documents need neither.
+- Cursor 2.4.31 still sent `resources/subscribe` to a server that declared `subscribe: false`, and a stateless server failed with "Missing handler for request type: resources/subscribe". Cursor staff called it a known bug on 2026-02-13 and suggested a no-op handler. I did not find a fix.
 
 ## 4. What the industry says and does
 
@@ -71,11 +73,16 @@ flowchart LR
 
 | Host | Status | Evidence |
 |---|---|---|
-| Claude Code | `@server:protocol://path` by the user. The docs say it provides list and read tools. No tool names given | Docs, partly summary |
-| Gemini CLI | Model tools `list_mcp_resources` and `read_mcp_resource`, no confirmation. The page says the CLI was replaced by Antigravity CLI on 2026-06-18 | Docs, page dated 2026-04-16 |
-| Cursor | Docs table says Supported. A forum thread of 2026-02-13 says not supported | Conflict |
+| Claude Code | `@server:protocol://path` by the user, and model tools `ListMcpResourcesTool` and `ReadMcpResourceTool`, both without a permission prompt. The list tool leaves out MCP Apps UI resources | Docs, verbatim |
+| Gemini CLI | Model tools `list_mcp_resources` and `read_mcp_resource`, no confirmation. The CLI was replaced by Antigravity CLI on 2026-06-18, and I found no resource tool documented for it | Docs, page dated 2026-04-16 |
+| Cursor | Changelog 1.6 (2025-09-12): "We've added support for MCP Resources". The docs table says Supported. How resources reach the user or the model is not stated | Docs |
+| VS Code Copilot | In Copilot sessions MCP Apps can read resources. Native servers do not appear in the resource browser. Add Context and MCP: Browse Resources exist only in the deprecated local harness, removed in February 2027 | Docs, page shows 2026-11-18 |
+| Codex | No doc line found. An issue says the runtime has `list_mcp_resources`, `list_mcp_resource_templates` and `read_mcp_resource`, and another issue shows the VS Code extension returning an empty list | Issue text only |
 | Claude API MCP connector | Tool calls only | Docs, verbatim |
-| Codex, VS Code Copilot, OpenAI remote MCP | Not stated on the pages I read | Silent docs |
+| OpenAI remote MCP tool | Not stated on the page I read | Silent docs |
+
+**Vendor guidance on use**
+- VS Code's MCP developer guide says: "Return content in a tool result when the agent needs it to complete a task, rather than relying on resource discovery." This is the only vendor line I found that tells a server author what to do when the host may not read resources.
 
 **Practice (secondary, blogs)**
 - The advice repeated across blogs: stable context the user would attach is a resource, anything that changes state is a tool, and important data is exposed both ways (a tool returns a `resource_link` to the same URI). One blog says most hosts show resources to the user and do not let the model browse them.
@@ -83,8 +90,8 @@ flowchart LR
 - A blog reports 114K against 27K input tokens, with no model, runs or method. I do not use the number.
 
 **Built on resources**
-- Skills over MCP serve `SKILL.md` files as `skill://` resources (extension Final, host support still being implemented).
-- MCP Apps serve their UI as `ui://` resources. Claude Code hides these from `@` suggestions and from its list tool.
+- Skills over MCP serve `SKILL.md` files as `skill://` resources. SEP-2640 is Final, the extensions overview lists the extension as Beta, and host support is still being implemented.
+- MCP Apps (Stable, spec dated 2026-01-26) serve their UI as `ui://` resources with the MIME type `text/html;profile=mcp-app`. Claude Code hides these from `@` suggestions and from its list tool.
 
 ## 5. Cautions
 
@@ -99,8 +106,8 @@ Resources stay in the spec and fit stateless servers when static and identical f
 ## Open questions
 
 - Which of my target hosts let the model read resources, measured with an eval?
-- Does Codex or VS Code Copilot expose resources to the model?
-- Does Cursor read resources today?
+- Does Codex document resource support, and does the OpenAI remote MCP tool read resources?
+- Does Cursor still send `resources/subscribe` to servers that declare `subscribe: false`, and how do its resources reach the model?
 
 ## Fact-check
 
@@ -112,17 +119,19 @@ Resources stay in the spec and fit stateless servers when static and identical f
 | 4 | Links returned by tools are not guaranteed to be listed | agrees | [Tools spec](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) |
 | 5 | The official pages give no rule for resource against tool | agrees, by absence | [Server concepts](https://modelcontextprotocol.io/docs/learn/server-concepts), [Server overview](https://modelcontextprotocol.io/specification/2026-07-28/server) |
 | 6 | A template without `list` is readable but not listed | agrees | [TypeScript SDK resources](https://github.com/modelcontextprotocol/typescript-sdk/blob/main/docs/servers/resources.md), through Context7 |
-| 7 | Subscriptions moved to `subscriptions/listen` | agrees on the spec page. The SEP text came from a search summary | [SEP-2575](https://modelcontextprotocol.io/seps/2575-stateless-mcp) |
-| 8 | Claude Code supports `@` resources and list and read tools | agrees. Tool names not given. Verify before presenting | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) |
+| 7 | Subscriptions moved to `subscriptions/listen`, sessions and `initialize` were removed | agrees. Spec 2026-07-28 changelog and subscriptions page, read through Context7 | [Subscriptions](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/subscriptions), [SEP-2575](https://modelcontextprotocol.io/seps/2575-stateless-mcp), [SEP-2567](https://modelcontextprotocol.io/seps/2567-sessionless-mcp) |
+| 8 | Claude Code supports `@` resources and the model tools `ListMcpResourcesTool` and `ReadMcpResourceTool` | agrees, verbatim | [Tools reference](https://code.claude.com/docs/en/tools-reference), [MCP docs](https://code.claude.com/docs/en/mcp) |
 | 9 | Claude API connector supports only tool calls | agrees | [MCP connector docs](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector) |
 | 10 | Gemini CLI has model tools for resources | agrees | [Gemini CLI docs](https://geminicli.com/docs/tools/mcp-resources/) |
-| 11 | Cursor supports resources | unverified: docs say yes, forum says no | [Cursor docs](https://cursor.com/docs/context/mcp), [forum](https://forum.cursor.com/t/mcp-resources-support/151758) |
-| 12 | Codex and VS Code expose resources to the model | unverified, pages silent | [Codex](https://developers.openai.com/codex/mcp), [VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers) |
+| 11 | Cursor supports resources | agrees in part: changelog and docs say Supported, a forum bug of 2026-02-13 shows a subscribe problem. The path to the model is not stated | [Changelog 1.6](https://cursor.com/changelog/1-6), [docs](https://cursor.com/docs/context/mcp), [forum](https://forum.cursor.com/t/mcp-resources-support/151758) |
+| 12 | VS Code Copilot native servers are not in the resource browser, and content should go in a tool result | agrees, verbatim | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) |
+| 12a | Codex has resource tools | unverified: issue text only, no doc line | [issue 20195](https://github.com/openai/codex/issues/20195), [issue 6465](https://github.com/openai/codex/issues/6465) |
 | 13 | Lecture: support for resources, prompts and sampling varies by client | agrees | rows 8 to 12 |
 | 14 | Blogs: tool for actions, resource for stable context, dual-expose with a link | lecture-specific opinion of the blogs, no primary rule | [mcp.so, 2026-10-15](https://mcp.so/blog/mcp-resources-vs-tools) |
 | 15 | Hosts have not built the UX for resources, Claude Desktop does not call `resources/read` | unverified: one author, 2026-01-20, undated issues | [layered.dev](https://layered.dev/mcp-resources-the-overlooked-primitive/) |
 | 16 | 114K against 27K tokens | unverified, no method | [dev.to](https://dev.to/kenimo49/mcp-resources-vs-tools-vs-prompts-3-layers-that-cut-my-agents-tokens-from-114k-to-27k-440a) |
-| 17 | Skills over MCP is Final, support in progress | agrees | [Skills overview](https://modelcontextprotocol.io/extensions/skills/overview) |
+| 17 | Skills over MCP: SEP-2640 is Final and the extension stage is Beta | agrees. They are two different labels | [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension), [Extensions overview](https://modelcontextprotocol.io/extensions/overview) |
+| 18 | MCP Apps are Stable and use `text/html;profile=mcp-app` | agrees. The first part of the spec was read verbatim, the rest from a summary | [ext-apps spec](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx) |
 
 ## Sources
 

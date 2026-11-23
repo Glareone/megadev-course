@@ -86,7 +86,6 @@ flowchart TB
 
 - Manifest names and root variables differ per host, so a plugin is portable only through the shared Agent Plugins core.
 - Cursor's MCP keys, Codex's manifest and the Agent Plugins spec itself are not read.
-- The extension stage is shown differently on two pages (see the fact-check).
 
 ## Summary
 
@@ -105,7 +104,7 @@ flowchart TB
 | 1 | MCP defines no "plugin". An extension is an opt-in protocol feature | agrees | [Extensions overview](https://modelcontextprotocol.io/extensions/overview) |
 | 2 | The spec has no bundle of tools, resources and prompts | agrees, by absence | [Server concepts](https://modelcontextprotocol.io/docs/learn/server-concepts), [Server spec](https://modelcontextprotocol.io/specification/2026-07-28/server) |
 | 3 | The registry points to packages, preview, no private servers | agrees | [Registry about](https://modelcontextprotocol.io/registry/about) |
-| 4 | Skills over MCP: the extensions page says Beta, the SEP page says Final | unverified which stage is current, verify before presenting | [Extensions overview](https://modelcontextprotocol.io/extensions/overview), [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension) |
+| 4 | Skills over MCP: SEP-2640 is Final (merged 2026-09-13 per the working group charter) and the extension stage is Beta | agrees. They are two different labels | [Extensions overview](https://modelcontextprotocol.io/extensions/overview), [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension), [Charter](https://modelcontextprotocol.io/community/skills-over-mcp/charter) |
 | 5 | A Claude Code plugin bundles skills, agents, hooks, MCP servers and more as one unit | agrees | [Plugins](https://code.claude.com/docs/en/plugins) |
 | 6 | Claude Code starts plugin MCP servers when the plugin is enabled | agrees | [Claude Code MCP](https://code.claude.com/docs/en/mcp) |
 | 7 | No Claude Code page I read says plugins ship MCP resources | agrees, by absence | same pages |

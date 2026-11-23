@@ -21,7 +21,7 @@ Key idea: **a resource is data, a skill is guidance.** Neither "executes" on the
 - Useful when you want to hand the model *information* without making it call a tool (and without paying for a tool schema in every request).
 
 ## Skills over MCP
-Official extension (`io.modelcontextprotocol/skills`). SEP-2640 is marked Final, but the docs say SDK and host support is still being implemented, so check the client support matrix.
+Official extension (`io.modelcontextprotocol/skills`). SEP-2640 is Final, the extensions overview lists the extension as Beta, and the docs say SDK and host support is still being implemented, so check the client support matrix.
 
 - A skill is the same as a local one: a directory with `SKILL.md` (frontmatter `name` and `description`) plus optional files.
 - The server serves it **through the Resources primitive**, with URIs like `skill://code-review/SKILL.md`.

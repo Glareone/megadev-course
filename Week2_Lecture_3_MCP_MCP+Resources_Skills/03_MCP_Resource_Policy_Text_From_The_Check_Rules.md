@@ -55,7 +55,7 @@ flowchart TB
 | The decision runs in code, not in a prompt | Claude Code hooks run deterministic commands before a tool call. OpenAI tool guardrails run before the tool and can skip it. My W2L1 05 reaches the same rule | agrees |
 | A decision with reasons | OPA output can be structured data, and its example builds a list of violation messages. The messages are written by the policy author | agrees |
 | The refusal reason goes back to the model | Claude Code feeds `permissionDecisionReason` to the model on a deny. Anthropic advises actionable errors, not opaque codes | agrees |
-| The policy text is generated from the rules | OPA's docs do not describe generating documentation from policies. Generators exist elsewhere, in blogs and vendor tools | unverified for OPA, generators are secondary sources |
+| The policy text is generated from the rules | OPA rules can carry `# METADATA` annotations (title, description, related resources, custom fields). `opa inspect -a` lists them, the style guide prefers them over comments so external tools can parse the documentation, and one example reads them with `rego.metadata.rule()` to build the decision message | agrees in part: the mechanism exists, and I found no OPA page that calls it a generator |
 | The explanation is an MCP resource | The MCP learn page names file contents, database schemas and API documentation as resource examples | fits the spec. No vendor describes a policy resource |
 | Prompt text and check from one rule source | No published source found | lecture-specific |
 
@@ -98,7 +98,7 @@ The resource explains and the check decides, and both read one rule source. This
 | 3 | OPA decouples policy decisions from enforcement | agrees | [OPA philosophy](https://openpolicyagent.org/docs/philosophy) | 2026-11-23 |
 | 4 | OPA output can be structured data, with violation messages | agrees. Messages are policy-author text | [OPA intro](https://www.openpolicyagent.org/docs/latest/) | 2026-11-23 |
 | 5 | OPA can return an evaluation trace through `explain` | agrees. POST support unclear in the docs | [OPA REST API](https://www.openpolicyagent.org/docs/rest-api) | 2026-11-23 |
-| 6 | OPA generates documentation from policies | unverified, the pages read do not say so | same pages | 2026-11-23 |
+| 6 | OPA rule annotations feed both documentation tools and the decision message | agrees. No page calls it a documentation generator | [OPA policy language](https://www.openpolicyagent.org/docs/policy-language), [style guide](https://www.openpolicyagent.org/docs/style-guide), through Context7 | 2026-11-23 |
 | 7 | A Claude Code hook deny feeds the reason back to the model | agrees. The `continueOnBlock` and bypass-mode details came from a summary | [Hooks guide](https://code.claude.com/docs/en/hooks-guide) | 2026-11-23 |
 | 8 | OpenAI tool guardrails run before the tool and can reject | agrees. The page does not state where the rejection message goes | [Guardrails](https://openai.github.io/openai-agents-python/guardrails/) | 2026-11-23 |
 | 9 | Anthropic advises actionable error messages | agrees. The article does not cover enforcement or permissions | [Writing tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) | 2026-11-23 |

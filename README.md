@@ -247,6 +247,7 @@ Folder: [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resou
 | [06](Week2_Lecture_3_MCP_MCP+Resources_Skills/06_ReAct_Vs_Deep_Agent_On_LangGraph.md) | ReAct vs Deep Agent on LangGraph: the same loop, what the Deep Agent stack adds (todo tool, files, subagents, summarization), my todo node against the library's tool, and code execution as a difference |
 | [07](Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Sandbox against jailbreak and prompt injection, per tenant: what cannot be promised (OWASP, Anthropic, Willison, CaMeL), the attack paths, a tenant-bound tool bridge, how strong the wall must be (Docker, gVisor, Firecracker, Agent Sandbox), ten rules and what to test |
 | [08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) | MCP Apps and the lecturer's "preview" tool: preview is a tool name, the mechanism is a tool linked to a `ui://` resource, how it works, fallback, security, the market (MCP-UI, OpenAI Apps SDK, A2UI, AG-UI, Adaptive Cards) and four options for my cards |
+| [09](Week2_Lecture_3_MCP_MCP+Resources_Skills/09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) | Human confirmation across channels: one server-held pending record resolved from AG-UI, A2A, MCP elicitation or an MCP App button, why a click or a host approval is not proof, stateless elicitation with `requestState`, my three hosts |
 
 ### Example skills I keep (not enabled)
 

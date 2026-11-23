@@ -2,9 +2,9 @@
 
 > There is no "Preview Mode" in the MCP spec or docs I read. The lecturer's `preview_exchange` tool returns a proposal, and its metadata points to a `ui://` resource that a supporting host renders in a sandboxed iframe, which is MCP Apps. A host without support shows the tool's text.
 
-Related: [01 MCP resources](01_MCP_Resources_Static_Context_By_URI.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md)
+Related: [01 MCP resources](01_MCP_Resources_Static_Context_By_URI.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [09 Human confirmation across channels](09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md)
 
-Source: S02E03 transcript (the `preview_exchange` and `decide_exchange` tools, a Goose elicitation form, MCP Apps). The MCP Apps spec (SEP-1865, Stable 2026-01-26) read in full, the MCP Apps docs, OpenAI's ChatGPT UI docs, the MCP-UI site, the A2UI repository, the AG-UI docs and Microsoft Learn pages, read on 2026-11-23. I did not see my own card UI code.
+Source: S02E03 transcript (the `preview_exchange` and `decide_exchange` tools, a Goose elicitation form, MCP Apps). The MCP Apps spec (SEP-1865, Stable 2026-01-26) read in full, the MCP Apps docs, OpenAI's ChatGPT UI docs, the MCP-UI site, the A2UI repository, the AG-UI docs and Microsoft Learn pages, read on 2026-11-23. My cards: a React component that talks to the agent over AG-UI, with HITL confirmation buttons (as I describe it). I did not see its code.
 
 ## Glossary
 
@@ -57,13 +57,16 @@ So the relation you guessed is right: an MCP App is a tool plus a resource, and 
 |---|---|---|
 | Who draws it | The host, from my schema | My HTML |
 | Fits | A confirm or a few fields | My layout, images, brand, controls |
+| Content | Flat primitive fields and a text message | Any HTML, with a build and a review |
 | Lecturer's rule | When the client's form is enough | When the interaction needs my own layout |
+
+For my HITL confirmations (confirm or decline) the rule points to elicitation first, and an App only for the rich proposal card (note 09).
 
 ## 4. Fallback and host support
 
 - The spec: "If host does not support MCP Apps, tool behaves as standard tool (text-only fallback)." Servers SHOULD provide a text fallback for every UI tool, and the tool MUST return a meaningful `content` array.
 - The host advertises support in `capabilities.extensions` under `io.modelcontextprotocol/ui` with `mimeTypes`. Servers SHOULD check it before registering UI tools.
-- The MCP Apps overview lists as clients: Claude, Claude Desktop, VS Code GitHub Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam and Archestra.AI. Cursor's docs table lists Apps as supported, and ChatGPT implements the standard. I have no per-version evidence, and I did not verify that Claude Code renders apps. It hides `ui://` entries from its resource list.
+- The MCP Apps overview lists as clients: Claude, Claude Desktop, VS Code GitHub Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam and Archestra.AI. In the docs of my three hosts: ChatGPT renders apps inline, fullscreen and picture-in-picture, Copilot in VS Code renders them as Experimental and inline only, and Claude Code's docs mention `ui://` entries and app visibility but no rendering, so its text fallback is the real experience there.
 
 ## 5. Security of the View
 
@@ -101,13 +104,13 @@ flowchart LR
 
 - The sound base is one data contract for the cards, with my UI and the View as two renderers.
 - Start with one card as an App, keep the text fallback, and register the UI tool only for hosts that declare support.
-- Host theming comes through CSS variables, so the View can follow the host's look.
+- My cards carry HITL confirmation buttons. A button in a View is not proof of a human decision, see [09](09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md).
 
 ## 8. Cautions
 
 - A `ui://` bundle is code that runs in other people's hosts. It needs a build, a review and a hash.
 - The spec is Stable, but hosts differ. The spec's own examples contain version and CSP inconsistencies.
-- I do not know how my cards are built, so option B's cost is a guess.
+- My renderer is a React component that talks to the agent over AG-UI, so a View is a second build with its own bridge to the host.
 
 ## Summary
 
@@ -115,10 +118,9 @@ flowchart LR
 
 ## Open questions
 
-- Which third-party hosts matter for my users, and do my cards need buttons that call tools or only display?
-- Can my card renderer be bundled into one HTML file with no external calls?
+- Can my React card renderer be bundled into one HTML file with no external calls?
 - Does Claude Code render an app, or does it use the text fallback?
-- Does Microsoft 365 Copilot render MCP Apps, as the overview says?
+- Which of my three hosts matter most for cards: ChatGPT and VS Code can render, and Claude Code probably cannot?
 
 ## Fact-check
 

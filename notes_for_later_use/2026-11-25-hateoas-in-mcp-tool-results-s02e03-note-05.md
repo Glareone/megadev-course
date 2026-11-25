@@ -10,9 +10,9 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [17 HATEOAS in MCP tool results](../Week2_Lecture_3_MCP_MCP+Resources_Skills/17_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) | The figure against the repository, HATEOAS sources, cases, consequences, what others say, my system |
-| [13 MCP tools loading and code mode with many servers](../Week2_Lecture_3_MCP_MCP+Resources_Skills/13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) | Fewer, consolidated tools and the loading side |
-| [09 Human confirmation across channels](../Week2_Lecture_3_MCP_MCP+Resources_Skills/09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) | Why an approval must never be advertised as a hint |
+| [05 HATEOAS in MCP tool results](../Week2_Lecture_3_MCP_MCP+Resources_Skills/05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) | The figure against the repository, HATEOAS sources, cases, consequences, what others say, my system |
+| [09 MCP tools loading and code mode with many servers](../Week2_Lecture_3_MCP_MCP+Resources_Skills/09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) | Fewer, consolidated tools and the loading side |
+| [16 Human confirmation across channels](../Week2_Lecture_3_MCP_MCP+Resources_Skills/16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) | Why an approval must never be advertised as a hint |
 | [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md) | Vendor advice on names, schemas, errors and tool count |
 
 Open: which of my tools return results where the next call depends on the result, whether one `actions` list should drive both my card buttons and the model's hints, whether I need a general escape hatch at all, and a test of results with and without hints on my golden set (running it calls a paid API, so it needs my yes).

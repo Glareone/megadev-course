@@ -1,8 +1,8 @@
-# 12. A prompt review is mostly relocation: each instruction moves to the cheapest place that still does its job, and every move changes its authority, its cache cost, whether it loads and whether I can test it
+# 11. A prompt review is mostly relocation: each instruction moves to the cheapest place that still does its job, and every move changes its authority, its cache cost, whether it loads and whether I can test it
 
 > Verbose is not the defect, always-on is: a long procedure is fine when it loads only for its task. The review question for each line is where it should live, and the sources agree on a list of moves I make, plus an optional softening of tone that explains instead of forcing.
 
-Related: [W2L1 05 Instructions, five parts and my tagged chapters](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L2 10 Cache and context window](../Week2_Lecture_2_Building_an_Agent/10_Cache_And_Context_Window.md) · [W2L2 14 Execution flows, one skill per conversation](../Week2_Lecture_2_Building_an_Agent/14_Execution_Flows_Skill_Tool_Or_Workflow.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [10 Self-evolution of the harness](10_Self_Evolution_Of_Harness_On_Event.md) · [11 Instruction precedence and tool pollution](11_Sys_Prompt_vs_Skills_Content_And_Threats.md)
+Related: [W2L1 05 Instructions, five parts and my tagged chapters](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L2 10 Cache and context window](../Week2_Lecture_2_Building_an_Agent/10_Cache_And_Context_Window.md) · [W2L2 14 Execution flows, one skill per conversation](../Week2_Lecture_2_Building_an_Agent/14_Execution_Flows_Skill_Tool_Or_Workflow.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [12 Self-evolution of the harness](12_Self_Evolution_Of_Harness_On_Event.md) · [10 Instruction precedence and tool pollution](10_Sys_Prompt_vs_Skills_Content_And_Threats.md)
 
 Source: my layout and platform limits from the notes linked above (tagged chapters, a `<loaded_skill>` capped at 5,000 characters, one skill per conversation, system prompt and tools fixed with developer messages after the cached part). Anthropic's context-engineering post (2025-09-29), skill and prompting docs, OpenAI's GPT-6.2 and skills docs, two arXiv abstracts, read on 2026-11-25. I did not read my prompts. See [Fact-check](#fact-check).
 
@@ -51,15 +51,15 @@ Ask in this order. The first yes decides the destination.
 | 5 | Is the step deterministic? | A script or tool | Anthropic: low freedom means exact commands |
 | 6 | Is it how to call one tool? | That tool's description, linked to the skill | The lecturer's tool-skill links |
 | 7 | Does it change or is it large? | Retrieval: a file, resource or memory | Anthropic: lightweight identifiers, just-in-time |
-| 8 | Does an older model's weakness explain it? | A model profile, tagged with the model and the weakness | Note 10's assumption register |
+| 8 | Does an older model's weakness explain it? | A model profile, tagged with the model and the weakness | Note 12's assumption register |
 | 9 | Is it tone, length or thoroughness? | A parameter (effort), not prose | Vendor migration guides |
-| 10 | Does nothing fail without it? | Delete | Ablation (note 10) |
+| 10 | Does nothing fail without it? | Delete | Ablation (note 12) |
 
 ## 3. What a move changes
 
 | Property | What moves with the line |
 |---|---|
-| Authority | System prompt to skill body is a drop to thread level, where it can be outranked (note 11). Boundaries never move into a skill |
+| Authority | System prompt to skill body is a drop to thread level, where it can be outranked (note 10). Boundaries never move into a skill |
 | Cache | Editing the fixed prefix breaks it for everyone. OpenAI appends top-level `instructions` after the input from GPT-6.2, and Anthropic advises mid-conversation system messages so history stays append-only. Dynamic facts go there |
 | Loading | A line in a skill applies only if the description triggers. I test the trigger with the words users really use |
 | Budget | My `<loaded_skill>` is capped at 5,000 characters, so a verbose skill must shed content: down to references, scripts or tool descriptions, and up to a layer |
@@ -104,7 +104,7 @@ These are recommended but not required. I apply each only where my evals show no
 
 - **Code without a reason:** a boundary moved into a tool with no sentence in the prompt makes the model retry. Keep the one-line reason and return an actionable error.
 - **A pointer without a condition** never gets read. The pointer says when.
-- **A rule moved into a third-party skill** loses authority and can be poisoned (note 11).
+- **A rule moved into a third-party skill** loses authority and can be poisoned (note 10).
 - **Dynamic text in the prefix:** client type, autonomy scope and current state belong in a late message.
 
 ## Cautions

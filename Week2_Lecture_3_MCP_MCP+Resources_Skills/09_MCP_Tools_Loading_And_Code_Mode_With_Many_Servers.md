@@ -1,8 +1,8 @@
-# 13. MCP has no lazy loading of its own, so "enabled" does not mean "loaded": with many servers the host defers tool definitions, a gateway hides them behind meta-tools, or code mode moves discovery into a sandbox
+# 09. MCP has no lazy loading of its own, so "enabled" does not mean "loaded": with many servers the host defers tool definitions, a gateway hides them behind meta-tools, or code mode moves discovery into a sandbox
 
 > The protocol lists tools and the host decides what reaches the model. Enabled-only stops scaling at around 30 to 50 tools. Past that, 2026 practice is three layers: an allowlist, deferred loading with a few always-on tools, and search and execute for API-sized or data-heavy servers, with writes kept as direct calls.
 
-Related: [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [W2L1 09 Tool search and proxy gateway](../Week2_Lecture_1_Agent_Primitives/09_Tool_Search_And_Proxy_Gateway.md) · [W2L1 25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [05 Where the sandbox attaches](05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [11 Sys prompt vs skills content and threats](11_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md) · [17 HATEOAS in MCP tool results](17_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) · [20 Search over skills](20_Search_Over_Skills_Instead_Of_Listing_Them.md)
+Related: [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [W2L1 09 Tool search and proxy gateway](../Week2_Lecture_1_Agent_Primitives/09_Tool_Search_And_Proxy_Gateway.md) · [W2L1 25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [18 Where the sandbox attaches](18_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [05 HATEOAS in MCP tool results](05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) · [06 Search over skills](06_Search_Over_Skills_Instead_Of_Listing_Them.md)
 
 Source: S02E03 lesson ("MCP", the 2,500-tool remark and code mode). Cloudflare's blog posts, repository and Agents docs (the X post could not be read, HTTP 402), the MCP spec 2026-07-28 and the Primitive Grouping working group, Anthropic and OpenAI docs, three gateway vendor blogs, read on 2026-11-25. See [Fact-check](#fact-check).
 
@@ -72,9 +72,9 @@ flowchart LR
 | Writes, payments, anything needing approval | Direct calls, never inside the program |
 
 - Keep the allowlist as the policy layer and add a loading layer under it. Order tools deterministically and append loaded ones late, so the cache holds.
-- In code mode a third party's descriptions reach the model as search results, so as tool results and not as tool definitions. Under note 11's reading, that gives them less authority. This is my reasoning.
+- In code mode a third party's descriptions reach the model as search results, so as tool results and not as tool definitions. Under note 10's reading, that gives them less authority. This is my reasoning.
 - Measure before adopting: the same task set loaded flat, deferred and in code mode, scoring tool-selection correctness, tokens and time.
-- The sandbox, its wall and the tenant-bound bridge are in notes 04, 05 and 07.
+- The sandbox, its wall and the tenant-bound bridge are in notes 17, 18 and 20.
 
 ## 7. A correction to the lesson
 

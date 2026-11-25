@@ -2,7 +2,7 @@
 
 > Many skills found online are long and complex. The chance that a model follows **all** their instructions is close to zero. The best skills are **short and extremely clear about their purpose**. When we need to cover something bigger, a **router skill** points to other skills instead of containing them.
 
-Over MCP: [W2L3 19 Router skill across MCP, MCP skills and the harness](../Week2_Lecture_3_MCP_MCP+Resources_Skills/19_Router_Skill_Across_MCP_Server_Skills_And_Harness.md). Builds on [5 Skills](5_skills.md) and lecture 1 [13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md).
+Over MCP: [W2L3 17 Router skill across MCP, MCP skills and the harness](../Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Router_Skill_Across_MCP_Server_Skills_And_Harness.md). Builds on [5 Skills](5_skills.md) and lecture 1 [13 Skills and context](../Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md).
 
 ## The idea in one minute
 

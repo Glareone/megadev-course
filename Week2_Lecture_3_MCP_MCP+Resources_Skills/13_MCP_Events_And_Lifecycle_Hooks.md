@@ -1,8 +1,8 @@
-# 14. MCP Events let a server push upstream occurrences to an agent by poll, stream or webhook, and my hooks can be organized around them if events are the input and hooks stay the control point
+# 13. MCP Events let a server push upstream occurrences to an agent by poll, stream or webhook, and my hooks can be organized around them if events are the input and hooks stay the control point
 
 > Events is a Beta extension: a server lists event types, a client subscribes, and the model sees only the events that arrive. How an event reaches the agent is left to the harness, so a layer that verifies, dedupes, authorizes and routes events before they wake the loop is where my lifecycle hooks and external events meet. Support is early: ChatGPT takes webhooks, Claude Code has a separate channels feature, and both SDKs have only open pull requests.
 
-Related: [W2L1 20 Loop hooks declared](../Week2_Lecture_1_Agent_Primitives/20_Loop_Hooks_Declared.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [W2L2 16 Memory-centric approach with events](../Week2_Lecture_2_Building_an_Agent/16_Memory_Centric_Approach_With_Events.md) · [W2L2 22 Long-horizon runs and watchers](../Week2_Lecture_2_Building_an_Agent/22_Long_Horizon_Runs_Concurrency_Durability_Watchers.md) · [Lecture 3: 12 Knowledge update triggers](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/12_Knowledge_Event_&_Triggers.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [11 Sys prompt vs skills content and threats](11_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [16 MCP events in real systems](16_MCP_Events_In_Real_Systems.md)
+Related: [W2L1 20 Loop hooks declared](../Week2_Lecture_1_Agent_Primitives/20_Loop_Hooks_Declared.md) · [Lecture 2: 3 Lifecycle hooks](../Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) · [W2L2 16 Memory-centric approach with events](../Week2_Lecture_2_Building_an_Agent/16_Memory_Centric_Approach_With_Events.md) · [W2L2 22 Long-horizon runs and watchers](../Week2_Lecture_2_Building_an_Agent/22_Long_Horizon_Runs_Concurrency_Durability_Watchers.md) · [Lecture 3: 12 Knowledge update triggers](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/12_Knowledge_Event_&_Triggers.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [14 MCP events in real systems](14_MCP_Events_In_Real_Systems.md)
 
 Source: S02E03 lesson (the "Events (draft)" link in the MCP section). The design sketch (draft proposal, 2026-02-19, last part read through a summary), the working-group repository, SEP-3415, the extensions overview and client matrix, ChatGPT's MCP events page, Claude Code's MCP and channels docs, SDK pull request titles, read on 2026-11-25. See [Fact-check](#fact-check).
 
@@ -97,7 +97,7 @@ flowchart LR
 | Migration | A mapping, if inputs have the event shape | Build from scratch later | Not applicable |
 | Stability | Beta extension, breaking changes "expected to be rare" | Waits out the churn | Not applicable |
 
-Real systems, the market and the failure modes are in [16 MCP events in real systems](16_MCP_Events_In_Real_Systems.md).
+Real systems, the market and the failure modes are in [14 MCP events in real systems](14_MCP_Events_In_Real_Systems.md).
 
 ## Cautions
 

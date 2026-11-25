@@ -1,8 +1,8 @@
-# 17. A tool result that says what can be done next is hypermedia for agents: the Spotify server does it in prose and keeps correctness in code, and it works when hints are options, depend on state and never include an approval
+# 05. A tool result that says what can be done next is hypermedia for agents: the Spotify server does it in prose and keeps correctness in code, and it works when hints are options, depend on state and never include an approval
 
 > HATEOAS means the server's response carries the next legal moves, so the client needs no prior map. In MCP the same idea fits as hints in a tool result. The lecturer's figure shows a `hints` array and a general `api` tool, while his published server delivers the idea with a sentence for the model, recovery notes and usage notes, and verifies playback in code. Evidence for the pattern is opinion and one small self-run test.
 
-Related: [13 MCP tools loading and code mode with many servers](13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md) · [09 Human confirmation across channels](09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) · [11 Sys prompt vs skills content and threats](11_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md)
+Related: [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [16 Human confirmation across channels](16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md)
 
 Source: S02E03 lesson, figure 9 and its closing line ("MCP is not just an interface... but also a way to shape that interaction"). The lecturer's Spotify MCP server (README, output schemas, search tool, playback doc, matches for hints in the other tool files; not every file). Fielding (2008), Fowler (2010), Siren, OpenAPI Links and Arazzo, Anthropic's tool-writing article, four commentary posts, read on 2026-11-25. See [Fact-check](#fact-check).
 
@@ -86,7 +86,7 @@ The split: static text for what never changes, hints for what depends on this re
 | The next step depends on data or state (a cursor, a URI, a device) | Yes | Only the result knows it |
 | A multi-step flow over many tools | Yes, short | It replaces a long skill with steps the server owns |
 | One-shot tools | No | The description is enough |
-| An approval or confirmation | No: never as a hint | A hijacked model could take it (note 09) |
+| An approval or confirmation | No: never as a hint | A hijacked model could take it (note 16) |
 | A rule that must hold | No: code | A hint can be ignored |
 
 | | With hints | Without |
@@ -108,7 +108,7 @@ The split: static text for what never changes, hints for what depends on this re
 
 - One `actions` list per result, `{ id, label, tool, args, requiresHuman }`: my React card renders buttons from it, and the model sees only the entries that do not need a human.
 - Pagination cursors and continuation for my OData reads become hints with the next call written out.
-- A general escape hatch only behind approval, and never over a tenant boundary (note 07).
+- A general escape hatch only behind approval, and never over a tenant boundary (note 20).
 
 ## Cautions
 

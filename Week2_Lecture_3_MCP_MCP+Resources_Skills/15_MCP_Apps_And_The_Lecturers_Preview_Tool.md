@@ -1,8 +1,8 @@
-# 8. "Preview" is the lecturer's tool name, not an MCP mode: the feature is an MCP App, a tool linked to a `ui://` HTML resource, and my cards can ship there only as a second renderer behind one data contract and a text fallback
+# 15. "Preview" is the lecturer's tool name, not an MCP mode: the feature is an MCP App, a tool linked to a `ui://` HTML resource, and my cards can ship there only as a second renderer behind one data contract and a text fallback
 
 > There is no "Preview Mode" in the MCP spec or docs I read. The lecturer's `preview_exchange` tool returns a proposal, and its metadata points to a `ui://` resource that a supporting host renders in a sandboxed iframe, which is MCP Apps. A host without support shows the tool's text.
 
-Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [09 Human confirmation across channels](09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md)
+Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [07 Policy resource from the check rules](07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [16 Human confirmation across channels](16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md)
 
 Source: S02E03 transcript (the `preview_exchange` and `decide_exchange` tools, a Goose elicitation form, MCP Apps). The MCP Apps spec (SEP-1865, Stable 2026-01-26) read in full, the MCP Apps docs, OpenAI's ChatGPT UI docs, the MCP-UI site, the A2UI repository, the AG-UI docs and Microsoft Learn pages, read on 2026-11-23. My cards: a React component that talks to the agent over AG-UI, with HITL confirmation buttons (as I describe it). I did not see its code.
 
@@ -60,7 +60,7 @@ So the relation you guessed is right: an MCP App is a tool plus a resource, and 
 | Content | Flat primitive fields and a text message | Any HTML, with a build and a review |
 | Lecturer's rule | When the client's form is enough | When the interaction needs my own layout |
 
-For my HITL confirmations (confirm or decline) the rule points to elicitation first, and an App only for the rich proposal card (note 09).
+For my HITL confirmations (confirm or decline) the rule points to elicitation first, and an App only for the rich proposal card (note 16).
 
 ## 4. Fallback and host support
 
@@ -72,7 +72,7 @@ For my HITL confirmations (confirm or decline) the rule points to elicitation fi
 
 - The View runs in a sandboxed iframe and talks only through `postMessage`. Web hosts use two iframes with different origins.
 - Default CSP: no network (`connect-src 'none'`), scripts and styles from itself. External domains must be declared in `_meta.ui.csp`, and the host must block the rest.
-- The View has no session of mine. Its tool calls go through the host, which may block them or ask the user. My tenant checks stay behind the server, as in note 07.
+- The View has no session of mine. Its tool calls go through the host, which may block them or ask the user. My tenant checks stay behind the server, as in note 20.
 - The spec advises hashing and reviewing HTML templates, and logging calls that come from the View.
 
 ## 6. The market
@@ -104,7 +104,7 @@ flowchart LR
 
 - The sound base is one data contract for the cards, with my UI and the View as two renderers.
 - Start with one card as an App, keep the text fallback, and register the UI tool only for hosts that declare support.
-- My cards carry HITL confirmation buttons. A button in a View is not proof of a human decision, see [09](09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md).
+- My cards carry HITL confirmation buttons. A button in a View is not proof of a human decision, see [16](16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md).
 
 ## 8. Cautions
 

@@ -10,10 +10,10 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [12 Relocating instructions between layers, skills, code and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/12_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) | A ten-question test for where each line should live, what a move changes, moves for verbose skills, the order of operations |
+| [11 Relocating instructions between layers, skills, code and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/11_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) | A ten-question test for where each line should live, what a move changes, moves for verbose skills, the order of operations |
 | [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) | OpenAI's recommendations for skills and AGENTS.md on newer models |
 | [W2L1 05 Instructions, five parts and my tagged chapters](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) | My layout of tagged chapters |
-| [11 Instruction precedence and tool pollution](../Week2_Lecture_3_MCP_MCP+Resources_Skills/11_Sys_Prompt_vs_Skills_Content_And_Threats.md) | Where a skill ranks against my layers |
-| [10 Self-evolution of the harness](../Week2_Lecture_3_MCP_MCP+Resources_Skills/10_Self_Evolution_Of_Harness_On_Event.md) | The review loop and the assumption register |
+| [10 Instruction precedence and tool pollution](../Week2_Lecture_3_MCP_MCP+Resources_Skills/10_Sys_Prompt_vs_Skills_Content_And_Threats.md) | Where a skill ranks against my layers |
+| [12 Self-evolution of the harness](../Week2_Lecture_3_MCP_MCP+Resources_Skills/12_Self_Evolution_Of_Harness_On_Event.md) | The review loop and the assumption register |
 
 Open: which effort Luna needs before it applies a reason, whether the GPT-6.2 migration advice holds for Luna, and what replaces OpenAI's prompt optimizer and Evals platform after 2026-11-30. Running the lecturer's example or my own evals calls a paid API, so it needs my explicit yes.

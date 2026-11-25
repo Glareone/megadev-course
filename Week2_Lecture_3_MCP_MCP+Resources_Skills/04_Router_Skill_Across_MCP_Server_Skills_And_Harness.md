@@ -1,8 +1,8 @@
-# 19. A router skill on an MCP server pays only when the catalog is the problem: each hop costs a model decision and, over MCP, fresh consent, and no vendor documents skill-to-skill routing
+# 04. A router skill on an MCP server pays only when the catalog is the problem: each hop costs a model decision and, over MCP, fresh consent, and no vendor documents skill-to-skill routing
 
 > A router skill is a short `SKILL.md` that names which other skill to load. On an MCP server it spans three layers: the server serves the skills, the Skills extension defines how they are listed and activated, and the harness decides what the model sees. The pattern is a convention, not a spec field. It saves catalog space only if the host hides the children, and each extra hop adds a chance of not loading.
 
-Related: [18 MCP skills and tools](18_MCP_Skills_And_Tools.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md) · [13 MCP tools loading and code mode with many servers](13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [11 Sys prompt vs skills content and threats](11_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [Lecture 2: 6 Router skills](../Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [20 Search over skills](20_Search_Over_Skills_Instead_Of_Listing_Them.md)
+Related: [03 MCP skills and tools](03_MCP_Skills_And_Tools.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [Lecture 2: 6 Router skills](../Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [06 Search over skills](06_Search_Over_Skills_Instead_Of_Listing_Them.md)
 
 Source: S02E03 lesson, figure 12 (router skill over image, video and audio skills). Lecture 2 note 6 for the pattern itself. Claude Code skills and settings docs (through Context7 and the live page), Anthropic best practices, the Agent Skills specification, OpenAI skills docs, the MCP Skills extension overview, read on 2026-11-25. See [Fact-check](#fact-check).
 
@@ -58,7 +58,7 @@ sequenceDiagram
 
 - **The catalog saving is the host's choice.** `skills/list` returns all skills, and "host applications determine how skills are exposed". If the host lists leaves too, the router adds a hop and saves nothing. I found no host documenting that it hides children (my reasoning).
 - **Local rules still apply.** Claude Code's loading rules for nested directories are about files in a repository, not MCP skills. They do not tell me what MCP-served children do.
-- **Every hop is a miss chance.** Evals show skills often go unloaded (note 18, section 7). A router puts a second skill load before the work.
+- **Every hop is a miss chance.** Evals show skills often go unloaded (note 03, section 7). A router puts a second skill load before the work.
 - **Consent adds friction.** Fresh consent per nested skill means a router over an MCP server asks the user more than a flat set does.
 
 ## 5. Worth it, and what follows
@@ -68,7 +68,7 @@ sequenceDiagram
 | A few skills, catalog well under the budget | No | A flat catalog is one hop |
 | Many skills in one family, catalog over budget | Maybe | Try `name-only` entries and sharper descriptions first |
 | Steps that cross domains (the figure) | Yes, as a map of the order | The sequence is the knowledge the model lacks |
-| A tool that must work without skills | Keep the dashed skip | The tool stays usable alone (note 18) |
+| A tool that must work without skills | Keep the dashed skip | The tool stays usable alone (note 03) |
 | A rule that must hold | No: code | A router is advice |
 
 | | With a router | Without |
@@ -114,7 +114,7 @@ The closest vendor-endorsed form is a high-level `SKILL.md` that points to refer
 | 4 | References stay one level deep. `SKILL.md` under 500 lines | agrees | [Anthropic](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices), [spec](https://agentskills.io/specification) | 2026-11-25 |
 | 5 | No vendor documents skill-to-skill routing | agrees by absence, pages read in part | the pages above, [OpenAI](https://developers.openai.com/plugins/concepts/skills.md) | 2026-11-25 |
 | 6 | Router is a pattern, not a spec field | agrees | [Lecture 2: 6](../Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) | 2026-11-25 |
-| 7 | Skills are often not invoked | agrees, Vercel and LlamaIndex (note 18) | [Vercel](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) | 2026-11-25 |
+| 7 | Skills are often not invoked | agrees, Vercel and LlamaIndex (note 03) | [Vercel](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) | 2026-11-25 |
 | 8 | Hosts may or may not hide children, and the hop and consent costs | lecture-independent, my reasoning, verify before presenting | | |
 
 ## Sources

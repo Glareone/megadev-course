@@ -1,8 +1,8 @@
-# 6. A Deep Agent is the same ReAct loop with middleware around it, so the differences in my two graphs come from what is attached: a todo tool, a file backend, subagents, and with a sandbox backend an `execute` tool
+# 19. A Deep Agent is the same ReAct loop with middleware around it, so the differences in my two graphs come from what is attached: a todo tool, a file backend, subagents, and with a sandbox backend an `execute` tool
 
 > LangChain says the core algorithm of a deep agent is the same as a plain agent, an LLM calling tools in a loop. What differs is the harness: planning, files, subagents, context management, and code execution only when the backend is a sandbox. My own todo list is a node, while the library's is a tool the model may call.
 
-Related: [W2L2 07 Workflows on the fly and todo lists](../Week2_Lecture_2_Building_an_Agent/07_Workflows_On_The_Fly_And_Todo_Lists.md) · [05 Where the sandbox attaches](05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [04 Workspaces and code sandboxes in frameworks](04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [W2L1 05 Instructions, archetype ReAct or Deep Agent](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L1 03 Agent loop and limits](../Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) · [W2L2 19 Evict tool results](../Week2_Lecture_2_Building_an_Agent/19_Evict_Tool_Results_To_Memory_By_Reference.md)
+Related: [W2L2 07 Workflows on the fly and todo lists](../Week2_Lecture_2_Building_an_Agent/07_Workflows_On_The_Fly_And_Todo_Lists.md) · [18 Where the sandbox attaches](18_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [17 Workspaces and code sandboxes in frameworks](17_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [W2L1 05 Instructions, archetype ReAct or Deep Agent](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L1 03 Agent loop and limits](../Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) · [W2L2 19 Evict tool results](../Week2_Lecture_2_Building_an_Agent/19_Evict_Tool_Results_To_Memory_By_Reference.md)
 
 Source: my two LangGraph agents, as I describe them (a ReAct graph and a Deep Agent graph that differ in node layout and in a TODO_List node). I did not read their code. LangChain agents and middleware docs, Deep Agents docs and blog (2025-07-30), the LangGraph workflows page, the ReAct abstract, read on 2026-11-23.
 
@@ -77,7 +77,7 @@ flowchart TB
 | | ReAct agent | Deep Agent |
 |---|---|---|
 | Files | None unless I add tools | A virtual filesystem by default (`StateBackend`, in agent state) |
-| Code execution | A tool I add (placement A in note 05) | `execute` appears only when the backend is a sandbox backend, and is dropped otherwise |
+| Code execution | A tool I add (placement A in note 18) | `execute` appears only when the backend is a sandbox backend, and is dropped otherwise |
 | Where results go | Into the thread | Files, so large results can stay out of the thread |
 | Permissions | My own checks | Do not apply to sandbox backends: "arbitrary command execution" |
 

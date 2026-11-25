@@ -11,9 +11,9 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [18 MCP skills and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/18_MCP_Skills_And_Tools.md) | The figures, the extension, host support, mapping patterns, the lecturer's test, the objections and the pilot |
+| [03 MCP skills and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Skills_And_Tools.md) | The figures, the extension, host support, mapping patterns, the lecturer's test, the objections and the pilot |
 | [02 MCP resources and plugins](../Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md) | Plugins as another way to ship a server with its skills |
-| [11 Sys prompt vs skills content and threats](../Week2_Lecture_3_MCP_MCP+Resources_Skills/11_Sys_Prompt_vs_Skills_Content_And_Threats.md) | A server's skills as supply chain |
-| [12 How to adjust the system prompt and make it flexible](../Week2_Lecture_3_MCP_MCP+Resources_Skills/12_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) | Where a skill's lines should live |
+| [10 Sys prompt vs skills content and threats](../Week2_Lecture_3_MCP_MCP+Resources_Skills/10_Sys_Prompt_vs_Skills_Content_And_Threats.md) | A server's skills as supply chain |
+| [11 How to adjust the system prompt and make it flexible](../Week2_Lecture_3_MCP_MCP+Resources_Skills/11_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) | Where a skill's lines should live |
 
 Open: which of my tools has arguments the model cannot guess, which of my hosts load server skills today, who approves a skill that a server serves, which objections from my team the pilot must answer, and the pilot itself (running it calls a paid API, so it needs my yes).

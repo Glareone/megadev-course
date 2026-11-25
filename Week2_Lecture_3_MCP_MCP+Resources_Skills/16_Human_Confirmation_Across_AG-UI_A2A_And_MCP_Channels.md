@@ -1,8 +1,8 @@
-# 9. A confirmation is a server-held fact that every channel only fills in: one pending record, resolved from AG-UI, A2A, MCP elicitation or an MCP App button, and checked by the server before the action runs
+# 16. A confirmation is a server-held fact that every channel only fills in: one pending record, resolved from AG-UI, A2A, MCP elicitation or an MCP App button, and checked by the server before the action runs
 
 > Hosts differ in how they ask a human, and some let hooks, autopilot or policy answer for the human, so a button or a host approval cannot be proof. The proof is a server record minted for one action, bound to the tenant, the principal and a hash of the parameters, resolved once through any channel and consumed by the server before the action runs.
 
-Related: [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [W2L1 14 Tool approval, durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) · [16 MCP events in real systems](16_MCP_Events_In_Real_Systems.md) · [17 HATEOAS in MCP tool results](17_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md)
+Related: [15 MCP Apps and the lecturer's preview tool](15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [07 Policy resource from the check rules](07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [W2L1 14 Tool approval, durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) · [14 MCP events in real systems](14_MCP_Events_In_Real_Systems.md) · [05 HATEOAS in MCP tool results](05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md)
 
 Source: S02E03 transcript (elicitation with Goose, `decide_exchange`). My setup as I describe it: a React card component that talks to my agent over AG-UI or A2A with HITL confirmation buttons, a stateless MCP server with external tools, users on Claude Code, Copilot and ChatGPT. MCP spec 2026-07-28 (elicitation, multi round-trip requests, tools), AG-UI docs, A2A 1.0 spec, LangGraph interrupts, host docs, read on 2026-11-24.
 
@@ -78,7 +78,7 @@ sequenceDiagram
 - The confirm path is never a tool the model can call alone: elicitation, my UI, or an app-only tool (`visibility: ["app"]`).
 - A decline or cancel closes the record. Expiry is short.
 - Where a host offers only its own approval, a high-risk tool returns a proposal and does not commit.
-- Every state change is logged with the tenant id (note 07).
+- Every state change is logged with the tenant id (note 20).
 
 ## 5. My three hosts
 

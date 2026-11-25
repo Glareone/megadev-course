@@ -42,8 +42,8 @@ Status: resolved, partly resolved, open.
 | 2 | Do Codex, VS Code Copilot and the OpenAI remote MCP tool expose resources to the model? | partly resolved | VS Code: the developer guide says native servers do not appear in the resource browser in Copilot sessions and to return content in a tool result. The browse commands exist only in a deprecated local harness, removed in February 2027. Codex: issue text only, no doc line. OpenAI remote MCP: silent | 01 host table, vendor guidance |
 | 3 | Names of the Claude Code resource tools | resolved | `ListMcpResourcesTool` and `ReadMcpResourceTool`, no permission prompt. The list tool leaves out MCP Apps UI resources | 01 host table |
 | 3a | Do resources of a plugin-bundled server show in the `@` menu | open | Not stated in the docs | 02 open question |
-| 4 | Skills over MCP: Beta or Final | resolved | Both. SEP-2640 is Final (merged 2026-09-13 per the charter), and the extension stage on the overview is Beta. MCP Apps is Stable | 01, 02, Lecture 1 note 12 |
-| 5 | Claude Code limit of 4,096 characters, and the 10% threshold | resolved | 4,096 characters for server instructions and upfront tool descriptions, 16,384 for descriptions loaded through tool search, `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` overrides both (v2.1.280 or later). The 10% belongs to `auto` only, and the unset default defers all MCP tools | W2L1 note 08 fixed. The limits wait for the note on packing inside one server |
+| 4 | Skills over MCP: Beta or Final | resolved | Both. SEP-2640 is Final (merged 2026-09-13 per the charter), and the extension stage on the overview is Beta. MCP Apps is Stable | 01, 02, Lecture 1 note 11 |
+| 5 | Claude Code limit of 4,096 characters, and the 10% threshold | resolved | 4,096 characters for server instructions and upfront tool descriptions, 16,384 for descriptions loaded through tool search, `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` overrides both (v2.1.280 or later). The 10% belongs to `auto` only, and the unset default defers all MCP tools | W2L1 note 15 fixed. The limits wait for the note on packing inside one server |
 | 6 | Do the Gemini CLI resource tools carry over to Antigravity CLI | open | Google's announcement (2026-05-19) says there is no 1:1 parity, and lists skills, hooks, subagents and extensions as carried over. MCP is not in that list. No resource tool documented. MCP config moved to `mcp_config.json` (secondary) | 01 host table |
 | 7 | MCP Apps: status, MIME type, per-read generation | partly resolved | Stable (2026-01-26). MIME type `text/html;profile=mcp-app` is a MUST in read contents. Per-read generation is not stated. Examples read a built file, and the host may cache it | 01 |
 | 8 | Cursor `mcp.json` keys, Codex plugin manifest, Agent Plugins schema | open | Not checked this round | 02 section 2 |
@@ -69,9 +69,9 @@ Status: resolved, partly resolved, open.
 
 ## Ideas to review later (one entry each)
 
-- [Read the lecturer's two examples](2026-11-23-lecturer-examples-tool-skill-links-rule-with-reason-s02e03-notes-02-03.md): tool and skill links, a rule with its reason.
+- [Read the lecturer's two examples](2026-11-23-lecturer-examples-tool-skill-links-rule-with-reason-s02e03-notes-02-07.md): tool and skill links, a rule with its reason.
 - [Which plugin format to target](2026-11-23-which-plugin-format-to-target-s02e03-note-02.md): one layout for several hosts, and what I give up.
-- [Policy text from my own rules](2026-11-23-policy-text-from-my-own-rules-s02e03-note-03.md): one rule source for the check and the explanation.
+- [Policy text from my own rules](2026-11-23-policy-text-from-my-own-rules-s02e03-note-07.md): one rule source for the check and the explanation.
 - [Where my tools' guidance lives](2026-11-23-where-my-tool-guidance-lives-s02e03-note-01.md): description, instructions, resource or tool result.
 
 ## To try (needs my explicit yes first)
@@ -79,7 +79,7 @@ Status: resolved, partly resolved, open.
 - An eval that checks per host whether the model reads a resource. It runs agents and model calls.
 - A no-op `resources/subscribe` handler on my stateless server, to test the Cursor workaround.
 - The `read_doc(uri)` fallback tool over the same content as a resource.
-- The drift test for note 03: assert the generated policy text covers every rule id.
+- The drift test for note 07: assert the generated policy text covers every rule id.
 
 ## Notes still to write for this lecture
 
@@ -92,6 +92,6 @@ Where the topic appears:
 |---|---|
 | [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) | Ten misreadings, resource forms, stateless fit, host table |
 | [02 MCP resources and plugins](../Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md) | Three meanings of "plugin", what each host plugin packs |
-| [03 Policy resource from the check rules](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Return-policy resource, mapping to OPA, hooks, guardrails |
+| [07 Policy resource from the check rules](../Week2_Lecture_3_MCP_MCP+Resources_Skills/07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Return-policy resource, mapping to OPA, hooks, guardrails |
 | [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) | Older, shorter note on resources and skills over MCP |
 | [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) | Claude Code tool search and the 10% `auto` threshold |

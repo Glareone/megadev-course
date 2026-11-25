@@ -1,8 +1,8 @@
-# 1. MCP resources are application-controlled context by URI that hosts read unevenly, and sampling, the server borrowing the host's model, is deprecated, so I build on resources and call my own provider
+# 01. MCP resources are application-controlled context by URI that hosts read unevenly, and sampling, the server borrowing the host's model, is deprecated, so I build on resources and call my own provider
 
 > A resource is data a host reads by URI, and the host decides what to do with it. The protocol supports it and stateless servers keep it, so I use resources for stable context and never rely on the model reading them. Sampling, which lets a server ask the host to run an LLM call, is deprecated since the 2026-07-28 spec, so I do not build on it.
 
-Related: [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md)
+Related: [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [07 Policy resource from the check rules](07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [15 MCP Apps and the lecturer's preview tool](15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md)
 
 Source: S02E03 written lesson and transcript (a resource for a return policy, list and read tools), MCP spec 2026-07-28 (resources, tools, server overview), MCP learn page, TypeScript SDK docs, client docs. Checked 2026-11-23. Sampling: the 2026-07-28 sampling, multi round-trip and changelog pages, VS Code and Cursor docs, checked 2026-11-25.
 
@@ -40,7 +40,7 @@ Source: S02E03 written lesson and transcript (a resource for a return policy, li
 | URI only | A list entry (`uri`, `name`, `description`) or a `resource_link` in a tool result | Entry yes. A link from a tool is not guaranteed | Point to a guide without sending its text |
 | Static content | The read handler returns `contents: [{ uri, text }]` from a constant | Yes | A workflow, a policy, a glossary |
 | Static file | The read handler reads a file at request time, text or base64 `blob` | Yes | A manual, a schema, a size guide |
-| Generated from rules | The handler builds the text from the stored rules a check also uses | Yes | A policy text that cannot drift from the check, see [03](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) |
+| Generated from rules | The handler builds the text from the stored rules a check also uses | Yes | A policy text that cannot drift from the check, see [07](07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) |
 | Template | `scheme://{id}/path`, variables go to the handler | Only with a `list` callback | One page per entity |
 | Embedded in a tool result | `type: resource` with the content inline | No | Attach the record a tool just used |
 

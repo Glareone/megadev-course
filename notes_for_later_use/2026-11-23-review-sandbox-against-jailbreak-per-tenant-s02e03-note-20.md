@@ -10,9 +10,9 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [07 Sandbox against jailbreak and prompt injection](../Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | What no source promises, the attack paths, the tool bridge, wall strength, rules R1 to R10, tests |
+| [20 Sandbox against jailbreak and prompt injection](../Week2_Lecture_3_MCP_MCP+Resources_Skills/20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | What no source promises, the attack paths, the tool bridge, wall strength, rules R1 to R10, tests |
 | [W2L2 17 Auto penetration testing of my agent](../Week2_Lecture_2_Building_an_Agent/17_Auto_Penetration_Testing_Of_My_Agent.md) | Synthetic tenants and canaries for authorization attacks |
-| [04 Workspaces and code sandboxes in frameworks](../Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) and [05 Where the sandbox attaches](../Week2_Lecture_3_MCP_MCP+Resources_Skills/05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) | Which frameworks give a sandbox and where it plugs in |
+| [17 Workspaces and code sandboxes in frameworks](../Week2_Lecture_3_MCP_MCP+Resources_Skills/17_Workspaces_And_Code_Sandboxes_In_Frameworks.md) and [18 Where the sandbox attaches](../Week2_Lecture_3_MCP_MCP+Resources_Skills/18_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) | Which frameworks give a sandbox and where it plugs in |
 | [Lecture 5: 10 Fleet lab threat model](../Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md) | The same risks mapped to OWASP for my fleet lab |
 
 Open: which wall and provider fit and who approves them, whether my bridge can give the program tools without exposing the token, who writes the program's output to Redis memory, whether the unread papers (the six design patterns) and Meta's "Rule of Two" change the rules. Running any test needs my explicit yes.

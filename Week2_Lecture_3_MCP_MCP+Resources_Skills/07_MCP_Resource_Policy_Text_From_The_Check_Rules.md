@@ -1,4 +1,4 @@
-# 3. A policy resource built from the same rules as the eligibility check keeps the explanation from drifting, while the check itself stays in code
+# 07. A policy resource built from the same rules as the eligibility check keeps the explanation from drifting, while the check itself stays in code
 
 > The lecture's resource does not check eligibility. It explains the policy, and the server generates that text from the same stored rules the check uses, so the two cannot disagree. This matches policy-as-code practice, but I found no published source for this exact combination.
 

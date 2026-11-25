@@ -1,8 +1,8 @@
-# 18. A tool is a capability and a skill is how to use it well: the Skills extension serves both but links them only by convention, so I map them by what the model cannot guess, make the tool work alone, and pilot it on one tool
+# 03. A tool is a capability and a skill is how to use it well: the Skills extension serves both but links them only by convention, so I map them by what the model cannot guess, make the tool work alone, and pilot it on one tool
 
 > The MCP Skills extension (SEP-2640, Final, spec at Beta) lets a server serve skills next to tools, and a host lists their names and descriptions. The spec has no field that ties a skill to a tool, so the link is text on both sides. The lecturer's own small test suggests the link decides whether the agent loads the skill, and independent evals show skills often go unloaded. Host support is real but beta, so the tool must still work without the skill.
 
-Related: [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [11 Sys prompt vs skills content and threats](11_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [12 How to adjust the system prompt and make it flexible](12_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md) · [13 MCP tools loading and code mode with many servers](13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [19 Router skill across MCP, MCP skills and the harness](19_Router_Skill_Across_MCP_Server_Skills_And_Harness.md) · [20 Search over skills](20_Search_Over_Skills_Instead_Of_Listing_Them.md)
+Related: [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [11 How to adjust the system prompt and make it flexible](11_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [04 Router skill across MCP, MCP skills and the harness](04_Router_Skill_Across_MCP_Server_Skills_And_Harness.md) · [06 Search over skills](06_Search_Over_Skills_Instead_Of_Listing_Them.md)
 
 Source: S02E03 lesson, "Skills & Tools" (figures 10 to 12). The lecturer's `tool-skill-links` example (README read, code not run). The Skills extension overview, the `ext-skills` repository and SEP-2640, the client matrix, Anthropic, OpenAI and Agent Skills docs, Claude Code skills docs, read on 2026-11-25. See [Fact-check](#fact-check).
 
@@ -32,7 +32,7 @@ Source: S02E03 article, figures 10 and 11.
 
 ## 3. What the extension specifies
 
-- **Host handling:** a tool is a schema and a callback that runs on the server, with its definition up front or deferred (note 13). A skill runs nowhere, shows its name and description up front and its body on demand, and sits below the system prompt (note 11).
+- **Host handling:** a tool is a schema and a callback that runs on the server, with its definition up front or deferred (note 09). A skill runs nowhere, shows its name and description up front and its body on demand, and sits below the system prompt (note 10).
 - **Methods:** a server declaring `io.modelcontextprotocol/skills` implements `skills/list` and `skills/get`. Files come through `resources/read`. `skills/list` returns each skill's URI, frontmatter and a manifest of files with digest and size. A skill may hold up to 512 files and 16 MiB.
 - **Hosts:** "Host applications determine how skills are exposed to the model and user." Reading `SKILL.md` does not activate it. Same-name skills must not replace each other silently. Code execution and `allowed-tools` need per-skill user approval, and digests are unsigned and come from the same server.
 - **No tool link:** I found no field that lets a skill require tools or a tool name a skill. The stated use is "reusable workflows that combine several tools".
@@ -72,7 +72,7 @@ flowchart LR
 |---|---|
 | A parameter's type and range | The tool schema and its validation |
 | What the tool does and when to use it, and which skill pairs with it | The tool description |
-| Order across tools, in a few lines | Server instructions (note 15) |
+| Order across tools, in a few lines | Server instructions (note 08) |
 | House style, exact presets, long workflows, what the model cannot guess | The skill |
 | Reference text | A resource (note 01) |
 | A rule that must hold | Code |
@@ -118,7 +118,7 @@ The standard exists and is backed by the maintainers. The evidence that skills g
 |---|---|
 | One more artifact to maintain | It ships in the same server version, and a test pairs it with the tool |
 | Hosts do not support it | Partly true. Claude Code and VS Code have beta support, and the tool works alone. Check my hosts |
-| Instructions from a server are a risk | The spec needs per-skill approval, ignores `allowed-tools` by default and digests are unsigned. Treat it as supply chain (note 11) |
+| Instructions from a server are a risk | The spec needs per-skill approval, ignores `allowed-tools` by default and digests are unsigned. Treat it as supply chain (note 10) |
 | Put it in the tool description | Descriptions are cut (Claude Code at 4,096 and 16,384 characters), and a skill loads only on demand |
 | Skills drift from the tool | Same repository, same release, same eval |
 

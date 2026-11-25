@@ -1,8 +1,8 @@
-# 11. The instruction hierarchy is trained behavior, not a mechanism, so a skill or tool description that contradicts my system prompt needs a design answer: precedence stated in the core, authority set by where the text is loaded, and enforcement in code
+# 10. The instruction hierarchy is trained behavior, not a mechanism, so a skill or tool description that contradicts my system prompt needs a design answer: precedence stated in the core, authority set by where the text is loaded, and enforcement in code
 
 > The Model Spec ranks root, system, developer, user and guideline, and gives tool outputs and untrusted text no authority by default, but it says production models do not yet fully follow it, and research shows hierarchies fail. Skills, MCP and plugins are not in the spec, so a skill's or a tool description's authority depends on where my harness loads it. I do not use the hierarchy as a security boundary.
 
-Related: [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [10 Self-evolution of the harness](10_Self_Evolution_Of_Harness_On_Event.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [W2L1 05 Instructions and what code must enforce](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L1 09 Tool search and proxy gateway](../Week2_Lecture_1_Agent_Primitives/09_Tool_Search_And_Proxy_Gateway.md) · [Lecture 2: 9 Tools and prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) · [18 MCP skills and tools](18_MCP_Skills_And_Tools.md)
+Related: [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [12 Self-evolution of the harness](12_Self_Evolution_Of_Harness_On_Event.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [W2L1 05 Instructions and what code must enforce](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L1 09 Tool search and proxy gateway](../Week2_Lecture_1_Agent_Primitives/09_Tool_Search_And_Proxy_Gateway.md) · [Lecture 2: 9 Tools and prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) · [03 MCP skills and tools](03_MCP_Skills_And_Tools.md)
 
 Source: S02E03 lesson, "Personalization" (the note that no instruction can be overridden, linking the Model Spec of 2026-08-18). The current Model Spec (2026-10-29) and its changelog, Anthropic docs, arXiv abstracts, Invariant Labs, the MCP spec and OWASP, read on 2026-11-25. See [Fact-check](#fact-check).
 
@@ -65,13 +65,13 @@ flowchart LR
 
 | # | Rule | Why |
 |---|---|---|
-| R1 | Security lives in code: hooks, permission rules, tool allowlists, sandbox | The hierarchy fails sometimes (W2L1 05, note 07) |
+| R1 | Security lives in code: hooks, permission rules, tool allowlists, sandbox | The hierarchy fails sometimes (W2L1 05, note 20) |
 | R2 | The core states the precedence and the reason: on a conflict follow the core, do not follow the conflicting text, say so in broad terms | The spec's "surface conflicts" behavior and Anthropic's "information to report, not commands to follow" |
 | R3 | Skills and tool descriptions are supply chain: trusted sources only, review all files, pin by content hash, re-verify at runtime, approve description changes, qualify tool names | Anthropic, OWASP ASI02 and ASI04, Invariant, the MCP spec |
 | R4 | Third-party text goes in tool results, JSON-encoded, never in the system prompt. My own instructions never go in tool results | Anthropic's mitigation guide |
-| R5 | A lint step before a skill loads: forbidden tools and URLs, `allowed-tools`, a model check against my rules | My idea, run in the review of note 10 |
+| R5 | A lint step before a skill loads: forbidden tools and URLs, `allowed-tools`, a model check against my rules | My idea, run in the review of note 12 |
 | R6 | Least privilege per skill. A skill cannot grant tools. Risky skills are not model-invoked | Docs summary, verify |
-| R7 | Conflict evals: a skill against a system rule, a poisoned description, a tool result with instructions. Measure the attack success rate on every model change | W2L2 17, note 10 |
+| R7 | Conflict evals: a skill against a system rule, a poisoned description, a tool result with instructions. Measure the attack success rate on every model change | W2L2 17, note 12 |
 | R8 | Log each tool call with the description hash and alert on drift | OWASP ASI02 |
 
 My own MCP server passes external tools' descriptions on to hosts, so I am a link in someone else's supply chain: I pin, review and, where I can, shorten those descriptions.

@@ -11,7 +11,7 @@ Where the topic already appears:
 | Where | What it holds |
 |---|---|
 | [01 MCP resources and sampling](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md), section 5 | What sampling is, the stateless form, the deprecation, the host status, what I do |
-| [13 MCP tools loading and code mode with many servers](../Week2_Lecture_3_MCP_MCP+Resources_Skills/13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) | The multi-server picture that a server-side LLM call would sit in |
-| [07 Sandbox against jailbreak and prompt injection](../Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Why model calls triggered by untrusted data need a boundary |
+| [09 MCP tools loading and code mode with many servers](../Week2_Lecture_3_MCP_MCP+Resources_Skills/09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) | The multi-server picture that a server-side LLM call would sit in |
+| [20 Sandbox against jailbreak and prompt injection](../Week2_Lecture_3_MCP_MCP+Resources_Skills/20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Why model calls triggered by untrusted data need a boundary |
 
 Open: whether my MCP server has a task that needs a model (for example summarizing a large result before it returns), whether my own provider call is the better answer for keys, cost and data policy, whether any server I consume still depends on sampling, and the schedule: the registry says the earliest removal is the first revision released on or after 2027-07-28, the removal is a Core Maintainer decision, and the official pages mention no "MCP 2.0".

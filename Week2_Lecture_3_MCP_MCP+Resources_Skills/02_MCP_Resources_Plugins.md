@@ -1,8 +1,8 @@
-# 2. "Plugin" is a host's install bundle, not an MCP concept: it packs an MCP server with skills and files, but it never ships resources by itself
+# 02. "Plugin" is a host's install bundle, not an MCP concept: it packs an MCP server with skills and files, but it never ships resources by itself
 
 > A plugin installs an MCP server together with skills, hooks and files as one unit, and the server alone owns the tools and resources. So tools, skills and reference files pack well in a plugin, and resources only travel inside the server.
 
-Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md) · [18 MCP skills and tools](18_MCP_Skills_And_Tools.md)
+Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [15 MCP Apps and the lecturer's preview tool](15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [03 MCP skills and tools](03_MCP_Skills_And_Tools.md)
 
 Source: Claude Code plugin and MCP docs, Cursor, Gemini CLI, VS Code and Codex plugin pages, MCP extensions, server concepts and registry pages, MCP spec 2026-07-28. Checked 2026-11-23.
 

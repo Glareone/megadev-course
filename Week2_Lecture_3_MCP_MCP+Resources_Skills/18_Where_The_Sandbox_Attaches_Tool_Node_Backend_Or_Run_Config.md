@@ -1,10 +1,10 @@
-# 5. The sandbox attaches in four places across frameworks: a tool, a backend behind the tools, an executor on the agent, or the run configuration; LangGraph leaves the choice to me
+# 18. The sandbox attaches in four places across frameworks: a tool, a backend behind the tools, an executor on the agent, or the run configuration; LangGraph leaves the choice to me
 
 > LangGraph has no sandbox object, so I place one as a tool in the loop or as a node for a fixed step. Deep Agents, Mastra, ADK, smolagents, CrewAI and the OpenAI SDK each attach it at a different point, and that point decides who owns the lifecycle, the scope and the secrets.
 
-Related: [04 Workspaces and code sandboxes in frameworks](04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [W2L2 11 Model routing in LangGraph](../Week2_Lecture_2_Building_an_Agent/11_Model_Routing_In_LangGraph.md) · [06 ReAct vs Deep Agent on LangGraph](06_ReAct_Vs_Deep_Agent_On_LangGraph.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [13 MCP tools loading and code mode with many servers](13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md)
+Related: [17 Workspaces and code sandboxes in frameworks](17_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [W2L2 11 Model routing in LangGraph](../Week2_Lecture_2_Building_an_Agent/11_Model_Routing_In_LangGraph.md) · [19 ReAct vs Deep Agent on LangGraph](19_ReAct_Vs_Deep_Agent_On_LangGraph.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md)
 
-Source: the framework docs read for note 04 (Deep Agents and LangGraph, Mastra, CrewAI, OpenAI Agents SDK, Google ADK, smolagents) and the code snippets Context7 returned for them, 2026-11-23. The two LangGraph sketches are my own, not from the docs.
+Source: the framework docs read for note 17 (Deep Agents and LangGraph, Mastra, CrewAI, OpenAI Agents SDK, Google ADK, smolagents) and the code snippets Context7 returned for them, 2026-11-23. The two LangGraph sketches are my own, not from the docs.
 
 ## Glossary
 
@@ -19,7 +19,7 @@ Source: the framework docs read for note 04 (Deep Agents and LangGraph, Mastra, 
 
 ## 1. The problem
 
-Note 04 lists which frameworks support a code sandbox. **Where does the sandbox sit in each of them, and how does it relate to LangGraph's graph?**
+Note 17 lists which frameworks support a code sandbox. **Where does the sandbox sit in each of them, and how does it relate to LangGraph's graph?**
 
 ## 2. LangGraph: two placements I can choose
 

@@ -75,7 +75,7 @@ Trade-offs to keep in mind:
 - Same-name skills from different servers must not silently replace each other.
 
 ## See also
-- [W2L3 18 MCP skills and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/18_MCP_Skills_And_Tools.md): how to map skills and tools, host support and a pilot plan, checked on 2026-11-25.
+- [W2L3 07 MCP skills and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Skills_And_Tools.md): how to map skills and tools, host support and a pilot plan, checked on 2026-11-25.
 - [W2L3 01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md): resource forms, stateless fit, host support, and resources under skills and MCP Apps, checked on 2026-11-23.
 - [Lecture 2, 5 Skills: "Docs by pointer"](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md): why a skill should point to docs instead of embedding them, and how skills over MCP fit as one variant. Includes an experiment to measure the token saving.
 

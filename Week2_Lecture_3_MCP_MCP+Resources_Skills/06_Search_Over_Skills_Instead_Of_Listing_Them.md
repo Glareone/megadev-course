@@ -1,10 +1,10 @@
-# 20. Search over skills is the tool-search idea applied to skills: it fits past the catalog budget, no vendor ships it for skills yet, and over MCP it needs a tool because the extension has no search method
+# 06. Search over skills is the tool-search idea applied to skills: it fits past the catalog budget, no vendor ships it for skills yet, and over MCP it needs a tool because the extension has no search method
 
 > A host can list every skill's name and description each turn, route through a router skill, or let the agent search a skill index and load only the hits. For tools, search has documented thresholds. For skills, vendors document none: Claude Code caps the listing and drops descriptions, a request for skill search was closed unshipped, and the research is at abstract level. Over MCP, search means a server tool beside the Skills extension.
 
-Related: [19 Router skill across MCP, MCP skills and the harness](19_Router_Skill_Across_MCP_Server_Skills_And_Harness.md) · [18 MCP skills and tools](18_MCP_Skills_And_Tools.md) · [13 MCP tools loading and code mode with many servers](13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md)
+Related: [04 Router skill across MCP, MCP skills and the harness](04_Router_Skill_Across_MCP_Server_Skills_And_Harness.md) · [03 MCP skills and tools](03_MCP_Skills_And_Tools.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md)
 
-Source: my follow-up to note 19, linking it to search plus execute (note 13). Anthropic tool search docs, Spring AI's tool search guide, Claude Code skills and settings docs, a Claude Code feature request, four arXiv abstracts, read on 2026-11-25. See [Fact-check](#fact-check).
+Source: my follow-up to note 04, linking it to search plus execute (note 09). Anthropic tool search docs, Spring AI's tool search guide, Claude Code skills and settings docs, a Claude Code feature request, four arXiv abstracts, read on 2026-11-25. See [Fact-check](#fact-check).
 
 ## Glossary
 
@@ -39,7 +39,7 @@ flowchart LR
 | | List all | Router | Search |
 |---|---|---|---|
 | Who finds the skill | The model, from the catalog | The model, from a hand-written map | A retriever over the index |
-| Context cost | Grows with N, capped by the host | One entry, if children are hidden (note 19) | The search tool, results only |
+| Context cost | Grows with N, capped by the host | One entry, if children are hidden (note 04) | The search tool, results only |
 | Failure | Descriptions dropped over budget | A wrong map misroutes | A weak query finds nothing |
 | Upkeep | Sharp descriptions | The map | The index and its quality |
 
@@ -47,7 +47,7 @@ flowchart LR
 
 - **Mechanism (Anthropic):** `defer_loading` controls what enters the context, not what is sent. Deferred tools load when Claude discovers them. Keep "3 to 5" tools non-deferred. Search returns up to 5 matches. The maximum is 10,000 deferred tools.
 - **Same shape for skills:** a search tool returns descriptors, then the body loads only for the chosen skill. This is my mapping of the tool pattern, and the Anthropic page does not mention skills.
-- **Code mode connection:** note 13's `search` runs inside a sandbox over a spec. A `search` over a skill index could run the same way, so descriptors reach the model as a result and not as a standing catalog (my reasoning).
+- **Code mode connection:** note 09's `search` runs inside a sandbox over a spec. A `search` over a skill index could run the same way, so descriptors reach the model as a result and not as a standing catalog (my reasoning).
 
 ## 4. How many, by the numbers
 
@@ -55,7 +55,7 @@ flowchart LR
 |---|---|---|
 | Anthropic tool search docs | Use at 10 or more tools, over 10k tokens of definitions, or 200+ tools across servers. Selection "degrades once you exceed 30 to 50" | Not covered |
 | Spring AI guide | Use at 20+ tools or over 5K tokens. Stay with the default under 20 | Not covered |
-| Claude Code docs | MCP tools defer by default (note 13) | The listing is capped at 1% of the context window, 1,536 characters per entry. Names stay, least-used descriptions drop |
+| Claude Code docs | MCP tools defer by default (note 09) | The listing is capped at 1% of the context window, 1,536 characters per entry. Names stay, least-used descriptions drop |
 | Agent Skills spec | | About 100 tokens of metadata per skill |
 | Claude Code feature request | | 81+ listed skills, about 4 to 5K tokens estimated. Another user: 47 skills and 11 subagents, about 10K tokens per turn |
 | Anthropic best practices | | A description selects "from potentially 100+ available Skills" |
@@ -77,10 +77,10 @@ No vendor documents a threshold for skills, and the research does not state a po
 
 ## 6. Over MCP
 
-- **The extension has no search.** It defines `skills/list` and `skills/get`, and I found no search method (note 18).
-- **So search is a server tool.** The lecturer's own example serves skills through `list_skills` and `load_skill` tools. A `search_skills` tool beside them returns descriptors, and the host loads the body through its skill path (note 18).
-- **Consent still applies.** A skill reached through search is still a skill from a server, so activation needs its approval (note 19).
-- **Poisoning surface.** Search results are tool results, which carry less authority than a skill body (note 11). Descriptions from a third-party index are still text I must trust.
+- **The extension has no search.** It defines `skills/list` and `skills/get`, and I found no search method (note 03).
+- **So search is a server tool.** The lecturer's own example serves skills through `list_skills` and `load_skill` tools. A `search_skills` tool beside them returns descriptors, and the host loads the body through its skill path (note 03).
+- **Consent still applies.** A skill reached through search is still a skill from a server, so activation needs its approval (note 04).
+- **Poisoning surface.** Search results are tool results, which carry less authority than a skill body (note 10). Descriptions from a third-party index are still text I must trust.
 
 ## 7. Viable when
 

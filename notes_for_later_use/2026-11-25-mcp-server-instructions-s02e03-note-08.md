@@ -10,9 +10,9 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [15 MCP server instructions and harness support](../Week2_Lecture_3_MCP_MCP+Resources_Skills/15_MCP_Server_Instructions_And_Harness_Support.md) | What the field is, SDK support, the harness table, what to write |
+| [08 MCP server instructions and harness support](../Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Server_Instructions_And_Harness_Support.md) | What the field is, SDK support, the harness table, what to write |
 | [01 MCP resources and sampling](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) | Where longer guidance lives, and the per-host eval |
-| [13 MCP tools loading and code mode with many servers](../Week2_Lecture_3_MCP_MCP+Resources_Skills/13_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) | Under tool search, names and server instructions are what loads first |
-| [11 Sys prompt vs skills content and threats](../Week2_Lecture_3_MCP_MCP+Resources_Skills/11_Sys_Prompt_vs_Skills_Content_And_Threats.md) | A third-party server's instructions can get system-level placement |
+| [09 MCP tools loading and code mode with many servers](../Week2_Lecture_3_MCP_MCP+Resources_Skills/09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) | Under tool search, names and server instructions are what loads first |
+| [10 Sys prompt vs skills content and threats](../Week2_Lecture_3_MCP_MCP+Resources_Skills/10_Sys_Prompt_vs_Skills_Content_And_Threats.md) | A third-party server's instructions can get system-level placement |
 
 Open: whether my server sets instructions today, which of my hosts show them to the model (an eval would tell, and running it needs my yes), and which guidance belongs in instructions, a resource or a skill.

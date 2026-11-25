@@ -30,7 +30,7 @@ flowchart LR
 | File | Name | What it covers | Keywords |
 |---|---|---|---|
 | [01_tokenizer_encoder_decoder.md](01_tokenizer_encoder_decoder.md) | Tokenizer: encoder and decoder | Text is split into token chunks, encoded to IDs, and the model's output IDs are decoded back to text | tokens, tokenizer, encode, decode, token ids |
-| [02_next_token_prediction.md](02_next_token_prediction.md) | Predicting the next token | The model guesses the most likely next token, one step at a time, in a generation loop | next token, generation loop, confidence, chatml prompt |
+| [02_next_token_prediction.md](02_next_token_prediction.md) | Predicting the next token | The model produces next-token probabilities, one token is selected from them, and the loop repeats until an end token | next token, generation loop, confidence, chatml prompt |
 | [06_reasoning_visible_and_silent.md](06_reasoning_visible_and_silent.md) | Reasoning: visible and silent | Why visible thinking helps the model, and what silent reasoning (the J-space) is | reasoning, visible thinking, silent reasoning, j-space |
 | [08_chatml.md](08_chatml.md) | ChatML | The text format that turns a chat into one text the model can autocomplete, using special tokens | chatml, special tokens, autocomplete, tokenizer, system user assistant |
 | [09_multimodality.md](09_multimodality.md) | Multimodality | Each input type has its own encoder, and models still struggle in certain places | multimodality, encoders, input types, model struggles |
@@ -46,7 +46,7 @@ flowchart LR
 | [07_responses_api_request_example.md](07_responses_api_request_example.md) | Example: Responses API request | A worked request body with three parameters, and the response | responses api, request body, parameters, response |
 | [10_code_mode.md](10_code_mode.md) | Code mode | Instead of many tools, the model gets two (find and execute) and calls the API by writing code | code mode, function calling, find, execute, sandbox |
 | [11_cli_and_mcp.md](11_cli_and_mcp.md) | CLI and MCP tools | CLI and MCP are two ways to give an agent more tools, and the model cannot tell them apart | cli, mcp, tools, function calling, code mode |
-| [12_mcp_resources_and_skills.md](12_mcp_resources_and_skills.md) | MCP: resources and skills | The two other things an MCP server can expose besides tools | mcp, resources, skills over mcp, tools |
+| [12_mcp_resources_and_skills.md](12_mcp_resources_and_skills.md) | MCP: resources and skills | Resources and the Skills extension, which an MCP server can expose besides tools; MCP prompts are not covered here | mcp, resources, skills over mcp, tools |
 | [13_skills_and_context.md](13_skills_and_context.md) | Skills: loading, context, unloading | How a skill reaches the model, why the description drives selection, and three ways to give skills | skills, context, description, selection, unloading |
 
 ### Agent behaviors

@@ -1,6 +1,6 @@
 # 12 · MCP: Resources and Skills
 
-Follow-up to [11](11_cli_and_mcp.md). Tools run on the MCP side and are well known. This note is about the two other things an MCP server can expose: **resources** and **skills**.
+Follow-up to [11](11_cli_and_mcp.md). Tools run on the MCP side and are well known. This note is about **resources** and **skills** (the Skills extension), two things an MCP server can expose besides tools. MCP also defines prompts, which this note does not cover.
 
 **Source split:** the lecture only says "MCP can also expose resources and skills". Everything below is from the MCP documentation (links at the end), not from the course.
 
@@ -75,7 +75,7 @@ Trade-offs to keep in mind:
 - Same-name skills from different servers must not silently replace each other.
 
 ## See also
-- [W2L3 07 MCP skills and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Skills_And_Tools.md): how to map skills and tools, host support and a pilot plan, checked on 2026-11-25.
+- [W2L3 03 MCP skills and tools](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Skills_And_Tools.md): how to map skills and tools, host support and a pilot plan, checked on 2026-11-25.
 - [W2L3 01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md): resource forms, stateless fit, host support, and resources under skills and MCP Apps, checked on 2026-11-23.
 - [Lecture 2, 5 Skills: "Docs by pointer"](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md): why a skill should point to docs instead of embedding them, and how skills over MCP fit as one variant. Includes an experiment to measure the token saving.
 

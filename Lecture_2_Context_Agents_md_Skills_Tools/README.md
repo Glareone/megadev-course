@@ -35,7 +35,7 @@ The file names keep the numbering the folder already used (`1_` to `12_`, plus `
 | [2_agent_context_self_report.md](2_agent_context_self_report.md) | Agent context self-report | Ask the agent how it sees the conversation, and the answer shows gaps in my setup | self-report, context, planted gaps, setup gaps |
 | [3_lifecycle_hooks.md](3_lifecycle_hooks.md) | Lifecycle hooks | Hooks attach my own deterministic logic to steps of the agent loop, unlike AGENTS.md requests the model may ignore | hooks, lifecycle events, deterministic, agent loop |
 | [4_context_window.md](4_context_window.md) | Context window | Instructions can fail, so working with AI is about raising the chance of the result, and the note groups why they fail | context window, instruction failure, raising the chance |
-| [Insight_1_Context_Agents.md](Insight_1_Context_Agents.md) | Context: AGENTS.md and CLAUDE.md | AGENTS.md loads into every session, so it is the main source of token waste and should be a short map | agents.md, claude.md, token waste, map |
+| [Insight_1_Context_Agents.md](Insight_1_Context_Agents.md) | Context: AGENTS.md and CLAUDE.md | What a harness loads at session start (AGENTS.md or CLAUDE.md, depending on the client) costs tokens in every session, so it is the main source of token waste and should be a short map | agents.md, claude.md, token waste, map |
 
 ### Skills
 

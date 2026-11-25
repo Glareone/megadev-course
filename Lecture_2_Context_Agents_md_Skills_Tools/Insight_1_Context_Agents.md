@@ -1,7 +1,18 @@
 # Insight 1. Context: AGENTS.md / CLAUDE.md
 
-> AGENTS.md is loaded into **every** session, so it is the main source of token waste.
+> What a harness loads at session start (AGENTS.md or CLAUDE.md, depending on the client) is paid for in **every** session, so it is the main source of token waste.
 > Every line must earn its place. Treat it as a **map**, not an encyclopedia.
+
+## Which clients load it (checked 2026-11-25)
+
+| Client | What it loads |
+|---|---|
+| [Claude Code](https://code.claude.com/docs/en/memory) | CLAUDE.md from the working directory and every directory above it, at launch. It reads AGENTS.md only when no CLAUDE.md exists there (v2.1.277 or later). Files in subdirectories load when Claude reads a file there |
+| [Codex](https://learn.chatgpt.com/docs/agent-configuration/agents-md) | An instruction chain built once per run: global file, then the project root down to the working directory, one file per directory, 32 KiB by default |
+| [Cursor](https://cursor.com/docs/context/rules) | AGENTS.md in the project root and subdirectories, combined with parent directories |
+| [GitHub Copilot](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions) | AGENTS.md as agent instructions, nearest file wins. Path-specific instructions only for the cloud agent and code review. The per-feature matrix (Chat, IDE) I did not read |
+
+So "every session" holds for the clients that load the file at start. A client without support, or a feature outside the matrix, ignores it, and I check my own client before relying on it.
 
 ## Why it matters (evidence)
 

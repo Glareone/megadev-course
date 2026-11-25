@@ -1,6 +1,6 @@
 # 08. Server instructions are an optional field that a client may put in the system prompt, so I write a short one, put the key line first, and check per host that it arrives
 
-> The field exists in the spec and in both official SDKs, but the spec sets no length limit and no rule for where a client places it. Claude Code cuts it at 4,096 characters, Pi uses the first line, Codex advises a self-contained first 512 characters, and the Claude API connector, which supports only tool calls, does not consume it. I write a short, non-duplicating instruction and test it on each host.
+> The field exists in the spec and in both official SDKs, but the spec sets no length limit and no rule for where a client places it. Claude Code cuts it at 4,096 characters, Pi uses the server's configured description or, when none is set, the first line, Codex advises a self-contained first 512 characters, and the Claude API connector, which supports only tool calls, probably does not consume it (my inference). I write a short, non-duplicating instruction and test it on each host.
 
 Related: [01 MCP resources and sampling](01_MCP_Resources_Static_Context_And_Sampling.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [05 HATEOAS in MCP tool results](05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) · [03 MCP skills and tools](03_MCP_Skills_And_Tools.md)
 
@@ -60,7 +60,7 @@ It is a hint that a host may ignore, so the question is where a short text chang
 | A rule that must hold | No: code | A host may ignore the field |
 | Hosts that do not use the field (Claude API connector, VS Code not stated) | Optional | No gain there, and no harm |
 
-If I add it: a self-contained first line (Pi uses it, Codex weights the first 512 characters), well under 4,096 characters, nothing already in a description.
+If I add it: a self-contained first line (Pi uses it when no description is configured, Codex weights the first 512 characters), well under 4,096 characters, nothing already in a description.
 
 ## 6. Consequences of adding and of avoiding
 

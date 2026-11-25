@@ -3,6 +3,8 @@
 > Hooks attach **our own logic** to nearly every step of the agent's loop. Instructions in AGENTS.md are *requests* the model may ignore. A hook is **deterministic**: it always runs.
 > AI can write hooks for us, but we still need to know what is possible and when the default setup is enough.
 
+See also: [W2L3 14 MCP events and lifecycle hooks](../Week2_Lecture_3_MCP_MCP+Resources_Skills/14_MCP_Events_And_Lifecycle_Hooks.md), where external MCP events enter before the loop and hooks stay the control points.
+
 ## Where hooks sit in the harness
 
 ![Self-configurable harness](img/lifecycle-hooks.png)

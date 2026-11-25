@@ -2,7 +2,7 @@
 
 > A resource is data a host reads by URI, and the host decides what to do with it. The protocol supports it and stateless servers keep it, so I use resources for stable context and never rely on the model reading them. Sampling, which lets a server ask the host to run an LLM call, is deprecated since the 2026-07-28 spec, so I do not build on it.
 
-Related: [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md)
+Related: [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [15 MCP server instructions and harness support](15_MCP_Server_Instructions_And_Harness_Support.md)
 
 Source: S02E03 written lesson and transcript (a resource for a return policy, list and read tools), MCP spec 2026-07-28 (resources, tools, server overview), MCP learn page, TypeScript SDK docs, client docs. Checked 2026-11-23. Sampling: the 2026-07-28 sampling, multi round-trip and changelog pages, VS Code and Cursor docs, checked 2026-11-25.
 
@@ -95,14 +95,14 @@ flowchart LR
 
 - **What:** `sampling/createMessage` lets a server get a completion through the client, "no server API keys necessary", nested inside a tool call, `prompts/get` or `resources/read`. A human SHOULD be able to view, edit and deny the request and review the response. `modelPreferences` (hints, cost, speed and intelligence priorities) are advisory and the client picks the model. `maxTokens` must be respected, and `systemPrompt` may be changed or ignored.
 - **Stateless form:** in 2026-07-28 the server returns an `InputRequiredResult` that carries the request, and the client retries with `inputResponses` and the same `requestState`. "The previous pattern of server-initiated requests is no longer supported."
-- **Status:** SEP-2577 deprecates Roots, Sampling and Logging: "New implementations SHOULD NOT adopt it; existing implementations SHOULD migrate to integrating directly with LLM provider APIs." The TypeScript SDK v2 throws on `requestSampling` for 2026-07-28 connections.
+- **Status:** SEP-2577 (Final) deprecates Roots, Sampling and Logging in 2026-07-28: "New implementations SHOULD NOT adopt it; existing implementations SHOULD migrate to integrating directly with LLM provider APIs." The registry's earliest removal is the "first revision released on or after 2027-07-28", and removal is a Core Maintainer decision that may come later. Nothing has been removed yet. The versioning page, the roadmap (2026-08-22) and the SEP index mention no "MCP 2.0" or next major version. The TypeScript SDK v2 throws on `requestSampling` for 2026-07-28 connections.
 - **Hosts:** VS Code Copilot: "Deprecated in MCP", supported during an active turn with per-server approval. Claude Code, Cursor and ChatGPT: not stated, and the official client matrix has no sampling column. I found no shipped server that uses it.
-- **What I do:** I do not build on it. If my server needs a model, it calls my own provider (my key, my cost, my data policy), or returns data for the host's model to use. The lesson presents sampling as a live feature, and as of 2026-07-28 it is deprecated.
+- **What I do:** I do not build on it. If my server needs a model, it calls my own provider (my key, my cost, my data policy), or returns data for the host's model to use. The lesson says "support for these features varies by client": true for hosts (VS Code supports it, the others are not stated), but the feature is deprecated and could be gone from the first revision after 2027-07-28.
 
 ## 6. Cautions
 
 - A resource nobody reads gives no signal, so I need an eval per host. Remote resource text steers the model like any instruction.
-- Host support changes quickly, so I re-check section 4 before presenting.
+- Host support changes quickly, so I re-check section 4 before presenting. SEP-2577 says wire behavior is unchanged during deprecation, while the changelog replaces server-initiated sampling with the multi round-trip pattern, and the pages do not reconcile the two.
 
 ## Summary
 
@@ -113,7 +113,7 @@ Resources stay in the spec and fit stateless servers when static and identical f
 - Which of my target hosts let the model read resources, measured with an eval?
 - Does Codex document resource support, and does the OpenAI remote MCP tool read resources?
 - Does Cursor still send `resources/subscribe` to servers that declare `subscribe: false`, and how do its resources reach the model?
-- Does any MCP server I consume still rely on sampling, and when will it be removed?
+- Does any MCP server I consume still rely on sampling before the earliest removal date, 2027-07-28?
 
 ## Fact-check
 
@@ -134,7 +134,7 @@ Resources stay in the spec and fit stateless servers when static and identical f
 | 13 | Lecture: support for resources, prompts and sampling varies by client | agrees for resources and prompts (rows 7 to 12). **Outdated for sampling**: it is deprecated, rows 16 and 17 | the lesson, "Model Context Protocol" |
 | 14 | Blogs: tool for actions and resource for stable context, hosts lack the UX, 114K against 27K tokens | lecture-independent opinion, one author's tests, no method | [mcp.so](https://mcp.so/blog/mcp-resources-vs-tools), [layered.dev](https://layered.dev/mcp-resources-the-overlooked-primitive/), [dev.to](https://dev.to/kenimo49/mcp-resources-vs-tools-vs-prompts-3-layers-that-cut-my-agents-tokens-from-114k-to-27k-440a) |
 | 15 | Skills over MCP: SEP-2640 is Final and the stage is Beta. MCP Apps are Stable with `text/html;profile=mcp-app` | agrees. The apps spec was read verbatim in part | [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension), [Extensions overview](https://modelcontextprotocol.io/extensions/overview), [ext-apps spec](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx) |
-| 16 | Sampling is deprecated (SEP-2577), new implementations SHOULD NOT adopt it, it moved to the multi round-trip pattern | agrees | [Sampling](https://modelcontextprotocol.io/specification/2026-07-28/client/sampling), [changelog](https://modelcontextprotocol.io/specification/2026-07-28/changelog), [MRTR](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr) |
+| 16 | Sampling is deprecated (SEP-2577, Final), earliest removal the first revision on or after 2027-07-28, nothing removed yet, no "MCP 2.0" in the official pages. It moved to the multi round-trip pattern | agrees | [Sampling](https://modelcontextprotocol.io/specification/2026-07-28/client/sampling), [registry](https://modelcontextprotocol.io/specification/2026-07-28/deprecated), [versioning](https://modelcontextprotocol.io/specification/versioning), [roadmap](https://modelcontextprotocol.io/development/roadmap), [changelog](https://modelcontextprotocol.io/specification/2026-07-28/changelog), [MRTR](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr) |
 | 17 | VS Code: "Deprecated in MCP", supported with per-server approval. Claude Code, Cursor, ChatGPT: not stated. TypeScript SDK v2 throws. No shipped server found | agrees. Silence is "not stated", and parts of the Claude Code and OpenAI pages were summarized | [VS Code guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide), [Cursor docs](https://cursor.com/docs/context/mcp), [TypeScript SDK v2](https://ts.sdk.modelcontextprotocol.io/v2/servers/sampling) |
 
 ## Sources

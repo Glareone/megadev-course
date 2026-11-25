@@ -11,7 +11,7 @@ Where the topic already appears:
 | Where | What it holds |
 |---|---|
 | [08 MCP Apps and the lecturer's preview tool](../Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) | How an MCP App works, the fallback, security, the market, four options for my cards |
-| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) | `ui://` as a resource form, and Claude Code hiding it from its list |
+| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) | `ui://` as a resource form, and Claude Code hiding it from its list |
 | [07 Sandbox against jailbreak and prompt injection](../Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Tenant checks stay behind the server when a View calls tools |
 
 Open: whether the React renderer fits one self-contained HTML file, whether Claude Code renders apps or only shows text, and whether elicitation for confirmations is enough.

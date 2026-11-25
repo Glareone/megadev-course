@@ -90,7 +90,7 @@ Where the topic appears:
 
 | Where | What it holds |
 |---|---|
-| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) | Ten misreadings, resource forms, stateless fit, host table |
+| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) | Ten misreadings, resource forms, stateless fit, host table |
 | [02 MCP resources and plugins](../Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md) | Three meanings of "plugin", what each host plugin packs |
 | [03 Policy resource from the check rules](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Return-policy resource, mapping to OPA, hooks, guardrails |
 | [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) | Older, shorter note on resources and skills over MCP |

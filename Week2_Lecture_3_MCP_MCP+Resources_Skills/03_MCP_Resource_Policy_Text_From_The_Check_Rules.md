@@ -2,7 +2,7 @@
 
 > The lecture's resource does not check eligibility. It explains the policy, and the server generates that text from the same stored rules the check uses, so the two cannot disagree. This matches policy-as-code practice, but I found no published source for this exact combination.
 
-Related: [01 MCP resources](01_MCP_Resources_Static_Context_By_URI.md) · [W2L1 05 Instructions and what code must enforce](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [W2L2 14 Execution flows](../Week2_Lecture_2_Building_an_Agent/14_Execution_Flows_Skill_Tool_Or_Workflow.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md)
+Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [W2L1 05 Instructions and what code must enforce](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [W2L2 14 Execution flows](../Week2_Lecture_2_Building_an_Agent/14_Execution_Flows_Skill_Tool_Or_Workflow.md) · [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md)
 
 Source: S02E03 transcript, the resources passage (return policy resource, eligibility checks). The written lesson does not mention it. OPA docs, Claude Code hooks guide, OpenAI Agents SDK guardrails, Anthropic tool-writing article, MCP learn page. Checked 2026-11-23.
 

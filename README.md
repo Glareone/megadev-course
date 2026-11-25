@@ -239,7 +239,7 @@ Folder: [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resou
 
 | # | Topic |
 |---|---|
-| [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) | MCP resources: ten misreadings with what I do instead, what a resource can hold (URI, static content, file, template, embedded), the stateless fit, what the spec and hosts do and what the blogs advise |
+| [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) | MCP resources and sampling: ten misreadings with what I do instead, what a resource can hold, the stateless fit, what the spec and hosts do, and sampling (the server asks the host's model), which the 2026-07-28 spec deprecates |
 | [02](Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md) | MCP resources and plugins: three meanings of "plugin" (host bundle, MCP extension, registry entry), what Claude Code, Cursor, Gemini CLI, VS Code and Codex plugins pack, how tools, resources, skills and files travel together |
 | [03](Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Policy resource from the check rules: the lecture's return-policy resource built from the rules behind the eligibility checks, resource explains and check decides, mapped to OPA, hooks and tool guardrails |
 | [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) | Workspaces and code sandboxes in frameworks: what a Mastra workspace bundles, how LangGraph, Deep Agents, CrewAI, the OpenAI SDK, ADK, smolagents and others support a sandbox, how strong the wall is, what else a workspace gives |
@@ -353,10 +353,10 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 
 | Name | What it does | Notes |
 |---|---|---|
-| [Streamable MCP server template](https://github.com/iceener/streamable-mcp-server-template) | The lecturer's TypeScript template for MCP servers | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (not read) |
+| [Streamable MCP server template](https://github.com/iceener/streamable-mcp-server-template) | The lecturer's TypeScript template for MCP servers | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) (not read) |
 | [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | The lecturer's personal MCP server, used as the example of shaping tools | Not yet covered |
 | [Goose](https://github.com/aaif-goose/goose) | Client in the transcript that shows an MCP elicitation form | [08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) (elicitation compared with MCP Apps) |
-| [Mastra](https://mastra.ai/) | Framework in the transcript for MCP resources, code mode and skills | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (resources), [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) (workspace) |
+| [Mastra](https://mastra.ai/) | Framework in the transcript for MCP resources, code mode and skills | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) (resources), [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) (workspace) |
 
 ## Repository rules
 

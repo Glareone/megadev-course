@@ -2,7 +2,7 @@
 
 > A plugin installs an MCP server together with skills, hooks and files as one unit, and the server alone owns the tools and resources. So tools, skills and reference files pack well in a plugin, and resources only travel inside the server.
 
-Related: [01 MCP resources](01_MCP_Resources_Static_Context_By_URI.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md)
+Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md)
 
 Source: Claude Code plugin and MCP docs, Cursor, Gemini CLI, VS Code and Codex plugin pages, MCP extensions, server concepts and registry pages, MCP spec 2026-07-28. Checked 2026-11-23.
 

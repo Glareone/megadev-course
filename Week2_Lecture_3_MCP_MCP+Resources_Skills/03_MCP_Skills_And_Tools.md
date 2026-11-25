@@ -1,6 +1,6 @@
 # 03. A tool is a capability and a skill is how to use it well: the Skills extension serves both but links them only by convention, so I map them by what the model cannot guess, make the tool work alone, and pilot it on one tool
 
-> The MCP Skills extension (SEP-2640, Final, spec at Beta) lets a server serve skills next to tools, and a host lists their names and descriptions. The spec has no field that ties a skill to a tool, so the link is text on both sides. The lecturer's own small test suggests the link decides whether the agent loads the skill, and independent evals show skills often go unloaded. Host support is real but beta, so the tool must still work without the skill.
+> The MCP Skills extension (SEP-2640, Final, spec at Beta) lets a server serve skills next to tools, and a host lists their names and descriptions. The spec has no field that ties a skill to a tool, so the link is text on both sides. The lecturer's own small test suggests the link decides whether the agent loads the skill, and independent evals show skills often go unloaded. Claude Code supports it in public beta (its docs) and the other hosts are unverified, so the tool must still work without the skill.
 
 Related: [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [11 How to adjust the system prompt and make it flexible](11_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [04 Router skill across MCP, MCP skills and the harness](04_Router_Skill_Across_MCP_Server_Skills_And_Harness.md) · [06 Search over skills](06_Search_Over_Skills_Instead_Of_Listing_Them.md)
 
@@ -42,12 +42,12 @@ Source: S02E03 article, figures 10 and 11.
 
 | Host | Status |
 |---|---|
-| Claude Code | Beta since v2.1.331, server skills run as `/<server>:<skill>` with per-version approval. Its docs say it ignores `allowed-tools` and `hooks` for MCP skills |
-| VS Code | Beta, on by default since 1.147, with per-server consent |
-| ChatGPT, Codex | Planned. The client matrix marks ChatGPT "Partial" |
-| SDKs | TypeScript and C# v2.4.0 beta, Python merged and unreleased, Go in progress |
+| Claude Code | Public beta from v2.1.331, up to 100 skills per server, server skills run as `/<server>:<skill>`. Not in cloud sessions, `claude -p`, GitHub Actions or the Agent SDK. Its docs say it ignores `allowed-tools` and `hooks` for MCP skills (Claude Code docs, checked) |
+| VS Code | Reported beta since 1.147 with per-server consent. Verify before presenting |
+| ChatGPT, Codex | The client matrix marks ChatGPT "Partial". Codex "planned" is from the community list. Verify before presenting |
+| SDKs | TypeScript and C# v2.4.0 beta, Python merged and unreleased, Go in progress, from the community list. Verify before presenting |
 
-The host rows come from a community-maintained list, and the client matrix shows blanks for Claude Code and VS Code, so the two disagree.
+Apart from the Claude Code row, the rows come from a community-maintained list, and the client matrix shows blanks for Claude Code and VS Code, so the two disagree.
 
 ## 5. Mapping skills and tools
 
@@ -117,7 +117,7 @@ The standard exists and is backed by the maintainers. The evidence that skills g
 | Objection | Answer |
 |---|---|
 | One more artifact to maintain | It ships in the same server version, and a test pairs it with the tool |
-| Hosts do not support it | Partly true. Claude Code and VS Code have beta support, and the tool works alone. Check my hosts |
+| Hosts do not support it | Partly true. Claude Code has public beta support (its docs), the other hosts are unverified, and the tool works alone. Check my hosts |
 | Instructions from a server are a risk | The spec needs per-skill approval, ignores `allowed-tools` by default and digests are unsigned. Treat it as supply chain (note 10) |
 | Put it in the tool description | Descriptions are cut (Claude Code at 4,096 and 16,384 characters), and a skill loads only on demand |
 | Skills drift from the tool | Same repository, same release, same eval |
@@ -135,9 +135,9 @@ The standard exists and is backed by the maintainers. The evidence that skills g
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
 | 1 | SEP-2640 is Final, the spec is Beta, with `skills/list`, `skills/get`, limits and host duties | agrees | [Skills overview](https://modelcontextprotocol.io/extensions/skills/overview), [ext-skills](https://github.com/modelcontextprotocol/ext-skills) | 2026-11-25 |
-| 2 | No field links a skill and a tool | agrees, by absence, spec read in part | same pages | 2026-11-25 |
-| 3 | Reading does not activate. Same-name rule. `allowed-tools` needs approval. Digests unsigned | agrees, `allowed-tools` part from a summary | same pages | 2026-11-25 |
-| 4 | Implementations: Claude Code and VS Code beta, ChatGPT and Codex planned | unverified, community list | [implementations](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/implementations.md) | 2026-11-25 |
+| 2 | No field links a skill and a tool. Reading does not activate. Same-name rule. `allowed-tools` needs approval. Digests unsigned | agrees, by absence for the link. Spec read in part, `allowed-tools` from a summary | same pages | 2026-11-25 |
+| 3 | Claude Code supports MCP skills in public beta from v2.1.331, up to 100 per server | agrees, verbatim | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-25 |
+| 4 | Implementations: VS Code beta since 1.147, Codex planned, SDK versions | unverified, community list | [implementations](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/implementations.md) | 2026-11-25 |
 | 5 | The client matrix lists only ChatGPT, fast-agent and the Inspector as Partial | agrees. It conflicts with row 4 | [Client matrix](https://modelcontextprotocol.io/extensions/client-matrix.md) | 2026-11-25 |
 | 6 | Vercel figures, Ronacher, Speakeasy, LlamaIndex, CSA, working group members | agrees, read 2026-11-25. Ronacher and Speakeasy are opinion, Vercel's model is not named | [Vercel](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals), [Ronacher](https://lucumr.pocoo.org/2025/12/13/skills-vs-mcp/), [Speakeasy](https://speakeasy.com/blog/skills-vs-mcp), [LlamaIndex](https://www.llamaindex.ai/blog/skills-vs-mcp-tools-for-agents-when-to-use-what), [CSA](https://cloudsecurityalliance.org/blog/2026/09/29/from-models-to-mcp-servers-skills-and-plugins-rethinking-trust-in-the-ai-supply-chain), [charter](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp) | 2026-11-25 |
 | 7 | arXiv 2604.04323 skill benefits are fragile | agrees from the abstract, paper not read | [arXiv](https://arxiv.org/abs/2604.04323) | 2026-11-25 |

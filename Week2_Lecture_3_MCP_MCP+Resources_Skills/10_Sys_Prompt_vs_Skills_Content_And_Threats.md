@@ -39,10 +39,10 @@ So the hierarchy helps, and I design as if it can fail.
 | `AGENTS.md` in the repository | Context | Users "may implicitly delegate authority", `AGENTS.md` is the spec's own example |
 | Skill name and description | Anthropic platform: "includes it in the system prompt" | System-level placement for third-party text |
 | Skill body | Platform: read by bash, so a tool result. Claude Code: a message in the conversation, role not stated in the docs read | Data by default, unless delegated |
-| MCP tool description | Tool definitions, which "a system or developer message will list" | Developer-level placement for third-party text |
+| MCP tool description | Tool definitions, which "a system or developer message will list" (Model Spec) | System-level or developer-level placement for third-party text, depending on the message my harness uses |
 | Tool result | `tool_result` | None by default, trained skepticism |
 
-The same text can be data or instruction depending on the harness. The Model Spec does not mention skills, MCP or plugins in the text I read. Tool poisoning works because tool definitions give an attacker's words the placement of mine. That reading is my reasoning.
+The same text can be data or instruction depending on the harness. The Model Spec does not mention skills, MCP or plugins in the text I read. Tool poisoning works because tool definitions give an attacker's words the placement of mine, system-level or developer-level. The spec lists tools in either message and does not say a definition inherits its message's authority. That reading is my reasoning.
 
 ## 4. What goes wrong
 

@@ -1,6 +1,6 @@
 # 06. Search over skills is the tool-search idea applied to skills: it fits past the catalog budget, no vendor ships it for skills yet, and over MCP it needs a tool because the extension has no search method
 
-> A host can list every skill's name and description each turn, route through a router skill, or let the agent search a skill index and load only the hits. For tools, search has documented thresholds. For skills, vendors document none: Claude Code caps the listing and drops descriptions, a request for skill search was closed unshipped, and the research is at abstract level. Over MCP, search means a server tool beside the Skills extension.
+> A host can list every skill's name and description each turn, route through a router skill, or let the agent search a skill index and load only the hits. For tools, search has documented thresholds. For skills, vendors document none: Claude Code caps the listing and drops descriptions, a request for skill search was closed unshipped, and the research is at abstract level. Over MCP, search means a server tool beside the Skills extension, and it saves context only where the host or the server limits the standing catalog.
 
 Related: [04 Router skill across MCP, MCP skills and the harness](04_Router_Skill_Across_MCP_Server_Skills_And_Harness.md) · [03 MCP skills and tools](03_MCP_Skills_And_Tools.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md)
 
@@ -39,13 +39,13 @@ flowchart LR
 | | List all | Router | Search |
 |---|---|---|---|
 | Who finds the skill | The model, from the catalog | The model, from a hand-written map | A retriever over the index |
-| Context cost | Grows with N, capped by the host | One entry, if children are hidden (note 04) | The search tool, results only |
+| Context cost | Grows with N, capped by the host | One entry, if the server lists only the router or the host hides children (note 04) | The search tool and results, if nothing else is listed |
 | Failure | Descriptions dropped over budget | A wrong map misroutes | A weak query finds nothing |
 | Upkeep | Sharp descriptions | The map | The index and its quality |
 
 ## 3. Tool search sets the pattern
 
-- **Mechanism (Anthropic):** `defer_loading` controls what enters the context, not what is sent. Deferred tools load when Claude discovers them. Keep "3 to 5" tools non-deferred. Search returns up to 5 matches. The maximum is 10,000 deferred tools.
+- **Mechanism (Anthropic):** `defer_loading` controls what enters the context, not what is sent. Deferred tools load when Claude discovers them. Keep "3 to 5" tools non-deferred. Search returns up to 5 matches by default, and Claude can set a `limit` in its search input (1 to 10,000). The maximum is 10,000 deferred tools, a separate limit.
 - **Same shape for skills:** a search tool returns descriptors, then the body loads only for the chosen skill. This is my mapping of the tool pattern, and the Anthropic page does not mention skills.
 - **Code mode connection:** note 09's `search` runs inside a sandbox over a spec. A `search` over a skill index could run the same way, so descriptors reach the model as a result and not as a standing catalog (my reasoning).
 
@@ -79,6 +79,7 @@ No vendor documents a threshold for skills, and the research does not state a po
 
 - **The extension has no search.** It defines `skills/list` and `skills/get`, and I found no search method (note 03).
 - **So search is a server tool.** The lecturer's own example serves skills through `list_skills` and `load_skill` tools. A `search_skills` tool beside them returns descriptors, and the host loads the body through its skill path (note 03).
+- **Search alone does not shrink the catalog.** A host that still lists every skill keeps that standing cost beside the search results. Search saves context only where the host exposes skills selectively, or the server returns a partial `skills/list`, which the spec allows and which hosts must honor by loading unlisted skills by URI (note 04).
 - **Consent still applies.** A skill reached through search is still a skill from a server, so activation needs its approval (note 04).
 - **Poisoning surface.** Search results are tool results, which carry less authority than a skill body (note 10). Descriptions from a third-party index are still text I must trust.
 
@@ -115,7 +116,7 @@ No vendor documents a threshold for skills, and the research does not state a po
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
-| 1 | Tool selection degrades past 30 to 50 tools. Use search at 10+ tools, 10k tokens, 200+ across servers. `defer_loading`, 3 to 5 non-deferred, 5 results, 10,000 max | agrees | [Anthropic](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) | 2026-11-25 |
+| 1 | Tool selection degrades past 30 to 50 tools. Use search at 10+ tools, 10k tokens, 200+ across servers. `defer_loading`, 3 to 5 non-deferred, 5 results by default (`limit` 1 to 10,000), 10,000 deferred tools max | agrees | [Anthropic](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) | 2026-11-25 |
 | 2 | Spring AI: 20+ tools, 5K tokens, under 20 stay default | agrees | [Spring AI](https://docs.spring.io/spring-ai/reference/guides/dynamic-tool-search.html) | 2026-11-25 |
 | 3 | Claude Code listing: 1% of the window, 1,536 characters, names kept | agrees | [settings](https://code.claude.com/docs/en/settings-reference), via Context7 | 2026-11-25 |
 | 4 | Feature request numbers and closed unshipped | agrees, read in full | [issue 43816](https://github.com/anthropics/claude-code/issues/43816) | 2026-11-25 |
@@ -123,7 +124,8 @@ No vendor documents a threshold for skills, and the research does not state a po
 | 6 | SkillBrowser, SkillSight, 2604.04323 findings | agrees from abstracts, papers not read | [2610.23554](https://arxiv.org/abs/2610.23554), [2607.18785](https://arxiv.org/abs/2607.18785), [2604.04323](https://arxiv.org/abs/2604.04323) | 2026-11-25 |
 | 7 | About 100 tokens of metadata per skill | agrees | [Agent Skills](https://agentskills.io/specification) | 2026-11-25 |
 | 8 | The extension has `skills/list` and `skills/get` and no search | agrees by absence | [overview](https://modelcontextprotocol.io/extensions/skills/overview) | 2026-11-25 |
-| 9 | The 20-skill point, search over skills as a tool, shared `search` | lecture-independent, my reasoning, verify before presenting | | 2026-11-25 |
+| 9 | A server may return a partial listing, and hosts load unlisted skills by URI | agrees | [overview](https://modelcontextprotocol.io/extensions/skills/overview) | 2026-11-25 |
+| 10 | The 20-skill point, search over skills as a tool, shared `search` | lecture-independent, my reasoning, verify before presenting | | 2026-11-25 |
 
 ## Sources
 

@@ -1,6 +1,6 @@
 # 08. Server instructions are an optional field that a client may put in the system prompt, so I write a short one, put the key line first, and check per host that it arrives
 
-> The field exists in the spec and in both official SDKs, but the spec sets no length limit and no rule for where a client places it. Claude Code cuts it at 4,096 characters, Pi uses the server's configured description or, when none is set, the first line, Codex advises a self-contained first 512 characters, and the Claude API connector, which supports only tool calls, probably does not consume it (my inference). I write a short, non-duplicating instruction and test it on each host.
+> The field exists in the spec and in both official SDKs, but the spec sets no length limit and no rule for where a client places it. Claude Code cuts it at 4,096 characters, Pi uses the server's configured description or, when none is set, the first line, Codex advises a self-contained first 512 characters, and for the Claude API connector, which supports only tool calls, whether it passes the field to the model is not stated (unverified). I write a short, non-duplicating instruction and test it on each host.
 
 Related: [01 MCP resources and sampling](01_MCP_Resources_Static_Context_And_Sampling.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) · [05 HATEOAS in MCP tool results](05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) · [03 MCP skills and tools](03_MCP_Skills_And_Tools.md)
 
@@ -34,17 +34,29 @@ I have never used server instructions. **What are they, how well do TypeScript, 
 
 ## 4. Support in harnesses
 
+```mermaid
+flowchart LR
+    S["Server instructions<br/>in the initialize or discover result"] --> C["MCP client in the host"]
+    C --> CC["Claude Code: system prompt,<br/>cut at 4,096 characters"]
+    C --> PI["Pi: one line per deferred server,<br/>configured description or first line"]
+    C --> CX["Codex: server-wide guidance<br/>(docs summary)"]
+    C --> NS["Claude API connector, OpenAI MCP tool, VS Code:<br/>not stated"]
+    style CC fill:#2a7,stroke:#2a7,color:#fff
+    style PI fill:#2a7,stroke:#2a7,color:#fff
+    style NS fill:#888,stroke:#888,color:#fff
+```
+
 | Harness | What the sources say |
 |---|---|
 | Claude Code | Documented. Cut at 4,096 characters (2,048 before v2.1.296), adjustable with `CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH` (v2.1.280 or later). Under tool search only tool names and server instructions load at start, and they "help Claude understand when to search for your tools". "Put critical details near the start" |
-| Claude API MCP connector | Supports only tool calls, so it does not consume instructions (my inference) |
+| Claude API MCP connector | Supports only tool calls. Whether it passes instructions to the model is not stated (unverified) |
 | OpenAI Responses MCP tool | The prose is silent. `server_description` is a client-side field |
 | Codex | Reads the field at initialization as server-wide guidance, and advises keeping "the first 512 characters self-contained" (docs summary) |
 | VS Code Copilot | Not stated |
 | Pi | The client reads and stores it. Servers whose tools are deferred or in code mode get one line in the system prompt: the configured description, or the first line of the instructions. Codemode scripts read the full text. Direct servers: not stated |
 | DeepSeek | The API docs mention no MCP. DeepSeek Harness (developer preview) has unverified MCP coverage. The community Codewhale (formerly DeepSeek TUI) supports MCP and does not document instructions |
 
-The lesson says most harnesses "either ignore them or trim". That is partly right: Claude Code and Pi trim, the Claude API connector and others do not use them or say nothing, and Claude Code and Codex do use them.
+The lesson says most harnesses "either ignore them or trim". That is partly right: Claude Code and Pi trim, Claude Code and Codex use them, and for the Claude API connector, OpenAI's MCP tool and VS Code the docs say nothing about the field.
 
 ## 5. Is it worth adding, and when
 
@@ -58,7 +70,7 @@ It is a hint that a host may ignore, so the question is where a short text chang
 | Two or three self-explanatory tools | No | Their descriptions already carry it, and the schema says not to duplicate them |
 | Long guidance, examples, policies | No: a resource or a skill | It would be cut at 4,096 characters or cost tokens on every request (note 01) |
 | A rule that must hold | No: code | A host may ignore the field |
-| Hosts that do not use the field (Claude API connector, VS Code not stated) | Optional | No gain there, and no harm |
+| Hosts where use is not confirmed (Claude API connector, VS Code) | Optional | No confirmed gain there, and no harm |
 
 If I add it: a self-contained first line (Pi uses it when no description is configured, Codex weights the first 512 characters), well under 4,096 characters, nothing already in a description.
 
@@ -98,7 +110,7 @@ Server instructions are a small, optional hint that hosts treat differently. I a
 | 3 | TypeScript `instructions` option and `getInstructions()`, with the example "Call list-trips before book-trip. Dates are ISO 8601." | agrees, through Context7 | [typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | 2026-11-25 |
 | 4 | Python v2 keyword and the positional trap | agrees, through Context7 | [Python SDK migration](https://py.sdk.modelcontextprotocol.io/migration/) | 2026-11-25 |
 | 5 | Claude Code limit, variable, tool search interplay | agrees, verbatim | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-25 |
-| 6 | The Claude API connector supports only tool calls | agrees. That it ignores instructions is my inference | [MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector) | 2026-11-25 |
+| 6 | The Claude API connector supports only tool calls | agrees ("only tool calls are currently supported"). Whether it passes instructions is not stated: unverified | [MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector) | 2026-11-25 |
 | 7 | OpenAI docs are silent. Samples set `instructions` server-side | agrees | [OpenAI MCP](https://developers.openai.com/api/docs/mcp) | 2026-11-25 |
 | 8 | Codex reads the field, advises 512 characters | unverified, docs summary | [Codex MCP](https://learn.chatgpt.com/docs/extend/mcp?surface=cli) | 2026-11-25 |
 | 9 | VS Code states nothing on instructions | agrees, by absence | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) | 2026-11-25 |

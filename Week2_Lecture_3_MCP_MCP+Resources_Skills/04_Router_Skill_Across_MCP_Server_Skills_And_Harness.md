@@ -1,6 +1,6 @@
 # 04. A router skill on an MCP server pays only when the catalog is the problem: each hop costs a model decision and, over MCP, fresh consent, and no vendor documents skill-to-skill routing
 
-> A router skill is a short `SKILL.md` that names which other skill to load. On an MCP server it spans three layers: the server serves the skills, the Skills extension defines how they are listed and activated, and the harness decides what the model sees. The pattern is a convention, not a spec field. It saves catalog space only if the host hides the children, and each extra hop adds a chance of not loading.
+> A router skill is a short `SKILL.md` that names which other skill to load. On an MCP server it spans three layers: the server serves the skills, the Skills extension defines how they are listed and activated, and the harness decides what the model sees. The pattern is a convention, not a spec field. It saves catalog space only if the server lists just the router or the host hides the children, and each extra hop adds a chance of not loading.
 
 Related: [03 MCP skills and tools](03_MCP_Skills_And_Tools.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) · [10 Sys prompt vs skills content and threats](10_Sys_Prompt_vs_Skills_Content_And_Threats.md) · [Lecture 2: 6 Router skills](../Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) · [Lecture 2: 5 Skills](../Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) · [06 Search over skills](06_Search_Over_Skills_Instead_Of_Listing_Them.md)
 
@@ -37,7 +37,7 @@ sequenceDiagram
     participant M as Model
     participant S as MCP server
     H->>S: skills/list
-    S-->>H: all skills with name, description, files
+    S-->>H: listed skills (may be partial), with name, description, files
     H->>M: catalog (budget-capped)
     M->>H: load router skill
     H->>S: resources/read router SKILL.md
@@ -51,12 +51,12 @@ sequenceDiagram
 | Layer | What it decides | Source |
 |---|---|---|
 | MCP server | Serves router and leaves as `skill://` URIs under one root, plus the tools | Skills extension |
-| Skills extension | `skills/list` returns every skill. Hierarchy is path-based. A skill's URI may come from "another skill". A nested skill needs "fresh user consent", and reading its `SKILL.md` as supporting content does not activate it | Skills overview |
-| Harness | What the model sees. Claude Code shows names and descriptions each turn, capped at 1% of the context window by default, 1,536 characters per entry. Over budget, it keeps every name and drops the descriptions of the least-used skills | Claude Code docs |
+| Skills extension | `skills/list` may be empty or partial, and the server must answer `skills/get` for every skill it serves, listed or not. Hosts must load unlisted skills by URI. Hierarchy is path-based. A skill's URI may come from "another skill". A nested skill needs "fresh user consent", and reading its `SKILL.md` as supporting content does not activate it | Skills overview |
+| Harness | What the model sees. Claude Code shows names and descriptions each turn, capped at 1% of the context window by default, 1,536 characters per entry, and up to 100 skills per MCP server. Over budget, it keeps every name and drops the descriptions of the least-used skills | Claude Code docs |
 
 ## 4. Does the router save anything over MCP
 
-- **The catalog saving is the host's choice.** `skills/list` returns all skills, and "host applications determine how skills are exposed". If the host lists leaves too, the router adds a hop and saves nothing. I found no host documenting that it hides children (my reasoning).
+- **The catalog saving is a choice of both sides.** The spec lets a server return an empty or partial `skills/list` while it still answers for every skill it serves, and requires hosts to load unlisted skills by URI. So a server can list only the router, and a host can cap what it shows ("host applications determine how skills are exposed"). If both list everything, the router adds a hop and saves nothing. I found no host documenting that it hides children (my reasoning).
 - **Local rules still apply.** Claude Code's loading rules for nested directories are about files in a repository, not MCP skills. They do not tell me what MCP-served children do.
 - **Every hop is a miss chance.** Evals show skills often go unloaded (note 03, section 7). A router puts a second skill load before the work.
 - **Consent adds friction.** Fresh consent per nested skill means a router over an MCP server asks the user more than a flat set does.
@@ -73,7 +73,7 @@ sequenceDiagram
 
 | | With a router | Without |
 |---|---|---|
-| Catalog | One entry, if children are hidden | One entry per skill |
+| Catalog | One entry, if the server lists only the router or the host hides the children | One entry per skill |
 | Hops | Router, then leaf, then tool | Leaf, then tool |
 | Maintenance | A map that must match the leaves | Each description stands alone |
 | Consent | Fresh consent for each nested skill | One approval per skill |
@@ -108,8 +108,8 @@ The closest vendor-endorsed form is a high-level `SKILL.md` that points to refer
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
-| 1 | Claude Code caps the listing at 1% of the context window and 1,536 characters per entry, keeps names, drops least-used descriptions | agrees | [settings reference](https://code.claude.com/docs/en/settings-reference), [skills](https://code.claude.com/docs/en/skills), via Context7 | 2026-11-25 |
-| 2 | `skills/list` returns every skill. Hosts decide exposure | agrees | [Skills overview](https://modelcontextprotocol.io/extensions/skills/overview) | 2026-11-25 |
+| 1 | Claude Code caps the listing at 1% of the context window and 1,536 characters per entry, keeps names, drops least-used descriptions, shows up to 100 skills per MCP server | agrees | [settings reference](https://code.claude.com/docs/en/settings-reference), [skills](https://code.claude.com/docs/en/skills), via Context7 | 2026-11-25 |
+| 2 | A server may return an empty or partial `skills/list` and must answer `skills/get` for every skill it serves. Hosts load unlisted skills by URI and decide exposure | agrees, spec read in part | [Skills overview](https://modelcontextprotocol.io/extensions/skills/overview) | 2026-11-25 |
 | 3 | A nested skill needs fresh user consent. Reading its file does not activate it | agrees | same page | 2026-11-25 |
 | 4 | References stay one level deep. `SKILL.md` under 500 lines | agrees | [Anthropic](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices), [spec](https://agentskills.io/specification) | 2026-11-25 |
 | 5 | No vendor documents skill-to-skill routing | agrees by absence, pages read in part | the pages above, [OpenAI](https://developers.openai.com/plugins/concepts/skills.md) | 2026-11-25 |

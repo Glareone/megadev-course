@@ -60,7 +60,7 @@ flowchart LR
 
 - A read may answer with `InputRequiredResult` when it needs more input, which keeps even that step request-scoped.
 - The 2026-07-28 revision removed protocol sessions and the `Mcp-Session-Id` header, so list endpoints no longer vary per connection. It also removed the `initialize` handshake: version and capabilities travel in `_meta` on every request.
-- Change notifications: `list_changed` when the set changes, and `subscriptions/listen` for content updates. The server's first message on a subscription must be `notifications/subscriptions/acknowledged`. Static documents need neither.
+- Change notifications: servers that declared `listChanged` SHOULD send `list_changed` when the set changes, and `subscriptions/listen` for content updates. The server's first message on a subscription must be `notifications/subscriptions/acknowledged`. Static documents need neither.
 - Cursor 2.4.31 still sent `resources/subscribe` to a server that declared `subscribe: false`, and a stateless server failed with "Missing handler for request type: resources/subscribe". Cursor staff called it a known bug on 2026-02-13 and suggested a no-op handler. I did not find a fix.
 
 ## 4. What the industry says and does

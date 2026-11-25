@@ -4,7 +4,7 @@ Date: 2026-11-25
 Topic: an MCP server can send one text about itself (`instructions`) that a client may add to the system prompt; the lesson says most harnesses ignore or trim it; I have never used it
 Lecture: S02E03 Agentic Capabilities, part "Model Context Protocol" (what to keep in mind when developing an MCP server)
 
-I want to come back to this and add a short instruction to my own MCP server, then test where it arrives. What I know now: the TypeScript and Python SDKs both support it (in Python v2 I must pass it by keyword), Claude Code cuts it at 4,096 characters, Pi uses the server's configured description, or the first line of its instructions when none is set, for deferred servers, Codex is said to read it and advise a self-contained first 512 characters, and the Claude API connector probably does not use it (my inference: its docs only say it supports tool calls). For VS Code, OpenAI's MCP tool and DeepSeek's harnesses I found nothing.
+I want to come back to this and add a short instruction to my own MCP server, then test where it arrives. What I know now: the TypeScript and Python SDKs both support it (in Python v2 I must pass it by keyword), Claude Code cuts it at 4,096 characters, Pi uses the server's configured description, or the first line of its instructions when none is set, for deferred servers, Codex is said to read it and advise a self-contained first 512 characters, and for the Claude API connector the docs say only tool calls are supported and not whether it uses the field (unverified). For VS Code, OpenAI's MCP tool and DeepSeek's harnesses I found nothing.
 
 Where the topic already appears:
 

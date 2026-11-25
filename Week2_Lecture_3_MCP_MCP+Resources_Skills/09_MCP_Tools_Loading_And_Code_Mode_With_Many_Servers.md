@@ -22,7 +22,7 @@ I put only the enabled tools into the context. The number grows, and search plus
 
 ## 2. What the protocol does and does not do
 
-- `tools/list` supports pagination and caching (`ttlMs`, `cacheScope`, definitions on a page I did not read). The set "MUST NOT vary per-connection" but "MAY vary by the authorization presented on the request", so a tenant can get a different list. Servers SHOULD return a deterministic order, which helps the host's prompt cache. Changes arrive as `notifications/tools/list_changed` on a `subscriptions/listen` stream.
+- `tools/list` supports pagination and caching (`ttlMs`, `cacheScope`, definitions on a page I did not read). The set "MUST NOT vary per-connection" but "MAY vary by the authorization presented on the request", so a tenant can get a different list. Servers SHOULD return a deterministic order, which helps the host's prompt cache. A server that declared `listChanged` SHOULD send `notifications/tools/list_changed` to clients that opened a `subscriptions/listen` stream with `toolsListChanged: true`. A server that did not declare it need not send it, and no page promises delivery of every change, so I do not rely on the stream alone (my reasoning).
 - The pages I read contain no tool search, lazy loading or guidance that a client should not load everything. "Enabled" is a host concept. The protocol defines no such thing.
 - Work is under way outside the spec. The Primitive Grouping interest group says its repository is experimental and "does not represent official MCP specifications". An open issue from a 70,000-tool catalog proposes that `tools/list` be non-exhaustive and a `tools/resolve` method fetch full definitions. I could not find SEP-1821 or SEP-1888, so I do not cite them.
 
@@ -58,7 +58,7 @@ flowchart LR
 ```
 
 - **Cloudflare's server** gives the model two core tools. `search` runs JavaScript against the OpenAPI spec, so "the full OpenAPI spec never enters the model context", and `execute` runs JavaScript in an isolate with no file system, no environment variables and fetch off by default. Its README says nothing about aggregating several servers. The blog lists that as future work, and `?codemode=false` exists to compose it with another code-mode system.
-- **Cloudflare's Agents SDK** does the multi-server part: each `McpConnector` becomes a namespace, names must be unique, a collision throws, and `search(query)` and `describe(target)` run inside the sandbox. It offers `requiresApproval` pauses, `maxExecutions` of 50 by default and no outbound network by default. It is marked experimental.
+- **Cloudflare's Agents SDK** does the multi-server part: each `McpConnector` becomes a namespace, names must be unique, a collision throws, and `search(query)` and `describe(target)` run inside the sandbox. It offers `requiresApproval` pauses and no outbound network by default. `maxExecutions` (default 50) is how many finished execution records the runtime keeps, and running or paused ones are not pruned, so it is not a budget of executions or tool calls ([API reference](https://developers.cloudflare.com/agents/tools/codemode/api-reference/)). It is marked experimental.
 - **Anthropic's variant:** servers become files under `./servers/<server>/`, discovered by listing, or by a `search_tools` call with a detail level.
 - **Discovery moves, it does not vanish.** OpenAI's programmatic tool calling cannot see deferred tools in a running program, so the model loads them first. Writes and approval-sensitive actions stay direct calls "to preserve a clear authorization boundary".
 
@@ -100,7 +100,7 @@ The protocol lists tools and leaves loading to the host. I keep my allowlist, de
 
 | # | Claim | Verdict | Source | Checked |
 |---|---|---|---|---|
-| 1 | `tools/list` paginates and caches. The set may vary by authorization. Deterministic order. `list_changed` | agrees | [Tools spec 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) | 2026-11-25 |
+| 1 | `tools/list` paginates and caches. The set may vary by authorization. Deterministic order. A server that declared `listChanged` SHOULD notify subscribed clients, with no promise for every change | agrees | [Tools spec 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) | 2026-11-25 |
 | 2 | No tool search or lazy loading in the spec pages read | agrees, by absence. Three pages unread | same page, [spec index](https://modelcontextprotocol.io/specification/2026-07-28/) | 2026-11-25 |
 | 3 | The working group is experimental. Issue 18 proposes `tools/resolve` | agrees | [progressive-disclosure-wg](https://github.com/modelcontextprotocol/progressive-disclosure-wg), [issue 18](https://github.com/modelcontextprotocol/progressive-disclosure-wg/issues/18) | 2026-11-25 |
 | 4 | SEP-1821 and SEP-1888 | not found, not cited | [SEP index](https://modelcontextprotocol.io/seps/) | 2026-11-25 |
@@ -110,7 +110,7 @@ The protocol lists tools and leaves loading to the host. I keep my allowlist, de
 | 8 | Deferred tools unavailable to a running program, writes as direct calls | agrees | [OpenAI programmatic tool calling](https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling) | 2026-11-25 |
 | 9 | Two core tools, about 1,000 tokens against 1.17 million, tiktoken, isolate, OAuth 2.1 | agrees, vendor blog, 2026-02-20 | [Cloudflare](https://blog.cloudflare.com/code-mode-mcp/) | 2026-11-25 |
 | 10 | 2,594 tools, 1,170,523 tokens, 6,000-token result cap, `?codemode=false` | agrees | [cloudflare/mcp](https://github.com/cloudflare/mcp) | 2026-11-25 |
-| 11 | One namespace per connector, collisions throw, approval pause, 50 executions, experimental | agrees | [Agents Code Mode](https://developers.cloudflare.com/agents/tools/codemode/) | 2026-11-25 |
+| 11 | One namespace per connector, collisions throw, approval pause, experimental. `maxExecutions` keeps 50 terminal records by default | agrees | [Agents Code Mode](https://developers.cloudflare.com/agents/tools/codemode/), [API reference](https://developers.cloudflare.com/agents/tools/codemode/api-reference/) | 2026-11-25 |
 | 12 | 150,000 to 2,000 tokens with filesystem discovery | agrees as a claim, no method | [Anthropic, 2025-11-04](https://www.anthropic.com/engineering/code-execution-with-mcp) | 2026-11-25 |
 | 13 | 10,877 to 970 prompt tokens in Search mode | agrees, vendor blog, one run | [Solo](https://www.solo.io/blog/keeping-context-and-tokens-low-with-progressive-disclosure-in-agentgateway) | 2026-11-25 |
 | 14 | Docker's gateway has no documented model-facing meta layer | agrees, by absence | [docker/mcp-gateway](https://github.com/docker/mcp-gateway) | 2026-11-25 |

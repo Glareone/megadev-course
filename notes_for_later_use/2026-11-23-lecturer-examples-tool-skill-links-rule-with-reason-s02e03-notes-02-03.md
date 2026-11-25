@@ -1,10 +1,10 @@
 # Read the lecturer's two examples: tool and skill links, and a rule with its reason
 
 Date: 2026-11-23
-Topic: the lesson links two example repositories that I have not read: `tool-skill-links` (a tool description says a skill can be used with it, and each skill names its tool) and `rule-with-reason` (a rule that carries the reason behind it, so the agent can adapt or knowingly ignore it)
+Topic: the lesson links two example repositories that I have read (not run): see notes 12 and 18. `tool-skill-links` (a tool description says a skill can be used with it, and each skill names its tool) and `rule-with-reason` (a rule that carries the reason behind it, so the agent can adapt or knowingly ignore it)
 Lecture: S02E03 Agentic Capabilities, parts "Personalization" (reason behind the principles) and "Skills & Tools" (connecting skills with tools)
 
-I want to read both examples and compare them with how I write tool descriptions, skills and rules today. I do not know yet whether my tools point to their skills, and whether my rules say why they exist.
+I read both examples and want to compare them with how I write tool descriptions, skills and rules today. I do not know yet whether my tools point to their skills, and whether my rules say why they exist.
 
 Where the topic already appears:
 

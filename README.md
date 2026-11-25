@@ -255,6 +255,9 @@ Folder: [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resou
 | [14](Week2_Lecture_3_MCP_MCP+Resources_Skills/14_MCP_Events_And_Lifecycle_Hooks.md) | MCP events and lifecycle hooks: the Events extension (poll, stream, webhook, cursors, signed webhooks), its status (Beta, SEP-3415), support in ChatGPT, Claude Code channels and the SDKs, and an event layer with a router hook in front of the loop |
 | [15](Week2_Lecture_3_MCP_MCP+Resources_Skills/15_MCP_Server_Instructions_And_Harness_Support.md) | MCP server instructions and harness support: what the field is, TypeScript and Python v2 (and its positional trap), Claude Code, Pi, Codex, DeepSeek harnesses, and what to write |
 | [16](Week2_Lecture_3_MCP_MCP+Resources_Skills/16_MCP_Events_In_Real_Systems.md) | MCP events in real systems: where an event source pays (six cases), a real-system architecture and one event's life in diagrams, what goes wrong and what I do (duplicates, disorder, loops, floods, injection), what LangChain, Google ADK, Cloudflare, Claude Code, ChatGPT and Copilot Studio do, and a build order |
+| [17](Week2_Lecture_3_MCP_MCP+Resources_Skills/17_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) | HATEOAS in MCP tool results: the lesson's Spotify figure against the published server (sentence, notes, read-back verification, no `hints` array found), hypermedia sources (Fielding, Fowler, Siren, OpenAPI Links, Arazzo), when result hints pay, what others say and test, and an `actions` list for my cards |
+| [18](Week2_Lecture_3_MCP_MCP+Resources_Skills/18_MCP_Skills_And_Tools.md) | MCP skills and tools: the lesson's two figures, what the Skills extension specifies (no skill-tool field), host support, mapping patterns (N skills to one tool, one skill to N tools, a router), where each kind of content belongs, the lecturer's `tool-skill-links` test, the team's objections and a pilot |
+| [19](Week2_Lecture_3_MCP_MCP+Resources_Skills/19_Router_Skill_Across_MCP_Server_Skills_And_Harness.md) | Router skill across MCP, MCP skills and the harness: the lesson's figure, how server, Skills extension and host meet (`skills/list`, nested-skill consent, Claude Code's listing budget), when a router pays, what vendors document, and what is only a community pattern |
 
 ### Example skills I keep (not enabled)
 
@@ -357,7 +360,7 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 | Name | What it does | Notes |
 |---|---|---|
 | [Streamable MCP server template](https://github.com/iceener/streamable-mcp-server-template) | The lecturer's TypeScript template for MCP servers | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) (not read) |
-| [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | The lecturer's personal MCP server, used as the example of shaping tools | Not yet covered |
+| [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | The lecturer's personal MCP server, used as the example of shaping tools | [17](Week2_Lecture_3_MCP_MCP+Resources_Skills/17_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) |
 | [Goose](https://github.com/aaif-goose/goose) | Client in the transcript that shows an MCP elicitation form | [08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) (elicitation compared with MCP Apps) |
 | [Mastra](https://mastra.ai/) | Framework in the transcript for MCP resources, code mode and skills | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) (resources), [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) (workspace) |
 

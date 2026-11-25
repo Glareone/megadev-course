@@ -2,6 +2,14 @@
 
 What's done, what's in progress, and what gaps remain. This is the only place that tracks the state of the knowledge base. See [AGENTS.md](AGENTS.md).
 
+## Navigation READMEs (2026-11-25)
+
+- **Folder READMEs** for all 8 lecture folders (`Lecture_1` to `Lecture_5`, `Week2_Lecture_1` to `Week2_Lecture_3`): a topic diagram, a notes grid (file, name, what it covers, keywords) grouped by cluster, and for Week 2 a second grid of the episode's review reminders. Lecture 4, Lecture 5 and Week 2 Lecture 1 were rewritten to this shape. Week 2 Lecture 1 keeps its "Where to look for what" and image tables.
+- **`notes_for_later_use/README.md`** indexes the 49 reminders by episode (S02E01 18, S02E02 17, S02E03 14).
+- **Root README**: the per-lecture tables are replaced by "How to navigate", a lecture grid (folder, course day, what was discussed, keywords, notes, README) and a "Where to find what" topic grid. The per-note tables now live only in the folder READMEs.
+- **AGENTS.md and the note-format rule** say to search root README, then folder README, then the note, and to update the folder README row with every note change.
+- **Gaps:** keywords come from note headings and summaries (notes before Week 2 have no Glossary). Lectures 1 to 3 have no episode codes in the grid because I did not verify them.
+
 ## Week 2 Lecture 3 — MCP, resources and skills (in progress)
 
 Started: 2026-11-23. Branch: `week2-lecture2-continue-building-agent-lecture`. Folder: `Week2_Lecture_3_MCP_MCP+Resources_Skills/`. Sources: the S02E03 written lesson (agentic capabilities) and the audio transcript (a Mastra retail-agent demo).

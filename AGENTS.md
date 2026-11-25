@@ -10,10 +10,11 @@ Not a codebase. Output is Markdown (+ diagrams) that I re-read and present.
 - Images live in `<lecture>/img/` (kebab-case names), linked relatively.
 - Root: course setup (`how-to-start-mega-dev-challenge.md`), known issues (`mega-mcp-auth-issues.md`).
 - New file: next number, **same numbering style already used in that folder** (`01_` vs `1_`).
+- **Navigation has three levels:** root `README.md` (how the repo is organized and a grid of lectures: what was discussed, keywords, link to the folder README) → `<lecture>/README.md` (a diagram of what the lecture covered, a grid of its notes with file, name, short description and keywords, and a grid of the related review reminders) → the note. `notes_for_later_use/README.md` indexes the review reminders by episode.
 
 ## Before writing anything
-1. **Check what already exists.** Grep the repo for the topic; extend or link an existing file instead of duplicating it.
-2. **Check cross-references.** Every file has a `Related:` line. When you add/rename/split a topic, update links in both directions and keep numbers/titles in sync. No broken relative links.
+1. **Check what already exists.** Search by navigation, not by file names: read the root `README.md` (structure and lecture grid), then the `README.md` of the matching folder (note grid with short descriptions and keywords), then open the note. Grep the repo only after that. Extend or link an existing file instead of duplicating it.
+2. **Check cross-references.** A new, renamed or renumbered note updates its row in the folder `README.md` (file, name, description, keywords) in the same change, and a new review reminder updates the lecture README and `notes_for_later_use/README.md`. The root grid changes only when a folder's scope changes. Every file has a `Related:` line. When you add/rename/split a topic, update links in both directions and keep numbers/titles in sync. No broken relative links.
 3. Match the existing file shape (H1 `# N. Title`, `>` one-line summary, `Related:`, sections, Important / Not important for diagrams). The full form (order, minimums, colors, checklist) is in `.claude/rules/note-format.md`. From Week 2: Glossary first, at most 150 lines, numbering `NN_Title.md`. The rule's path glob matches `Lecture_*` folders only, so I apply it by hand in the Week 2 folders.
 
 ## How we work

@@ -95,3 +95,4 @@ Answer yes to all of these.
 6. Do all relative links resolve, and does [CHANGELOG.md](../../CHANGELOG.md) say what was added?
 7. Is the note 150 lines or fewer, and could I restore the knowledge from it and its links?
 8. From Week 2: does the Glossary come first, and is every term used in the note defined in it?
+9. Does the folder `README.md` have a row for this note (file, name, short description, keywords) that matches the note's title and summary?

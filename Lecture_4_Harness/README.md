@@ -1,26 +1,68 @@
-# Lecture 4 — Working with AI Harnesses
+# Lecture 4: Working with AI harnesses
 
-Source: S01E04 transcript + lecture video + web research.
+> The harness is a replaceable middle layer: I keep the substance in my repo, build my own agent systems around open contracts, run fleets of agents with files and supervisors, and pick models by cost per task.
 
-## Files
+Source: S01E04 transcript, the lecture video and web research. Pictures are in `img/`. Related: [Lecture 3: Simplify the codebase](../Lecture_3_Simplify_Codebase_&_Knowledge_Base/README.md) · [Lecture 5: Workflows, not tool sets](../Lecture_5_Workflows_not_tool_sets/README.md) · [root README](../README.md)
 
-| # | File | Topic |
-|---|---|---|
-| 01 | [Harness Lock-in — Keep Doors Open](01_Harness_Lock-in_Keep_Doors_Open.md) | How to avoid getting locked into one AI coding harness. The harness is a replaceable middle layer — keep substance in the repo (AGENTS.md, skills, MCP), not in vendor features. |
-| 02 | [Agent Runner Portability](02_Agent_Runner_Portability.md) | How to architect my own agent systems so nothing is welded to one provider. Plugin architecture, adapter boundaries, runner contracts, open protocols. Six evaluation questions I can use against any agent runner. |
-| 03 | [Skill and Folder Orchestration](03_Skill_And_Folder_Orchestration.md) | How to organize skills by harness, scope, and origin. Treating skills like dependencies with upstream tracking. Folder structure for the agent fleet (fleet pattern) and per-project orchestration (limen pattern). |
-| 04 | [COMPUTERS.md — Fleet Infrastructure](04_Computers_md_Fleet_Infrastructure.md) | Machine registry and provisioning runbook. Treating agent environments like infrastructure: registry, desired state, reconciliation. Maps to A2A service discovery for the agentic platform. |
-| 05 | [Don't Overspecify — Work at the Assistants Level](05_Dont_Overspecify_Work_At_Assistants_Level.md) | The stack is Code → LLMs → Harnesses → Assistants. Overspecifying lower layers is a trap — models outgrow them. Keep value at the Assistants level (skills, knowledge, vision). |
-| 06 | [Self-Management — Pi and Herdr](06_Self_Management_Pi_Herdr.md) | Agents that read their own docs, change their own settings, and spawn workers that survive a closed terminal. |
-| 07 | [Multi-Agent Coordination](07_Multi_Agent_Coordination.md) | Coordinator, workers, supervisor. Files as messages, git worktrees, vision and styleguide. Code does only what text cannot. The swimlane figure, the job lifecycle as a state machine, and where the lifecycle hooks attach (linked from Lecture 2 file 3). |
-| 08 | [Settings — Model Routing and Cost](08_Settings_Model_Routing_Cost.md) | SOTA × effort grid, cost per task instead of token price, deterministic privacy boundary. |
-| 09 | [Teamwork — Knowledge Base and Tool Stack](09_Teamwork_Knowledge_Base_Tool_Stack.md) | Internal knowledge base on a remote server, AI-friendly tool stack, three ways to share skills. |
-| 10 | [Automation — Repository Agents](10_Automation_Repository_Agents.md) | Trigger → agent → human loop. PR review, issue to PR, doc updates, small fixes. |
-| 11 | [Cloud Coding Agents](11_Cloud_Coding_Agents.md) | Two things share the name "cloud agent": ready-made coding agents in a remote VM (Cursor, Claude Code cloud) vs hosting platforms for my own agent (AgentCore, Foundry). Comparison table, vendor-doc facts, self-hosted variants, open questions. |
-| 12 | [Context Language Models](12_Context_Language_Models.md) | The paper behind the lecture's "native capabilities" point: a model that manages its own context as an editable file. How it works, results table with wins and non-wins, how it differs from Mixture-of-Experts and other model types, weights, license and serving, what it does not test, the prompt-injection risk. Checked against the PDF. |
-| 13 | [Herdr vs Orca — Agent Orchestration](13_Herdr_vs_Orca_Agent_Orchestration.md) | Herdr keeps terminals alive and shows agent state; Orca gives each task a worktree and runs coordinator and worker agents. Two products named Herdr, the lecture's commands checked against the CLI reference, comparison table, layer mapping. |
-| 14 | [What Agent Fleets Need Beyond Spawning](14_What_Agent_Fleets_Need_Beyond_Spawning.md) | The lecture's 11 requirements (information exchange, notifications, knowledge base, rules, limited human involvement, sandboxes, own VPS, own accounts, hooks, team use, monitoring) as a checklist: coverage in my notes, gaps, industry pointers, 11 test questions for my own platform. |
-| 15 | [Pi and limen Behind the Scenes](15_Pi_Limen_Behind_The_Scenes.md) | The job-record figure explained arrow by arrow: what Pi's events and `sendUserMessage` provide, what limen adds with files, file watchers, Herdr and a detached supervisor. Real file layout, a sequence diagram, a job state machine, where the code differs from the lecture, how to try limen, and ideas worth taking from it. |
-| 16 | [SOTA and Reasoning Effort](16_SOTA_And_Reasoning_Effort.md) | SOTA picks the model, effort picks how much it thinks: two separate dials, so a top model at low effort is a real option. The lecture's 2×2 grid, vendor docs on effort levels, the course effort-routing example (a harness, not evidence), and a neutral effort scale for a portable runner. |
-| 17 | [Cost Per Task](17_Cost_Per_Task.md) | Price per token is the wrong number. The lecture's two-model example worked through (tasks per dollar, the price × tokens rule), why tokens per task differ (reasoning tokens, resent context, caching, retries), cost per solved task, who publishes cost per task, and what to record in my own runner. Slopalytics could not be read. |
-| 18 | [Sharing Approved Skills — AI Marketplace](18_Sharing_Approved_Skills_AI_Marketplace.md) | One skill, three routes: a Git repository, `npx skills` and Skills over MCP, checked against their docs. How an approval step turns them into an AI marketplace, what a skill's metadata needs to record, Claude Code's own marketplace, and the cautions. |
+## What this lecture covered
+
+```mermaid
+flowchart LR
+    LI["Harness lock-in"] --> RP["Runner portability, everything a plugin"]
+    RP --> SO["Skill and folder orchestration"]
+    SO --> CM["COMPUTERS.md registry"]
+    SO --> SH["Sharing approved skills"]
+    SM["Self-management: Pi and Herdr"] --> MA["Multi-agent coordination"]
+    MA --> LM["limen behind the scenes"]
+    HO["Herdr vs Orca"] --> FR["Fleet requirements checklist"]
+    MR["Model routing and cost"] --> SR["SOTA and reasoning effort"]
+    SR --> CT["Cost per task"]
+    LI --> CC["Cloud coding agents"]
+    style LI fill:#d44,stroke:#d44,color:#fff
+    style MA fill:#d44,stroke:#d44,color:#fff
+```
+
+## Notes
+
+### Lock-in and portability
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [01_Harness_Lock-in_Keep_Doors_Open.md](01_Harness_Lock-in_Keep_Doors_Open.md) | Harness lock-in, keep doors open | Treat the harness as a replaceable middle layer between UI and tools, keeping substance in the repo rather than vendor features | harness, lock-in, replaceable layer, vendor incentive |
+| [02_Agent_Runner_Portability.md](02_Agent_Runner_Portability.md) | Agent runner portability | In my own agent system lock-in is my own code, and plugin architecture, open contracts and adapters remove it | plugin architecture, open contracts, adapter boundaries, llm abstraction |
+| [11_Cloud_Coding_Agents.md](11_Cloud_Coding_Agents.md) | Cloud coding agents | Ready-made coding agents in a remote VM differ from platforms that host an agent I build | cloud coding agents, agent hosting platforms, remote vm |
+
+### Fleet organization and infrastructure
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [03_Skill_And_Folder_Orchestration.md](03_Skill_And_Folder_Orchestration.md) | Skill and folder orchestration | Separate skills by harness, scope and origin, and track upstream sources like dependencies | skills, harness, scope, origin, fleet pattern |
+| [04_Computers_md_Fleet_Infrastructure.md](04_Computers_md_Fleet_Infrastructure.md) | COMPUTERS.md, fleet registry | Every machine running agents gets an entry in one registry file, and a runbook provisions new boxes | computers.md, registry, runbook, fleet |
+| [14_What_Agent_Fleets_Need_Beyond_Spawning.md](14_What_Agent_Fleets_Need_Beyond_Spawning.md) | What fleets need beyond spawning | The lecture's 11 requirements for a fleet, turned into a checklist with one test question each | agent fleet, 11 requirements, checklist |
+| [18_Sharing_Approved_Skills_AI_Marketplace.md](18_Sharing_Approved_Skills_AI_Marketplace.md) | Sharing approved skills | Three ways to share skills across teams (Git repo, npx skills, Skills over MCP), with approval on top | skill.md, git repository, npx skills, skills over mcp, marketplace |
+
+### Layers, models and cost
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [05_Dont_Overspecify_Work_At_Assistants_Level.md](05_Dont_Overspecify_Work_At_Assistants_Level.md) | Don't overspecify, work at the assistants level | The stack is code, LLMs, harnesses, assistants, and overspecifying the harness is a trap | four layers, assistants, overspecifying |
+| [08_Settings_Model_Routing_Cost.md](08_Settings_Model_Routing_Cost.md) | Settings, model routing, cost | Measure models by cost per task, not token price, with a deterministic privacy boundary | model routing, reasoning effort, cost per task, privacy |
+| [16_SOTA_And_Reasoning_Effort.md](16_SOTA_And_Reasoning_Effort.md) | SOTA and reasoning effort | SOTA picks the model and effort picks how much it thinks, so a top model at low effort is an option | sota, reasoning effort, two dials |
+| [17_Cost_Per_Task.md](17_Cost_Per_Task.md) | Cost per task | Token price hides different token counts, so I use cost per task, tasks per dollar, cost per solved task | cost per task, tasks per dollar, token price |
+
+### Self-managing agents and coordination
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [06_Self_Management_Pi_Herdr.md](06_Self_Management_Pi_Herdr.md) | Self-management with Pi and Herdr | An agent reads its own docs, changes its settings, spawns workers and survives a closed terminal | self-management, pi, herdr, workers |
+| [07_Multi_Agent_Coordination.md](07_Multi_Agent_Coordination.md) | Multi-agent coordination | Agents talk through files, a supervisor watches each worker, and the coordinator is notified when jobs end | coordinator, workers, files as messages, supervisor |
+| [13_Herdr_vs_Orca_Agent_Orchestration.md](13_Herdr_vs_Orca_Agent_Orchestration.md) | Herdr vs Orca | Herdr keeps terminals and agents alive, Orca gives each task a git worktree, and they sit at different layers | herdr, orca, git worktree, orchestration |
+| [15_Pi_Limen_Behind_The_Scenes.md](15_Pi_Limen_Behind_The_Scenes.md) | Pi and limen behind the scenes | Records are plain files and git, Pi hooks run inside each process, and limen links coordinator, workers and supervisor | limen, pi hooks, files, file watchers, supervisor |
+
+### Team and automation
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [09_Teamwork_Knowledge_Base_Tool_Stack.md](09_Teamwork_Knowledge_Base_Tool_Stack.md) | Teamwork, knowledge base, tool stack | Shared skills are not enough, the team needs an internal knowledge base agents can query | teamwork, knowledge base, tool stack |
+| [10_Automation_Repository_Agents.md](10_Automation_Repository_Agents.md) | Automation and repository agents | Agents run in GitHub comments, on PRs and on schedule while the human reviews and merges | repository agents, github, background workflows, pr |
+| [12_Context_Language_Models.md](12_Context_Language_Models.md) | Context language models | A model manages its own context in an editable file, with narrower evidence than claimed | context language model, editable context file, compaction |

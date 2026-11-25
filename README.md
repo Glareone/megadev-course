@@ -7,7 +7,7 @@ A personal knowledge base. It follows the order of the **MEGA.dev course** on bu
 - **By topic inside each lecture:** one file per topic. A file does not retell the lecture. It follows how I get the things the lecture touches. I dive into the problem, add my own understanding and clarifications, and check the result against industry standards.
 - **What it holds:** lecture notes, refined insights, challenge work and my experiments.
 
-It is **not a codebase**. The output is Markdown with Mermaid diagrams that I re-read and present. This file is the table of contents, the list of references I check against, the reference setup the lecturer uses, and the rules every note follows.
+It is **not a codebase**. The output is Markdown with Mermaid diagrams that I re-read and present. This file is the map: the lecture grid, how to navigate, the list of references I check against, the reference setup the lecturer uses, and the rules every note follows.
 
 **Three voices, kept apart.** In each note, what the lecture says, what I add, and what industry sources say are marked separately, so you can always tell which is which.
 
@@ -56,198 +56,57 @@ Every note has the same shape, so it is quick to scan:
 - **The core idea of Lecture 3:** [1 Simplify first](Lecture_3_Simplify_Codebase_&_Knowledge_Base/01_Simplify_First_Knowledge_Guardrails.md). Fix the codebase first, and keep knowledge as a last resort with a type and a way to review it.
 - **The context model behind everything:** [Lecture 2: 4 Context window](Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md).
 
-## Table of contents
+## How to navigate
 
-### Course setup
+I search in three steps, not by file names: this README for the structure, the README of the matching folder for a table of its notes (name, short description, keywords), then the note itself. Review reminders have their own index.
 
-| File | What it is |
+```mermaid
+flowchart LR
+    R["Root README: lecture grid"] --> F["Folder README: notes grid"]
+    F --> N["Note"]
+    F --> RM["Related review reminders"]
+    RM --> N
+    style F fill:#d44,stroke:#d44,color:#fff
+```
+
+## Lecture grid
+
+| Folder | Course day | What was discussed | Keywords | Notes | README |
+|---|---|---|---|---|---|
+| [Lecture_1_Mechanics_Behind_Generative_AI](Lecture_1_Mechanics_Behind_Generative_AI/) | Week 1, lecture 1 | How a model tokenizes and predicts text, ChatML, how a harness wraps the loop with tools, MCP and skills | tokens, next token, chatml, harness, tools, mcp, skills, code mode | 17 | [README](Lecture_1_Mechanics_Behind_Generative_AI/README.md) |
+| [Lecture_2_Context_Agents_md_Skills_Tools](Lecture_2_Context_Agents_md_Skills_Tools/) | Week 1, lecture 2 | What the harness puts in front of the model: AGENTS.md, hooks, skills, router skills, tools, prompt injection, subagents | context window, agents.md, hooks, skills, tools, subagents | 13 | [README](Lecture_2_Context_Agents_md_Skills_Tools/README.md) |
+| [Lecture_3_Simplify_Codebase_&_Knowledge_Base](Lecture_3_Simplify_Codebase_&_Knowledge_Base/) | Week 1, lecture 3 | Fix the codebase before writing knowledge, then build the knowledge base for agents and help them reach the right files | simplify, dumb questions, knowledge base, decision models, task board | 14 | [README](Lecture_3_Simplify_Codebase_&_Knowledge_Base/README.md) |
+| [Lecture_4_Harness](Lecture_4_Harness/) | Week 1, lecture 4 (S01E04) | Harness lock-in and portability, fleets of agents, Pi and Herdr, model routing and cost per task | lock-in, plugins, fleet, herdr, orca, cost per task, sota | 18 | [README](Lecture_4_Harness/README.md) |
+| [Lecture_5_Workflows_not_tool_sets](Lecture_5_Workflows_not_tool_sets/) | Week 1, lecture 5 (S01E05) | Skills and agents as workflows, review before the merge, fleet on a remote seat and a safe local lab | workflow skills, executable markdown, reviewer agent, fleet lab, threat model | 10 | [README](Lecture_5_Workflows_not_tool_sets/README.md) |
+| [Week2_Lecture_1_Agent_Primitives](Week2_Lecture_1_Agent_Primitives/) | Week 2, lecture 1 (S02E01) | Agent primitives: prompts, the loop with limits, context and tool access, memory, evals, the harness | agent loop, tool search, memory, evals, harness, hooks, caching, code mode | 26 | [README](Week2_Lecture_1_Agent_Primitives/README.md) |
+| [Week2_Lecture_2_Building_an_Agent](Week2_Lecture_2_Building_an_Agent/) | Week 2, lecture 2 (S02E02) | Building an agent: classifiers and decision models, workflows, cache and models, durable and always-on agents | classification, langgraph, model routing, cache, durability, wake and reflect | 24 | [README](Week2_Lecture_2_Building_an_Agent/README.md) |
+| [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resources_Skills/) | Week 2, lecture 3 (S02E03) | MCP beyond tools: resources, skills, instructions, events, apps, confirmations, sandboxes | mcp skills, router skill, hateoas, server instructions, mcp events, sandbox, mcp apps | 20 | [README](Week2_Lecture_3_MCP_MCP+Resources_Skills/README.md) |
+| [notes_for_later_use](notes_for_later_use/) | Week 2, all episodes | Short review reminders: what I want to check, decide or revisit later, by episode and lecture note | review, reminder, open question | 49 | [README](notes_for_later_use/README.md) |
+| Course setup | Before lecture 1 | How to connect an agent to the course and start a Challenge, and known sign-in issues | challenge, mcp, sign-in | 2 | [how-to-start-mega-dev-challenge.md](how-to-start-mega-dev-challenge.md), [mega-mcp-auth-issues.md](mega-mcp-auth-issues.md) |
+
+## Where to find what
+
+For a topic that runs across lectures. Each link opens one note, and the folder README shows its neighbors.
+
+| Topic | Notes |
 |---|---|
-| [how-to-start-mega-dev-challenge.md](how-to-start-mega-dev-challenge.md) | How to connect your agent to the course and start a Challenge |
-| [mega-mcp-auth-issues.md](mega-mcp-auth-issues.md) | Known sign-in issues with the course MCP server |
+| MCP resources, instructions, events, apps | [W2 L3 01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md), [W2 L3 08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Server_Instructions_And_Harness_Support.md), [W2 L3 13](Week2_Lecture_3_MCP_MCP+Resources_Skills/13_MCP_Events_And_Lifecycle_Hooks.md), [W2 L3 15](Week2_Lecture_3_MCP_MCP+Resources_Skills/15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) |
+| Skills: design, routing, sharing, search | [Lecture 2 05](Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md), [Lecture 2 06](Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md), [W2 L1 02](Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md), [Lecture 5 08](Lecture_5_Workflows_not_tool_sets/08_Skills_As_Building_Blocks.md), [Lecture 4 18](Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md), [W2 L3 03](Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Skills_And_Tools.md), [W2 L3 04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Router_Skill_Across_MCP_Server_Skills_And_Harness.md), [W2 L3 06](Week2_Lecture_3_MCP_MCP+Resources_Skills/06_Search_Over_Skills_Instead_Of_Listing_Them.md) |
+| Tools: schemas, errors, loading, search, code mode | [Lecture 1 10](Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md), [Lecture 2 08](Lecture_2_Context_Agents_md_Skills_Tools/8_tools_native_and_external.md), [Lecture 2 11](Lecture_2_Context_Agents_md_Skills_Tools/11_tool_upfront_vs_tool_discovery.md), [W2 L1 08](Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md), [W2 L1 25](Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md), [W2 L2 15](Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md), [W2 L3 09](Week2_Lecture_3_MCP_MCP+Resources_Skills/09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md) |
+| Tool results and hints | [Lecture 2 10](Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md), [W2 L2 19](Week2_Lecture_2_Building_an_Agent/19_Evict_Tool_Results_To_Memory_By_Reference.md), [W2 L2 20](Week2_Lecture_2_Building_an_Agent/20_Repair_Tool_Calls_Before_A_Step_Is_Spent.md), [W2 L3 05](Week2_Lecture_3_MCP_MCP+Resources_Skills/05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) |
+| Context window, caching, compaction | [Lecture 2 04](Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md), [W2 L1 06](Week2_Lecture_1_Agent_Primitives/06_Context_Window_And_Compaction.md), [W2 L1 24](Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md), [W2 L2 09](Week2_Lecture_2_Building_an_Agent/09_Cache_Hit_Rate_And_P90_Latency.md), [W2 L2 10](Week2_Lecture_2_Building_an_Agent/10_Cache_And_Context_Window.md) |
+| Memory | [W2 L1 10](Week2_Lecture_1_Agent_Primitives/10_Memory.md), [W2 L1 11](Week2_Lecture_1_Agent_Primitives/11_Memory_Known_Problems.md), [W2 L1 13](Week2_Lecture_1_Agent_Primitives/13_Memory_Operations.md), [W2 L2 16](Week2_Lecture_2_Building_an_Agent/16_Memory_Centric_Approach_With_Events.md) |
+| System prompt and instructions | [W2 L1 01](Week2_Lecture_1_Agent_Primitives/01_Advanced_Prompt_Techniques.md), [W2 L1 05](Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md), [W2 L3 10](Week2_Lecture_3_MCP_MCP+Resources_Skills/10_Sys_Prompt_vs_Skills_Content_And_Threats.md), [W2 L3 11](Week2_Lecture_3_MCP_MCP+Resources_Skills/11_How_To_Adjust_System_Prompt_And_Make_It_Flexible.md) |
+| Harness, loop, hooks | [Lecture 1 05](Lecture_1_Mechanics_Behind_Generative_AI/05_lesson_harnesses_providers_steering.md), [Lecture 2 01](Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md), [Lecture 2 03](Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md), [W2 L1 18](Week2_Lecture_1_Agent_Primitives/18_Harness_Around_The_Loop.md), [W2 L1 20](Week2_Lecture_1_Agent_Primitives/20_Loop_Hooks_Declared.md), [Lecture 4 01](Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) |
+| Sandboxes and security | [Lecture 2 09](Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md), [W2 L2 12](Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md), [W2 L2 17](Week2_Lecture_2_Building_an_Agent/17_Auto_Penetration_Testing_Of_My_Agent.md), [Lecture 5 10](Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md), [W2 L3 17](Week2_Lecture_3_MCP_MCP+Resources_Skills/17_Workspaces_And_Code_Sandboxes_In_Frameworks.md), [W2 L3 20](Week2_Lecture_3_MCP_MCP+Resources_Skills/20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) |
+| Human approval and confirmation | [W2 L1 14](Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md), [W2 L3 15](Week2_Lecture_3_MCP_MCP+Resources_Skills/15_MCP_Apps_And_The_Lecturers_Preview_Tool.md), [W2 L3 16](Week2_Lecture_3_MCP_MCP+Resources_Skills/16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) |
+| Workflows and durable runs | [W2 L2 06](Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md), [W2 L2 22](Week2_Lecture_2_Building_an_Agent/22_Long_Horizon_Runs_Concurrency_Durability_Watchers.md), [W2 L2 24](Week2_Lecture_2_Building_an_Agent/24_Pi_Durable_How_It_Recovers_Long_Running_Tasks.md), [W2 L1 03](Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md), [Lecture 5 01](Lecture_5_Workflows_not_tool_sets/01_Skill_Or_Agent_For_Explore_Loops.md) |
+| Fleets and orchestration | [Lecture 4 07](Lecture_4_Harness/07_Multi_Agent_Coordination.md), [Lecture 4 13](Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md), [Lecture 4 14](Lecture_4_Harness/14_What_Agent_Fleets_Need_Beyond_Spawning.md), [Lecture 5 06](Lecture_5_Workflows_not_tool_sets/06_Run_The_Fleet_On_A_Remote_Seat.md), [Lecture 5 09](Lecture_5_Workflows_not_tool_sets/09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md) |
+| Models, routing and cost | [Lecture 4 08](Lecture_4_Harness/08_Settings_Model_Routing_Cost.md), [Lecture 4 17](Lecture_4_Harness/17_Cost_Per_Task.md), [W2 L2 01](Week2_Lecture_2_Building_an_Agent/01_LLM_vs_Classification.md), [W2 L2 11](Week2_Lecture_2_Building_an_Agent/11_Model_Routing_In_LangGraph.md), [W2 L2 13](Week2_Lecture_2_Building_an_Agent/13_LLM_Adapters_And_Gateway.md) |
+| Evals and review | [W2 L1 15](Week2_Lecture_1_Agent_Primitives/15_Trace_A_Run_And_Size_Its_Step_Limit.md), [W2 L1 16](Week2_Lecture_1_Agent_Primitives/16_Evals_For_Agent_Changes.md), [Lecture 5 02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md), [W2 L3 12](Week2_Lecture_3_MCP_MCP+Resources_Skills/12_Self_Evolution_Of_Harness_On_Event.md) |
+| Knowledge base | [Lecture 3 01](Lecture_3_Simplify_Codebase_&_Knowledge_Base/01_Simplify_First_Knowledge_Guardrails.md), [Lecture 3 05](Lecture_3_Simplify_Codebase_&_Knowledge_Base/05_Knowledge_As_Files_For_Agents.md), [Lecture 3 13](Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md), [Lecture 5 05](Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) |
 
-### Lecture 1: Mechanics behind generative AI
-
-Folder: [Lecture_1_Mechanics_Behind_Generative_AI](Lecture_1_Mechanics_Behind_Generative_AI/)
-
-| Note | Topic |
-|---|---|
-| [01](Lecture_1_Mechanics_Behind_Generative_AI/01_tokenizer_encoder_decoder.md) | Tokenizer: encoder and decoder |
-| [02](Lecture_1_Mechanics_Behind_Generative_AI/02_next_token_prediction.md) | Predicting the next token |
-| [03](Lecture_1_Mechanics_Behind_Generative_AI/03_video_chatml_tools_agent_loop.md) | The video: ChatML, tools and the agent loop |
-| [04](Lecture_1_Mechanics_Behind_Generative_AI/04_lesson_model_mechanics_and_tools.md) | Lesson page: model mechanics and tools |
-| [05](Lecture_1_Mechanics_Behind_Generative_AI/05_lesson_harnesses_providers_steering.md) | Lesson page: harnesses, providers and steering |
-| [06](Lecture_1_Mechanics_Behind_Generative_AI/06_reasoning_visible_and_silent.md) | Reasoning: visible and silent |
-| [07](Lecture_1_Mechanics_Behind_Generative_AI/07_responses_api_request_example.md) | Example: Responses API request |
-| [08](Lecture_1_Mechanics_Behind_Generative_AI/08_chatml.md) | ChatML |
-| [09](Lecture_1_Mechanics_Behind_Generative_AI/09_multimodality.md) | Multimodality |
-| [10](Lecture_1_Mechanics_Behind_Generative_AI/10_code_mode.md) | Code mode |
-| [11](Lecture_1_Mechanics_Behind_Generative_AI/11_cli_and_mcp.md) | CLI and MCP tools |
-| [12](Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) | MCP: resources and skills |
-| [13](Lecture_1_Mechanics_Behind_Generative_AI/13_skills_and_context.md) | Skills: loading, context and unloading |
-| [14](Lecture_1_Mechanics_Behind_Generative_AI/14_attachments_and_what_the_model_sees.md) | Attachments: what the model actually sees |
-| [15](Lecture_1_Mechanics_Behind_Generative_AI/15_self_querying.md) | Self-querying |
-| [16](Lecture_1_Mechanics_Behind_Generative_AI/16_self_management.md) | Self-management |
-| [17](Lecture_1_Mechanics_Behind_Generative_AI/17_ambient_durable_agents.md) | Ambient, durable agents |
-
-### Lecture 2: Context, AGENTS.md, skills and tools
-
-Folder: [Lecture_2_Context_Agents_md_Skills_Tools](Lecture_2_Context_Agents_md_Skills_Tools/)
-
-| Note | Topic |
-|---|---|
-| [Insight 1](Lecture_2_Context_Agents_md_Skills_Tools/Insight_1_Context_Agents.md) | Context: AGENTS.md and CLAUDE.md. The main source of token waste |
-| [1](Lecture_2_Context_Agents_md_Skills_Tools/1_Harness.md) | Harness: everything around the model |
-| [2](Lecture_2_Context_Agents_md_Skills_Tools/2_agent_context_self_report.md) | Agent context self-report |
-| [3](Lecture_2_Context_Agents_md_Skills_Tools/3_lifecycle_hooks.md) | Lifecycle hooks: deterministic logic around the loop |
-| [4](Lecture_2_Context_Agents_md_Skills_Tools/4_context_window.md) | Context window |
-| [5](Lecture_2_Context_Agents_md_Skills_Tools/5_skills.md) | Skills: design, generation and security |
-| [6](Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) | Router skills |
-| [7](Lecture_2_Context_Agents_md_Skills_Tools/7_skill_shaper_how_to_improve_skills.md) | Skill shaper: how to improve skills |
-| [8](Lecture_2_Context_Agents_md_Skills_Tools/8_tools_native_and_external.md) | Tools: native and external |
-| [9](Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) | Tools and prompt injection |
-| [10](Lecture_2_Context_Agents_md_Skills_Tools/10_tool_results_context_to_file_and_back.md) | Tool results: context to file and back |
-| [11](Lecture_2_Context_Agents_md_Skills_Tools/11_tool_upfront_vs_tool_discovery.md) | Tools: upfront schemas versus discovery |
-| [12](Lecture_2_Context_Agents_md_Skills_Tools/12_subagents_vs_workers.md) | Subagents versus workers, and which model and effort each helper gets (A2A peers are opaque) |
-
-### Lecture 3: Simplify the codebase and the knowledge base
-
-Folder: [Lecture_3_Simplify_Codebase_&_Knowledge_Base](Lecture_3_Simplify_Codebase_&_Knowledge_Base/). Pictures are in its `img/` folder.
-
-| Note | Topic |
-|---|---|
-| [1](Lecture_3_Simplify_Codebase_&_Knowledge_Base/01_Simplify_First_Knowledge_Guardrails.md) | Simplify first: fix the codebase before adding knowledge. Knowledge needs a type and a way to review it |
-| [2](Lecture_3_Simplify_Codebase_&_Knowledge_Base/02_Dumb_Questions_Rule.md) | Dumb questions rule: a human onboarding trick that makes confusion visible |
-| [3](Lecture_3_Simplify_Codebase_&_Knowledge_Base/03_Agent_Asks_Dumb_Questions.md) | Agent asks dumb questions: a fresh agent as a test reader |
-| [4](Lecture_3_Simplify_Codebase_&_Knowledge_Base/04_Ask_Why.md) | Ask why: treat the answer as a hypothesis and verify it |
-| [5](Lecture_3_Simplify_Codebase_&_Knowledge_Base/05_Knowledge_As_Files_For_Agents.md) | Knowledge as files, built for agents: raw sources, an agent-written wiki, thinking rounds |
-| [6](Lecture_3_Simplify_Codebase_&_Knowledge_Base/06_Beyond_Markdown_mdx_svx.md) | Beyond Markdown: mdx and svx |
-| [7](Lecture_3_Simplify_Codebase_&_Knowledge_Base/07_Explainer_Skill.md) | The explainer skill: a skill as an example, and an idea for ADRs |
-| [8](Lecture_3_Simplify_Codebase_&_Knowledge_Base/08_Decision_Models_Search_And_Memory.md) | Decision models: pointing the agent where to look, and near and far memory |
-| [9](Lecture_3_Simplify_Codebase_&_Knowledge_Base/09_Jevgrep.md) | Jevgrep: the numbers read closely, and a test plan |
-| [10](Lecture_3_Simplify_Codebase_&_Knowledge_Base/10_Demos_Reaching_The_Right_Files.md) | Demos: reaching the right files and notes (a map, links and a picker) |
-| [11](Lecture_3_Simplify_Codebase_&_Knowledge_Base/11_Knowledge_Base_Problems_And_Known_Techniques.md) | Knowledge base problems and known techniques, filtered for agents |
-| [12](Lecture_3_Simplify_Codebase_&_Knowledge_Base/12_Knowledge_Event_&_Triggers.md) | Update triggers: schedules and events, and how to keep them safe |
-| [13](Lecture_3_Simplify_Codebase_&_Knowledge_Base/13_Knowledge_Skill_Anatomy.md) | How the knowledge skill is built, and what to copy |
-| [14](Lecture_3_Simplify_Codebase_&_Knowledge_Base/14_Broader_Context_Task_Board.md) | Broader context: a task board next to `AGENTS.md` |
-
-### Lecture 4: Working with AI harnesses
-
-Folder: [Lecture_4_Harness](Lecture_4_Harness/)
-
-| Note | Topic |
-|---|---|
-| [1](Lecture_4_Harness/01_Harness_Lock-in_Keep_Doors_Open.md) | Harness lock-in: treat the harness as a replaceable middle layer, keep substance in the repo |
-| [2](Lecture_4_Harness/02_Agent_Runner_Portability.md) | Agent runner portability: plugin architecture, adapter boundaries, runner contracts, six evaluation questions |
-| [3](Lecture_4_Harness/03_Skill_And_Folder_Orchestration.md) | Skill and folder orchestration: organizing skills by harness, scope and origin (fleet + limen patterns) |
-| [4](Lecture_4_Harness/04_Computers_md_Fleet_Infrastructure.md) | COMPUTERS.md: machine registry, provisioning runbook, fleet infrastructure as data. Path to A2A service discovery |
-| [5](Lecture_4_Harness/05_Dont_Overspecify_Work_At_Assistants_Level.md) | Don't overspecify: the stack is Code → LLMs → Harnesses → Assistants. Work at the top, keep lower layers thin |
-| [6](Lecture_4_Harness/06_Self_Management_Pi_Herdr.md) | Self-management: Pi and Herdr, self-configuring agents, spawning workers that survive a closed terminal |
-| [7](Lecture_4_Harness/07_Multi_Agent_Coordination.md) | Multi-agent coordination: coordinator, workers, supervisor, files as messages, worktrees, vision and styleguide, the job lifecycle as a state machine, where the lifecycle hooks attach |
-| [8](Lecture_4_Harness/08_Settings_Model_Routing_Cost.md) | Settings: model routing, reasoning effort, cost per task, deterministic privacy boundary |
-| [9](Lecture_4_Harness/09_Teamwork_Knowledge_Base_Tool_Stack.md) | Teamwork: internal knowledge base, AI-friendly tool stack, sharing skills |
-| [10](Lecture_4_Harness/10_Automation_Repository_Agents.md) | Automation: repository agents, PR review, issue to PR, doc updates, trigger → agent → human loop |
-| [11](Lecture_4_Harness/11_Cloud_Coding_Agents.md) | Cloud coding agents vs agent hosting platforms: comparison table, vendor docs, self-hosted options, Aras caveat, open questions |
-| [12](Lecture_4_Harness/12_Context_Language_Models.md) | Context language models: the model edits its own context file. What the paper shows, wins and non-wins, what it does not test, how it differs from Mixture-of-Experts and other model types, weights, license and serving (checked against the PDF) |
-| [13](Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md) | Herdr vs Orca: terminal multiplexer vs worktree orchestrator, real Herdr commands checked, comparison table, where each fits |
-| [14](Lecture_4_Harness/14_What_Agent_Fleets_Need_Beyond_Spawning.md) | What an agent fleet needs beyond spawning workers: the lecture's 11 requirements as a checklist, coverage in my notes, gaps, test questions for my platform |
-| [15](Lecture_4_Harness/15_Pi_Limen_Behind_The_Scenes.md) | Behind the scenes of the limen setup: what Pi's hooks do, what limen's files, supervisor and Herdr do, the real job-record layout, a sequence diagram, where the code differs from the lecture, how to try limen, and ideas worth taking from it |
-| [16](Lecture_4_Harness/16_SOTA_And_Reasoning_Effort.md) | SOTA and reasoning effort as two separate dials: the 2×2 grid, what each dial changes, what Anthropic and OpenAI docs say about effort, the course effort-routing example, effort in a portable runner |
-| [17](Lecture_4_Harness/17_Cost_Per_Task.md) | Cost per task instead of token price: the lecture's worked example, tasks per dollar, cost per solved task, why tokens per task differ, who publishes it, what to measure in my own runner |
-| [18](Lecture_4_Harness/18_Sharing_Approved_Skills_AI_Marketplace.md) | Sharing approved skills across teams: Git, `npx skills` and Skills over MCP checked against their docs, and an AI marketplace as an approval step on top of them |
-
-### Lecture 5: Workflows, not tool sets
-
-| # | Topic |
-|---|---|
-| [01](Lecture_5_Workflows_not_tool_sets/01_Skill_Or_Agent_For_Explore_Loops.md) | Skill or agent for exploring: thread and settings are the real difference, a loop for `explore-*` agents, skill plus agent |
-| [02](Lecture_5_Workflows_not_tool_sets/02_Merge_Review_Second_Pair_Of_Eyes.md) | Before the merge: a read-only reviewer agent on a fast, cheap model next to tests, PR bots and a human, a three-round revision loop, what the evidence says |
-| [03](Lecture_5_Workflows_not_tool_sets/03_The_Gap_Build_Speed_Vs_Keeping_Up.md) | The gap: building speed outruns what I can keep up with. The lecture article's first figure, what does not speed up (review, testing, docs, people, agents that need me), three moves to shrink the gap |
-| [04](Lecture_5_Workflows_not_tool_sets/04_Executable_Markdown_Skills_As_Programs.md) | Executable Markdown: a skill as a program. The article's five problems and four strengths, the nightly PR triage, and a design for a nightly agent that prepares tech-debt fixes with Playwright screenshots as proof |
-| [05](Lecture_5_Workflows_not_tool_sets/05_Agents_Maintain_The_Tools_I_Review.md) | Agents build and maintain my tools, I review them: the system built once, a standing review checklist (still needed, simplify, merge, archive), why old rules go stale as models improve, guards for agents editing agent instructions |
-| [06](Lecture_5_Workflows_not_tool_sets/06_Run_The_Fleet_On_A_Remote_Seat.md) | Running the fleet on a remote seat: the lecturer's Pi, Herdr and Limen setup on a VPS and tailnet, where Orca fits, setup split between me and the agent, a nightly timer the docs do not provide, security and Aras governance gates |
-| [07](Lecture_5_Workflows_not_tool_sets/07_Herdr_Or_Orca_For_My_Fleet.md) | Herdr or Orca for my fleet: what the Orca docs add to the Lecture 4 comparison, a decision flow, a fair trial of both, the security posture of each. Links to [Lecture 4: 13](Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md) |
-| [08](Lecture_5_Workflows_not_tool_sets/08_Skills_As_Building_Blocks.md) | Skills as building blocks: skills or code, blocks then workflow skills then a prompt, Full Send and Full Stop, a skill from a real bad example, global or repo or harness, the PR comment skill, keeping the set small |
-| [09](Lecture_5_Workflows_not_tool_sets/09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md) | A local fleet lab: `sbx` microVM in clone mode for execution, a worktree per item for changes, four levels from Claude-only to a sandbox per worker, portable skills for Pi and Claude Code, DeepSeek workers through OpenRouter, my architecture repository as the pilot |
-| [10](Lecture_5_Workflows_not_tool_sets/10_Fleet_Lab_Threat_Model.md) | Fleet lab threat model: three zones (alone, with me, never by mechanism), R1 to R9 with OWASP agentic mapping, SSH forwarding and the Balanced preset as unsafe defaults, the poisoned return path, a ten-step run gate |
-
-### Week 2, Lecture 1: Agentic primitives
-
-Folder: [Week2_Lecture_1_Agent_Primitives](Week2_Lecture_1_Agent_Primitives/). Where to look for what: its [README](Week2_Lecture_1_Agent_Primitives/README.md). Pictures are in its `img/` folder.
-
-| # | Topic |
-|---|---|
-| [01](Week2_Lecture_1_Agent_Primitives/01_Advanced_Prompt_Techniques.md) | Advanced prompt techniques: The lecture's direct-work-versus-unattended table, Anthropic's published prompt sections, what the extracted Codex and Opus prompts show (provenance unverified), what Anthropic and OpenAI recommend, how it maps to the five parts |
-| [02](Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) | Rethinking the skills: OpenAI's ten recommendations for skills and AGENTS.md on newer models, the limits behind them in the Agent Skills spec, Claude Code and Codex, bad and good examples, a skill review list |
-| [03](Week2_Lecture_1_Agent_Primitives/03_Agent_Loop_Stop_Limits_Recovery.md) | Agent loop: The routing function behind the stop condition, step limits across runtimes, budget and deadline, three recovery layers, retry only what is idempotent |
-| [04](Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) | HITL and execution isolation: Where threads are stored, what else a harness persists, who may read, write or grant each kind, access checks inside tools, per-user workspaces and sandbox coverage |
-| [05](Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) | Instructions: The five prompt parts, my tagged-chapter layout, boundaries as requests versus rules in code, start simple and iterate with evals |
-| [06](Week2_Lecture_1_Agent_Primitives/06_Context_Window_And_Compaction.md) | Context window and compaction: Window and compaction, tools and results kept out of the thread, what survives compaction in Claude Code, skill re-injection, why a long AGENTS.md hurts |
-| [08](Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) | Tool search instead of many tools: The lecturer's tool-search example (keyword scoring, names only, no native tools, mock numbers), Anthropic, OpenAI and Claude Code tool search, when it pays, how to pick the native tools |
-| [09](Week2_Lecture_1_Agent_Primitives/09_Tool_Search_And_Proxy_Gateway.md) | Tool search and proxy gateway: The lecture's gateway figure, Uber's control plane and data plane (registry with tools off, approval of description changes, proxy that authorizes, redacts and trims) against Treg, what I take for managing many tools |
-| [10](Week2_Lecture_1_Agent_Primitives/10_Memory.md) | Memory: The lecture's memory figures, a comparison of Mem0 OSS, supermemory and Hindsight, five principles (relations, placement, search, readable pieces, immutable and append-only) against Zep, Hindsight, Mem0, Claude Code, the Anthropic memory tool, LangMem and Redis BM25, extraction choices, review questions for my flat RediSearch store |
-| [11](Week2_Lecture_1_Agent_Primitives/11_Memory_Known_Problems.md) | Memory known problems: Contradiction, duplication and ambiguity, the lecturer's memory-extraction example (three modes over six dated chats and its counters), how I beat each with replace-by-key, identity from the session and a hold state, what the example leaves open |
-| [12](Week2_Lecture_1_Agent_Primitives/12_Memory_Audit_Ledger_In_Memory_Or_State.md) | Audit ledger: state or memory: My Ledger idea checked against the LangGraph docs: state against Store, what a state channel does not guarantee, write-ahead entries, ten review questions for the implementation, an external append-only sink |
-| [13](Week2_Lecture_1_Agent_Primitives/13_Memory_Operations.md) | Memory operations: Search, update and insert against Hindsight's retain, recall and reflect with its worker, Mem0, supermemory, the Anthropic memory tool and lamarck's maintenance (gates, lifecycle, decay, budget), what reflect and mental models add, what Joel Hooks' retired pipeline shows |
-| [14](Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) | Tool approval and durable waits: Approval as a harness duty, persisted run state, resume after days, LangGraph `interrupt`, permission grants |
-| [15](Week2_Lecture_1_Agent_Primitives/15_Trace_A_Run_And_Size_Its_Step_Limit.md) | Trace a run and size its step limit: Traces, the debugging rule, step-limit tuning against LangGraph supersteps, tracing tools |
-| [16](Week2_Lecture_1_Agent_Primitives/16_Evals_For_Agent_Changes.md) | Evals for agent changes: Behaviour eval cases, self-revision cases, rerun after every change, prompt-eval loop and smallest model, eval tools |
-| [17](Week2_Lecture_1_Agent_Primitives/17_Extend_Adjust_Or_Leave_The_Framework.md) | Extend, adjust or leave the framework: Three moves from cheapest to costliest, a decision flow, what I must understand before choosing |
-| [18](Week2_Lecture_1_Agent_Primitives/18_Harness_Around_The_Loop.md) | The harness around the loop: The lecture's harness figure: four caller forms, six hook points, the limits frame, history, memory, observability |
-| [19](Week2_Lecture_1_Agent_Primitives/19_Pi_LangGraph_DeepSeek_Harnesses.md) | Pi, LangGraph and the DeepSeek paper: Who owns the loop in each, extension points, state and resume, and why the DeepSeek paper is a composability paper |
-| [20](Week2_Lecture_1_Agent_Primitives/20_Loop_Hooks_Declared.md) | Loop hooks declared: The lecture's three illustrative hooks against Pi's real callbacks, the same points in Claude Code and LangChain middleware, fail-open versus fail-closed |
-| [21](Week2_Lecture_1_Agent_Primitives/21_AI_SDK_Or_Official_SDKs.md) | AI SDK or official SDKs: What the Vercel AI SDK gives (providers, loop, middleware, telemetry), what leaks through the abstraction, language and framework fit (no Python SDK, LangGraph only at the UI edge, no CrewAI fit), whether a layer really goes, a parity check before migrating |
-| [22](Week2_Lecture_1_Agent_Primitives/22_Threads_Vs_A2A_Subagents.md) | Threads, subagents and A2A: The lecture's thread figure, in-process subagents against A2A peers, `contextId` and tasks, what the A2A spec, LangGraph, Microsoft, Claude Code, Anthropic and Cognition say, my process-per-agent choice |
-| [23](Week2_Lecture_1_Agent_Primitives/23_Self_Configuring_Harness.md) | Self-configuring harness: The lecture's "Configuration" part: what Claude Code, OpenCode and Pi let the agent change at runtime, what the documented guards cover, what the DeepSeek paper adds, and a change-class design with undo |
-| [24](Week2_Lecture_1_Agent_Primitives/24_KV_Cache_And_Prompt_Caching.md) | KV cache and prompt caching: The KV cache and prefix caching in three layers, Anthropic's `cache_control` against OpenAI's `prompt_cache_key`, options and breakpoints, what to cache and in what order, what breaks a hit, cost arithmetic, isolation |
-| [25](Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) | Tool execution instead of tool calls: The lecture's code mode figure, function calling against scripts, what Anthropic, OpenAI, Cloudflare, Pi and DeepSeek do, parallel calls versus scripts, large results stored and read by chunk (memory bound to context), what I would review |
-| [26](Week2_Lecture_1_Agent_Primitives/26_Packages.md) | Packages: The lecture's package figure, Anthropic's code-execution pattern, Voyager's skill library, Agent Skills docs, and the guards a saved package needs |
-
-### Week 2, Lecture 2: Building an agent
-
-Folder: [Week2_Lecture_2_Building_an_Agent](Week2_Lecture_2_Building_an_Agent/).
-
-| # | Topic |
-|---|---|
-| [01](Week2_Lecture_2_Building_an_Agent/01_LLM_vs_Classification.md) | LLM vs classification: Trained classifiers against LLM-based steps, how each is used and supported, a side-by-side table, scenarios (volume, latency, hosted, tenant-defined categories), a cascade, Anthropic's routing pattern |
-| [02](Week2_Lecture_2_Building_an_Agent/02_ClassificationModel_vs_DecisionModel.md) | Classification model vs decision model: Where labels are bound (rules, trained, zero-shot NLI, LLM enum, decision model), the typed-answer contract, and what sits under Decision-1, Kev, Laya and Jev |
-| [03](Week2_Lecture_2_Building_an_Agent/03_Classification_Options_Market.md) | Classification options on the market: Classical ML, trained and zero-shot encoders, SetFit, AWS Comprehend, Azure AI Language, Azure ML AutoML, deprecated Vertex AutoML Text, LLM enums, what each returns per class |
-| [04](Week2_Lecture_2_Building_an_Agent/04_Jev_And_Microsoft_Decision_1.md) | Jev and Microsoft-Decision-1: Who makes them, price, access, a call shape, what vendors and TypedBench say about calibration, how I would try them |
-| [05](Week2_Lecture_2_Building_an_Agent/05_Support_Chat_In_Production.md) | Support chat in production: How Amazon Lex, Rasa, Dialogflow CX, Azure CLU and Zendesk route a message (first pass, confidence gate, handoff), where I start for a support chat, Azure's 2029 retirements |
-| [06](Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) | Workflow vs LangGraph: Guardrail, workflow and durable told apart, composing calls against enforcing a process, who is the outer layer, LangGraph, Mastra, CrewAI, ADK, Microsoft Agent Framework, Semantic Kernel and others compared |
-| [07](Week2_Lecture_2_Building_an_Agent/07_Workflows_On_The_Fly_And_Todo_Lists.md) | Workflows on the fly and todo lists: What the Deep Agents todo list is, three levels of runtime change, the resume cost, a fixed executor over a model-written plan |
-| [08](Week2_Lecture_2_Building_an_Agent/08_Mastra_Workflow_Mapped_To_LangGraph.md) | Mastra workflow mapped to LangGraph: The lecture's exchange flow in both engines, step to node, suspend to interrupt, runId to thread_id, snapshot to checkpoint, what reruns on resume, where they differ |
-| [09](Week2_Lecture_2_Building_an_Agent/09_Cache_Hit_Rate_And_P90_Latency.md) | Cache hit rate and P90 latency: What 95-99% cached input buys (arithmetic), what a hit does not touch (reasoning, decode, tools, steps), where a 75-89% rate may leak, the per-step fields to measure first |
-| [10](Week2_Lecture_2_Building_an_Agent/10_Cache_And_Context_Window.md) | Cache and context window: The article's context stack, which block changes when and what that does to the prefix, Notes edits and personalization, developer and system roles in OpenAI and Anthropic, the `instructions` billing rule |
-| [11](Week2_Lecture_2_Building_an_Agent/11_Model_Routing_In_LangGraph.md) | Model routing in LangGraph: What is fixed after compile and what is not, six ways to choose a model per call, what Claude Code, Aider and Foundry's router do, the cold-cache cost of a switch |
-| [12](Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) | Sandbox for agent code: Script, tool and harness walls told apart, what Pi (codemode in QuickJS, Gondolin micro-VM, `tool_search`), Cloudflare, Anthropic, the DeepSeek API and the community DeepSeek TUI provide, which wall for which situation |
-| [13](Week2_Lecture_2_Building_an_Agent/13_LLM_Adapters_And_Gateway.md) | LLM adapters and gateway: Dialect and host as two axes (Claude on Foundry and direct), what each host lacks, three designs, what a gateway does to the cache, what the interface must carry |
-| [14](Week2_Lecture_2_Building_an_Agent/14_Execution_Flows_Skill_Tool_Or_Workflow.md) | Execution flows: Where a required flow lives (skill, consolidated tool, gate, enforcement), the Stripe price flow checked, a guide that starts as an editable skill, what to do when a skill grows, what unloading a skill costs the cache |
-| [15](Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md) | Tool navigation and flexibility: What LangChain, MCP, OpenAI and Anthropic recommend for names, schemas, errors and tool count, how flexible a tool should be (narrow task tools to an OData query tool), a review list for my OData, validation and Pydantic setup |
-| [16](Week2_Lecture_2_Building_an_Agent/16_Memory_Centric_Approach_With_Events.md) | Memory-centric approach with events: Memory changes emit events that wake the agent, the six primitives, what to register (messages, journal, schedule), self-scheduling in Cloudflare Agents, Claude Code and Letta, guards, wake-ups against the cache TTL |
-| [17](Week2_Lecture_2_Building_an_Agent/17_Auto_Penetration_Testing_Of_My_Agent.md) | Auto penetration testing: What Prompt Shields and prompt rules do not decide, eight attack classes mapped to OWASP, PyRIT, promptfoo, garak and Foundry's red teaming agent compared, a plan with synthetic tenants and canaries |
-| [19](Week2_Lecture_2_Building_an_Agent/19_Evict_Tool_Results_To_Memory_By_Reference.md) | Evict tool results to memory by reference: Manus, Anthropic context editing, Deep Agents and a masking study compared, eviction against summarization, the cache payback arithmetic, a design for my Redis store |
-| [20](Week2_Lecture_2_Building_an_Agent/20_Repair_Tool_Calls_Before_A_Step_Is_Spent.md) | Repair tool calls before a step is spent: normalize in code, one side-model repair, then a re-ask; AI SDK, Pydantic AI, Instructor and LangChain compared; what may be repaired and what must not |
-| [21](Week2_Lecture_2_Building_an_Agent/21_Engagement_Signals_And_Proactive_Agents.md) | Engagement signals and proactive agents: LangChain's ambient agents, ProactiveBench and email-open reliability compared, signals ranked by strength, bounded adjustment with a floor |
-| [22](Week2_Lecture_2_Building_an_Agent/22_Long_Horizon_Runs_Concurrency_Durability_Watchers.md) | Long-horizon runs: parallel updates (Redis check-and-set, one writer per entity), pi-durable, pi-until, Temporal and a platform scheduler compared, why a two-day wake-up needs a real scheduler |
-| [23](Week2_Lecture_2_Building_an_Agent/23_Wake_And_Reflect_Agents_On_The_Market.md) | Wake and reflect on the market: ChatGPT Pulse, Letta dreaming and LangMem against the article's loop, Generative Agents, Reflexion and sleep-time compute, why reflection needs outside signals, guards and an ablation |
-| [24](Week2_Lecture_2_Building_an_Agent/24_Pi_Durable_How_It_Recovers_Long_Running_Tasks.md) | pi-durable in detail: commit-before-display, tool intent before execute, replay-safe tools, sleeping tasks and signals, the limits in its README, compared with Temporal and LangGraph, what I borrow |
-| [25](Week2_Lecture_2_Building_an_Agent/25_Always_On_Agents_Lee_Robinson_Talk_Mapped.md) | Always-on agents, the Lee Robinson talk: chapters, each secondary-source claim mapped to my notes, two points not yet covered, what to check in the video |
-
-### Week 2, Lecture 3: MCP, resources and skills
-
-Folder: [Week2_Lecture_3_MCP_MCP+Resources_Skills](Week2_Lecture_3_MCP_MCP+Resources_Skills/). Sources: the S02E03 written lesson and the audio transcript.
-
-| # | Topic |
-|---|---|
-| [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) | MCP resources: ten misreadings with what I do instead, what a resource can hold (URI, static content, file, template, embedded), the stateless fit, what the spec and hosts do and what the blogs advise |
-| [02](Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md) | MCP resources and plugins: three meanings of "plugin" (host bundle, MCP extension, registry entry), what Claude Code, Cursor, Gemini CLI, VS Code and Codex plugins pack, how tools, resources, skills and files travel together |
-| [03](Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Policy resource from the check rules: the lecture's return-policy resource built from the rules behind the eligibility checks, resource explains and check decides, mapped to OPA, hooks and tool guardrails |
-| [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) | Workspaces and code sandboxes in frameworks: what a Mastra workspace bundles, how LangGraph, Deep Agents, CrewAI, the OpenAI SDK, ADK, smolagents and others support a sandbox, how strong the wall is, what else a workspace gives |
-| [05](Week2_Lecture_3_MCP_MCP+Resources_Skills/05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) | Where the sandbox attaches: two LangGraph placements (a tool or a node), the Deep Agents backend stack, and four attachment styles across Mastra, ADK, smolagents, CrewAI and the OpenAI SDK, in diagrams |
-| [06](Week2_Lecture_3_MCP_MCP+Resources_Skills/06_ReAct_Vs_Deep_Agent_On_LangGraph.md) | ReAct vs Deep Agent on LangGraph: the same loop, what the Deep Agent stack adds (todo tool, files, subagents, summarization), my todo node against the library's tool, and code execution as a difference |
-| [07](Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Sandbox against jailbreak and prompt injection, per tenant: what cannot be promised (OWASP, Anthropic, Willison, CaMeL), the attack paths, a tenant-bound tool bridge, how strong the wall must be (Docker, gVisor, Firecracker, Agent Sandbox), ten rules and what to test |
-| [08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) | MCP Apps and the lecturer's "preview" tool: preview is a tool name, the mechanism is a tool linked to a `ui://` resource, how it works, fallback, security, the market (MCP-UI, OpenAI Apps SDK, A2UI, AG-UI, Adaptive Cards) and four options for my cards |
-| [09](Week2_Lecture_3_MCP_MCP+Resources_Skills/09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) | Human confirmation across channels: one server-held pending record resolved from AG-UI, A2A, MCP elicitation or an MCP App button, why a click or a host approval is not proof, stateless elicitation with `requestState`, my three hosts |
+## Example skills
 
 ### Example skills I keep (not enabled)
 
@@ -349,10 +208,10 @@ limen runs on macOS and Linux. My notes read the commit `01fc400`: [Lecture 4: 0
 
 | Name | What it does | Notes |
 |---|---|---|
-| [Streamable MCP server template](https://github.com/iceener/streamable-mcp-server-template) | The lecturer's TypeScript template for MCP servers | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (not read) |
-| [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | The lecturer's personal MCP server, used as the example of shaping tools | Not yet covered |
-| [Goose](https://github.com/aaif-goose/goose) | Client in the transcript that shows an MCP elicitation form | [08](Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) (elicitation compared with MCP Apps) |
-| [Mastra](https://mastra.ai/) | Framework in the transcript for MCP resources, code mode and skills | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) (resources), [04](Week2_Lecture_3_MCP_MCP+Resources_Skills/04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) (workspace) |
+| [Streamable MCP server template](https://github.com/iceener/streamable-mcp-server-template) | The lecturer's TypeScript template for MCP servers | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) (not read) |
+| [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | The lecturer's personal MCP server, used as the example of shaping tools | [05](Week2_Lecture_3_MCP_MCP+Resources_Skills/05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md) |
+| [Goose](https://github.com/aaif-goose/goose) | Client in the transcript that shows an MCP elicitation form | [15](Week2_Lecture_3_MCP_MCP+Resources_Skills/15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) (elicitation compared with MCP Apps) |
+| [Mastra](https://mastra.ai/) | Framework in the transcript for MCP resources, code mode and skills | [01](Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) (resources), [17](Week2_Lecture_3_MCP_MCP+Resources_Skills/17_Workspaces_And_Code_Sandboxes_In_Frameworks.md) (workspace) |
 
 ## Repository rules
 

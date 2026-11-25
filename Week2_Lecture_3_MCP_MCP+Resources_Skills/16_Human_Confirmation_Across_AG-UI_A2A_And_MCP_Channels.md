@@ -1,8 +1,8 @@
-# 9. A confirmation is a server-held fact that every channel only fills in: one pending record, resolved from AG-UI, A2A, MCP elicitation or an MCP App button, and checked by the server before the action runs
+# 16. A confirmation is a server-held fact that every channel only fills in: one pending record, resolved from AG-UI, A2A, MCP elicitation or an MCP App button, and checked by the server before the action runs
 
 > Hosts differ in how they ask a human, and some let hooks, autopilot or policy answer for the human, so a button or a host approval cannot be proof. The proof is a server record minted for one action, bound to the tenant, the principal and a hash of the parameters, resolved once through any channel and consumed by the server before the action runs.
 
-Related: [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [W2L1 14 Tool approval, durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md)
+Related: [15 MCP Apps and the lecturer's preview tool](15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [07 Policy resource from the check rules](07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [W2L1 14 Tool approval, durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) · [14 MCP events in real systems](14_MCP_Events_In_Real_Systems.md) · [05 HATEOAS in MCP tool results](05_HATEOAS_In_MCP_Tool_Results_Spotify_Example.md)
 
 Source: S02E03 transcript (elicitation with Goose, `decide_exchange`). My setup as I describe it: a React card component that talks to my agent over AG-UI or A2A with HITL confirmation buttons, a stateless MCP server with external tools, users on Claude Code, Copilot and ChatGPT. MCP spec 2026-07-28 (elicitation, multi round-trip requests, tools), AG-UI docs, A2A 1.0 spec, LangGraph interrupts, host docs, read on 2026-11-24.
 
@@ -78,7 +78,7 @@ sequenceDiagram
 - The confirm path is never a tool the model can call alone: elicitation, my UI, or an app-only tool (`visibility: ["app"]`).
 - A decline or cancel closes the record. Expiry is short.
 - Where a host offers only its own approval, a high-risk tool returns a proposal and does not commit.
-- Every state change is logged with the tenant id (note 07).
+- Every state change is logged with the tenant id (note 20).
 
 ## 5. My three hosts
 
@@ -118,23 +118,23 @@ Third-party hosts can ask a human in several ways and cannot always prove it. I 
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Stateless elicitation uses `InputRequiredResult`, `inputRequests`, `requestState` and a retry | agrees | [MRTR](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr), [elicitation](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation) |
-| 2 | `requestState` is attacker-controlled, protect it with HMAC or AEAD, enforce single use server-side | agrees | MRTR page |
-| 3 | Elicitation answers are accept, decline, cancel. Secrets only through URL mode | agrees | elicitation page |
-| 4 | A human SHOULD be able to deny tool calls. Annotations are untrusted unless the server is trusted | agrees. The second part partly from a summary | [Tools spec](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) |
-| 5 | AG-UI pauses with an `interrupt` outcome and resumes with a `resume` list | agrees | [AG-UI interrupts](https://docs.ag-ui.com/concepts/interrupts.md) |
-| 6 | The LangGraph adapter emits the interrupt outcome only when enabled | agrees | same page |
-| 7 | A2A has `INPUT_REQUIRED`, continued by a message on the same task, and no approval schema | agrees, part of the spec read | [A2A spec](https://a2a-protocol.org/latest/specification/) |
-| 8 | LangGraph interrupts need a checkpointer and thread id, and earlier side effects must be idempotent | agrees | [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts) |
-| 9 | Claude Code elicitation is form and URL, interactive sessions only | agrees. Modes from a summary | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) |
-| 10 | A Claude Code `Elicitation` hook can answer the request | unverified, from a summary | [Hooks](https://code.claude.com/docs/en/hooks) |
-| 11 | Copilot: form and URL elicitation, cancelled in Autopilot. Apps Experimental, inline. Approval depends on policy | agrees | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) |
-| 12 | ChatGPT renders MCP Apps. Hints only frame approval. Elicitation not stated | agrees | [ChatGPT UI](https://developers.openai.com/plugins/build/chatgpt-ui.md), [reference](https://developers.openai.com/plugins/reference.md) |
-| 13 | OWASP: authorization downstream, human approval for high impact | agrees | [LLM06](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) |
-| 14 | The lecturer's elicitation keeps the run id in the form's message and resumes the saved workflow, and the workflow and database hold the state | lecture-specific, transcript quote | S02E03 transcript |
-| 15 | The pending-record design | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Stateless elicitation uses `InputRequiredResult`, `inputRequests`, `requestState` and a retry | agrees | [MRTR](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr), [elicitation](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation) | 2026-11-24 |
+| 2 | `requestState` is attacker-controlled, protect it with HMAC or AEAD, enforce single use server-side | agrees | MRTR page | 2026-11-24 |
+| 3 | Elicitation answers are accept, decline, cancel. Secrets only through URL mode | agrees | elicitation page | 2026-11-24 |
+| 4 | A human SHOULD be able to deny tool calls. Annotations are untrusted unless the server is trusted | agrees. The second part partly from a summary | [Tools spec](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) | 2026-11-24 |
+| 5 | AG-UI pauses with an `interrupt` outcome and resumes with a `resume` list | agrees | [AG-UI interrupts](https://docs.ag-ui.com/concepts/interrupts.md) | 2026-11-24 |
+| 6 | The LangGraph adapter emits the interrupt outcome only when enabled | agrees | same page | 2026-11-24 |
+| 7 | A2A has `INPUT_REQUIRED`, continued by a message on the same task, and no approval schema | agrees, part of the spec read | [A2A spec](https://a2a-protocol.org/latest/specification/) | 2026-11-24 |
+| 8 | LangGraph interrupts need a checkpointer and thread id, and earlier side effects must be idempotent | agrees | [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts) | 2026-11-24 |
+| 9 | Claude Code elicitation is form and URL, interactive sessions only | agrees. Modes from a summary | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-24 |
+| 10 | A Claude Code `Elicitation` hook can answer the request | unverified, from a summary | [Hooks](https://code.claude.com/docs/en/hooks) | 2026-11-24 |
+| 11 | Copilot: form and URL elicitation, cancelled in Autopilot. Apps Experimental, inline. Approval depends on policy | agrees | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) | 2026-11-24 |
+| 12 | ChatGPT renders MCP Apps. Hints only frame approval. Elicitation not stated | agrees | [ChatGPT UI](https://developers.openai.com/plugins/build/chatgpt-ui.md), [reference](https://developers.openai.com/plugins/reference.md) | 2026-11-24 |
+| 13 | OWASP: authorization downstream, human approval for high impact | agrees | [LLM06](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) | 2026-11-24 |
+| 14 | The lecturer's elicitation keeps the run id in the form's message and resumes the saved workflow, and the workflow and database hold the state | lecture-specific, transcript quote | S02E03 transcript | 2026-11-24 |
+| 15 | The pending-record design | lecture-independent, my reasoning | | 2026-11-24 |
 
 ## Sources
 

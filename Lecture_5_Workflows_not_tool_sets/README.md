@@ -1,20 +1,53 @@
-# Lecture 5 — Workflows, not tool sets
+# Lecture 5: Workflows, not tool sets
 
-Source: S01E05 transcript (audio), S01E05 article (text) + web research.
+> Skills and agents are workflows I design and review, not tool sets: I decide where a loop lives, add a second pair of eyes before the merge, run the fleet on a remote seat or a safe local lab, and keep up by checks and ways back.
 
-## Files
+Source: S01E05 transcript (audio), S01E05 article (text) and web research. Pictures are in `img/`. Related: [Lecture 4: Working with AI harnesses](../Lecture_4_Harness/README.md) · [Week 2, Lecture 1: Agent primitives](../Week2_Lecture_1_Agent_Primitives/README.md) · [root README](../README.md)
 
-| # | File | Topic |
-|---|---|---|
-| 01 | [Skill or Agent for Exploring](01_Skill_Or_Agent_For_Explore_Loops.md) | A skill audit I can run. Does the industry prefer a skill over a separate agent? Thread and settings are the real difference. A sol-loop-style loop for `explore-*` agents, three ways to build it, skill plus agent as my choice. |
-| 02 | [Before the Merge — a Second Pair of Eyes](02_Merge_Review_Second_Pair_Of_Eyes.md) | The sol-loop through seven edits, the merge sketch and the way back after the merge, where a sol-loop-style reviewer fits next to tests, PR bots and a human. What the evidence says about a second model, a read-only reviewer agent with a clean context, a three-round revision loop, and when a fast, cheap model is enough. |
-| 03 | [The Gap: Build Speed vs Keeping Up](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) | Why faster building does not give faster shipping. The article's gap figure, the work that does not scale with agents, and three moves: build less, check without me, make wrong cheap. |
-| 04 | [Executable Markdown: a Skill as a Program](04_Executable_Markdown_Skills_As_Programs.md) | A Markdown file as the program, its five problems and four strengths, the nightly PR triage, and a nightly agent that prepares tech-debt fixes with Playwright smoke-test screenshots attached to the PR. |
-| 05 | [Agents Maintain the Tools, I Review Them](05_Agents_Maintain_The_Tools_I_Review.md) | The system I build once, agents that create and maintain tools, a review checklist for skills, why rules written for older models go stale, guards for agents that edit instructions. |
-| 06 | [Running the Fleet on a Remote Seat](06_Run_The_Fleet_On_A_Remote_Seat.md) | The lecturer's Pi, Herdr and Limen seat on a private tailnet, Pi with Orca as the second option, who does what in setup, how a nightly tech-debt run could be scheduled, and the security and governance gates. |
-| 07 | [Herdr or Orca for My Fleet](07_Herdr_Or_Orca_For_My_Fleet.md) | The decision between the lecturer's Herdr with Limen and Orca with Pi, new Orca facts from its docs, a trial plan, and the security posture of each. The full layer comparison stays in [Lecture 4: 13](../Lecture_4_Harness/13_Herdr_vs_Orca_Agent_Orchestration.md). |
-| 08 | [Skills as Building Blocks](08_Skills_As_Building_Blocks.md) | Where the workflow lives (skills or code), composing blocks into Full Send and Full Stop, writing a block from a bad and a good example, where a skill lives, the PR comment skill, keeping the set small. |
-| 09 | [A Local Fleet Lab: Sandboxes and Worktrees](09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md) | A fleet on my own Mac: a Docker Sandbox microVM for execution, clone mode and a worktree per item for changes, four levels from Claude-only to one sandbox per worker, three portable skills for Pi and Claude Code ([kit](../.agents/fleet-lab/README.md)), DeepSeek through OpenRouter, and my architecture repository as the pilot. |
-| 10 | [Fleet Lab Threat Model](10_Fleet_Lab_Threat_Model.md) | What an agent may do alone, with my approval, and never (only when a mechanism blocks it). Assets and trust boundaries, R1 to R4 by zone (data to providers, prompt injection, cost, secrets), R5 to R9 with OWASP agentic mapping, why skill rules are not controls, the poisoned return path through trusted-folder hooks, and a ten-step run gate for Level 1. |
+## What this lecture covered
 
-The form of every note is set by [.claude/rules/note-format.md](../.claude/rules/note-format.md).
+```mermaid
+flowchart LR
+    SA["Skill or agent for explore loops"] --> SB["Skills as building blocks"]
+    EM["Executable Markdown"] --> AM["Agents maintain tools, I review"]
+    SB --> RS["Remote seat fleet"]
+    RS --> HO["Herdr or Orca"]
+    HO --> LAB["Local fleet lab"]
+    LAB --> TM["Fleet lab threat model"]
+    GAP["Gap: build speed vs keeping up"] --> MR["Merge review, second pair of eyes"]
+    GAP --> EM
+    style GAP fill:#d44,stroke:#d44,color:#fff
+    style TM fill:#d44,stroke:#d44,color:#fff
+```
+
+## Notes
+
+### Skills and agents as workflows
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [01_Skill_Or_Agent_For_Explore_Loops.md](01_Skill_Or_Agent_For_Explore_Loops.md) | Skill or agent for explore loops | The loop, stop rule and answer shape go in a skill, and the agent file keeps separate context, tool limits and model | skill, agent, explore loop, isolation |
+| [04_Executable_Markdown_Skills_As_Programs.md](04_Executable_Markdown_Skills_As_Programs.md) | Executable Markdown, skills as programs | Markdown for judgment, scripts for exact repeated steps, and tests with synthetic scenarios | executable markdown, scripts, synthetic scenarios |
+| [05_Agents_Maintain_The_Tools_I_Review.md](05_Agents_Maintain_The_Tools_I_Review.md) | Agents maintain the tools, I review them | I build the system once, agents create and maintain tools and skills, and I review a standing report on each | knowledge base, primitives, standing report, review |
+| [08_Skills_As_Building_Blocks.md](08_Skills_As_Building_Blocks.md) | Skills as building blocks | Small single-job skills compose into workflow skills, and where a skill lives depends on how it helps | workflow skills, full send, full stop, global, repository |
+
+### Review and keeping up
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [02_Merge_Review_Second_Pair_Of_Eyes.md](02_Merge_Review_Second_Pair_Of_Eyes.md) | Merge review, a second pair of eyes | A separate reviewer agent on a cheap model with clean context adds an independent check around the PR | reviewer agent, coderabbit, clean context, pr |
+| [03_The_Gap_Build_Speed_Vs_Keeping_Up.md](03_The_Gap_Build_Speed_Vs_Keeping_Up.md) | The gap: build speed vs keeping up | Building gets faster but understanding and review do not, so keeping-up moves to checks and ways back | gap, build speed, review, checks, ways back |
+
+### Fleet control planes and setup
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [06_Run_The_Fleet_On_A_Remote_Seat.md](06_Run_The_Fleet_On_A_Remote_Seat.md) | Running the fleet on a remote seat | The lecturer's VPS seat on Tailscale runs Pi agents under Limen and Herdr and reaches GitHub only through PRs | remote seat, vps, tailscale, pi, limen, herdr |
+| [07_Herdr_Or_Orca_For_My_Fleet.md](07_Herdr_Or_Orca_For_My_Fleet.md) | Herdr or Orca for my fleet | Two alternative control planes: terminals kept alive or a git worktree per task | herdr, orca, control plane, git worktree |
+
+### Fleet lab safety
+
+| File | Name | What it covers | Keywords |
+|---|---|---|---|
+| [09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md](09_Local_Fleet_Lab_Sandboxes_And_Worktrees.md) | Local fleet lab, sandboxes and worktrees | Each Pi agent runs in a Docker Sandbox microVM in clone mode, each work item in its own worktree | sbx, docker sandbox, microvm, clone mode, worktree |
+| [10_Fleet_Lab_Threat_Model.md](10_Fleet_Lab_Threat_Model.md) | Fleet lab threat model | Every action falls in three zones: alone in the sandbox, with my approval, or never because a mechanism blocks it | threat model, zones, assets, boundaries, data flows |

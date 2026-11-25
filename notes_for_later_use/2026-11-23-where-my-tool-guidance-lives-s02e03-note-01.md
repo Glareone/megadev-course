@@ -10,7 +10,7 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) | Ten misreadings, resource forms, the host table, the stateless fit |
+| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) | Ten misreadings, resource forms, the host table, the stateless fit |
 | [02 MCP resources and plugins](../Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md), section 3 | What a plugin packs next to the tools, and where resources travel |
 | [W2L2 15 Tool navigation and flexibility](../Week2_Lecture_2_Building_an_Agent/15_Tool_Navigation_And_Flexibility.md) | My OData contract, validation and docstrings against vendor advice |
 | [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) | What loads at start and what loads on demand |

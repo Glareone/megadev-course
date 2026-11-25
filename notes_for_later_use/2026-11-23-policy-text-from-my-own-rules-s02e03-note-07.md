@@ -10,8 +10,8 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [03 Policy resource from the check rules](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | The pattern, the question table (policy, case, refusal), the mapping to OPA, hooks and guardrails, the drift test idea |
-| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md), section 2 | Static content generated from rules as one resource form |
+| [07 Policy resource from the check rules](../Week2_Lecture_3_MCP_MCP+Resources_Skills/07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | The pattern, the question table (policy, case, refusal), the mapping to OPA, hooks and guardrails, the drift test idea |
+| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md), section 2 | Static content generated from rules as one resource form |
 | [W2L1 05 Instructions and what code must enforce](../Week2_Lecture_1_Agent_Primitives/05_Instructions_Five_Parts_And_Enforcement.md) | A boundary in the prompt is a request, a rule in code is a guarantee |
 | [W2L2 14 Execution flows](../Week2_Lecture_2_Building_an_Agent/14_Execution_Flows_Skill_Tool_Or_Workflow.md) | Which flows need enforcement |
 

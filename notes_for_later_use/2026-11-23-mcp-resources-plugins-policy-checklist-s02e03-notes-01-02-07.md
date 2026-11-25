@@ -69,9 +69,9 @@ Status: resolved, partly resolved, open.
 
 ## Ideas to review later (one entry each)
 
-- [Read the lecturer's two examples](2026-11-23-lecturer-examples-tool-skill-links-rule-with-reason-s02e03-notes-02-03.md): tool and skill links, a rule with its reason.
+- [Read the lecturer's two examples](2026-11-23-lecturer-examples-tool-skill-links-rule-with-reason-s02e03-notes-02-07.md): tool and skill links, a rule with its reason.
 - [Which plugin format to target](2026-11-23-which-plugin-format-to-target-s02e03-note-02.md): one layout for several hosts, and what I give up.
-- [Policy text from my own rules](2026-11-23-policy-text-from-my-own-rules-s02e03-note-03.md): one rule source for the check and the explanation.
+- [Policy text from my own rules](2026-11-23-policy-text-from-my-own-rules-s02e03-note-07.md): one rule source for the check and the explanation.
 - [Where my tools' guidance lives](2026-11-23-where-my-tool-guidance-lives-s02e03-note-01.md): description, instructions, resource or tool result.
 
 ## To try (needs my explicit yes first)
@@ -79,7 +79,7 @@ Status: resolved, partly resolved, open.
 - An eval that checks per host whether the model reads a resource. It runs agents and model calls.
 - A no-op `resources/subscribe` handler on my stateless server, to test the Cursor workaround.
 - The `read_doc(uri)` fallback tool over the same content as a resource.
-- The drift test for note 03: assert the generated policy text covers every rule id.
+- The drift test for note 07: assert the generated policy text covers every rule id.
 
 ## Notes still to write for this lecture
 
@@ -90,8 +90,8 @@ Where the topic appears:
 
 | Where | What it holds |
 |---|---|
-| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_By_URI.md) | Ten misreadings, resource forms, stateless fit, host table |
+| [01 MCP resources](../Week2_Lecture_3_MCP_MCP+Resources_Skills/01_MCP_Resources_Static_Context_And_Sampling.md) | Ten misreadings, resource forms, stateless fit, host table |
 | [02 MCP resources and plugins](../Week2_Lecture_3_MCP_MCP+Resources_Skills/02_MCP_Resources_Plugins.md) | Three meanings of "plugin", what each host plugin packs |
-| [03 Policy resource from the check rules](../Week2_Lecture_3_MCP_MCP+Resources_Skills/03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Return-policy resource, mapping to OPA, hooks, guardrails |
+| [07 Policy resource from the check rules](../Week2_Lecture_3_MCP_MCP+Resources_Skills/07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) | Return-policy resource, mapping to OPA, hooks, guardrails |
 | [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) | Older, shorter note on resources and skills over MCP |
 | [W2L1 08 Tool search instead of many tools](../Week2_Lecture_1_Agent_Primitives/08_Tool_Search_Instead_Of_Many_Tools.md) | Claude Code tool search and the 10% `auto` threshold |

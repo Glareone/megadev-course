@@ -1,8 +1,8 @@
-# 7. No sandbox can promise that jailbreaks and prompt injection fail, so the guarantee I can give is structural: a tenant-bound bridge, a per-tenant wall with no secrets and no egress, and tests that assume the model is already compromised
+# 20. No sandbox can promise that jailbreaks and prompt injection fail, so the guarantee I can give is structural: a tenant-bound bridge, a per-tenant wall with no secrets and no egress, and tests that assume the model is already compromised
 
 > OWASP, Anthropic and Simon Willison all say injection cannot be fully prevented, so "the system cannot be compromised" is not a promise I can make for the model. I can make a narrower one: a fully hijacked model and program still cannot reach another tenant's data, because identity, authorization and the network are enforced outside both.
 
-Related: [W2L2 17 Auto penetration testing of my agent](../Week2_Lecture_2_Building_an_Agent/17_Auto_Penetration_Testing_Of_My_Agent.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) · [04 Workspaces and code sandboxes in frameworks](04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [05 Where the sandbox attaches](05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [Lecture 2: 9 Tools and prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) · [W2L1 25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md)
+Related: [W2L2 17 Auto penetration testing of my agent](../Week2_Lecture_2_Building_an_Agent/17_Auto_Penetration_Testing_Of_My_Agent.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) · [17 Workspaces and code sandboxes in frameworks](17_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [18 Where the sandbox attaches](18_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [Lecture 2: 9 Tools and prompt injection](../Lecture_2_Context_Agents_md_Skills_Tools/9_tools_prompt_injection.md) · [W2L1 25 Tool execution instead of tool calls](../Week2_Lecture_1_Agent_Primitives/25_Tool_Execution_Instead_Of_Tool_Calls.md) · [10 Instruction precedence and tool pollution](10_Sys_Prompt_vs_Skills_Content_And_Threats.md)
 
 Source: my setup as I describe it (tenant id taken from the token and used in Redis keys, tenant id enforced behind MCP and the APIs). OWASP LLM Top 10 2025 and Agentic Top 10 2026, Anthropic's sandboxing article (2025-10-20) and Claude Code security docs, Simon Willison (2025-06-16), the CaMeL and design-patterns papers (abstracts), gVisor, Firecracker, Docker and Kubernetes Agent Sandbox docs, read on 2026-11-23. Nothing was run.
 
@@ -128,22 +128,22 @@ I cannot guarantee that injection fails. I can guarantee a smaller thing by desi
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Prevention of prompt injection is not guaranteed | agrees | [OWASP LLM01](https://genai.owasp.org/llmrisk/llm01-prompt-injection/) |
-| 2 | "No system is completely immune" | agrees | [Claude Code security](https://code.claude.com/docs/en/security) |
-| 3 | The lethal trifecta and the advice to avoid it | agrees, a blog | [Willison](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) |
-| 4 | CaMeL: provable security, 77% against 84% on AgentDojo | agrees, abstract only, research | [arXiv 2503.18813](https://arxiv.org/abs/2503.18813) |
-| 5 | Design patterns give provable resistance | abstract only, patterns not read | [arXiv 2506.08837](https://arxiv.org/abs/2506.08837) |
-| 6 | Both filesystem and network isolation are needed | agrees | [Anthropic sandboxing](https://www.anthropic.com/engineering/claude-code-sandboxing) |
-| 7 | Complete mediation, least privilege, output handling | agrees | OWASP [LLM06](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/), [LLM05](https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/) |
-| 8 | Sandboxed containers, never root, working directory only. Task-scoped, time-bound permissions | agrees | OWASP [ASI05](https://genai.owasp.org/agentic-applications-2026/asi05-unexpected-code-execution-rce/), [ASI03](https://genai.owasp.org/agentic-applications-2026/asi03-identity-and-privilege-abuse/) |
-| 9 | Firecracker: one tenant per process, disable SMT, filter egress on the host | agrees | [Firecracker production setup](https://github.com/firecracker-microvm/firecracker/blob/main/docs/prod-host-setup.md) |
-| 10 | gVisor: no host system calls directly, not a substitute for a secure architecture, no side-channel protection | agrees | [gVisor security model](https://gvisor.dev/docs/architecture_guide/security/) |
-| 11 | Docker: incomplete isolation with kernel vulnerabilities | agrees. The page does not call containers unfit for hostile code | [Docker security](https://docs.docker.com/engine/security/) |
-| 12 | Agent Sandbox: default network policy and no token, with listed gaps | agrees | [Threat model](https://github.com/kubernetes-sigs/agent-sandbox/blob/main/docs/security/threat_model.md) |
-| 13 | Deep Agents: never put secrets in a sandbox | agrees, partly from a summary | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes) |
-| 14 | DNS is an exfiltration path, per-tenant egress policy | unverified: vendor blogs | search results, 2026-11-23 |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Prevention of prompt injection is not guaranteed | agrees | [OWASP LLM01](https://genai.owasp.org/llmrisk/llm01-prompt-injection/) | 2026-11-23 |
+| 2 | "No system is completely immune" | agrees | [Claude Code security](https://code.claude.com/docs/en/security) | 2026-11-23 |
+| 3 | The lethal trifecta and the advice to avoid it | agrees, a blog | [Willison](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/) | 2026-11-23 |
+| 4 | CaMeL: provable security, 77% against 84% on AgentDojo | agrees, abstract only, research | [arXiv 2503.18813](https://arxiv.org/abs/2503.18813) | 2026-11-23 |
+| 5 | Design patterns give provable resistance | abstract only, patterns not read | [arXiv 2506.08837](https://arxiv.org/abs/2506.08837) | 2026-11-23 |
+| 6 | Both filesystem and network isolation are needed | agrees | [Anthropic sandboxing](https://www.anthropic.com/engineering/claude-code-sandboxing) | 2026-11-23 |
+| 7 | Complete mediation, least privilege, output handling | agrees | OWASP [LLM06](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/), [LLM05](https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/) | 2026-11-23 |
+| 8 | Sandboxed containers, never root, working directory only. Task-scoped, time-bound permissions | agrees | OWASP [ASI05](https://genai.owasp.org/agentic-applications-2026/asi05-unexpected-code-execution-rce/), [ASI03](https://genai.owasp.org/agentic-applications-2026/asi03-identity-and-privilege-abuse/) | 2026-11-23 |
+| 9 | Firecracker: one tenant per process, disable SMT, filter egress on the host | agrees | [Firecracker production setup](https://github.com/firecracker-microvm/firecracker/blob/main/docs/prod-host-setup.md) | 2026-11-23 |
+| 10 | gVisor: no host system calls directly, not a substitute for a secure architecture, no side-channel protection | agrees | [gVisor security model](https://gvisor.dev/docs/architecture_guide/security/) | 2026-11-23 |
+| 11 | Docker: incomplete isolation with kernel vulnerabilities | agrees. The page does not call containers unfit for hostile code | [Docker security](https://docs.docker.com/engine/security/) | 2026-11-23 |
+| 12 | Agent Sandbox: default network policy and no token, with listed gaps | agrees | [Threat model](https://github.com/kubernetes-sigs/agent-sandbox/blob/main/docs/security/threat_model.md) | 2026-11-23 |
+| 13 | Deep Agents: never put secrets in a sandbox | agrees, partly from a summary | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes) | 2026-11-23 |
+| 14 | DNS is an exfiltration path, per-tenant egress policy | unverified: vendor blogs | search results, 2026-11-23 | 2026-11-23 |
 
 ## Sources
 

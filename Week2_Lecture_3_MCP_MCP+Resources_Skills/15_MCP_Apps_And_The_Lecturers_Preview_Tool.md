@@ -1,8 +1,8 @@
-# 8. "Preview" is the lecturer's tool name, not an MCP mode: the feature is an MCP App, a tool linked to a `ui://` HTML resource, and my cards can ship there only as a second renderer behind one data contract and a text fallback
+# 15. "Preview" is the lecturer's tool name, not an MCP mode: the feature is an MCP App, a tool linked to a `ui://` HTML resource, and my cards can ship there only as a second renderer behind one data contract and a text fallback
 
 > There is no "Preview Mode" in the MCP spec or docs I read. The lecturer's `preview_exchange` tool returns a proposal, and its metadata points to a `ui://` resource that a supporting host renders in a sandboxed iframe, which is MCP Apps. A host without support shows the tool's text.
 
-Related: [01 MCP resources](01_MCP_Resources_Static_Context_By_URI.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [03 Policy resource from the check rules](03_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [09 Human confirmation across channels](09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md)
+Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [07 Policy resource from the check rules](07_MCP_Resource_Policy_Text_From_The_Check_Rules.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [16 Human confirmation across channels](16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md)
 
 Source: S02E03 transcript (the `preview_exchange` and `decide_exchange` tools, a Goose elicitation form, MCP Apps). The MCP Apps spec (SEP-1865, Stable 2026-01-26) read in full, the MCP Apps docs, OpenAI's ChatGPT UI docs, the MCP-UI site, the A2UI repository, the AG-UI docs and Microsoft Learn pages, read on 2026-11-23. My cards: a React component that talks to the agent over AG-UI, with HITL confirmation buttons (as I describe it). I did not see its code.
 
@@ -60,7 +60,7 @@ So the relation you guessed is right: an MCP App is a tool plus a resource, and 
 | Content | Flat primitive fields and a text message | Any HTML, with a build and a review |
 | Lecturer's rule | When the client's form is enough | When the interaction needs my own layout |
 
-For my HITL confirmations (confirm or decline) the rule points to elicitation first, and an App only for the rich proposal card (note 09).
+For my HITL confirmations (confirm or decline) the rule points to elicitation first, and an App only for the rich proposal card (note 16).
 
 ## 4. Fallback and host support
 
@@ -72,7 +72,7 @@ For my HITL confirmations (confirm or decline) the rule points to elicitation fi
 
 - The View runs in a sandboxed iframe and talks only through `postMessage`. Web hosts use two iframes with different origins.
 - Default CSP: no network (`connect-src 'none'`), scripts and styles from itself. External domains must be declared in `_meta.ui.csp`, and the host must block the rest.
-- The View has no session of mine. Its tool calls go through the host, which may block them or ask the user. My tenant checks stay behind the server, as in note 07.
+- The View has no session of mine. Its tool calls go through the host, which may block them or ask the user. My tenant checks stay behind the server, as in note 20.
 - The spec advises hashing and reviewing HTML templates, and logging calls that come from the View.
 
 ## 6. The market
@@ -104,7 +104,7 @@ flowchart LR
 
 - The sound base is one data contract for the cards, with my UI and the View as two renderers.
 - Start with one card as an App, keep the text fallback, and register the UI tool only for hosts that declare support.
-- My cards carry HITL confirmation buttons. A button in a View is not proof of a human decision, see [09](09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md).
+- My cards carry HITL confirmation buttons. A button in a View is not proof of a human decision, see [16](16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md).
 
 ## 8. Cautions
 
@@ -124,24 +124,24 @@ flowchart LR
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | "Preview" is a tool name in the lecture. MCP has no Preview Mode | agrees, by absence in the spec and docs read | S02E03 transcript, [MCP Apps overview](https://modelcontextprotocol.io/extensions/apps/overview) |
-| 2 | A tool links to a `ui://` resource with `_meta.ui.resourceUri`, MIME `text/html;profile=mcp-app` | agrees | [MCP Apps spec](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx) |
-| 3 | The View runs in a sandboxed iframe and calls tools through the host | agrees | same spec |
-| 4 | `visibility: ["app"]` hides a tool from the model | agrees | same spec |
-| 5 | `content` for the model, `structuredContent` for the UI | agrees | same spec |
-| 6 | Text-only fallback when a host has no support. Servers should check `io.modelcontextprotocol/ui` | agrees | same spec |
-| 7 | Default CSP blocks network. Declared domains only | agrees | same spec |
-| 8 | MCP Apps is Stable | agrees | same spec header |
-| 9 | Clients: Claude, Claude Desktop, VS Code Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam, Archestra.AI | agrees as the overview's list. No per-version evidence | [Overview](https://modelcontextprotocol.io/extensions/apps/overview) |
-| 10 | ChatGPT implements MCP Apps, `window.openai` is extra | agrees | [ChatGPT UI docs](https://developers.openai.com/plugins/build/chatgpt-ui.md) |
-| 11 | MCP-UI is standardized into MCP Apps | agrees | [MCP-UI](https://mcpui.dev/) |
-| 12 | A2UI is declarative JSON, native rendering, MCP Apps embedding on its roadmap | agrees, repository README | [A2UI](https://github.com/google/A2UI) |
-| 13 | AG-UI is not a generative UI specification | agrees | [AG-UI](https://docs.ag-ui.com/concepts/generative-ui-specs.md) |
-| 14 | Microsoft 365 Copilot renders MCP Apps | unverified: the overview lists it, the Microsoft pages read do not mention it | [Microsoft Learn](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/overview-declarative-agent) |
-| 15 | Claude Code renders MCP Apps | unverified | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) |
-| 16 | The options in section 7 | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | "Preview" is a tool name in the lecture. MCP has no Preview Mode | agrees, by absence in the spec and docs read | S02E03 transcript, [MCP Apps overview](https://modelcontextprotocol.io/extensions/apps/overview) | 2026-11-23 |
+| 2 | A tool links to a `ui://` resource with `_meta.ui.resourceUri`, MIME `text/html;profile=mcp-app` | agrees | [MCP Apps spec](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx) | 2026-11-23 |
+| 3 | The View runs in a sandboxed iframe and calls tools through the host | agrees | same spec | 2026-11-23 |
+| 4 | `visibility: ["app"]` hides a tool from the model | agrees | same spec | 2026-11-23 |
+| 5 | `content` for the model, `structuredContent` for the UI | agrees | same spec | 2026-11-23 |
+| 6 | Text-only fallback when a host has no support. Servers should check `io.modelcontextprotocol/ui` | agrees | same spec | 2026-11-23 |
+| 7 | Default CSP blocks network. Declared domains only | agrees | same spec | 2026-11-23 |
+| 8 | MCP Apps is Stable | agrees | same spec header | 2026-11-23 |
+| 9 | Clients: Claude, Claude Desktop, VS Code Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam, Archestra.AI | agrees as the overview's list. No per-version evidence | [Overview](https://modelcontextprotocol.io/extensions/apps/overview) | 2026-11-23 |
+| 10 | ChatGPT implements MCP Apps, `window.openai` is extra | agrees | [ChatGPT UI docs](https://developers.openai.com/plugins/build/chatgpt-ui.md) | 2026-11-23 |
+| 11 | MCP-UI is standardized into MCP Apps | agrees | [MCP-UI](https://mcpui.dev/) | 2026-11-23 |
+| 12 | A2UI is declarative JSON, native rendering, MCP Apps embedding on its roadmap | agrees, repository README | [A2UI](https://github.com/google/A2UI) | 2026-11-23 |
+| 13 | AG-UI is not a generative UI specification | agrees | [AG-UI](https://docs.ag-ui.com/concepts/generative-ui-specs.md) | 2026-11-23 |
+| 14 | Microsoft 365 Copilot renders MCP Apps | unverified: the overview lists it, the Microsoft pages read do not mention it | [Microsoft Learn](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/overview-declarative-agent) | 2026-11-23 |
+| 15 | Claude Code renders MCP Apps | unverified | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-23 |
+| 16 | The options in section 7 | lecture-independent, my reasoning | | 2026-11-23 |
 
 ## Sources
 

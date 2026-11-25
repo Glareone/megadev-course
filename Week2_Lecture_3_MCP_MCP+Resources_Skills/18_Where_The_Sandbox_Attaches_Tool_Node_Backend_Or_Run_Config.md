@@ -1,10 +1,10 @@
-# 5. The sandbox attaches in four places across frameworks: a tool, a backend behind the tools, an executor on the agent, or the run configuration; LangGraph leaves the choice to me
+# 18. The sandbox attaches in four places across frameworks: a tool, a backend behind the tools, an executor on the agent, or the run configuration; LangGraph leaves the choice to me
 
 > LangGraph has no sandbox object, so I place one as a tool in the loop or as a node for a fixed step. Deep Agents, Mastra, ADK, smolagents, CrewAI and the OpenAI SDK each attach it at a different point, and that point decides who owns the lifecycle, the scope and the secrets.
 
-Related: [04 Workspaces and code sandboxes in frameworks](04_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [W2L2 11 Model routing in LangGraph](../Week2_Lecture_2_Building_an_Agent/11_Model_Routing_In_LangGraph.md) · [06 ReAct vs Deep Agent on LangGraph](06_ReAct_Vs_Deep_Agent_On_LangGraph.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md)
+Related: [17 Workspaces and code sandboxes in frameworks](17_Workspaces_And_Code_Sandboxes_In_Frameworks.md) · [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [W2L2 11 Model routing in LangGraph](../Week2_Lecture_2_Building_an_Agent/11_Model_Routing_In_LangGraph.md) · [19 ReAct vs Deep Agent on LangGraph](19_ReAct_Vs_Deep_Agent_On_LangGraph.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) · [09 MCP tools loading and code mode with many servers](09_MCP_Tools_Loading_And_Code_Mode_With_Many_Servers.md)
 
-Source: the framework docs read for note 04 (Deep Agents and LangGraph, Mastra, CrewAI, OpenAI Agents SDK, Google ADK, smolagents) and the code snippets Context7 returned for them, 2026-11-23. The two LangGraph sketches are my own, not from the docs.
+Source: the framework docs read for note 17 (Deep Agents and LangGraph, Mastra, CrewAI, OpenAI Agents SDK, Google ADK, smolagents) and the code snippets Context7 returned for them, 2026-11-23. The two LangGraph sketches are my own, not from the docs.
 
 ## Glossary
 
@@ -19,7 +19,7 @@ Source: the framework docs read for note 04 (Deep Agents and LangGraph, Mastra, 
 
 ## 1. The problem
 
-Note 04 lists which frameworks support a code sandbox. **Where does the sandbox sit in each of them, and how does it relate to LangGraph's graph?**
+Note 17 lists which frameworks support a code sandbox. **Where does the sandbox sit in each of them, and how does it relate to LangGraph's graph?**
 
 ## 2. LangGraph: two placements I can choose
 
@@ -120,18 +120,18 @@ The wall always comes from a provider, and the framework decides where it plugs 
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Plain LangGraph has no sandbox object | agrees, by absence | [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) |
-| 2 | Deep Agents sandboxes are backends, `execute` is filtered out without one | agrees | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes), [backends](https://docs.langchain.com/oss/python/deepagents/backends) |
-| 3 | A provider only needs `execute()`. App code moves files with `upload_files` and `download_files` | agrees, partly from a summary | same pages |
-| 4 | Sandbox id on thread or assistant, async graph factory | agrees | [Going to production](https://docs.langchain.com/oss/python/deepagents/going-to-production) |
-| 5 | CrewAI sandbox tools: ephemeral default, persistent or attach by id | agrees | [E2B tools](https://docs.crewai.com/edge/en/tools/ai-ml/e2bsandboxtools.md) |
-| 6 | Mastra `Agent(workspace=...)` exposes `execute_command` as a tool | agrees | [Mastra LocalSandbox](https://mastra.ai/reference/workspace/local-sandbox) |
-| 7 | ADK takes `code_executor` on the agent | agrees, from the docs snippet | [GKE executor](https://adk.dev/integrations/gke-code-executor/) |
-| 8 | OpenAI chooses the sandbox client in `SandboxRunConfig` | agrees | [Sandbox agents](https://openai.github.io/openai-agents-python/sandbox_agents/) |
-| 9 | smolagents selects the remote executor with `executor_type` | agrees | [smolagents](https://huggingface.co/docs/smolagents/tutorials/secure_code_execution) |
-| 10 | The two LangGraph placements and the key advice for executors | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Plain LangGraph has no sandbox object | agrees, by absence | [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) | 2026-11-23 |
+| 2 | Deep Agents sandboxes are backends, `execute` is filtered out without one | agrees | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes), [backends](https://docs.langchain.com/oss/python/deepagents/backends) | 2026-11-23 |
+| 3 | A provider only needs `execute()`. App code moves files with `upload_files` and `download_files` | agrees, partly from a summary | same pages | 2026-11-23 |
+| 4 | Sandbox id on thread or assistant, async graph factory | agrees | [Going to production](https://docs.langchain.com/oss/python/deepagents/going-to-production) | 2026-11-23 |
+| 5 | CrewAI sandbox tools: ephemeral default, persistent or attach by id | agrees | [E2B tools](https://docs.crewai.com/edge/en/tools/ai-ml/e2bsandboxtools.md) | 2026-11-23 |
+| 6 | Mastra `Agent(workspace=...)` exposes `execute_command` as a tool | agrees | [Mastra LocalSandbox](https://mastra.ai/reference/workspace/local-sandbox) | 2026-11-23 |
+| 7 | ADK takes `code_executor` on the agent | agrees, from the docs snippet | [GKE executor](https://adk.dev/integrations/gke-code-executor/) | 2026-11-23 |
+| 8 | OpenAI chooses the sandbox client in `SandboxRunConfig` | agrees | [Sandbox agents](https://openai.github.io/openai-agents-python/sandbox_agents/) | 2026-11-23 |
+| 9 | smolagents selects the remote executor with `executor_type` | agrees | [smolagents](https://huggingface.co/docs/smolagents/tutorials/secure_code_execution) | 2026-11-23 |
+| 10 | The two LangGraph placements and the key advice for executors | lecture-independent, my reasoning | | 2026-11-23 |
 
 ## Sources
 

@@ -10,9 +10,9 @@ Where the topic already appears:
 
 | Where | What it holds |
 |---|---|
-| [09 Human confirmation across channels](../Week2_Lecture_3_MCP_MCP+Resources_Skills/09_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) | The channels, why a click is not proof, the pending record, the stateless elicitation flow, my three hosts |
-| [08 MCP Apps and the lecturer's preview tool](../Week2_Lecture_3_MCP_MCP+Resources_Skills/08_MCP_Apps_And_The_Lecturers_Preview_Tool.md) | A button in a View, app-only tools, fallback |
+| [16 Human confirmation across channels](../Week2_Lecture_3_MCP_MCP+Resources_Skills/16_Human_Confirmation_Across_AG-UI_A2A_And_MCP_Channels.md) | The channels, why a click is not proof, the pending record, the stateless elicitation flow, my three hosts |
+| [15 MCP Apps and the lecturer's preview tool](../Week2_Lecture_3_MCP_MCP+Resources_Skills/15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) | A button in a View, app-only tools, fallback |
 | [W2L1 14 Tool approval, durable waits](../Week2_Lecture_1_Agent_Primitives/14_Tool_Approval_Durable_Waits.md) | Approval before an irreversible action, with a saved wait |
-| [07 Sandbox against jailbreak and prompt injection](../Week2_Lecture_3_MCP_MCP+Resources_Skills/07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Tenant checks and logging behind the server |
+| [20 Sandbox against jailbreak and prompt injection](../Week2_Lecture_3_MCP_MCP+Resources_Skills/20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md) | Tenant checks and logging behind the server |
 
 Open: which actions must use a server-verified channel, whether ChatGPT supports elicitation, what an A2A input-required message looks like for an approval, and how the AG-UI schema words its statuses.

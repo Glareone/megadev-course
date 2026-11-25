@@ -1,8 +1,8 @@
-# 4. A workspace is a framework's bundle of files, sandbox and skills, and the wall comes from a provider: plain LangGraph has none, Deep Agents, Mastra, the OpenAI SDK and CrewAI's tools plug one in
+# 17. A workspace is a framework's bundle of files, sandbox and skills, and the wall comes from a provider: plain LangGraph has none, Deep Agents, Mastra, the OpenAI SDK and CrewAI's tools plug one in
 
 > "Workspace" is not a standard term. Frameworks use it for a filesystem plus an execution environment, and almost all of them delegate the real isolation to a provider such as Docker, E2B, Daytona, Modal or Vercel, so the choice I make is the provider and the scope, not the framework.
 
-Related: [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [05 Where the sandbox attaches](05_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [07 Sandbox against jailbreak and prompt injection](07_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md)
+Related: [W2L2 12 Sandbox for agent code](../Week2_Lecture_2_Building_an_Agent/12_Sandbox_For_Agent_Code_Pi_And_Search_Execute.md) · [W2L1 04 HITL and execution isolation](../Week2_Lecture_1_Agent_Primitives/04_HITL_And_Execution_Isolation.md) · [W2L2 06 Workflow vs LangGraph](../Week2_Lecture_2_Building_an_Agent/06_Workflow_vs_LangGraph.md) · [02 MCP resources and plugins](02_MCP_Resources_Plugins.md) · [18 Where the sandbox attaches](18_Where_The_Sandbox_Attaches_Tool_Node_Backend_Or_Run_Config.md) · [20 Sandbox against jailbreak and prompt injection](20_Sandbox_Against_Jailbreak_And_Prompt_Injection_Per_Tenant.md)
 
 Source: S02E03 transcript (a Mastra workspace with a read-only local filesystem). Docs of Mastra, LangChain Deep Agents and LangSmith, CrewAI, OpenAI Agents SDK, Google ADK, smolagents, Microsoft Agent Framework, Pydantic AI, Vercel, Claude Code and Cloudflare, read through fetch agents and Context7 on 2026-11-23. Nothing was installed or run.
 
@@ -125,24 +125,24 @@ A workspace bundles files, a sandbox and often skills, search and per-user scope
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Mastra's workspace bundles filesystem, sandbox, search, skills and LSP | agrees. The lecture shows only the filesystem | [Mastra workspace](https://mastra.ai/docs/workspace/overview), [reference](https://mastra.ai/reference/workspace/workspace-class) |
-| 2 | Mastra LocalSandbox is not isolated by default, `isolation` default `none` | agrees | [LocalSandbox](https://mastra.ai/reference/workspace/local-sandbox) |
-| 3 | Mastra resolvers give a sandbox per user, tenant or thread | agrees | Mastra workspace pages |
-| 4 | Plain LangGraph has no code sandbox | agrees, by absence. Overview read | [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) |
-| 5 | Deep Agents sandboxes are backends with an `execute` tool | agrees | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes) |
-| 6 | Deep Agents security rules (no secrets, block network) | agrees, partly from a summary | same page |
-| 7 | CrewAI removed `CodeInterpreterTool` in v1.14.0 and added Daytona and E2B tools | agrees. Docs partly stale | [CrewAI changelog](https://docs.crewai.com/v1.15.2/en/changelog), [E2B tools](https://docs.crewai.com/edge/en/tools/ai-ml/e2bsandboxtools.md) |
-| 8 | OpenAI `SandboxAgent` has Manifest, capabilities and provider clients | agrees | [Sandbox agents](https://openai.github.io/openai-agents-python/sandbox_agents/) |
-| 9 | OpenAI Agents JS has sandbox agents | unverified, docs index only | [Agents JS](https://openai.github.io/openai-agents-js/) |
-| 10 | ADK GKE executor uses gVisor and sandbox mode is recommended | agrees | [GKE executor](https://adk.dev/integrations/gke-code-executor/) |
-| 11 | ADK Java container executor is unrestricted until strict mode, strict default in ADK 2.0 | agrees | ADK API reference through Context7 |
-| 12 | smolagents runs code locally by default, remote executors opt in | agrees | [smolagents](https://huggingface.co/docs/smolagents/tutorials/secure_code_execution) |
-| 13 | Pydantic AI has no built-in sandbox | agrees, overview page only | [Pydantic AI](https://pydantic.dev/docs/ai/overview/) |
-| 14 | Vercel Sandbox is a Firecracker microVM, separate from the AI SDK | agrees, page updated 2026-09-22 | [Vercel Sandbox](https://vercel.com/docs/vercel-sandbox) |
-| 15 | Claude Code's sandbox is off by default and skips file tools, MCP servers, hooks | agrees, partly from a summary | [Sandboxing](https://code.claude.com/docs/en/sandboxing) |
-| 16 | The strength order in section 5 | lecture-independent, my reading | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Mastra's workspace bundles filesystem, sandbox, search, skills and LSP | agrees. The lecture shows only the filesystem | [Mastra workspace](https://mastra.ai/docs/workspace/overview), [reference](https://mastra.ai/reference/workspace/workspace-class) | 2026-11-23 |
+| 2 | Mastra LocalSandbox is not isolated by default, `isolation` default `none` | agrees | [LocalSandbox](https://mastra.ai/reference/workspace/local-sandbox) | 2026-11-23 |
+| 3 | Mastra resolvers give a sandbox per user, tenant or thread | agrees | Mastra workspace pages | 2026-11-23 |
+| 4 | Plain LangGraph has no code sandbox | agrees, by absence. Overview read | [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) | 2026-11-23 |
+| 5 | Deep Agents sandboxes are backends with an `execute` tool | agrees | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes) | 2026-11-23 |
+| 6 | Deep Agents security rules (no secrets, block network) | agrees, partly from a summary | same page | 2026-11-23 |
+| 7 | CrewAI removed `CodeInterpreterTool` in v1.14.0 and added Daytona and E2B tools | agrees. Docs partly stale | [CrewAI changelog](https://docs.crewai.com/v1.15.2/en/changelog), [E2B tools](https://docs.crewai.com/edge/en/tools/ai-ml/e2bsandboxtools.md) | 2026-11-23 |
+| 8 | OpenAI `SandboxAgent` has Manifest, capabilities and provider clients | agrees | [Sandbox agents](https://openai.github.io/openai-agents-python/sandbox_agents/) | 2026-11-23 |
+| 9 | OpenAI Agents JS has sandbox agents | unverified, docs index only | [Agents JS](https://openai.github.io/openai-agents-js/) | 2026-11-23 |
+| 10 | ADK GKE executor uses gVisor and sandbox mode is recommended | agrees | [GKE executor](https://adk.dev/integrations/gke-code-executor/) | 2026-11-23 |
+| 11 | ADK Java container executor is unrestricted until strict mode, strict default in ADK 2.0 | agrees | ADK API reference through Context7 | 2026-11-23 |
+| 12 | smolagents runs code locally by default, remote executors opt in | agrees | [smolagents](https://huggingface.co/docs/smolagents/tutorials/secure_code_execution) | 2026-11-23 |
+| 13 | Pydantic AI has no built-in sandbox | agrees, overview page only | [Pydantic AI](https://pydantic.dev/docs/ai/overview/) | 2026-11-23 |
+| 14 | Vercel Sandbox is a Firecracker microVM, separate from the AI SDK | agrees, page updated 2026-09-22 | [Vercel Sandbox](https://vercel.com/docs/vercel-sandbox) | 2026-11-23 |
+| 15 | Claude Code's sandbox is off by default and skips file tools, MCP servers, hooks | agrees, partly from a summary | [Sandboxing](https://code.claude.com/docs/en/sandboxing) | 2026-11-23 |
+| 16 | The strength order in section 5 | lecture-independent, my reading | | 2026-11-23 |
 
 ## Sources
 

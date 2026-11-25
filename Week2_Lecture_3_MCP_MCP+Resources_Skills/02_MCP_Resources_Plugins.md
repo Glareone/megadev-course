@@ -1,8 +1,8 @@
-# 2. "Plugin" is a host's install bundle, not an MCP concept: it packs an MCP server with skills and files, but it never ships resources by itself
+# 02. "Plugin" is a host's install bundle, not an MCP concept: it packs an MCP server with skills and files, but it never ships resources by itself
 
 > A plugin installs an MCP server together with skills, hooks and files as one unit, and the server alone owns the tools and resources. So tools, skills and reference files pack well in a plugin, and resources only travel inside the server.
 
-Related: [01 MCP resources](01_MCP_Resources_Static_Context_By_URI.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [08 MCP Apps and the lecturer's preview tool](08_MCP_Apps_And_The_Lecturers_Preview_Tool.md)
+Related: [01 MCP resources](01_MCP_Resources_Static_Context_And_Sampling.md) · [Lecture 1: 12 MCP resources and skills](../Lecture_1_Mechanics_Behind_Generative_AI/12_mcp_resources_and_skills.md) · [W2L1 02 Rethinking the skills](../Week2_Lecture_1_Agent_Primitives/02_Rethinking_The_Skills.md) · [15 MCP Apps and the lecturer's preview tool](15_MCP_Apps_And_The_Lecturers_Preview_Tool.md) · [08 MCP server instructions and harness support](08_MCP_Server_Instructions_And_Harness_Support.md) · [03 MCP skills and tools](03_MCP_Skills_And_Tools.md)
 
 Source: Claude Code plugin and MCP docs, Cursor, Gemini CLI, VS Code and Codex plugin pages, MCP extensions, server concepts and registry pages, MCP spec 2026-07-28. Checked 2026-11-23.
 
@@ -99,20 +99,20 @@ flowchart TB
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | MCP defines no "plugin". An extension is an opt-in protocol feature | agrees | [Extensions overview](https://modelcontextprotocol.io/extensions/overview) |
-| 2 | The spec has no bundle of tools, resources and prompts | agrees, by absence | [Server concepts](https://modelcontextprotocol.io/docs/learn/server-concepts), [Server spec](https://modelcontextprotocol.io/specification/2026-07-28/server) |
-| 3 | The registry points to packages, preview, no private servers | agrees | [Registry about](https://modelcontextprotocol.io/registry/about) |
-| 4 | Skills over MCP: SEP-2640 is Final (merged 2026-09-13 per the working group charter) and the extension stage is Beta | agrees. They are two different labels | [Extensions overview](https://modelcontextprotocol.io/extensions/overview), [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension), [Charter](https://modelcontextprotocol.io/community/skills-over-mcp/charter) |
-| 5 | A Claude Code plugin bundles skills, agents, hooks, MCP servers and more as one unit | agrees | [Plugins](https://code.claude.com/docs/en/plugins) |
-| 6 | Claude Code starts plugin MCP servers when the plugin is enabled | agrees | [Claude Code MCP](https://code.claude.com/docs/en/mcp) |
-| 7 | No Claude Code page I read says plugins ship MCP resources | agrees, by absence | same pages |
-| 8 | Cursor plugins bundle rules, skills, agents, commands, MCP servers, hooks | agrees. MCP keys not verified | [Cursor plugins](https://cursor.com/docs/plugins) |
-| 9 | Gemini CLI extensions declare `mcpServers` in `gemini-extension.json` | agrees | [Gemini extensions reference](https://geminicli.com/docs/extensions/reference/) |
-| 10 | VS Code agent plugins treat skills and MCP servers as the portable core | agrees | [VS Code agent plugins](https://code.visualstudio.com/docs/copilot/customization/agent-plugins) |
-| 11 | Codex plugins include skills and MCP servers | agrees from a summary of the page. Manifest not read | [Codex plugins](https://learn.chatgpt.com/docs/plugins) |
-| 12 | Installing a Claude Code plugin can run arbitrary code | agrees | [Plugin security](https://code.claude.com/docs/en/plugins/security) |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | MCP defines no "plugin". An extension is an opt-in protocol feature | agrees | [Extensions overview](https://modelcontextprotocol.io/extensions/overview) | 2026-11-23 |
+| 2 | The spec has no bundle of tools, resources and prompts | agrees, by absence | [Server concepts](https://modelcontextprotocol.io/docs/learn/server-concepts), [Server spec](https://modelcontextprotocol.io/specification/2026-07-28/server) | 2026-11-23 |
+| 3 | The registry points to packages, preview, no private servers | agrees | [Registry about](https://modelcontextprotocol.io/registry/about) | 2026-11-23 |
+| 4 | Skills over MCP: SEP-2640 is Final (merged 2026-09-13 per the working group charter) and the extension stage is Beta | agrees. They are two different labels | [Extensions overview](https://modelcontextprotocol.io/extensions/overview), [SEP-2640](https://modelcontextprotocol.io/seps/2640-skills-extension), [Charter](https://modelcontextprotocol.io/community/skills-over-mcp/charter) | 2026-11-23 |
+| 5 | A Claude Code plugin bundles skills, agents, hooks, MCP servers and more as one unit | agrees | [Plugins](https://code.claude.com/docs/en/plugins) | 2026-11-23 |
+| 6 | Claude Code starts plugin MCP servers when the plugin is enabled | agrees | [Claude Code MCP](https://code.claude.com/docs/en/mcp) | 2026-11-23 |
+| 7 | No Claude Code page I read says plugins ship MCP resources | agrees, by absence | same pages | 2026-11-23 |
+| 8 | Cursor plugins bundle rules, skills, agents, commands, MCP servers, hooks | agrees. MCP keys not verified | [Cursor plugins](https://cursor.com/docs/plugins) | 2026-11-23 |
+| 9 | Gemini CLI extensions declare `mcpServers` in `gemini-extension.json` | agrees | [Gemini extensions reference](https://geminicli.com/docs/extensions/reference/) | 2026-11-23 |
+| 10 | VS Code agent plugins treat skills and MCP servers as the portable core | agrees | [VS Code agent plugins](https://code.visualstudio.com/docs/copilot/customization/agent-plugins) | 2026-11-23 |
+| 11 | Codex plugins include skills and MCP servers | agrees from a summary of the page. Manifest not read | [Codex plugins](https://learn.chatgpt.com/docs/plugins) | 2026-11-23 |
+| 12 | Installing a Claude Code plugin can run arbitrary code | agrees | [Plugin security](https://code.claude.com/docs/en/plugins/security) | 2026-11-23 |
 
 ## Sources
 

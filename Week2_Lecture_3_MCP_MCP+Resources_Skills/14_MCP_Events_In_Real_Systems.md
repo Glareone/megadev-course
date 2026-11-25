@@ -110,23 +110,23 @@ Agents woken by events are already normal, and the work is the same everywhere: 
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Ambient agents listen to an event stream. LangGraph Platform has cron. Patterns: notify, question, review | agrees, 2025-01-14 | [LangChain](https://www.langchain.com/blog/introducing-ambient-agents) |
-| 2 | ADK triggers: Pub/Sub, Eventarc, off by default, new session per event, 200 and 500, 10-minute deadline | agrees, page undated | [ADK ambient agents](https://adk.dev/runtime/ambient-agents/) |
-| 3 | Cloudflare schedules, webhooks, email routing | agrees | [Cloudflare Agents](https://developers.cloudflare.com/agents/) |
-| 4 | `waitForEvent` sees only later events. Delivery semantics not stated | agrees | [Inngest](https://www.inngest.com/docs/features/inngest-functions/steps-workflows/wait-for-event) |
-| 5 | Channels: capability, batching, sender gating, injection warning, permission relay warning, research preview | agrees | [Channels](https://code.claude.com/docs/en/channels), [reference](https://code.claude.com/docs/en/channels-reference) |
-| 6 | GitHub Actions triggers and guards | agrees | [Claude Code GitHub Actions](https://code.claude.com/docs/en/github-actions) |
-| 7 | ChatGPT takes webhook events, may batch | agrees | [ChatGPT MCP events](https://developers.openai.com/plugins/build/mcp-events) |
-| 8 | Copilot Studio has triggers (preview) and lifecycle Hooks | agrees in part, overview only | [Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview) |
-| 9 | Stripe: retries up to three days, duplicates, no ordering, respond fast, queue | agrees, partly from a summary | [Stripe](https://docs.stripe.com/webhooks) |
-| 10 | GitHub: 10 seconds, redelivery, delivery id. Loops not covered | agrees | [GitHub](https://docs.github.com/en/webhooks/using-webhooks/best-practices-for-using-webhooks) |
-| 11 | Standard Webhooks: signing, `webhook-id` as idempotency key, retry schedule, 15 to 30 second timeout. At-least-once not stated | agrees | [Standard Webhooks](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md) |
-| 12 | CloudEvents describes the envelope only | agrees | [CloudEvents](https://cloudevents.io) |
-| 13 | None of the pages read has discovery, per-principal subscriptions, replay or three modes | agrees, by absence | rows 1 to 12 |
-| 14 | Codex automations, the Copilot coding agent, AgentCore, Gemini Enterprise, LangGraph cron docs | not covered | |
-| 15 | The use cases, the architecture and the build order | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Ambient agents listen to an event stream. LangGraph Platform has cron. Patterns: notify, question, review | agrees, 2025-01-14 | [LangChain](https://www.langchain.com/blog/introducing-ambient-agents) | 2026-11-25 |
+| 2 | ADK triggers: Pub/Sub, Eventarc, off by default, new session per event, 200 and 500, 10-minute deadline | agrees, page undated | [ADK ambient agents](https://adk.dev/runtime/ambient-agents/) | 2026-11-25 |
+| 3 | Cloudflare schedules, webhooks, email routing | agrees | [Cloudflare Agents](https://developers.cloudflare.com/agents/) | 2026-11-25 |
+| 4 | `waitForEvent` sees only later events. Delivery semantics not stated | agrees | [Inngest](https://www.inngest.com/docs/features/inngest-functions/steps-workflows/wait-for-event) | 2026-11-25 |
+| 5 | Channels: capability, batching, sender gating, injection warning, permission relay warning, research preview | agrees | [Channels](https://code.claude.com/docs/en/channels), [reference](https://code.claude.com/docs/en/channels-reference) | 2026-11-25 |
+| 6 | GitHub Actions triggers and guards | agrees | [Claude Code GitHub Actions](https://code.claude.com/docs/en/github-actions) | 2026-11-25 |
+| 7 | ChatGPT takes webhook events, may batch | agrees | [ChatGPT MCP events](https://developers.openai.com/plugins/build/mcp-events) | 2026-11-25 |
+| 8 | Copilot Studio has triggers (preview) and lifecycle Hooks | agrees in part, overview only | [Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agents-experience/overview) | 2026-11-25 |
+| 9 | Stripe: retries up to three days, duplicates, no ordering, respond fast, queue | agrees, partly from a summary | [Stripe](https://docs.stripe.com/webhooks) | 2026-11-25 |
+| 10 | GitHub: 10 seconds, redelivery, delivery id. Loops not covered | agrees | [GitHub](https://docs.github.com/en/webhooks/using-webhooks/best-practices-for-using-webhooks) | 2026-11-25 |
+| 11 | Standard Webhooks: signing, `webhook-id` as idempotency key, retry schedule, 15 to 30 second timeout. At-least-once not stated | agrees | [Standard Webhooks](https://github.com/standard-webhooks/standard-webhooks/blob/main/spec/standard-webhooks.md) | 2026-11-25 |
+| 12 | CloudEvents describes the envelope only | agrees | [CloudEvents](https://cloudevents.io) | 2026-11-25 |
+| 13 | None of the pages read has discovery, per-principal subscriptions, replay or three modes | agrees, by absence | rows 1 to 12 | 2026-11-25 |
+| 14 | Codex automations, the Copilot coding agent, AgentCore, Gemini Enterprise, LangGraph cron docs | not covered | | 2026-11-25 |
+| 15 | The use cases, the architecture and the build order | lecture-independent, my reasoning | | 2026-11-25 |
 
 ## Sources
 

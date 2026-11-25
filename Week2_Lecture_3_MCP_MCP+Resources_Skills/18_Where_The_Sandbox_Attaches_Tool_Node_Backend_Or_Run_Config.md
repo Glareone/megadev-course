@@ -120,18 +120,18 @@ The wall always comes from a provider, and the framework decides where it plugs 
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Plain LangGraph has no sandbox object | agrees, by absence | [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) |
-| 2 | Deep Agents sandboxes are backends, `execute` is filtered out without one | agrees | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes), [backends](https://docs.langchain.com/oss/python/deepagents/backends) |
-| 3 | A provider only needs `execute()`. App code moves files with `upload_files` and `download_files` | agrees, partly from a summary | same pages |
-| 4 | Sandbox id on thread or assistant, async graph factory | agrees | [Going to production](https://docs.langchain.com/oss/python/deepagents/going-to-production) |
-| 5 | CrewAI sandbox tools: ephemeral default, persistent or attach by id | agrees | [E2B tools](https://docs.crewai.com/edge/en/tools/ai-ml/e2bsandboxtools.md) |
-| 6 | Mastra `Agent(workspace=...)` exposes `execute_command` as a tool | agrees | [Mastra LocalSandbox](https://mastra.ai/reference/workspace/local-sandbox) |
-| 7 | ADK takes `code_executor` on the agent | agrees, from the docs snippet | [GKE executor](https://adk.dev/integrations/gke-code-executor/) |
-| 8 | OpenAI chooses the sandbox client in `SandboxRunConfig` | agrees | [Sandbox agents](https://openai.github.io/openai-agents-python/sandbox_agents/) |
-| 9 | smolagents selects the remote executor with `executor_type` | agrees | [smolagents](https://huggingface.co/docs/smolagents/tutorials/secure_code_execution) |
-| 10 | The two LangGraph placements and the key advice for executors | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Plain LangGraph has no sandbox object | agrees, by absence | [LangGraph overview](https://docs.langchain.com/oss/python/langgraph/overview) | 2026-11-23 |
+| 2 | Deep Agents sandboxes are backends, `execute` is filtered out without one | agrees | [Deep Agents sandboxes](https://docs.langchain.com/oss/python/deepagents/sandboxes), [backends](https://docs.langchain.com/oss/python/deepagents/backends) | 2026-11-23 |
+| 3 | A provider only needs `execute()`. App code moves files with `upload_files` and `download_files` | agrees, partly from a summary | same pages | 2026-11-23 |
+| 4 | Sandbox id on thread or assistant, async graph factory | agrees | [Going to production](https://docs.langchain.com/oss/python/deepagents/going-to-production) | 2026-11-23 |
+| 5 | CrewAI sandbox tools: ephemeral default, persistent or attach by id | agrees | [E2B tools](https://docs.crewai.com/edge/en/tools/ai-ml/e2bsandboxtools.md) | 2026-11-23 |
+| 6 | Mastra `Agent(workspace=...)` exposes `execute_command` as a tool | agrees | [Mastra LocalSandbox](https://mastra.ai/reference/workspace/local-sandbox) | 2026-11-23 |
+| 7 | ADK takes `code_executor` on the agent | agrees, from the docs snippet | [GKE executor](https://adk.dev/integrations/gke-code-executor/) | 2026-11-23 |
+| 8 | OpenAI chooses the sandbox client in `SandboxRunConfig` | agrees | [Sandbox agents](https://openai.github.io/openai-agents-python/sandbox_agents/) | 2026-11-23 |
+| 9 | smolagents selects the remote executor with `executor_type` | agrees | [smolagents](https://huggingface.co/docs/smolagents/tutorials/secure_code_execution) | 2026-11-23 |
+| 10 | The two LangGraph placements and the key advice for executors | lecture-independent, my reasoning | | 2026-11-23 |
 
 ## Sources
 

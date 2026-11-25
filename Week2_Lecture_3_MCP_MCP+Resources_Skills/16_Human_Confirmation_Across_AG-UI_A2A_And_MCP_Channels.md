@@ -118,23 +118,23 @@ Third-party hosts can ask a human in several ways and cannot always prove it. I 
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Stateless elicitation uses `InputRequiredResult`, `inputRequests`, `requestState` and a retry | agrees | [MRTR](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr), [elicitation](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation) |
-| 2 | `requestState` is attacker-controlled, protect it with HMAC or AEAD, enforce single use server-side | agrees | MRTR page |
-| 3 | Elicitation answers are accept, decline, cancel. Secrets only through URL mode | agrees | elicitation page |
-| 4 | A human SHOULD be able to deny tool calls. Annotations are untrusted unless the server is trusted | agrees. The second part partly from a summary | [Tools spec](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) |
-| 5 | AG-UI pauses with an `interrupt` outcome and resumes with a `resume` list | agrees | [AG-UI interrupts](https://docs.ag-ui.com/concepts/interrupts.md) |
-| 6 | The LangGraph adapter emits the interrupt outcome only when enabled | agrees | same page |
-| 7 | A2A has `INPUT_REQUIRED`, continued by a message on the same task, and no approval schema | agrees, part of the spec read | [A2A spec](https://a2a-protocol.org/latest/specification/) |
-| 8 | LangGraph interrupts need a checkpointer and thread id, and earlier side effects must be idempotent | agrees | [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts) |
-| 9 | Claude Code elicitation is form and URL, interactive sessions only | agrees. Modes from a summary | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) |
-| 10 | A Claude Code `Elicitation` hook can answer the request | unverified, from a summary | [Hooks](https://code.claude.com/docs/en/hooks) |
-| 11 | Copilot: form and URL elicitation, cancelled in Autopilot. Apps Experimental, inline. Approval depends on policy | agrees | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) |
-| 12 | ChatGPT renders MCP Apps. Hints only frame approval. Elicitation not stated | agrees | [ChatGPT UI](https://developers.openai.com/plugins/build/chatgpt-ui.md), [reference](https://developers.openai.com/plugins/reference.md) |
-| 13 | OWASP: authorization downstream, human approval for high impact | agrees | [LLM06](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) |
-| 14 | The lecturer's elicitation keeps the run id in the form's message and resumes the saved workflow, and the workflow and database hold the state | lecture-specific, transcript quote | S02E03 transcript |
-| 15 | The pending-record design | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Stateless elicitation uses `InputRequiredResult`, `inputRequests`, `requestState` and a retry | agrees | [MRTR](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr), [elicitation](https://modelcontextprotocol.io/specification/2026-07-28/client/elicitation) | 2026-11-24 |
+| 2 | `requestState` is attacker-controlled, protect it with HMAC or AEAD, enforce single use server-side | agrees | MRTR page | 2026-11-24 |
+| 3 | Elicitation answers are accept, decline, cancel. Secrets only through URL mode | agrees | elicitation page | 2026-11-24 |
+| 4 | A human SHOULD be able to deny tool calls. Annotations are untrusted unless the server is trusted | agrees. The second part partly from a summary | [Tools spec](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) | 2026-11-24 |
+| 5 | AG-UI pauses with an `interrupt` outcome and resumes with a `resume` list | agrees | [AG-UI interrupts](https://docs.ag-ui.com/concepts/interrupts.md) | 2026-11-24 |
+| 6 | The LangGraph adapter emits the interrupt outcome only when enabled | agrees | same page | 2026-11-24 |
+| 7 | A2A has `INPUT_REQUIRED`, continued by a message on the same task, and no approval schema | agrees, part of the spec read | [A2A spec](https://a2a-protocol.org/latest/specification/) | 2026-11-24 |
+| 8 | LangGraph interrupts need a checkpointer and thread id, and earlier side effects must be idempotent | agrees | [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts) | 2026-11-24 |
+| 9 | Claude Code elicitation is form and URL, interactive sessions only | agrees. Modes from a summary | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-24 |
+| 10 | A Claude Code `Elicitation` hook can answer the request | unverified, from a summary | [Hooks](https://code.claude.com/docs/en/hooks) | 2026-11-24 |
+| 11 | Copilot: form and URL elicitation, cancelled in Autopilot. Apps Experimental, inline. Approval depends on policy | agrees | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) | 2026-11-24 |
+| 12 | ChatGPT renders MCP Apps. Hints only frame approval. Elicitation not stated | agrees | [ChatGPT UI](https://developers.openai.com/plugins/build/chatgpt-ui.md), [reference](https://developers.openai.com/plugins/reference.md) | 2026-11-24 |
+| 13 | OWASP: authorization downstream, human approval for high impact | agrees | [LLM06](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) | 2026-11-24 |
+| 14 | The lecturer's elicitation keeps the run id in the form's message and resumes the saved workflow, and the workflow and database hold the state | lecture-specific, transcript quote | S02E03 transcript | 2026-11-24 |
+| 15 | The pending-record design | lecture-independent, my reasoning | | 2026-11-24 |
 
 ## Sources
 

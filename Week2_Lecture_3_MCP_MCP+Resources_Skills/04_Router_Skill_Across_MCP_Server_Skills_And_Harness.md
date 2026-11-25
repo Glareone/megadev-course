@@ -115,7 +115,7 @@ The closest vendor-endorsed form is a high-level `SKILL.md` that points to refer
 | 5 | No vendor documents skill-to-skill routing | agrees by absence, pages read in part | the pages above, [OpenAI](https://developers.openai.com/plugins/concepts/skills.md) | 2026-11-25 |
 | 6 | Router is a pattern, not a spec field | agrees | [Lecture 2: 6](../Lecture_2_Context_Agents_md_Skills_Tools/6_router_skills.md) | 2026-11-25 |
 | 7 | Skills are often not invoked | agrees, Vercel and LlamaIndex (note 03) | [Vercel](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) | 2026-11-25 |
-| 8 | Hosts may or may not hide children, and the hop and consent costs | lecture-independent, my reasoning, verify before presenting | | |
+| 8 | Hosts may or may not hide children, and the hop and consent costs | lecture-independent, my reasoning, verify before presenting | | 2026-11-25 |
 
 ## Sources
 

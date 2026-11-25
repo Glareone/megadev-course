@@ -124,20 +124,20 @@ The review is a loop of relocations: test where each line should live, move it v
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Right altitude, a minimal set that "does not necessarily mean short", just-in-time identifiers, canonical examples, no laundry list | agrees | [Anthropic, 2025-09-29](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) |
-| 2 | IFScale: 68% at 500 instructions, bias to earlier ones | agrees, abstract, keyword task | [arXiv 2507.11538](https://arxiv.org/abs/2507.11538) |
-| 3 | Information at the start or end is used best | agrees, abstract, two tasks | [arXiv 2307.03172](https://arxiv.org/abs/2307.03172) |
-| 4 | SKILL.md under 500 lines, references one level deep, degrees of freedom, no outdated facts, "MUST filter" suggestion | agrees | [Skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) |
-| 5 | Skill description says what and when. Keep SKILL.md focused and link out | agrees | [OpenAI skills](https://developers.openai.com/api/docs/guides/tools-skills) |
-| 6 | `instructions` appended after input from GPT-6.2. Revisit instructions on migration | agrees, Luna unverified | [Using GPT-6.2](https://developers.openai.com/api/docs/guides/latest-model) |
-| 7 | Mid-conversation system messages. "Use this tool when...", "If in doubt" overtriggers, explain motivation, prefer general instructions | agrees, partly from a summary | [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) |
-| 8 | Actionable error messages | agrees | [Writing tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) |
-| 9 | Rule with reason: 24 of 24 against 0 of 24 | agrees as the lecturer's README, not run | [rule-with-reason](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/rule-with-reason) |
-| 10 | My `<loaded_skill>` cap, one skill per conversation, a fixed prefix | my platform, from my notes | W2L1 05, W2L2 10, W2L2 14 |
-| 11 | "Curse of Instructions" paper | not found on arXiv, not cited | searched 2026-11-25 |
-| 12 | The test order, promote and demote rules, the loop | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Right altitude, a minimal set that "does not necessarily mean short", just-in-time identifiers, canonical examples, no laundry list | agrees | [Anthropic, 2025-09-29](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) | 2026-11-25 |
+| 2 | IFScale: 68% at 500 instructions, bias to earlier ones | agrees, abstract, keyword task | [arXiv 2507.11538](https://arxiv.org/abs/2507.11538) | 2026-11-25 |
+| 3 | Information at the start or end is used best | agrees, abstract, two tasks | [arXiv 2307.03172](https://arxiv.org/abs/2307.03172) | 2026-11-25 |
+| 4 | SKILL.md under 500 lines, references one level deep, degrees of freedom, no outdated facts, "MUST filter" suggestion | agrees | [Skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) | 2026-11-25 |
+| 5 | Skill description says what and when. Keep SKILL.md focused and link out | agrees | [OpenAI skills](https://developers.openai.com/api/docs/guides/tools-skills) | 2026-11-25 |
+| 6 | `instructions` appended after input from GPT-6.2. Revisit instructions on migration | agrees, Luna unverified | [Using GPT-6.2](https://developers.openai.com/api/docs/guides/latest-model) | 2026-11-25 |
+| 7 | Mid-conversation system messages. "Use this tool when...", "If in doubt" overtriggers, explain motivation, prefer general instructions | agrees, partly from a summary | [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) | 2026-11-25 |
+| 8 | Actionable error messages | agrees | [Writing tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) | 2026-11-25 |
+| 9 | Rule with reason: 24 of 24 against 0 of 24 | agrees as the lecturer's README, not run | [rule-with-reason](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/rule-with-reason) | 2026-11-25 |
+| 10 | My `<loaded_skill>` cap, one skill per conversation, a fixed prefix | my platform, from my notes | W2L1 05, W2L2 10, W2L2 14 | 2026-11-25 |
+| 11 | "Curse of Instructions" paper | not found on arXiv, not cited | searched 2026-11-25 | 2026-11-25 |
+| 12 | The test order, promote and demote rules, the loop | lecture-independent, my reasoning | | 2026-11-25 |
 
 ## Sources
 

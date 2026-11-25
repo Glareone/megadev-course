@@ -103,22 +103,22 @@ Every rule bets on a model weakness, and a new model can make the bet stale. The
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Harness components encode assumptions, re-examine on a new model, remove one at a time | agrees | [Anthropic, 2026-03-24](https://www.anthropic.com/engineering/harness-design-long-running-apps) |
-| 2 | New model: run the suite. Capability evals graduate. Upgrade in days | agrees | [Anthropic, 2026-01-09](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) |
-| 3 | Skills: evals first, test on three models, no built-in runner | agrees, docs undated | [Skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) |
-| 4 | Migration: reduce thoroughness guidance, remove Opus 5 verification instructions | agrees, docs undated | [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) |
-| 5 | A 100-line map, doc-gardening agent, golden principles, auto-merge | agrees | [OpenAI, 2026-02-11](https://openai.com/index/harness-engineering/) |
-| 6 | Revisit "be concise" on migration. Evals shut down 2026-11-30 | agrees, time-sensitive | [GPT-6.2 guide](https://developers.openai.com/api/docs/guides/latest-model/gpt-6.2-astra.md), [Evals best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices) |
-| 7 | Cookbook loop with graders and retries | agrees. Rollback and approval advice from a summary. Archived | [Cookbook](https://developers.openai.com/cookbook/examples/partners/self_evolving_agents/autonomous_agent_retraining) |
-| 8 | AlphaEvolve, 0.7% of compute | agrees, vendor blog | [DeepMind](https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/), [arXiv 2506.13131](https://arxiv.org/abs/2506.13131) |
-| 9 | GEPA, ACE and DGM results | agrees, abstracts | [2507.19457](https://arxiv.org/abs/2507.19457), [2510.04618](https://arxiv.org/abs/2510.04618), [2505.22954](https://arxiv.org/abs/2505.22954) |
-| 10 | HarnessEvo, CASD and the strong-harness result | agrees, preprint abstracts | [2609.02889](https://arxiv.org/abs/2609.02889), [2609.26261](https://arxiv.org/abs/2609.26261), [2610.19999](https://arxiv.org/abs/2610.19999) |
-| 11 | LangChain trace, change, eval loop | agrees, blog | [LangChain, 2026-11-03](https://www.langchain.com/blog/how-we-optimized-browser-use-for-deep-agents) |
-| 12 | Hermes guardrails and phases | agrees as the README's claim, code not read | [Hermes self-evolution](https://github.com/NousResearch/hermes-agent-self-evolution) |
-| 13 | Letta Mods have no review gate. Manus rebuilt four times | agrees, blogs | [Letta](https://www.letta.com/blog/introducing-mods/), [Manus](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus) |
-| 14 | A Claude Code team statement on removing scaffolding. LangChain and Letta posts I was told of | not found, not cited | searched 2026-11-25 |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Harness components encode assumptions, re-examine on a new model, remove one at a time | agrees | [Anthropic, 2026-03-24](https://www.anthropic.com/engineering/harness-design-long-running-apps) | 2026-11-25 |
+| 2 | New model: run the suite. Capability evals graduate. Upgrade in days | agrees | [Anthropic, 2026-01-09](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) | 2026-11-25 |
+| 3 | Skills: evals first, test on three models, no built-in runner | agrees, docs undated | [Skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) | 2026-11-25 |
+| 4 | Migration: reduce thoroughness guidance, remove Opus 5 verification instructions | agrees, docs undated | [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) | 2026-11-25 |
+| 5 | A 100-line map, doc-gardening agent, golden principles, auto-merge | agrees | [OpenAI, 2026-02-11](https://openai.com/index/harness-engineering/) | 2026-11-25 |
+| 6 | Revisit "be concise" on migration. Evals shut down 2026-11-30 | agrees, time-sensitive | [GPT-6.2 guide](https://developers.openai.com/api/docs/guides/latest-model/gpt-6.2-astra.md), [Evals best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices) | 2026-11-25 |
+| 7 | Cookbook loop with graders and retries | agrees. Rollback and approval advice from a summary. Archived | [Cookbook](https://developers.openai.com/cookbook/examples/partners/self_evolving_agents/autonomous_agent_retraining) | 2026-11-25 |
+| 8 | AlphaEvolve, 0.7% of compute | agrees, vendor blog | [DeepMind](https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/), [arXiv 2506.13131](https://arxiv.org/abs/2506.13131) | 2026-11-25 |
+| 9 | GEPA, ACE and DGM results | agrees, abstracts | [2507.19457](https://arxiv.org/abs/2507.19457), [2510.04618](https://arxiv.org/abs/2510.04618), [2505.22954](https://arxiv.org/abs/2505.22954) | 2026-11-25 |
+| 10 | HarnessEvo, CASD and the strong-harness result | agrees, preprint abstracts | [2609.02889](https://arxiv.org/abs/2609.02889), [2609.26261](https://arxiv.org/abs/2609.26261), [2610.19999](https://arxiv.org/abs/2610.19999) | 2026-11-25 |
+| 11 | LangChain trace, change, eval loop | agrees, blog | [LangChain, 2026-11-03](https://www.langchain.com/blog/how-we-optimized-browser-use-for-deep-agents) | 2026-11-25 |
+| 12 | Hermes guardrails and phases | agrees as the README's claim, code not read | [Hermes self-evolution](https://github.com/NousResearch/hermes-agent-self-evolution) | 2026-11-25 |
+| 13 | Letta Mods have no review gate. Manus rebuilt four times | agrees, blogs | [Letta](https://www.letta.com/blog/introducing-mods/), [Manus](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus) | 2026-11-25 |
+| 14 | A Claude Code team statement on removing scaffolding. LangChain and Letta posts I was told of | not found, not cited | searched 2026-11-25 | 2026-11-25 |
 
 ## Sources
 

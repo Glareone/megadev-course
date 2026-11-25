@@ -124,24 +124,24 @@ flowchart LR
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | "Preview" is a tool name in the lecture. MCP has no Preview Mode | agrees, by absence in the spec and docs read | S02E03 transcript, [MCP Apps overview](https://modelcontextprotocol.io/extensions/apps/overview) |
-| 2 | A tool links to a `ui://` resource with `_meta.ui.resourceUri`, MIME `text/html;profile=mcp-app` | agrees | [MCP Apps spec](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx) |
-| 3 | The View runs in a sandboxed iframe and calls tools through the host | agrees | same spec |
-| 4 | `visibility: ["app"]` hides a tool from the model | agrees | same spec |
-| 5 | `content` for the model, `structuredContent` for the UI | agrees | same spec |
-| 6 | Text-only fallback when a host has no support. Servers should check `io.modelcontextprotocol/ui` | agrees | same spec |
-| 7 | Default CSP blocks network. Declared domains only | agrees | same spec |
-| 8 | MCP Apps is Stable | agrees | same spec header |
-| 9 | Clients: Claude, Claude Desktop, VS Code Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam, Archestra.AI | agrees as the overview's list. No per-version evidence | [Overview](https://modelcontextprotocol.io/extensions/apps/overview) |
-| 10 | ChatGPT implements MCP Apps, `window.openai` is extra | agrees | [ChatGPT UI docs](https://developers.openai.com/plugins/build/chatgpt-ui.md) |
-| 11 | MCP-UI is standardized into MCP Apps | agrees | [MCP-UI](https://mcpui.dev/) |
-| 12 | A2UI is declarative JSON, native rendering, MCP Apps embedding on its roadmap | agrees, repository README | [A2UI](https://github.com/google/A2UI) |
-| 13 | AG-UI is not a generative UI specification | agrees | [AG-UI](https://docs.ag-ui.com/concepts/generative-ui-specs.md) |
-| 14 | Microsoft 365 Copilot renders MCP Apps | unverified: the overview lists it, the Microsoft pages read do not mention it | [Microsoft Learn](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/overview-declarative-agent) |
-| 15 | Claude Code renders MCP Apps | unverified | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) |
-| 16 | The options in section 7 | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | "Preview" is a tool name in the lecture. MCP has no Preview Mode | agrees, by absence in the spec and docs read | S02E03 transcript, [MCP Apps overview](https://modelcontextprotocol.io/extensions/apps/overview) | 2026-11-23 |
+| 2 | A tool links to a `ui://` resource with `_meta.ui.resourceUri`, MIME `text/html;profile=mcp-app` | agrees | [MCP Apps spec](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx) | 2026-11-23 |
+| 3 | The View runs in a sandboxed iframe and calls tools through the host | agrees | same spec | 2026-11-23 |
+| 4 | `visibility: ["app"]` hides a tool from the model | agrees | same spec | 2026-11-23 |
+| 5 | `content` for the model, `structuredContent` for the UI | agrees | same spec | 2026-11-23 |
+| 6 | Text-only fallback when a host has no support. Servers should check `io.modelcontextprotocol/ui` | agrees | same spec | 2026-11-23 |
+| 7 | Default CSP blocks network. Declared domains only | agrees | same spec | 2026-11-23 |
+| 8 | MCP Apps is Stable | agrees | same spec header | 2026-11-23 |
+| 9 | Clients: Claude, Claude Desktop, VS Code Copilot, Microsoft 365 Copilot, Goose, Postman, MCPJam, Archestra.AI | agrees as the overview's list. No per-version evidence | [Overview](https://modelcontextprotocol.io/extensions/apps/overview) | 2026-11-23 |
+| 10 | ChatGPT implements MCP Apps, `window.openai` is extra | agrees | [ChatGPT UI docs](https://developers.openai.com/plugins/build/chatgpt-ui.md) | 2026-11-23 |
+| 11 | MCP-UI is standardized into MCP Apps | agrees | [MCP-UI](https://mcpui.dev/) | 2026-11-23 |
+| 12 | A2UI is declarative JSON, native rendering, MCP Apps embedding on its roadmap | agrees, repository README | [A2UI](https://github.com/google/A2UI) | 2026-11-23 |
+| 13 | AG-UI is not a generative UI specification | agrees | [AG-UI](https://docs.ag-ui.com/concepts/generative-ui-specs.md) | 2026-11-23 |
+| 14 | Microsoft 365 Copilot renders MCP Apps | unverified: the overview lists it, the Microsoft pages read do not mention it | [Microsoft Learn](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/overview-declarative-agent) | 2026-11-23 |
+| 15 | Claude Code renders MCP Apps | unverified | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-23 |
+| 16 | The options in section 7 | lecture-independent, my reasoning | | 2026-11-23 |
 
 ## Sources
 

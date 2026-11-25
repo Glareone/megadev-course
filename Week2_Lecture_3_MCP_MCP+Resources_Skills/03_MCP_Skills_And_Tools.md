@@ -33,7 +33,7 @@ Source: S02E03 article, figures 10 and 11.
 ## 3. What the extension specifies
 
 - **Host handling:** a tool is a schema and a callback that runs on the server, with its definition up front or deferred (note 09). A skill runs nowhere, shows its name and description up front and its body on demand, and sits below the system prompt (note 10).
-- **Methods:** a server declaring `io.modelcontextprotocol/skills` implements `skills/list` and `skills/get`. Files come through `resources/read`. `skills/list` returns each skill's URI, frontmatter and a manifest of files with digest and size. A skill may hold up to 512 files and 16 MiB.
+- **Methods:** a server declaring `io.modelcontextprotocol/skills` implements `skills/list` and `skills/get`. Files come through `resources/read`. `skills/list` returns each skill's URI, frontmatter and a manifest of files with digest and size. Servers should not exceed 512 files or 16 MiB per skill. Hosts must support skills up to those limits and may support larger ones, and a larger skill is not guaranteed to load.
 - **Hosts:** "Host applications determine how skills are exposed to the model and user." Reading `SKILL.md` does not activate it. Same-name skills must not replace each other silently. Code execution and `allowed-tools` need per-skill user approval, and digests are unsigned and come from the same server.
 - **No tool link:** I found no field that lets a skill require tools or a tool name a skill. The stated use is "reusable workflows that combine several tools".
 - **SEP-2640:** Final, created 2026-04-23, merged 2026-09-13. Its motivation: fragmented distribution, instruction size limits (an 875-line skill) and ad-hoc solutions.
@@ -132,19 +132,19 @@ The standard exists and is backed by the maintainers. The evidence that skills g
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | SEP-2640 is Final, the spec is Beta, with `skills/list`, `skills/get`, limits and host duties | agrees | [Skills overview](https://modelcontextprotocol.io/extensions/skills/overview), [ext-skills](https://github.com/modelcontextprotocol/ext-skills) |
-| 2 | No field links a skill and a tool | agrees, by absence, spec read in part | same pages |
-| 3 | Reading does not activate. Same-name rule. `allowed-tools` needs approval. Digests unsigned | agrees, `allowed-tools` part from a summary | same pages |
-| 4 | Implementations: Claude Code and VS Code beta, ChatGPT and Codex planned | unverified, community list | [implementations](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/implementations.md) |
-| 5 | The client matrix lists only ChatGPT, fast-agent and the Inspector as Partial | agrees. It conflicts with row 4 | [Client matrix](https://modelcontextprotocol.io/extensions/client-matrix.md) |
-| 14 | Vercel figures, Ronacher, Speakeasy, LlamaIndex, CSA, working group members | agrees, read 2026-11-25. Ronacher and Speakeasy are opinion, Vercel's model is not named | [Vercel](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals), [Ronacher](https://lucumr.pocoo.org/2025/12/13/skills-vs-mcp/), [Speakeasy](https://speakeasy.com/blog/skills-vs-mcp), [LlamaIndex](https://www.llamaindex.ai/blog/skills-vs-mcp-tools-for-agents-when-to-use-what), [CSA](https://cloudsecurityalliance.org/blog/2026/09/29/from-models-to-mcp-servers-skills-and-plugins-rethinking-trust-in-the-ai-supply-chain), [charter](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp) |
-| 15 | arXiv 2604.04323 skill benefits are fragile | agrees from the abstract, paper not read | [arXiv](https://arxiv.org/abs/2604.04323) |
-| 6 | Claude Code ignores `allowed-tools`, `hooks` for MCP skills | agrees | [Claude Code skills](https://code.claude.com/docs/en/skills) |
-| 7 | Skills complement MCP. Fully qualified `ServerName:tool_name`. OpenAI `dependencies.tools` | agrees | [Anthropic, 2025-10-16](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills), [best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) |
-| 8 | The Agent Skills spec has no MCP field. `allowed-tools` is experimental | agrees | [agentskills.io](https://agentskills.io/specification) |
-| 10 | 0 of 3 in 8 of 8 runs against 3 of 3 in 4 of 4 runs, about $0.0011 | agrees as the lecturer's README, not run | [tool-skill-links](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/tool-skill-links) |
-| 11 | The example serves skills through tools, not the extension | agrees | same README |
-| 12 | OpenAI rolled back skill import in November 2026 | unverified, community claim | implementations list |
-| 13 | The mapping table, the pilot and the ownership split | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | SEP-2640 is Final, the spec is Beta, with `skills/list`, `skills/get`, limits and host duties | agrees | [Skills overview](https://modelcontextprotocol.io/extensions/skills/overview), [ext-skills](https://github.com/modelcontextprotocol/ext-skills) | 2026-11-25 |
+| 2 | No field links a skill and a tool | agrees, by absence, spec read in part | same pages | 2026-11-25 |
+| 3 | Reading does not activate. Same-name rule. `allowed-tools` needs approval. Digests unsigned | agrees, `allowed-tools` part from a summary | same pages | 2026-11-25 |
+| 4 | Implementations: Claude Code and VS Code beta, ChatGPT and Codex planned | unverified, community list | [implementations](https://github.com/modelcontextprotocol/ext-skills/blob/main/docs/implementations.md) | 2026-11-25 |
+| 5 | The client matrix lists only ChatGPT, fast-agent and the Inspector as Partial | agrees. It conflicts with row 4 | [Client matrix](https://modelcontextprotocol.io/extensions/client-matrix.md) | 2026-11-25 |
+| 6 | Vercel figures, Ronacher, Speakeasy, LlamaIndex, CSA, working group members | agrees, read 2026-11-25. Ronacher and Speakeasy are opinion, Vercel's model is not named | [Vercel](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals), [Ronacher](https://lucumr.pocoo.org/2025/12/13/skills-vs-mcp/), [Speakeasy](https://speakeasy.com/blog/skills-vs-mcp), [LlamaIndex](https://www.llamaindex.ai/blog/skills-vs-mcp-tools-for-agents-when-to-use-what), [CSA](https://cloudsecurityalliance.org/blog/2026/09/29/from-models-to-mcp-servers-skills-and-plugins-rethinking-trust-in-the-ai-supply-chain), [charter](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp) | 2026-11-25 |
+| 7 | arXiv 2604.04323 skill benefits are fragile | agrees from the abstract, paper not read | [arXiv](https://arxiv.org/abs/2604.04323) | 2026-11-25 |
+| 8 | Claude Code ignores `allowed-tools`, `hooks` for MCP skills | agrees | [Claude Code skills](https://code.claude.com/docs/en/skills) | 2026-11-25 |
+| 9 | Skills complement MCP. Fully qualified `ServerName:tool_name`. OpenAI `dependencies.tools` | agrees | [Anthropic, 2025-10-16](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills), [best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) | 2026-11-25 |
+| 10 | The Agent Skills spec has no MCP field. `allowed-tools` is experimental | agrees | [agentskills.io](https://agentskills.io/specification) | 2026-11-25 |
+| 11 | 0 of 3 in 8 of 8 runs against 3 of 3 in 4 of 4 runs, about $0.0011 | agrees as the lecturer's README, not run | [tool-skill-links](https://github.com/MEGA-DOT-DEV/examples/tree/main/examples/tool-skill-links) | 2026-11-25 |
+| 12 | The example serves skills through tools, not the extension | agrees | same README | 2026-11-25 |
+| 13 | OpenAI rolled back skill import in November 2026 | unverified, community claim | implementations list | 2026-11-25 |
+| 14 | The mapping table, the pilot and the ownership split | lecture-independent, my reasoning | | 2026-11-25 |

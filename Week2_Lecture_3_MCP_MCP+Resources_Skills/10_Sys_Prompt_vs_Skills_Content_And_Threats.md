@@ -94,23 +94,23 @@ The hierarchy is a trained preference, and skills and tool descriptions have no 
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | Chain of command levels. Tool outputs and untrusted text have no authority by default. Instructions in them are information | agrees | [Model Spec 2026-10-29](https://model-spec.openai.com/2026-10-29.html), [2026-08-18](https://model-spec.openai.com/2026-08-18.html) |
-| 2 | Production models do not yet fully reflect the spec | agrees | same pages |
-| 3 | The spec does not mention skills, MCP, plugins or tool descriptions | agrees, by absence in the text read | same pages |
-| 4 | Users may implicitly delegate authority to tool outputs, with `AGENTS.md` | agrees | [Changelog v2025.10.27](https://raw.githubusercontent.com/openai/model_spec/main/CHANGELOG.md) |
-| 5 | Models treat system prompts and untrusted text alike until trained | agrees, GPT-3.5 only | [arXiv 2404.13208](https://arxiv.org/abs/2404.13208) |
-| 6 | System and user roles give no reliable hierarchy | agrees, abstract | [arXiv 2502.15851](https://arxiv.org/abs/2502.15851) |
-| 7 | IH-Challenge: 84.1% to 94.1%, unsafe 6.6% to 0.7% | agrees, a fine-tuned GPT-5-Mini, OpenAI's own benchmark | [arXiv 2603.10521](https://arxiv.org/abs/2603.10521), [OpenAI](https://openai.com/index/instruction-hierarchy-challenge/) |
-| 8 | Adaptive attacks bypass 12 defenses above 90% | agrees, abstract | [arXiv 2510.09023](https://arxiv.org/abs/2510.09023) |
-| 9 | Anthropic: untrusted content only in tool results, JSON-encoded, treat instructions as information | agrees | [Mitigate jailbreaks](https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks) |
-| 10 | Skill metadata is in the system prompt, the body arrives through bash. Use trusted sources only | agrees | [Skills overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) |
-| 11 | Claude Code `allowed-tools` pre-approves tools, also in an untrusted folder | unverified, docs summary | [Claude Code skills](https://code.claude.com/docs/en/skills) |
-| 12 | Tool poisoning, rug pull, shadowing | agrees, vendor blog | [Invariant Labs](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks.html) |
-| 13 | MCP: annotations untrusted, sanitize outputs, disambiguate tool names. The security best-practices page does not cover tool poisoning | agrees | [Tools spec](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [security best practices](https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices) |
-| 14 | OWASP ASI01, ASI02 and ASI04 mitigations | agrees | [OWASP Agentic Top 10](https://genai.owasp.org/top-10-for-agentic-applications-2026/) |
-| 15 | Rules R1 to R8 and the placement reading in section 3 | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | Chain of command levels. Tool outputs and untrusted text have no authority by default. Instructions in them are information | agrees | [Model Spec 2026-10-29](https://model-spec.openai.com/2026-10-29.html), [2026-08-18](https://model-spec.openai.com/2026-08-18.html) | 2026-11-25 |
+| 2 | Production models do not yet fully reflect the spec | agrees | same pages | 2026-11-25 |
+| 3 | The spec does not mention skills, MCP, plugins or tool descriptions | agrees, by absence in the text read | same pages | 2026-11-25 |
+| 4 | Users may implicitly delegate authority to tool outputs, with `AGENTS.md` | agrees | [Changelog v2025.10.27](https://raw.githubusercontent.com/openai/model_spec/main/CHANGELOG.md) | 2026-11-25 |
+| 5 | Models treat system prompts and untrusted text alike until trained | agrees, GPT-3.5 only | [arXiv 2404.13208](https://arxiv.org/abs/2404.13208) | 2026-11-25 |
+| 6 | System and user roles give no reliable hierarchy | agrees, abstract | [arXiv 2502.15851](https://arxiv.org/abs/2502.15851) | 2026-11-25 |
+| 7 | IH-Challenge: 84.1% to 94.1%, unsafe 6.6% to 0.7% | agrees, a fine-tuned GPT-5-Mini, OpenAI's own benchmark | [arXiv 2603.10521](https://arxiv.org/abs/2603.10521), [OpenAI](https://openai.com/index/instruction-hierarchy-challenge/) | 2026-11-25 |
+| 8 | Adaptive attacks bypass 12 defenses above 90% | agrees, abstract | [arXiv 2510.09023](https://arxiv.org/abs/2510.09023) | 2026-11-25 |
+| 9 | Anthropic: untrusted content only in tool results, JSON-encoded, treat instructions as information | agrees | [Mitigate jailbreaks](https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks) | 2026-11-25 |
+| 10 | Skill metadata is in the system prompt, the body arrives through bash. Use trusted sources only | agrees | [Skills overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) | 2026-11-25 |
+| 11 | Claude Code `allowed-tools` pre-approves tools, also in an untrusted folder | unverified, docs summary | [Claude Code skills](https://code.claude.com/docs/en/skills) | 2026-11-25 |
+| 12 | Tool poisoning, rug pull, shadowing | agrees, vendor blog | [Invariant Labs](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks.html) | 2026-11-25 |
+| 13 | MCP: annotations untrusted, sanitize outputs, disambiguate tool names. The security best-practices page does not cover tool poisoning | agrees | [Tools spec](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [security best practices](https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices) | 2026-11-25 |
+| 14 | OWASP ASI01, ASI02 and ASI04 mitigations | agrees | [OWASP Agentic Top 10](https://genai.owasp.org/top-10-for-agentic-applications-2026/) | 2026-11-25 |
+| 15 | Rules R1 to R8 and the placement reading in section 3 | lecture-independent, my reasoning | | 2026-11-25 |
 
 ## Sources
 

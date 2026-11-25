@@ -98,24 +98,24 @@ The protocol lists tools and leaves loading to the host. I keep my allowlist, de
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | `tools/list` paginates and caches. The set may vary by authorization. Deterministic order. `list_changed` | agrees | [Tools spec 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) |
-| 2 | No tool search or lazy loading in the spec pages read | agrees, by absence. Three pages unread | same page, [spec index](https://modelcontextprotocol.io/specification/2026-07-28/) |
-| 3 | The working group is experimental. Issue 18 proposes `tools/resolve` | agrees | [progressive-disclosure-wg](https://github.com/modelcontextprotocol/progressive-disclosure-wg), [issue 18](https://github.com/modelcontextprotocol/progressive-disclosure-wg/issues/18) |
-| 4 | SEP-1821 and SEP-1888 | not found, not cited | [SEP index](https://modelcontextprotocol.io/seps/) |
-| 5 | 55K tokens for five servers, 30 to 50 tool degradation, 49% to 74% and 79.5% to 88.1% | agrees, Anthropic's own | [Anthropic, 2025-11-24](https://www.anthropic.com/engineering/advanced-tool-use) |
-| 6 | Up to 10,000 deferred tools, kept out of the prefix, 3 to 5 always loaded | agrees | [Tool search tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) |
-| 7 | Namespaces under 10 functions, loaded set changes break the cache | agrees | [OpenAI tool search](https://developers.openai.com/api/docs/guides/tools-tool-search) |
-| 8 | Deferred tools unavailable to a running program, writes as direct calls | agrees | [OpenAI programmatic tool calling](https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling) |
-| 9 | Two core tools, about 1,000 tokens against 1.17 million, tiktoken, isolate, OAuth 2.1 | agrees, vendor blog, 2026-02-20 | [Cloudflare](https://blog.cloudflare.com/code-mode-mcp/) |
-| 10 | 2,594 tools, 1,170,523 tokens, 6,000-token result cap, `?codemode=false` | agrees | [cloudflare/mcp](https://github.com/cloudflare/mcp) |
-| 11 | One namespace per connector, collisions throw, approval pause, 50 executions, experimental | agrees | [Agents Code Mode](https://developers.cloudflare.com/agents/tools/codemode/) |
-| 12 | 150,000 to 2,000 tokens with filesystem discovery | agrees as a claim, no method | [Anthropic, 2025-11-04](https://www.anthropic.com/engineering/code-execution-with-mcp) |
-| 13 | 10,877 to 970 prompt tokens in Search mode | agrees, vendor blog, one run | [Solo](https://www.solo.io/blog/keeping-context-and-tokens-low-with-progressive-disclosure-in-agentgateway) |
-| 14 | Docker's gateway has no documented model-facing meta layer | agrees, by absence | [docker/mcp-gateway](https://github.com/docker/mcp-gateway) |
-| 15 | The lesson's "load 2,500 tools" | differs: the endpoints are searched, not loaded | Cloudflare blog and README |
-| 16 | The tiers, the authority reading and the measurement plan | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | `tools/list` paginates and caches. The set may vary by authorization. Deterministic order. `list_changed` | agrees | [Tools spec 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/server/tools) | 2026-11-25 |
+| 2 | No tool search or lazy loading in the spec pages read | agrees, by absence. Three pages unread | same page, [spec index](https://modelcontextprotocol.io/specification/2026-07-28/) | 2026-11-25 |
+| 3 | The working group is experimental. Issue 18 proposes `tools/resolve` | agrees | [progressive-disclosure-wg](https://github.com/modelcontextprotocol/progressive-disclosure-wg), [issue 18](https://github.com/modelcontextprotocol/progressive-disclosure-wg/issues/18) | 2026-11-25 |
+| 4 | SEP-1821 and SEP-1888 | not found, not cited | [SEP index](https://modelcontextprotocol.io/seps/) | 2026-11-25 |
+| 5 | 55K tokens for five servers, 30 to 50 tool degradation, 49% to 74% and 79.5% to 88.1% | agrees, Anthropic's own | [Anthropic, 2025-11-24](https://www.anthropic.com/engineering/advanced-tool-use) | 2026-11-25 |
+| 6 | Up to 10,000 deferred tools, kept out of the prefix, 3 to 5 always loaded | agrees | [Tool search tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool) | 2026-11-25 |
+| 7 | Namespaces under 10 functions, loaded set changes break the cache | agrees | [OpenAI tool search](https://developers.openai.com/api/docs/guides/tools-tool-search) | 2026-11-25 |
+| 8 | Deferred tools unavailable to a running program, writes as direct calls | agrees | [OpenAI programmatic tool calling](https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling) | 2026-11-25 |
+| 9 | Two core tools, about 1,000 tokens against 1.17 million, tiktoken, isolate, OAuth 2.1 | agrees, vendor blog, 2026-02-20 | [Cloudflare](https://blog.cloudflare.com/code-mode-mcp/) | 2026-11-25 |
+| 10 | 2,594 tools, 1,170,523 tokens, 6,000-token result cap, `?codemode=false` | agrees | [cloudflare/mcp](https://github.com/cloudflare/mcp) | 2026-11-25 |
+| 11 | One namespace per connector, collisions throw, approval pause, 50 executions, experimental | agrees | [Agents Code Mode](https://developers.cloudflare.com/agents/tools/codemode/) | 2026-11-25 |
+| 12 | 150,000 to 2,000 tokens with filesystem discovery | agrees as a claim, no method | [Anthropic, 2025-11-04](https://www.anthropic.com/engineering/code-execution-with-mcp) | 2026-11-25 |
+| 13 | 10,877 to 970 prompt tokens in Search mode | agrees, vendor blog, one run | [Solo](https://www.solo.io/blog/keeping-context-and-tokens-low-with-progressive-disclosure-in-agentgateway) | 2026-11-25 |
+| 14 | Docker's gateway has no documented model-facing meta layer | agrees, by absence | [docker/mcp-gateway](https://github.com/docker/mcp-gateway) | 2026-11-25 |
+| 15 | The lesson's "load 2,500 tools" | differs: the endpoints are searched, not loaded | Cloudflare blog and README | 2026-11-25 |
+| 16 | The tiers, the authority reading and the measurement plan | lecture-independent, my reasoning | | 2026-11-25 |
 
 ## Sources
 

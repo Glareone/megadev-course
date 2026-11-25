@@ -123,7 +123,7 @@ No vendor documents a threshold for skills, and the research does not state a po
 | 6 | SkillBrowser, SkillSight, 2604.04323 findings | agrees from abstracts, papers not read | [2610.23554](https://arxiv.org/abs/2610.23554), [2607.18785](https://arxiv.org/abs/2607.18785), [2604.04323](https://arxiv.org/abs/2604.04323) | 2026-11-25 |
 | 7 | About 100 tokens of metadata per skill | agrees | [Agent Skills](https://agentskills.io/specification) | 2026-11-25 |
 | 8 | The extension has `skills/list` and `skills/get` and no search | agrees by absence | [overview](https://modelcontextprotocol.io/extensions/skills/overview) | 2026-11-25 |
-| 9 | The 20-skill point, search over skills as a tool, shared `search` | lecture-independent, my reasoning, verify before presenting | | |
+| 9 | The 20-skill point, search over skills as a tool, shared `search` | lecture-independent, my reasoning, verify before presenting | | 2026-11-25 |
 
 ## Sources
 

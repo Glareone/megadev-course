@@ -127,21 +127,21 @@ Hints in a tool result are hypermedia controls for an agent. They pay when the n
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | The server has five batch tools and results with `_msg` and structured data. No `hints` or `api` found | agrees in the files read | [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) |
-| 2 | Playback is verified by reading state back up to five times | agrees | repository `docs/playback.md` |
-| 3 | Fielding's rules on entry and transitions | agrees, the post's first part verbatim | [Fielding, 2008](https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven) |
-| 4 | Level 3 hypermedia controls tell us what we can do next | agrees | [Fowler, 2010](https://martinfowler.com/articles/richardsonMaturityModel.html) |
-| 5 | Siren links and actions | agrees | [Siren](https://github.com/kevinswiber/siren) |
-| 6 | OpenAPI links are design-time. Arazzo describes call sequences | agrees, Arazzo detail from a summary | [OpenAPI](https://spec.openapis.org/oas/latest.html#link-object), [Arazzo](https://spec.openapis.org/arazzo/latest.html) |
-| 7 | Steer with instructions on truncation, actionable errors, consolidated tools | agrees | [Anthropic, 2025-09-11](https://www.anthropic.com/engineering/writing-tools-for-agents) |
-| 8 | 10-run test: 0.0 against 3.5 errors, 0.0 against 0.1 | agrees as reported, self-designed, one cheap model | [Ganz, 2026-04-04](https://thecout.com/blog/mcptooling/) |
-| 9 | `hateoas-agent` shows only valid actions and has no benchmarks | agrees | [hateoas-agent](https://github.com/coloradored13/hateoas-agent) |
-| 10 | HATEOAS gives allowed actions, not which makes sense | agrees as one commentator's argument | [DEV article](https://dev.to/sreeni5018/stop-sending-every-decision-to-an-llm-code-vs-jev-vs-claude-32e4) |
-| 11 | The hype claim that HATEOAS solves tool selection | unverified, opinion only | [Nordic APIs](https://nordicapis.com/hateoas-the-api-design-style-that-was-waiting-for-ai/) |
-| 12 | Two Medium posts on patterns and tool bloat | not read, HTTP 403 | |
-| 13 | The case table, the `actions` list and the layering | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | The server has five batch tools and results with `_msg` and structured data. No `hints` or `api` found | agrees in the files read | [Spotify MCP server](https://github.com/iceener/spotify-streamable-mcp-server) | 2026-11-25 |
+| 2 | Playback is verified by reading state back up to five times | agrees | repository `docs/playback.md` | 2026-11-25 |
+| 3 | Fielding's rules on entry and transitions | agrees, the post's first part verbatim | [Fielding, 2008](https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven) | 2026-11-25 |
+| 4 | Level 3 hypermedia controls tell us what we can do next | agrees | [Fowler, 2010](https://martinfowler.com/articles/richardsonMaturityModel.html) | 2026-11-25 |
+| 5 | Siren links and actions | agrees | [Siren](https://github.com/kevinswiber/siren) | 2026-11-25 |
+| 6 | OpenAPI links are design-time. Arazzo describes call sequences | agrees, Arazzo detail from a summary | [OpenAPI](https://spec.openapis.org/oas/latest.html#link-object), [Arazzo](https://spec.openapis.org/arazzo/latest.html) | 2026-11-25 |
+| 7 | Steer with instructions on truncation, actionable errors, consolidated tools | agrees | [Anthropic, 2025-09-11](https://www.anthropic.com/engineering/writing-tools-for-agents) | 2026-11-25 |
+| 8 | 10-run test: 0.0 against 3.5 errors, 0.0 against 0.1 | agrees as reported, self-designed, one cheap model | [Ganz, 2026-04-04](https://thecout.com/blog/mcptooling/) | 2026-11-25 |
+| 9 | `hateoas-agent` shows only valid actions and has no benchmarks | agrees | [hateoas-agent](https://github.com/coloradored13/hateoas-agent) | 2026-11-25 |
+| 10 | HATEOAS gives allowed actions, not which makes sense | agrees as one commentator's argument | [DEV article](https://dev.to/sreeni5018/stop-sending-every-decision-to-an-llm-code-vs-jev-vs-claude-32e4) | 2026-11-25 |
+| 11 | The hype claim that HATEOAS solves tool selection | unverified, opinion only | [Nordic APIs](https://nordicapis.com/hateoas-the-api-design-style-that-was-waiting-for-ai/) | 2026-11-25 |
+| 12 | Two Medium posts on patterns and tool bloat | not read, HTTP 403 | | 2026-11-25 |
+| 13 | The case table, the `actions` list and the layering | lecture-independent, my reasoning | | 2026-11-25 |
 
 ## Sources
 

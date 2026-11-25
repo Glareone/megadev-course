@@ -117,19 +117,19 @@ ReAct is the loop. A Deep Agent is that loop with middleware that adds planning,
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | ReAct interleaves reasoning traces and actions, ALFWorld +34 and WebShop +10 | agrees, abstract read | [arXiv 2210.03629](https://arxiv.org/abs/2210.03629) |
-| 2 | An agent is a model calling tools in a loop, a harness is everything around it | agrees | [LangChain agents](https://docs.langchain.com/oss/python/langchain/agents) |
-| 3 | The loop is a model node, a tool node and a conditional edge | agrees | [LangGraph workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents) |
-| 4 | A deep agent's core algorithm is the same loop, plus four additions | agrees | [Deep Agents blog](https://www.langchain.com/blog/deep-agents) |
-| 5 | `create_deep_agent` builds a middleware stack on `create_agent` and returns a compiled graph | agrees. Last 6,458 characters of the page not read | [Customization](https://docs.langchain.com/oss/python/deepagents/customization) |
-| 6 | `write_todos` comes from `TodoListMiddleware`, opt-in since v0.7, state with statuses | agrees | [Deep Agents overview](https://docs.langchain.com/oss/python/deepagents/overview) |
-| 7 | The todo list is a tool and state, plus an `after_model` node that checks parallel calls | agrees in the source. The docs pages do not describe the node | [todo.py](https://github.com/langchain-ai/langchain/blob/master/libs/langchain_v1/langchain/agents/middleware/todo.py) |
-| 8 | The default backend is `StateBackend`, `execute` only with a sandbox backend | agrees | [Overview](https://docs.langchain.com/oss/python/deepagents/overview), [backends](https://docs.langchain.com/oss/python/deepagents/backends) |
-| 9 | Subagents are isolated by default and return one report | agrees, partly from a summary | [Subagents](https://docs.langchain.com/oss/python/deepagents/subagents) |
-| 10 | Deep Agents give better results than a plain loop | unverified: no benchmark numbers found | blog, overview |
-| 11 | `create_agent` supersedes `create_react_agent` | unverified, not stated on the pages read | [LangChain v1 migration guide](https://docs.langchain.com/oss/python/migrate/langchain-v1.md), not fetched |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | ReAct interleaves reasoning traces and actions, ALFWorld +34 and WebShop +10 | agrees, abstract read | [arXiv 2210.03629](https://arxiv.org/abs/2210.03629) | 2026-11-23 |
+| 2 | An agent is a model calling tools in a loop, a harness is everything around it | agrees | [LangChain agents](https://docs.langchain.com/oss/python/langchain/agents) | 2026-11-23 |
+| 3 | The loop is a model node, a tool node and a conditional edge | agrees | [LangGraph workflows and agents](https://docs.langchain.com/oss/python/langgraph/workflows-agents) | 2026-11-23 |
+| 4 | A deep agent's core algorithm is the same loop, plus four additions | agrees | [Deep Agents blog](https://www.langchain.com/blog/deep-agents) | 2026-11-23 |
+| 5 | `create_deep_agent` builds a middleware stack on `create_agent` and returns a compiled graph | agrees. Last 6,458 characters of the page not read | [Customization](https://docs.langchain.com/oss/python/deepagents/customization) | 2026-11-23 |
+| 6 | `write_todos` comes from `TodoListMiddleware`, opt-in since v0.7, state with statuses | agrees | [Deep Agents overview](https://docs.langchain.com/oss/python/deepagents/overview) | 2026-11-23 |
+| 7 | The todo list is a tool and state, plus an `after_model` node that checks parallel calls | agrees in the source. The docs pages do not describe the node | [todo.py](https://github.com/langchain-ai/langchain/blob/master/libs/langchain_v1/langchain/agents/middleware/todo.py) | 2026-11-23 |
+| 8 | The default backend is `StateBackend`, `execute` only with a sandbox backend | agrees | [Overview](https://docs.langchain.com/oss/python/deepagents/overview), [backends](https://docs.langchain.com/oss/python/deepagents/backends) | 2026-11-23 |
+| 9 | Subagents are isolated by default and return one report | agrees, partly from a summary | [Subagents](https://docs.langchain.com/oss/python/deepagents/subagents) | 2026-11-23 |
+| 10 | Deep Agents give better results than a plain loop | unverified: no benchmark numbers found | blog, overview | 2026-11-23 |
+| 11 | `create_agent` supersedes `create_react_agent` | unverified, not stated on the pages read | [LangChain v1 migration guide](https://docs.langchain.com/oss/python/migrate/langchain-v1.md), not fetched | 2026-11-23 |
 
 ## Sources
 

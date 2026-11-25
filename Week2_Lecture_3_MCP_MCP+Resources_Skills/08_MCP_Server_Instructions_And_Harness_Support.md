@@ -91,21 +91,21 @@ Server instructions are a small, optional hint that hosts treat differently. I a
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | The field's purpose and content rules, no length limit, no client MUST | agrees | [Schema 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/schema) |
-| 2 | Blog guidance on writing it | agrees | [MCP blog, 2025-11-03](https://blog.modelcontextprotocol.io/posts/2025-11-03-using-server-instructions/) |
-| 3 | TypeScript `instructions` option and `getInstructions()`, with the example "Call list-trips before book-trip. Dates are ISO 8601." | agrees, through Context7 | [typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) |
-| 4 | Python v2 keyword and the positional trap | agrees, through Context7 | [Python SDK migration](https://py.sdk.modelcontextprotocol.io/migration/) |
-| 5 | Claude Code limit, variable, tool search interplay | agrees, verbatim | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) |
-| 6 | The Claude API connector supports only tool calls | agrees. That it ignores instructions is my inference | [MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector) |
-| 7 | OpenAI docs are silent. Samples set `instructions` server-side | agrees | [OpenAI MCP](https://developers.openai.com/api/docs/mcp) |
-| 8 | Codex reads the field, advises 512 characters | unverified, docs summary | [Codex MCP](https://learn.chatgpt.com/docs/extend/mcp?surface=cli) |
-| 9 | VS Code states nothing on instructions | agrees, by absence | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) |
-| 10 | Pi reads the field and uses the first line for deferred servers | agrees, client source and docs | [pi-mcp client](https://github.com/earendil-works/pi/blob/main/packages/mcp/src/client.ts), [mcp.md](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/mcp.md) |
-| 11 | DeepSeek: no MCP in the API docs. Harness MCP unverified. Codewhale supports MCP | agrees, by absence | [DeepSeek API docs](https://api-docs.deepseek.com), [Codewhale](https://github.com/codewhale-hq/Codewhale) |
-| 12 | The lesson: most harnesses ignore or trim | agrees in part | rows 5 to 11 |
-| 13 | The cases in section 5, the consequences in section 6 and the placement reading | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | The field's purpose and content rules, no length limit, no client MUST | agrees | [Schema 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/schema) | 2026-11-25 |
+| 2 | Blog guidance on writing it | agrees | [MCP blog, 2025-11-03](https://blog.modelcontextprotocol.io/posts/2025-11-03-using-server-instructions/) | 2026-11-25 |
+| 3 | TypeScript `instructions` option and `getInstructions()`, with the example "Call list-trips before book-trip. Dates are ISO 8601." | agrees, through Context7 | [typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk) | 2026-11-25 |
+| 4 | Python v2 keyword and the positional trap | agrees, through Context7 | [Python SDK migration](https://py.sdk.modelcontextprotocol.io/migration/) | 2026-11-25 |
+| 5 | Claude Code limit, variable, tool search interplay | agrees, verbatim | [Claude Code MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-25 |
+| 6 | The Claude API connector supports only tool calls | agrees. That it ignores instructions is my inference | [MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector) | 2026-11-25 |
+| 7 | OpenAI docs are silent. Samples set `instructions` server-side | agrees | [OpenAI MCP](https://developers.openai.com/api/docs/mcp) | 2026-11-25 |
+| 8 | Codex reads the field, advises 512 characters | unverified, docs summary | [Codex MCP](https://learn.chatgpt.com/docs/extend/mcp?surface=cli) | 2026-11-25 |
+| 9 | VS Code states nothing on instructions | agrees, by absence | [MCP developer guide](https://code.visualstudio.com/docs/copilot/guides/mcp-developer-guide) | 2026-11-25 |
+| 10 | Pi reads the field and uses the first line for deferred servers | agrees, client source and docs | [pi-mcp client](https://github.com/earendil-works/pi/blob/main/packages/mcp/src/client.ts), [mcp.md](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/mcp.md) | 2026-11-25 |
+| 11 | DeepSeek: no MCP in the API docs. Harness MCP unverified. Codewhale supports MCP | agrees, by absence | [DeepSeek API docs](https://api-docs.deepseek.com), [Codewhale](https://github.com/codewhale-hq/Codewhale) | 2026-11-25 |
+| 12 | The lesson: most harnesses ignore or trim | agrees in part | rows 5 to 11 | 2026-11-25 |
+| 13 | The cases in section 5, the consequences in section 6 and the placement reading | lecture-independent, my reasoning | | 2026-11-25 |
 
 ## Sources
 

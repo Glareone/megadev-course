@@ -116,19 +116,19 @@ Events turn an MCP server into a source that informs the agent, with three deliv
 
 ## Fact-check
 
-| # | Claim | Verdict | Source |
-|---|---|---|---|
-| 1 | The extension is `io.modelcontextprotocol/events`, Beta, destination not yet stated | agrees | [Extensions overview](https://modelcontextprotocol.io/extensions/overview) |
-| 2 | SEP-3415 is Final, Extensions Track, created 2026-10-05 | agrees, partly from a summary | [SEP-3415](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/seps/3415-events-extension.md) |
-| 3 | The sketch is a draft proposal. The repository is experimental | agrees | [Design sketch](https://github.com/modelcontextprotocol/experimental-ext-triggers-events/blob/main/docs/design-sketch-proposal.md), [ext-events](https://github.com/modelcontextprotocol/ext-events) |
-| 4 | Methods, delivery modes, cursors, ttl and the event shape | agrees. The last part of the sketch came from a summary | same pages, [events spec](https://github.com/modelcontextprotocol/ext-events/blob/main/specification/beta/events/events.mdx) |
-| 5 | Signing, unauthenticated servers, untrusted payloads, receipt is not authorization | agrees, partly from a summary | design sketch |
-| 6 | Events differ from notifications and Tasks | agrees. The Tasks part is from a summary | SEP-3415 |
-| 7 | ChatGPT supports webhook delivery only | agrees | [ChatGPT MCP events](https://developers.openai.com/plugins/build/mcp-events) |
-| 8 | Claude Code has channels, no Events found | agrees, MCP page partly summarized | [Channels](https://code.claude.com/docs/en/channels), [MCP docs](https://code.claude.com/docs/en/mcp) |
-| 9 | Open SDK pull requests | agrees from titles. I did not open them | [typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk), [python-sdk](https://github.com/modelcontextprotocol/python-sdk) |
-| 10 | Which error code number is current | unverified | rows 3 and 7 |
-| 11 | The event layer, the router hook, the cursor commit, and the cases and consequences in section 7 | lecture-independent, my reasoning | |
+| # | Claim | Verdict | Source | Checked |
+|---|---|---|---|---|
+| 1 | The extension is `io.modelcontextprotocol/events`, Beta, destination not yet stated | agrees | [Extensions overview](https://modelcontextprotocol.io/extensions/overview) | 2026-11-25 |
+| 2 | SEP-3415 is Final, Extensions Track, created 2026-10-05 | agrees, partly from a summary | [SEP-3415](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/seps/3415-events-extension.md) | 2026-11-25 |
+| 3 | The sketch is a draft proposal. The repository is experimental | agrees | [Design sketch](https://github.com/modelcontextprotocol/experimental-ext-triggers-events/blob/main/docs/design-sketch-proposal.md), [ext-events](https://github.com/modelcontextprotocol/ext-events) | 2026-11-25 |
+| 4 | Methods, delivery modes, cursors, ttl and the event shape | agrees. The last part of the sketch came from a summary | same pages, [events spec](https://github.com/modelcontextprotocol/ext-events/blob/main/specification/beta/events/events.mdx) | 2026-11-25 |
+| 5 | Signing, unauthenticated servers, untrusted payloads, receipt is not authorization | agrees, partly from a summary | design sketch | 2026-11-25 |
+| 6 | Events differ from notifications and Tasks | agrees. The Tasks part is from a summary | SEP-3415 | 2026-11-25 |
+| 7 | ChatGPT supports webhook delivery only | agrees | [ChatGPT MCP events](https://developers.openai.com/plugins/build/mcp-events) | 2026-11-25 |
+| 8 | Claude Code has channels, no Events found | agrees, MCP page partly summarized | [Channels](https://code.claude.com/docs/en/channels), [MCP docs](https://code.claude.com/docs/en/mcp) | 2026-11-25 |
+| 9 | Open SDK pull requests | agrees from titles. I did not open them | [typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk), [python-sdk](https://github.com/modelcontextprotocol/python-sdk) | 2026-11-25 |
+| 10 | Which error code number is current | unverified | rows 3 and 7 | 2026-11-25 |
+| 11 | The event layer, the router hook, the cursor commit, and the cases and consequences in section 7 | lecture-independent, my reasoning | | 2026-11-25 |
 
 ## Sources
 
